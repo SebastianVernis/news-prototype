@@ -44,6 +44,13 @@ class LinguisticParaphraser:
         # Cache de sinónimos para velocidad
         self.synonym_cache = {}
         
+        # Palabras protegidas adicionales (además de entidades)
+        self.protected_words = {
+            'año', 'años', 'día', 'días', 'mes', 'meses', 'semana', 'semanas',
+            'hora', 'horas', 'minuto', 'minutos', 'segundo', 'segundos',
+            'ayer', 'hoy', 'mañana', 'país', 'mundo', 'gobierno'
+        }
+        
     def _load_spacy_model(self):
         """Carga el modelo de Spacy, descargándolo si es necesario"""
         try:
@@ -117,6 +124,24 @@ class LinguisticParaphraser:
         except:
             return []
 
+    def filter_synonyms_by_similarity(self, token: Token, candidates: List[str], threshold: float = 0.45) -> List[str]:
+        """
+        Filtra candidatos usando similitud de vectores con la palabra original.
+        """
+        if not token.has_vector or not candidates:
+            return candidates
+            
+        filtered = []
+        for cand in candidates:
+            # Crear doc temporal para el candidato
+            cand_doc = self.nlp(cand)
+            if cand_doc and cand_doc.vector_norm:
+                similarity = token.similarity(cand_doc)
+                if similarity >= threshold:
+                    filtered.append(cand)
+        
+        return filtered if filtered else candidates  # Fallback si filtra todos
+
     def paraphrase_text(self, text: str, change_threshold: float = 0.4) -> Dict:
         """
         Parafrasea un texto completo.
@@ -144,6 +169,7 @@ class LinguisticParaphraser:
                 token.is_punct or 
                 token.is_space or 
                 token.is_stop or
+                token.lemma_.lower() in self.protected_words or
                 token.pos_ not in ['NOUN', 'VERB', 'ADJ', 'ADV']):
                 
                 new_tokens.append(token.text_with_ws)
@@ -158,11 +184,9 @@ class LinguisticParaphraser:
             # Estrategia: Preferir WordNet por ser sinónimos "reales", usar vectores como fallback
             synonyms = self.get_synonyms_wordnet(token.lemma_, token.pos_)
             
-            if not synonyms and token.has_vector:
-                # Fallback a vectores si no hay en wordnet
-                # (Nota: los vectores dan palabras relacionadas, no siempre sinónimos exactos)
-                # synonyms = self.get_synonyms_vectors(token)
-                pass 
+            # Filtrar por similitud vectorial para evitar sinónimos fuera de contexto
+            if synonyms:
+                synonyms = self.filter_synonyms_by_similarity(token, synonyms)
 
             if synonyms:
                 # Seleccionar un sinónimo aleatorio

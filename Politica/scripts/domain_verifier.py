@@ -1,27 +1,47 @@
 #!/usr/bin/env python3
 """
 Verificador de disponibilidad de dominios
-Usa whois para verificar si un dominio está disponible
+Soporta dos métodos:
+1. Local whois (comando del sistema)
+2. APILayer WHOIS API (https://apilayer.com/marketplace/whois-api)
 """
 
 import subprocess
 import re
 import time
+import os
+import requests
 from typing import Dict, Optional, Tuple
+from dotenv import load_dotenv
+
+# Cargar variables de entorno
+load_dotenv()
 
 class DomainVerifier:
-    """Verificador de disponibilidad de dominios"""
+    """Verificador de disponibilidad de dominios con soporte para whois local y APILayer"""
     
-    def __init__(self, rate_limit_delay=1.0):
+    def __init__(self, rate_limit_delay=1.0, usar_api=False, api_key=None):
         """
         Inicializa el verificador
         
         Args:
             rate_limit_delay: Segundos entre consultas para evitar rate limiting
+            usar_api: Si True, usa APILayer WHOIS API. Si False, usa whois local
+            api_key: API key de APILayer (opcional, se lee de .env si no se provee)
         """
         self.rate_limit_delay = rate_limit_delay
         self.last_query_time = 0
         self.verificaciones_cache = {}
+        self.usar_api = usar_api
+        
+        # Configurar API si está habilitada
+        if self.usar_api:
+            self.api_key = api_key or os.getenv('APILAYER_API_KEY')
+            if not self.api_key:
+                print("⚠️ API key de APILayer no encontrada. Cambiando a whois local.")
+                self.usar_api = False
+            else:
+                self.base_url = "https://api.apilayer.com/whois/query"
     
     def _rate_limit(self):
         """Implementa rate limiting entre consultas"""
@@ -74,9 +94,49 @@ Arch Linux:
     sudo pacman -S whois
 """
     
-    def consultar_whois(self, dominio: str, servidor_whois: Optional[str] = None) -> Tuple[bool, str]:
+    def consultar_whois_api(self, dominio: str) -> Tuple[bool, Dict]:
         """
-        Consulta whois para un dominio
+        Consulta WHOIS usando APILayer API
+        
+        Args:
+            dominio: Nombre de dominio completo (ej: example.com)
+            
+        Returns:
+            tuple: (exito, datos_whois o error_dict)
+        """
+        # Rate limiting
+        self._rate_limit()
+        
+        url = f"{self.base_url}?domain={dominio}"
+        headers = {'apikey': self.api_key}
+        
+        try:
+            response = requests.get(url, headers=headers, timeout=30)
+            
+            if response.status_code == 200:
+                data = response.json()
+                # APILayer envuelve los datos en {"result": {...}}
+                if 'result' in data:
+                    return (True, data['result'])
+                return (True, data)
+            elif response.status_code == 404:
+                # 404 significa que el dominio no está registrado (disponible)
+                return (True, {"domain_not_found": True})
+            elif response.status_code == 401:
+                return (False, {"error": "API key inválida"})
+            elif response.status_code == 429:
+                return (False, {"error": "Rate limit excedido"})
+            else:
+                return (False, {"error": f"Error HTTP {response.status_code}"})
+                
+        except requests.exceptions.Timeout:
+            return (False, {"error": "Timeout al consultar API"})
+        except Exception as e:
+            return (False, {"error": f"Error: {str(e)}"})
+    
+    def consultar_whois_local(self, dominio: str, servidor_whois: Optional[str] = None) -> Tuple[bool, str]:
+        """
+        Consulta whois local para un dominio
         
         Args:
             dominio: Nombre de dominio completo (ej: example.com)
@@ -112,9 +172,85 @@ Arch Linux:
         except Exception as e:
             return (False, f"Error: {str(e)}")
     
-    def analizar_disponibilidad(self, salida_whois: str, dominio: str) -> Dict[str, any]:
+    def consultar_whois(self, dominio: str, servidor_whois: Optional[str] = None) -> Tuple[bool, any]:
         """
-        Analiza la salida de whois para determinar disponibilidad
+        Consulta whois (API o local según configuración)
+        
+        Args:
+            dominio: Nombre de dominio completo (ej: example.com)
+            servidor_whois: Servidor whois específico (solo para whois local)
+            
+        Returns:
+            tuple: (exito, datos)
+        """
+        if self.usar_api:
+            return self.consultar_whois_api(dominio)
+        else:
+            return self.consultar_whois_local(dominio, servidor_whois)
+    
+    def analizar_disponibilidad_api(self, datos_whois: Dict, dominio: str) -> Dict:
+        """
+        Analiza datos de APILayer para determinar disponibilidad
+        
+        Args:
+            datos_whois: Respuesta JSON de APILayer
+            dominio: Dominio consultado
+            
+        Returns:
+            dict: Información de disponibilidad
+        """
+        if 'error' in datos_whois:
+            return {
+                "dominio": dominio,
+                "estado": "error",
+                "disponible": None,
+                "registrado": None,
+                "error": datos_whois['error']
+            }
+        
+        # Si la API retornó 404, el dominio está disponible
+        if 'domain_not_found' in datos_whois:
+            return {
+                "dominio": dominio,
+                "estado": "disponible",
+                "disponible": True,
+                "registrado": False,
+                "info_adicional": {},
+                "metodo": "api"
+            }
+        
+        # Verificar campos de registro
+        registrado = False
+        info_adicional = {}
+        campos_registro = ['domain_name', 'registrar', 'creation_date', 'name_servers']
+        
+        for campo in campos_registro:
+            if campo in datos_whois and datos_whois[campo]:
+                registrado = True
+                break
+        
+        if registrado:
+            if 'registrar' in datos_whois:
+                info_adicional['registrar'] = datos_whois['registrar']
+            if 'creation_date' in datos_whois:
+                info_adicional['fecha_creacion'] = datos_whois['creation_date']
+            if 'expiration_date' in datos_whois:
+                info_adicional['fecha_expiracion'] = datos_whois['expiration_date']
+            if 'status' in datos_whois:
+                info_adicional['estado'] = datos_whois['status']
+        
+        return {
+            "dominio": dominio,
+            "estado": "registrado" if registrado else "disponible",
+            "disponible": not registrado,
+            "registrado": registrado,
+            "info_adicional": info_adicional,
+            "metodo": "api"
+        }
+    
+    def analizar_disponibilidad_local(self, salida_whois: str, dominio: str) -> Dict:
+        """
+        Analiza la salida de whois local para determinar disponibilidad
         
         Args:
             salida_whois: Salida del comando whois
@@ -190,7 +326,6 @@ Arch Linux:
         elif registrado and not disponible:
             estado = "registrado"
         else:
-            # Ambiguo o error
             estado = "desconocido"
         
         return {
@@ -199,8 +334,25 @@ Arch Linux:
             "disponible": estado == "disponible",
             "registrado": estado == "registrado",
             "info_adicional": info_adicional,
-            "salida_raw": salida_whois[:500]  # Primeros 500 caracteres
+            "metodo": "local",
+            "salida_raw": salida_whois[:500]
         }
+    
+    def analizar_disponibilidad(self, datos: any, dominio: str) -> Dict:
+        """
+        Analiza disponibilidad según el método usado
+        
+        Args:
+            datos: Datos de whois (string para local, dict para API)
+            dominio: Dominio consultado
+            
+        Returns:
+            dict: Información de disponibilidad
+        """
+        if self.usar_api and isinstance(datos, dict):
+            return self.analizar_disponibilidad_api(datos, dominio)
+        else:
+            return self.analizar_disponibilidad_local(datos, dominio)
     
     def verificar_dominio(self, dominio: str, usar_cache: bool = True) -> Dict[str, any]:
         """
@@ -219,29 +371,31 @@ Arch Linux:
             resultado['desde_cache'] = True
             return resultado
         
-        # Verificar que whois esté instalado
-        if not self.verificar_whois_instalado():
-            return {
-                "dominio": dominio,
-                "estado": "error",
-                "disponible": None,
-                "error": "whois no está instalado",
-                "instrucciones": self.instalar_whois_instrucciones()
-            }
+        # Verificar requisitos según método
+        if not self.usar_api:
+            if not self.verificar_whois_instalado():
+                return {
+                    "dominio": dominio,
+                    "estado": "error",
+                    "disponible": None,
+                    "error": "whois no está instalado",
+                    "instrucciones": self.instalar_whois_instrucciones()
+                }
         
         # Consultar whois
-        exito, salida = self.consultar_whois(dominio)
+        exito, datos = self.consultar_whois(dominio)
         
         if not exito:
+            error_msg = datos.get('error', datos) if isinstance(datos, dict) else datos
             return {
                 "dominio": dominio,
                 "estado": "error",
                 "disponible": None,
-                "error": salida
+                "error": error_msg
             }
         
         # Analizar disponibilidad
-        resultado = self.analizar_disponibilidad(salida, dominio)
+        resultado = self.analizar_disponibilidad(datos, dominio)
         resultado['desde_cache'] = False
         
         # Guardar en cache
@@ -300,17 +454,27 @@ Arch Linux:
 def main():
     """Función de prueba"""
     print("🔍 Verificador de Disponibilidad de Dominios")
-    print("=" * 60)
+    print("=" * 70)
     
-    verifier = DomainVerifier(rate_limit_delay=2.0)
+    # Detectar si hay API key disponible
+    api_key = os.getenv('APILAYER_API_KEY')
+    usar_api = bool(api_key)
     
-    # Verificar que whois esté instalado
-    if not verifier.verificar_whois_instalado():
-        print("\n❌ whois no está instalado en el sistema")
-        print(verifier.instalar_whois_instrucciones())
-        return
-    
-    print("\n✅ whois está instalado")
+    if usar_api:
+        print("\n🔑 API key de APILayer detectada - Usando WHOIS API")
+        verifier = DomainVerifier(rate_limit_delay=1.0, usar_api=True)
+    else:
+        print("\n🖥️  API key no encontrada - Usando whois local")
+        verifier = DomainVerifier(rate_limit_delay=2.0, usar_api=False)
+        
+        # Verificar que whois esté instalado
+        if not verifier.verificar_whois_instalado():
+            print("\n❌ whois no está instalado en el sistema")
+            print(verifier.instalar_whois_instrucciones())
+            print("\n💡 Alternativamente, configura APILAYER_API_KEY en .env para usar la API")
+            return
+        
+        print("✅ whois local está instalado")
     
     # Dominios de prueba
     dominios_prueba = [
@@ -327,18 +491,35 @@ def main():
     for resultado in resultados:
         print(f"Dominio: {resultado['dominio']}")
         print(f"Estado: {resultado['estado'].upper()}")
+        print(f"Método: {resultado.get('metodo', 'desconocido').upper()}")
         
         if resultado.get('disponible'):
             print("✅ DISPONIBLE para registro")
         elif resultado.get('registrado'):
             print("⛔ YA REGISTRADO")
             if resultado.get('info_adicional'):
+                print("\n📋 Información adicional:")
                 for key, value in resultado['info_adicional'].items():
-                    print(f"   {key}: {value}")
+                    if isinstance(value, list):
+                        print(f"   {key}: {', '.join(str(v) for v in value[:3])}")
+                    else:
+                        print(f"   {key}: {value}")
         elif resultado['estado'] == 'error':
             print(f"❌ Error: {resultado.get('error')}")
         
-        print("-" * 60)
+        print("-" * 70)
+    
+    # Estadísticas
+    total = len(resultados)
+    disponibles = sum(1 for r in resultados if r.get('disponible'))
+    registrados = sum(1 for r in resultados if r.get('registrado'))
+    errores = sum(1 for r in resultados if r['estado'] == 'error')
+    
+    print("\n📈 Estadísticas:")
+    print(f"   Total verificados: {total}")
+    print(f"   Disponibles: {disponibles}")
+    print(f"   Registrados: {registrados}")
+    print(f"   Errores: {errores}")
 
 
 if __name__ == "__main__":

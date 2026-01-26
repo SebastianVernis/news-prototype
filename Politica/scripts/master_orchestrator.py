@@ -111,7 +111,7 @@ class MasterOrchestrator:
         self.paraphraser = NewsParaphraser()
         self.article_expander = ArticleExpander()
         self.name_generator = SiteNameGenerator()
-        self.domain_verifier = DomainVerifier()
+        self.domain_verifier = DomainVerifier(usar_api=usar_api_whois)
         self.template_combiner = TemplateCombiner()
         # Usar generador unificado (NewsAPI Original primero, luego fallbacks)
         # IMPORTANTE: use_cache=False para siempre descargar imágenes nuevas

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Gestor de Artículos Destacados
-Prioriza artículos de calidad completa (Blackbox Pro) como destacados
+Prioriza artículos de calidad completa (Blackbox AI) como destacados
 """
 
 from typing import List, Dict
@@ -273,8 +273,8 @@ def main():
     # Simular artículos con diferentes métodos
     articles = [
         {
-            'title': 'Artículo Blackbox Pro (Destacado)',
-            'paraphrase_method': 'blackbox-pro',
+            'title': 'Artículo Blackbox AI (Destacado)',
+            'paraphrase_method': 'blackbox-grok',
             'description': 'Artículo con parafraseo completo de alta calidad'
         },
         {

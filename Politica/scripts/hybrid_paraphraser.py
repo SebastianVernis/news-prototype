@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Sistema Híbrido de Parafraseo Optimizado
-- Blackbox Pro: Artículos principales (20)
+- Blackbox AI: Artículos principales (20)
 - Gemini (4 keys): Placeholders primarios (200)
 - Blackbox Free: Backup si Gemini falla
 """
@@ -17,7 +17,7 @@ import requests
 load_dotenv()
 
 BLACKBOX_API_KEY_PRO = os.getenv('BLACKBOX_API_KEY_PRO')
-BLACKBOX_MODEL_PRO = os.getenv('BLACKBOX_MODEL_PRO', 'blackboxai/blackbox-pro')
+BLACKBOX_MODEL_PRO = os.getenv('BLACKBOX_MODEL_PRO', os.getenv('BLACKBOX_CURRENT_MODEL', 'blackboxai/x-ai/grok-code-fast-1:free'))
 BLACKBOX_API_URL = 'https://api.blackbox.ai/chat/completions'
 
 
@@ -27,16 +27,16 @@ class HybridParaphraser:
     def __init__(self):
         self.gemini = GeminiParaphraser()  # 4 keys Gemini
         
-        # Verificar Blackbox Pro
+        # Verificar Blackbox
         if not BLACKBOX_API_KEY_PRO:
             raise ValueError("BLACKBOX_API_KEY_PRO no encontrada")
         
-        self.blackbox_pro_key = BLACKBOX_API_KEY_PRO
-        self.blackbox_pro_model = BLACKBOX_MODEL_PRO
+        self.blackbox_key = BLACKBOX_API_KEY_PRO
+        self.blackbox_model = BLACKBOX_MODEL_PRO
         
         print(f"🔑 Sistema Híbrido inicializado:")
         print(f"   • Gemini: {len(self.gemini.api_keys)} keys (placeholders)")
-        print(f"   • Blackbox Pro: 1 key (artículos principales)")
+        print(f"   • Blackbox AI: {self.blackbox_model} (artículos principales)")
     
     def parafrasear_articulo_completo(self, article: Dict, style: str = "formal y objetivo") -> Dict:
         """
@@ -91,7 +91,7 @@ Artículo original:
 Artículo expandido:"""
 
         payload = {
-            "model": self.blackbox_pro_model,
+            "model": self.blackbox_model,
             "messages": [
                 {
                     "role": "system",
@@ -109,7 +109,7 @@ Artículo expandido:"""
         try:
             headers = {
                 'Content-Type': 'application/json',
-                'Authorization': f'Bearer {self.blackbox_pro_key}'
+                'Authorization': f'Bearer {self.blackbox_key}'
             }
             
             response = requests.post(BLACKBOX_API_URL, headers=headers, json=payload, timeout=90)
@@ -139,14 +139,16 @@ Artículo expandido:"""
                 article_copy['content'] = article_copy['full_text']
             
             article_copy['paraphrased'] = True
-            article_copy['paraphrase_method'] = 'blackbox-pro'
+            article_copy['paraphrase_method'] = 'blackbox-hybrid'
             article_copy['style'] = style
+            article_copy['key_used'] = 'KEY_PRO'
             
             return article_copy
             
         except Exception as e:
-            print(f"  ❌ Error Blackbox Pro: {e}")
+            print(f"  ❌ Error Blackbox AI: {e}")
             article['paraphrased'] = False
+            article['key_used'] = 'KEY_PRO'
             return article
     
     def parafrasear_principales_secuencial(
@@ -162,7 +164,7 @@ Artículo expandido:"""
             styles = ["formal y objetivo", "casual y cercano", "técnico y detallado"]
         
         print(f"\n{'='*70}")
-        print("📝 PARAFRASEO DE ARTÍCULOS PRINCIPALES (Blackbox Pro)")
+        print("📝 PARAFRASEO DE ARTÍCULOS PRINCIPALES (Blackbox AI)")
         print(f"{'='*70}")
         print(f"Artículos: {len(articles)}")
         print(f"Tiempo estimado: ~{len(articles) * 1.5:.0f} minutos")
@@ -230,7 +232,7 @@ Artículo expandido:"""
             silent=False
         )
         
-        # PASO 2: Parafrasear principales (Blackbox Pro, secuencial)
+        # PASO 2: Parafrasear principales (Blackbox AI, secuencial)
         principales_parafraseados = self.parafrasear_principales_secuencial(noticias_principales)
         
         # PASO 3: Categorizar principales

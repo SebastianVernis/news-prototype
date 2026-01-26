@@ -261,13 +261,13 @@ class MasterOrchestrator:
             Lista de noticias parafraseadas (destacados)
         """
         self.log("=" * 70)
-        self.log("PASO 2: Parafraseando Artículos Principales (Blackbox Pro)", "PROGRESS")
+        self.log("PASO 2: Parafraseando Artículos Principales (Blackbox AI)", "PROGRESS")
         self.log("=" * 70)
         
         # Usar primeras 20 noticias para artículos principales
         noticias_principales = noticias[:20]
         
-        self.log(f"Parafraseando {len(noticias_principales)} artículos con Blackbox Pro...")
+        self.log(f"Parafraseando {len(noticias_principales)} artículos con Blackbox AI...")
         self.log("(Calidad completa: 1,500-2,000 palabras, 8-12 párrafos)")
         
         # Verificar si hay 2 keys de Blackbox para usar paralelo
@@ -290,7 +290,7 @@ class MasterOrchestrator:
                     
                     paraphrased = self.paraphraser.paraphrase_article(noticia, style=style)
                     paraphrased['author'] = paraphrased.get('author') or self.legal_generator.generar_autor_aleatorio()
-                    paraphrased['paraphrase_method'] = 'blackbox-pro'
+                    paraphrased['paraphrase_method'] = 'blackbox-grok'
                     
                     noticias_parafraseadas.append(paraphrased)
                     self.stats["noticias_parafraseadas"] += 1

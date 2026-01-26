@@ -4,7 +4,7 @@ Generador de 4 Sitios Completos
 Con todas las características implementadas:
 - Categorización, RSS, SEO, Preloaders
 - Layouts diferentes
-- Artículos destacados (Blackbox Pro) + Placeholders (Gemini)
+- Artículos destacados (Blackbox AI) + Placeholders (Gemini)
 - Imágenes descargadas localmente
 - Headers/Sidebars completos, Footers completos
 """
@@ -112,8 +112,8 @@ for site_num, layout_config in enumerate(layouts_config, 1):
     
     print(f"📰 Procesando {len(noticias_sitio)} noticias para este sitio")
     
-    # PASO 1: Parafrasear artículos destacados (primeros 3 con Blackbox Pro)
-    print(f"\n📝 Parafraseando 3 artículos destacados (Blackbox Pro)...")
+    # PASO 1: Parafrasear artículos destacados (primeros 3 con Blackbox AI)
+    print(f"\n📝 Parafraseando 3 artículos destacados (Blackbox AI)...")
     
     destacados = []
     for i, noticia in enumerate(noticias_sitio[:3], 1):
@@ -121,7 +121,7 @@ for site_num, layout_config in enumerate(layouts_config, 1):
         
         style = ['formal y objetivo', 'casual y cercano', 'técnico y detallado'][i % 3]
         resultado = paraphraser_blackbox.paraphrase_article(noticia, style=style)
-        resultado['paraphrase_method'] = 'blackbox-pro'
+        resultado['paraphrase_method'] = 'blackbox-grok'
         destacados.append(resultado)
         
         print("✅")
@@ -561,7 +561,7 @@ print(f"""
    Sitio 4: python3 -m http.server 9004 --directory site_4
 
 📊 Características de cada sitio:
-   • 20 artículos (3 destacados Blackbox Pro + 17 placeholders Gemini)
+   • 20 artículos (3 destacados Blackbox AI + 17 placeholders Gemini)
    • Categorización automática
    • Imágenes descargadas localmente
    • RSS feeds completos

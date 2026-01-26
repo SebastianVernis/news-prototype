@@ -137,7 +137,7 @@ Tercer párrafo con nueva idea o aspecto. Mantener coherencia narrativa. Usar tr
 Escribe SOLO el artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
 
         payload = {
-            "model": "blackboxai/blackbox-pro",
+            "model": "blackboxai/x-ai/grok-code-fast-1:free",
             "messages": [
                 {
                     "role": "system",

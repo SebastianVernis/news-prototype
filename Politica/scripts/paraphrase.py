@@ -112,7 +112,7 @@ Artículo original:
 Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
 
         payload = {
-            "model": "blackboxai/blackbox-pro",
+            "model": "blackboxai/x-ai/grok-code-fast-1:free",
             "messages": [
                 {
                     "role": "system",

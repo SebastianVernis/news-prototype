@@ -85,9 +85,15 @@ class AdvancedLayoutGenerator:
                     <a href="categorias.html" class="menu-item">📑 Todas las Categorías</a>
                     
                     <div class="menu-divider"></div>
-                    <span class="menu-label">Por Categoría</span>
                     
-                    {chr(10).join(menu_items)}
+                    <div class="nav-dropdown">
+                        <button class="dropdown-trigger">
+                            Explorar Categorías ▾
+                        </button>
+                        <div class="dropdown-menu">
+                            {chr(10).join(menu_items)}
+                        </div>
+                    </div>
                     
                     <div class="menu-divider"></div>
                     <a href="feed.xml" class="menu-item">📡 RSS Feed</a>
@@ -244,6 +250,76 @@ class AdvancedLayoutGenerator:
             padding: 0 0.5rem;
         }}
         
+        /* Dropdown Styles */
+        .nav-dropdown {{
+            position: relative;
+            display: flex;
+            align-items: center;
+        }}
+        
+        .dropdown-trigger {{
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            color: #2c3e50;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }}
+        
+        .dropdown-trigger:hover {{
+            background: {primary}10;
+            color: {primary};
+        }}
+        
+        .dropdown-menu {{
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: white;
+            min-width: 280px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            padding: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2px;
+            z-index: 1100;
+        }}
+        
+        .nav-dropdown:hover .dropdown-menu {{
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }}
+        
+        .dropdown-menu .menu-item {{
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.6rem 1rem;
+        }}
+        
+        .dropdown-menu .menu-item:hover {{
+            background: {primary}10;
+            color: {primary};
+            transform: translateX(5px);
+        }}
+        
         .nav-social {{
             display: flex;
             gap: 0.75rem;
@@ -348,6 +424,41 @@ class AdvancedLayoutGenerator:
             .menu-label {{
                 padding: 1rem 1.25rem;
                 display: block;
+            }}
+            
+            /* Mobile Dropdown Override */
+            .nav-dropdown {{
+                width: 100%;
+                display: block;
+            }}
+            
+            .dropdown-trigger {{
+                display: none;
+            }}
+            
+            .dropdown-menu {{
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                width: 100%;
+                background: transparent;
+                max-height: none;
+                overflow: visible;
+            }}
+            
+            .dropdown-menu .menu-item {{
+                padding: 1rem 1.25rem;
+                border-bottom: 1px solid #f0f0f0;
+                border-radius: 0;
+            }}
+            
+            .dropdown-menu .menu-item:hover {{
+                transform: none;
+                background: {primary}05;
             }}
             
             .nav-social {{

@@ -123,7 +123,7 @@ INSTRUCCIONES:
 Categoría:"""
 
         payload = {
-            "model": "blackboxai/blackbox-pro",
+            "model": os.getenv('BLACKBOX_CURRENT_MODEL', 'blackboxai/x-ai/grok-code-fast-1:free'),
             "messages": [
                 {
                     "role": "system",

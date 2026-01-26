@@ -17,9 +17,9 @@ load_dotenv()
 
 # Cargar múltiples keys para rotación
 BLACKBOX_API_KEY_1 = os.getenv('BLACKBOX_API_KEY_1')
-BLACKBOX_MODEL_1 = os.getenv('BLACKBOX_MODEL_1', 'blackboxai/blackbox-pro')
+BLACKBOX_MODEL_1 = os.getenv('BLACKBOX_MODEL_1', 'blackboxai/x-ai/grok-code-fast-1:free')
 BLACKBOX_API_KEY_2 = os.getenv('BLACKBOX_API_KEY_2')
-BLACKBOX_MODEL_2 = os.getenv('BLACKBOX_MODEL_2', 'blackboxai/blackbox-pro')
+BLACKBOX_MODEL_2 = os.getenv('BLACKBOX_MODEL_2', 'blackboxai/x-ai/grok-code-fast-1:free')
 
 BLACKBOX_API_URL = 'https://api.blackbox.ai/chat/completions'
 
@@ -30,43 +30,49 @@ class BlackboxParallelParaphraser:
     def __init__(self, api_keys: List[str] = None):
         # Cargar todas las keys y modelos disponibles
         if api_keys:
-            self.api_configs = [{'key': k, 'model': 'blackboxai/blackbox-pro'} for k in api_keys if k and 'PENDIENTE' not in k]
+            self.api_configs = [{'key': k, 'model': 'blackboxai/x-ai/grok-code-fast-1:free', 'id': f'CUSTOM_{i}'} for i, k in enumerate(api_keys) if k and 'PENDIENTE' not in k]
         else:
             self.api_configs = []
             
-            # Soporte para lista de modelos (para rotación avanzada)
-            model_list = os.getenv('BLACKBOX_MODEL_LIST')
-            if model_list and BLACKBOX_API_KEY_1 and 'PENDIENTE' not in str(BLACKBOX_API_KEY_1):
-                models = [m.strip() for m in model_list.split(',') if m.strip()]
-                print(f"🔄 Cargando lista de {len(models)} modelos para rotación")
-                for model in models:
-                    self.api_configs.append({
-                        'key': BLACKBOX_API_KEY_1,
-                        'model': model
-                    })
+            # Intentar cargar todas las posibles keys del .env
+            env_keys = [
+                ('PRO', os.getenv('BLACKBOX_API_KEY_PRO')),
+                ('FREE', os.getenv('BLACKBOX_API_KEY_FREE')),
+                ('ALT', os.getenv('BLACKBOX_API_KEY_ALT')),
+                ('KEY1', os.getenv('BLACKBOX_API_KEY_1')),
+                ('KEY2', os.getenv('BLACKBOX_API_KEY_2'))
+            ]
             
-            # Si no hay lista, usar configuración legacy (Key 1 y Key 2)
-            if not self.api_configs:
-                # Key 1
-                if BLACKBOX_API_KEY_1 and 'PENDIENTE' not in str(BLACKBOX_API_KEY_1):
+            # Eliminar duplicados de keys manteniendo el primer ID encontrado
+            seen_keys = set()
+            unique_env_keys = []
+            for name, key in env_keys:
+                if key and 'PENDIENTE' not in str(key) and key not in seen_keys:
+                    unique_env_keys.append((name, key))
+                    seen_keys.add(key)
+            
+            # Modelos a usar
+            model_list_str = os.getenv('BLACKBOX_MODEL_LIST')
+            if model_list_str:
+                models = [m.strip() for m in model_list_str.split(',') if m.strip()]
+            else:
+                models = [BLACKBOX_MODEL_1]
+            
+            # Si tenemos múltiples keys, rotar sobre ellas
+            for name, key in unique_env_keys:
+                for i, model in enumerate(models):
                     self.api_configs.append({
-                        'key': BLACKBOX_API_KEY_1,
-                        'model': BLACKBOX_MODEL_1
-                    })
-                
-                # Key 2
-                if BLACKBOX_API_KEY_2 and 'PENDIENTE' not in str(BLACKBOX_API_KEY_2):
-                    self.api_configs.append({
-                        'key': BLACKBOX_API_KEY_2,
-                        'model': BLACKBOX_MODEL_2
+                        'key': key,
+                        'model': model,
+                        'id': f'{name}_M{i+1}' if len(models) > 1 else name
                     })
         
         if not self.api_configs:
             raise ValueError("No se encontraron BLACKBOX_API_KEY en .env")
         
         print(f"🔑 Blackbox keys cargadas: {len(self.api_configs)}")
-        for i, config in enumerate(self.api_configs, 1):
-            print(f"   KEY_{i}: {config['model']}")
+        for config in self.api_configs:
+            print(f"   {config['id']}: {config['model']}")
         
         # Crear iterador circular para rotación
         self.config_iterator = itertools.cycle(self.api_configs)
@@ -147,11 +153,13 @@ Artículo original:
 
 Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
 
+        current_key_id = "UNKNOWN"
         try:
             # Obtener configuración para este request (key + modelo)
             config = self._get_next_config()
             api_key = config['key']
             model = config['model']
+            current_key_id = config.get('id', 'UNKNOWN')
             
             headers = {
                 'Content-Type': 'application/json',
@@ -210,6 +218,7 @@ Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
             article_copy['paraphrased'] = True
             article_copy['paraphrase_method'] = 'blackbox-parallel'
             article_copy['style'] = style
+            article_copy['key_used'] = current_key_id
             
             return article_copy
             
@@ -218,6 +227,7 @@ Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
             article['paraphrased'] = False
             article['paraphrase_method'] = 'error'
             article['error_message'] = str(e)
+            article['key_used'] = current_key_id
             return article
     
     def parafrasear_lote_paralelo(
@@ -271,7 +281,9 @@ Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
                     print(f"  [{idx}/{len(articles)}] {status} {result.get('title', 'Sin título')[:60]}...")
                     
                 except Exception as e:
-                    print(f"  [{idx}/{len(articles)}] ❌ Error: {e}")
+                    # Este bloque catch atrapa excepciones de future.result() que NUNCA deberían ocurrir
+                    # porque parafrasear_articulo ya captura todas las excepciones.
+                    print(f"  [{idx}/{len(articles)}] ❌ Error CRÍTICO en thread: {e}")
                     original['paraphrased'] = False
                     results.append((idx, original))
         

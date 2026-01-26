@@ -136,8 +136,8 @@ for site_num, (config, noticias_sitio) in enumerate(zip(sitios_config, [noticias
     
     print(f"📰 Procesando {len(noticias_sitio)} artículos")
     
-    # PASO 1: Parafrasear destacados (primeros 5 con Blackbox Pro)
-    print(f"\n📝 Parafraseando 5 artículos destacados (Blackbox Pro)...")
+    # PASO 1: Parafrasear destacados (primeros 5 con Blackbox AI)
+    print(f"\n📝 Parafraseando 5 artículos destacados (Blackbox AI)...")
     
     destacados = []
     for i, noticia in enumerate(noticias_sitio[:5], 1):
@@ -146,7 +146,7 @@ for site_num, (config, noticias_sitio) in enumerate(zip(sitios_config, [noticias
         try:
             style = ['formal y objetivo', 'técnico y detallado', 'analítico y crítico'][i % 3]
             resultado = paraphraser_blackbox.paraphrase_article(noticia, style=style)
-            resultado['paraphrase_method'] = 'blackbox-pro'
+            resultado['paraphrase_method'] = 'blackbox-grok'
             resultado['author'] = resultado.get('author') or legal_gen.generar_autor_aleatorio()
             destacados.append(resultado)
             print("✅")

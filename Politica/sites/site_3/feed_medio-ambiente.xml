@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>InfoNacionalDigital - Medio Ambiente</title>
+    <link>https://sitio-3.com/categoria/medio-ambiente</link>
+    <description>Noticias de medio ambiente en InfoNacionalDigital</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 20 Jan 2026 08:40:24 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://sitio-3.com/sites/site_3/feed_medio-ambiente.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Trump quiere el petróleo de Venezuela: ¿Qué puede aprender del caso Pemex en México y de Petrobras?</title>
+      <link>https://www.elfinanciero.com.mx/mundo/2026/01/18/trump-quiere-el-petroleo-de-venezuela-que-puede-aprender-del-caso-pemex-en-mexico-y-de-petrobras/</link>
+      <guid>https://www.elfinanciero.com.mx/mundo/2026/01/18/trump-quiere-el-petroleo-de-venezuela-que-puede-aprender-del-caso-pemex-en-mexico-y-de-petrobras/</guid>
+      <description>Trump quiere el petróleo de Venezuela. El caso Pemex en México revela los riesgos y límites de la nacionalización petrolera y la soberanía energética.</description>
+      <content:encoded>&lt;![CDATA[El petróleo volvió al centro del tablero geopolítico. Tras lacaptura de Nicolás Maduro, DonaldTrump busca apoderarse del petróleo de Venezuelacon el argumento de que Estados Unidos “construyó” la industria petrolera venezolana y que ahora pretende “recuperarla”. De esa manera,el presidente de EU pretende adueñarse del petróleo de Venezuelae inclusoTrump presiona a petroleras como Chevron, Exxon Mobil y ConocoPhillipspara invertir en el país encabezado ahora porDelcy Rodríguez, la presidenta encargadatras ladeposición de Nicolás Maduro. Los dichos del presidente de EU encendieron las alertas diplomáticas y revivieron una discusión histórica en América Latina: ¿Qué ocurre cuando un país nacionaliza su petróleoy hasta dónde llega el derecho del Estado frente a la inversión privada extranjera? En ese debate,el caso mexicano y Pemex aparece como un referenteinevitable. Laexpropiación petrolera de 1938y lacreación de Petróleos Mexicanosmarcaron un antes y un después en la relación entre recursos naturales, política y desarrollo económico. No fue un camino lineal ni exento de costos. De acuerdo con Skip York, enThe Conversation, la experiencia de México, junto con la de Brasil, ofrece claves para entender por qué el petróleo no es solo una mercancía, sinouna herramienta de poder que puede fortalecer o debilitar a un paíssegún cómo se gestione. Donald Trump asegura que Venezuela “tomó” el petróleoestadounidense cuando nacionalizó su industria en 1976 y profundizó ese control bajo elgobierno de Hugo Chávezen 2007. Sin embargo, de acuerdo conThe Conversation, esa narrativa simplifica la historia. Desde principios del siglo XX, empresas estadounidenses y europeas fueron claves en eldesarrollo petrolero venezolano. Invirtieron capital, tecnología e infraestructura, pero nunca fueron dueñas legales del subsuelo. Venezuela, como otros países, mantuvo la propiedad de sus reservas y otorgó concesiones con plazos definidos. La ambigüedad de esos contratos alimentó tensiones que dese]]&gt;</content:encoded>
+      <pubDate>Sun, 18 Jan 2026 14:00:00 +0000</pubDate>
+      <dc:creator>Redacción</dc:creator>
+      <category>Medio Ambiente y Energía</category>
+      <enclosure url="https://www.elfinanciero.com.mx/resizer/v2/RWRZQFPG6VEPXFTVUIT6BUNV5Q.jpeg?smart=true&amp;auth=47eb9eabae4016a6b91998c5ecba2c1cb5f29fce367ce9a40a6134ba02bb57d7&amp;width=1200&amp;height=630" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

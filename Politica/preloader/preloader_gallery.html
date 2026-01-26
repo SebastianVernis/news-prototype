@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Preloaders - 14 Estilos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            padding: 2rem 1rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .gallery {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .preloader-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .preloader-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .preloader-preview {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .preloader-info {
+            padding: 1.5rem;
+        }
+        
+        .preloader-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .preloader-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .preloader-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-badge {
+            background: #ecf0f1;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+        }
+        
+        .preloader-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .preloader-card:hover .preview-overlay {
+            opacity: 1;
+        }
+        
+        .preview-text {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .footer {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            text-align: center;
+            color: #6c757d;
+            padding-top: 2rem;
+            border-top: 2px solid #ecf0f1;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✨ Galería de Preloaders</h1>
+        <p>14 estilos de animaciones de entrada para tus sitios</p>
+    </div>
+    
+    <div class="gallery">
+        <!-- Contador -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">1. Contador 0-100%</h3>
+                <p class="preloader-description">Contador numérico animado similar a Titan Preloader. Números grandes con barra de progreso.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 2.0s</span>
+                    <span class="stat-badge">🎯 Alto impacto</span>
+                    <span class="stat-badge">⭐ Similar original</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_contador_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Circle -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">2. Círculo de Progreso</h3>
+                <p class="preloader-description">Círculo SVG que se llena con porcentaje central. Elegante y moderno.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 2.0s</span>
+                    <span class="stat-badge">🎯 Alto impacto</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_progress_circle_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide Down -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">3. Cortinas (Slide Down)</h3>
+                <p class="preloader-description">Cortinas que se abren arriba y abajo revelando el contenido. Dramático.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 1.3s</span>
+                    <span class="stat-badge">🎯 Alto impacto</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_slide_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Glitch Effect -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">4. Efecto Glitch</h3>
+                <p class="preloader-description">Texto con efecto glitch moderno. Perfecto para sitios tech o modernos.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 1.5s</span>
+                    <span class="stat-badge">🎯 Alto impacto</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_glitch_effect_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Spinning Logo -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">5. Logo Giratorio 3D</h3>
+                <p class="preloader-description">Logo que gira con efecto 3D. Ideal para mostrar branding.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 1.2s</span>
+                    <span class="stat-badge">🎯 Medio</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_spinning_logo_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wave Animation -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">6. Onda Animada</h3>
+                <p class="preloader-description">Ondas concéntricas que recorren la pantalla. Efecto hipnótico.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 1.0s</span>
+                    <span class="stat-badge">🎯 Medio</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_wave_animation_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rotating Square -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">7. Cuadrado Rotante</h3>
+                <p class="preloader-description">Cuadrado que rota y cambia entre cuadrado y círculo.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 0.8s</span>
+                    <span class="stat-badge">🎯 Medio</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_rotating_square_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Circle Expand -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">8. Círculo Expandible</h3>
+                <p class="preloader-description">Círculo que se expande desde el centro con texto.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 0.8s</span>
+                    <span class="stat-badge">🎯 Medio</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_circle_expand_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bouncing Balls -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">9. Bolas Rebotando</h3>
+                <p class="preloader-description">Tres bolas que rebotan en secuencia. Divertido y ligero.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 0.6s</span>
+                    <span class="stat-badge">🎯 Bajo</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_bouncing_balls_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bars Loading -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">10. Barras de Carga</h3>
+                <p class="preloader-description">Cinco barras verticales que suben y bajan. Animación rítmica.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 0.6s</span>
+                    <span class="stat-badge">🎯 Bajo</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_bars_loading_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dots Pulse -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">11. Puntos Pulsantes</h3>
+                <p class="preloader-description">Tres puntos que pulsan en secuencia. Minimalista.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 0.5s</span>
+                    <span class="stat-badge">🎯 Bajo</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_dots_pulse_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fade -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">12. Fade In Simple</h3>
+                <p class="preloader-description">Fade in suave con spinner circular. Clásico y elegante.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 0.9s</span>
+                    <span class="stat-badge">🎯 Bajo</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_fade_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Typing Text -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">13. Texto Escribiéndose</h3>
+                <p class="preloader-description">Texto que se escribe con cursor parpadeante. Estilo terminal.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 1.5s</span>
+                    <span class="stat-badge">🎯 Medio</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_typing_text_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ripple Effect -->
+        <div class="preloader-card">
+            <div class="preloader-preview">
+                <div class="preview-overlay">
+                    <span class="preview-text">Click para ver</span>
+                </div>
+            </div>
+            <div class="preloader-info">
+                <h3 class="preloader-name">14. Efecto Ripple</h3>
+                <p class="preloader-description">Ondas concéntricas que se expanden. Efecto de gota de agua.</p>
+                <div class="preloader-stats">
+                    <span class="stat-badge">⏱️ 0.8s</span>
+                    <span class="stat-badge">🎯 Medio</span>
+                </div>
+                <div class="preloader-actions">
+                    <a href="preloader_ripple_effect_example.html" target="_blank" class="btn btn-primary">Ver Ejemplo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p><strong>💡 Nota:</strong> Cada ejemplo se abre en una nueva pestaña. Recarga la página para ver la animación de nuevo.</p>
+        <p style="margin-top: 1rem;">Los preloaders se asignan aleatoriamente a cada sitio generado y usan automáticamente los colores del sitio.</p>
+    </div>
+</body>
+</html>

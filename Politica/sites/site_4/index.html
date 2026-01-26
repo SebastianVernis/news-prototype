@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <!-- SEO Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Actualidad en Tiempo Real. Portal de noticias políticas de México.">
+    <meta name="keywords" content="política méxico, noticias políticas, análisis político, gobierno méxico">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://sitio-4.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sitio-4.com">
+    <meta property="og:title" content="LDA Gazette - Actualidad en Tiempo Real">
+    <meta property="og:description" content="Actualidad en Tiempo Real. Portal de noticias políticas de México.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=Política+México">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="LDA Gazette">
+    <meta property="og:locale" content="es_MX">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://sitio-4.com">
+    <meta name="twitter:title" content="LDA Gazette">
+    <meta name="twitter:description" content="Actualidad en Tiempo Real. Portal de noticias políticas de México.">
+    <meta name="twitter:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=Política+México">
+    <meta name="twitter:site" content="@LDAGazette">
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="LDA Gazette RSS Feed" href="https://sitio-4.com/feed.xml">
+    
+    <!-- Theme -->
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "LDA Gazette",
+      "description": "Actualidad en Tiempo Real. Portal de noticias políticas de México.",
+      "url": "https://sitio-4.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://sitio-4.com/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "LDA Gazette",
+        "url": "https://sitio-4.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://sitio-4.com/assets/logo.png"
+        }
+      }
+    }
+    </script>
+
+    <title>LDA Gazette - Actualidad en Tiempo Real</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f7fa; }
+        
+        .hero { background: linear-gradient(135deg, #000000, #EFEFEF); color: white; padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800; }
+        .hero p { font-size: 1.3rem; opacity: 0.95; }
+        
+        .articles-section { max-width: 1400px; margin: 3rem auto; padding: 0 2rem; }
+        .section-title { font-size: 2rem; color: #2c3e50; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid #000000; }
+        
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
+        .article-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s; }
+        .article-card:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+        .article-card a { text-decoration: none; color: inherit; display: block; }
+        .card-image { width: 100%; height: 220px; object-fit: cover; }
+        .card-content { padding: 1.5rem; }
+        .card-category { display: inline-block; background: #00000020; color: #000000; padding: 0.4rem 0.9rem; border-radius: 16px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+        .card-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.75rem; line-height: 1.4; color: #1a202c; }
+        .card-excerpt { color: #6c757d; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
+        .card-meta { font-size: 0.85rem; color: #95a5a6; padding-top: 1rem; border-top: 1px solid #ecf0f1; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .articles-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <style>
+
+.preloader-progress-circle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #000000, #EFEFEF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease;
+}
+.preloader-progress-circle.loaded {
+    opacity: 0;
+    pointer-events: none;
+}
+.progress-ring {
+    position: relative;
+}
+.progress-ring-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 8;
+}
+.progress-ring-circle {
+    fill: none;
+    stroke: white;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 565.48;
+    stroke-dashoffset: 565.48;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.1s linear;
+}
+.progress-text {
+    position: absolute;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+}
+    </style>
+</head>
+<body>
+<div id="preloader" class="preloader-progress-circle">
+    <svg class="progress-ring" width="200" height="200">
+        <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
+        <circle class="progress-ring-circle" cx="100" cy="100" r="90" id="progress-circle"></circle>
+    </svg>
+    <div class="progress-text" id="progress-text">0%</div>
+</div>
+
+<!-- Sidebar como Header (NO hay header tradicional) -->
+<nav class="sidebar-header sidebar-right">
+    <div class="sidebar-content">
+        <!-- Branding del sitio -->
+        <div class="sidebar-brand">
+            <a href="index.html" class="sidebar-brand-link">
+                <span class="sidebar-icon">📰</span>
+                <div class="sidebar-brand-text">
+                    <span class="sidebar-brand-name">LDA Gazette</span>
+                    <span class="sidebar-brand-tagline">Actualidad en Tiempo Real</span>
+                </div>
+            </a>
+        </div>
+        
+        <div class="sidebar-divider"></div>
+        
+        <a href="index.html" class="sidebar-nav-item" title="Inicio">
+            <span class="sidebar-icon">🏠</span>
+            <span class="sidebar-text">Inicio</span>
+        </a>
+        
+        <a href="categorias.html" class="sidebar-nav-item" title="Todas las Categorías">
+            <span class="sidebar-icon">📑</span>
+            <span class="sidebar-text">Todas las Categorías</span>
+        </a>
+        
+        <div class="sidebar-divider"></div>
+        
+        <div class="sidebar-section-label">
+            <span class="sidebar-icon">📂</span>
+            <span class="sidebar-text">Categorías</span>
+        </div>
+        
+        
+                <a href="categoria/política-nacional.html" class="sidebar-nav-item" title="Política Nacional">
+                    <span class="sidebar-icon">🏛️</span>
+                    <span class="sidebar-text">Política Nacional</span>
+                </a>
+
+
+                <a href="categoria/política-internacional.html" class="sidebar-nav-item" title="Política Internacional">
+                    <span class="sidebar-icon">🌍</span>
+                    <span class="sidebar-text">Política Internacional</span>
+                </a>
+
+
+                <a href="categoria/economía-política.html" class="sidebar-nav-item" title="Economía y Política">
+                    <span class="sidebar-icon">💰</span>
+                    <span class="sidebar-text">Economía y Política</span>
+                </a>
+
+
+                <a href="categoria/seguridad.html" class="sidebar-nav-item" title="Seguridad y Justicia">
+                    <span class="sidebar-icon">🚔</span>
+                    <span class="sidebar-text">Seguridad y Justicia</span>
+                </a>
+
+
+                <a href="categoria/elecciones.html" class="sidebar-nav-item" title="Elecciones y Partidos">
+                    <span class="sidebar-icon">🗳️</span>
+                    <span class="sidebar-text">Elecciones y Partidos</span>
+                </a>
+
+
+                <a href="categoria/derechos-sociales.html" class="sidebar-nav-item" title="Derechos y Políticas Sociales">
+                    <span class="sidebar-icon">📰</span>
+                    <span class="sidebar-text">Derechos y Políticas Sociales</span>
+                </a>
+
+
+                <a href="categoria/medio-ambiente.html" class="sidebar-nav-item" title="Medio Ambiente y Energía">
+                    <span class="sidebar-icon">📰</span>
+                    <span class="sidebar-text">Medio Ambiente y Energía</span>
+                </a>
+
+
+                <a href="categoria/judicial.html" class="sidebar-nav-item" title="Poder Judicial">
+                    <span class="sidebar-icon">⚖️</span>
+                    <span class="sidebar-text">Poder Judicial</span>
+                </a>
+
+
+                <a href="categoria/corrupción.html" class="sidebar-nav-item" title="Anticorrupción y Transparencia">
+                    <span class="sidebar-icon">📰</span>
+                    <span class="sidebar-text">Anticorrupción y Transparencia</span>
+                </a>
+
+
+                <a href="categoria/análisis-opinión.html" class="sidebar-nav-item" title="Análisis y Opinión">
+                    <span class="sidebar-icon">📰</span>
+                    <span class="sidebar-text">Análisis y Opinión</span>
+                </a>
+
+        
+        <div class="sidebar-divider"></div>
+        
+        <a href="feed.xml" class="sidebar-nav-item" title="RSS Feed">
+            <span class="sidebar-icon">📡</span>
+            <span class="sidebar-text">RSS Feed</span>
+        </a>
+        
+        
+        <div class="sidebar-social">
+            <div class="sidebar-nav-item sidebar-social-label">
+                <span class="sidebar-icon">🔗</span>
+                <span class="sidebar-text">Síguenos</span>
+            </div>
+            <a href="#" class="sidebar-nav-item" title="Facebook">
+                <span class="sidebar-icon">📘</span>
+                <span class="sidebar-text">Facebook</span>
+            </a>
+            <a href="#" class="sidebar-nav-item" title="Twitter">
+                <span class="sidebar-icon">🐦</span>
+                <span class="sidebar-text">Twitter</span>
+            </a>
+            <a href="#" class="sidebar-nav-item" title="Instagram">
+                <span class="sidebar-icon">📷</span>
+                <span class="sidebar-text">Instagram</span>
+            </a>
+        </div>
+
+    </div>
+</nav>
+
+<style>
+.sidebar-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 80px;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    box-shadow: -2px 0 20px rgba(0,0,0,0.15);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.sidebar-header:hover {
+    width: 300px;
+}
+
+.sidebar-content {
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sidebar-brand {
+    padding: 0.5rem 1.25rem 1.5rem;
+}
+
+.sidebar-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sidebar-header:hover .sidebar-brand-text {
+    opacity: 1;
+}
+
+.sidebar-brand-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.sidebar-brand-tagline {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    font-style: italic;
+}
+
+.sidebar-section-label {
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-social {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.sidebar-social-label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.9);
+}
+
+.sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.sidebar-nav-item:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.sidebar-icon {
+    font-size: 1.5rem;
+    width: 30px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.sidebar-text {
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.sidebar-collapsible:hover .sidebar-text {
+    opacity: 1;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 0.5rem 1.25rem;
+}
+
+/* Ajustar contenido principal para sidebar (NO hay header tradicional) */
+.content-with-sidebar-right {
+    margin-right: 80px;
+    transition: margin 0.3s;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .sidebar-collapsible {
+        width: 60px;
+    }
+    
+    .sidebar-collapsible:hover {
+        width: 240px;
+    }
+    
+    .content-with-sidebar-right {
+        margin-right: 60px;
+    }
+}
+</style>
+
+
+<div class="content-with-sidebar-right">
+    <div class="hero">
+        <h1>LDA Gazette</h1>
+        <p>Actualidad en Tiempo Real</p>
+    </div>
+    
+    <div class="articles-section">
+        <h2 class="section-title">📰 Últimas Noticias</h2>
+        <div class="articles-grid">
+            
+        <article class="article-card">
+            <a href="article_1.html">
+                <img src="images/news_1.jpg" alt="Carlos Bravo Regidor: Tras Trump, el mundo navega en un mar de incertidumbre política" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión<span style="background: gold; color: #000; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem;">⭐ Premium</span></span>
+                    <h2 class="card-title">Carlos Bravo Regidor: Tras Trump, el mundo navega en un mar de incertidumbre política</h2>
+                    <p class="card-excerpt">En medio de un panorama mediático saturado por la urgencia de la noticia inmediata, las reacciones viscerales en redes sociales y el constante bombard...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_2.html">
+                <img src="images/news_2.jpg" alt="Huir de la renta: cuando vivir sobre ruedas es un escape a la crisis de vivienda" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión<span style="background: gold; color: #000; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem;">⭐ Premium</span></span>
+                    <h2 class="card-title">Huir de la renta: cuando vivir sobre ruedas es un escape a la crisis de vivienda</h2>
+                    <p class="card-excerpt">DOMINGA.– Esta historia ocurre dentro de un microbús estacionado frente al panteón municipal de Tepoztlán. Ahí, descalzo, flaco, como si pesara menos ...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_3.html">
+                <img src="images/news_3.jpg" alt="Cuba enfrenta grave crisis financiera con cajeros sin efectivo en víspera de Nochebuena" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Economía y Política<span style="background: gold; color: #000; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem;">⭐ Premium</span></span>
+                    <h2 class="card-title">Cuba enfrenta grave crisis financiera con cajeros sin efectivo en víspera de Nochebuena</h2>
+                    <p class="card-excerpt">La crisis económica que atraviesa Cuba se manifestó con particular crudeza durante la víspera de Nochebuena de 2025, cuando decenas de ciudadanos enfr...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_4.html">
+                <img src="images/news_4.jpg" alt="El primer acto de emancipación de América de la última princesa azteca" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">El primer acto de emancipación de América de la última princesa azteca</h2>
+                    <p class="card-excerpt">La vida de la hija del emperador mexicano Moctezuma Xocoyotzin, muerto durante la Conquista española, estuvo signada por la resistencia en medio de la...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_5.html">
+                <img src="images/news_5.jpg" alt="Más de 50 poetas participaron en la lectura Voces para Gaza" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">Más de 50 poetas participaron en la lectura Voces para Gaza</h2>
+                    <p class="card-excerpt">En una lectura colectiva organizada desde “el afecto, el no olvido y la resistencia pacífica”, se reunió una constelación de voces de las letras actua...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_6.html">
+                <img src="None" alt="Jaime Ortega*: 1966 y la solidaridad de los pueblos" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">Jaime Ortega*: 1966 y la solidaridad de los pueblos</h2>
+                    <p class="card-excerpt">En el amanecer del año 1966, hace siete décadas, La Habana se convirtió en el lugar más importante para el encuentro de las principales tradiciones re...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_7.html">
+                <img src="None" alt="Extranjeros retiraron capitales por 92 mil 353 mdp: BdeM" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">Extranjeros retiraron capitales por 92 mil 353 mdp: BdeM</h2>
+                    <p class="card-excerpt">México cerró 2025 con una salida de capitales extranjeros por 92 mil 353 millones de pesos, luego de tres años consecutivos de entradas, revelan datos...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_8.html">
+                <img src="images/news_8.jpg" alt="Sergio Arau presentará Tocada y fuga en el Esperanza Iris" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">Sergio Arau presentará Tocada y fuga en el Esperanza Iris</h2>
+                    <p class="card-excerpt">Sergio Arau afirmó en entrevista con La Jornada que “no sólo la situación migratoria de los trabajadores latinoamericanos está pasando su peor momento...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_9.html">
+                <img src="None" alt="LA HABANA 1966: UN PUNTO DE INFLEXIÓN PARA LA SOLIDARIDAD INTERNACIONAL" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Política Internacional</span>
+                    <h2 class="card-title">LA HABANA 1966: UN PUNTO DE INFLEXIÓN PARA LA SOLIDARIDAD INTERNACIONAL</h2>
+                    <p class="card-excerpt">En 1966, La Habana fue escenario de un trascendental encuentro que reunió a diversas corrientes revolucionarias, marcando el inicio de una nueva etapa...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_10.html">
+                <img src="None" alt="Creadores condenan en documento el intervencionismo militar de EU en AL" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Política Internacional</span>
+                    <h2 class="card-title">Creadores condenan en documento el intervencionismo militar de EU en AL</h2>
+                    <p class="card-excerpt">Músicos, cineastas, artistas escénicos y visuales, así como gestores culturales de América Latina, particularmente de México, difundieron una declarac...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_11.html">
+                <img src="None" alt="Rolando Cordera Campos: En el nuevo desorden global" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">Rolando Cordera Campos: En el nuevo desorden global</h2>
+                    <p class="card-excerpt">En este 2026, inicio del segundo cuarto del siglo XXI, el mundo global está enfilándose hacia un abierto e inclemente (des)orden. No sólo económico o ...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_12.html">
+                <img src="None" alt="Persiste rezago en el sur pese a inversión social" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Economía y Política</span>
+                    <h2 class="card-title">Persiste rezago en el sur pese a inversión social</h2>
+                    <p class="card-excerpt">A pesar de que la inversión en pensiones y programas prioritarios registró un crecimiento real de 251 por ciento entre 2019 y 2025, el sur del país co...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_13.html">
+                <img src="images/news_13.jpg" alt="Con un mural itinerante, celebran tratado global que protege océanos" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Política Internacional</span>
+                    <h2 class="card-title">Con un mural itinerante, celebran tratado global que protege océanos</h2>
+                    <p class="card-excerpt">Para celebrar la entrada en vigor ayer del Tratado Global de los Océanos de la Organización de Naciones Unidas (ONU) que permite crear santuarios mari...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_14.html">
+                <img src="None" alt="Rolando Cordera Campos: En el nuevo desorden global" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">Rolando Cordera Campos: En el nuevo desorden global</h2>
+                    <p class="card-excerpt">En este 2026, inicio del segundo cuarto del siglo XXI, el mundo global está enfilándose hacia un abierto e inclemente (des)orden. No sólo económico o ...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_15.html">
+                <img src="None" alt="Golpeará a ONG ambientalistas el retiro de apoyo financiero de EU" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Política Nacional</span>
+                    <h2 class="card-title">Golpeará a ONG ambientalistas el retiro de apoyo financiero de EU</h2>
+                    <p class="card-excerpt">El retiro de financiamiento del gobierno estadunidense a diferentes programas de ayuda internacional, anunciado la semana pasada, será un “duro golpe”...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_16.html">
+                <img src="None" alt="Como Donald Trump cambió el orden comercial y político de América Latina a golpe de aranceles a varios países" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Economía y Política</span>
+                    <h2 class="card-title">Como Donald Trump cambió el orden comercial y político de América Latina a golpe de aranceles a varios países</h2>
+                    <p class="card-excerpt">El “Día de la Liberación” de abril dio paso a fines de 2025 a la Doctrina “Donroe” sobre un hemisferio que Washington busca controlar....</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_17.html">
+                <img src="None" alt="Del ALCA a la sombra de Trump: la trastienda de la negociación del acuerdo entre el Mercosur y la Unión Europea" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Análisis y Opinión</span>
+                    <h2 class="card-title">Del ALCA a la sombra de Trump: la trastienda de la negociación del acuerdo entre el Mercosur y la Unión Europea</h2>
+                    <p class="card-excerpt">Se firmó un acuerdo que muchos creían imposible; aquí un repaso de  la negociación a lo largo de los años, las ambiciones que quedaron en el camino y ...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_18.html">
+                <img src="None" alt="Consenso escaso" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Derechos y Políticas Sociales</span>
+                    <h2 class="card-title">Consenso escaso</h2>
+                    <p class="card-excerpt">El punto neurálgico que divide las aguas ha sido la valoración de principios como la democracia y el respeto a las libertades y a los derechos ciudada...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_19.html">
+                <img src="images/news_19.jpg" alt="Donald Trump o la muerte del escándalo" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Elecciones y Partidos</span>
+                    <h2 class="card-title">Donald Trump o la muerte del escándalo</h2>
+                    <p class="card-excerpt">En la campaña de 2016, Donald Trump aseguró que "Podría pararme en medio de la Quinta Avenida y dispararle a alguien, y no perdería ningún votante". E...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_20.html">
+                <img src="images/news_20.jpg" alt="Spotify vuelve a subir sus precios: así quedarán los planes premium para 2026" class="card-image" loading="lazy">
+                <div class="card-content">
+                    <span class="card-category">Política Internacional</span>
+                    <h2 class="card-title">Spotify vuelve a subir sus precios: así quedarán los planes premium para 2026</h2>
+                    <p class="card-excerpt">Los usuarios de Spotify ya comenzaron a recibir avisos de que sus suscripciones Premium tendrán un incremento en sus precios a partir de febrero de 20...</p>
+                    <div class="card-meta">
+                        <span>📅 2026-01-18</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        </div>
+    </div>
+    
+
+<footer class="footer-completo">
+    <div class="footer-main">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Columna 1: Sobre el sitio -->
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <h3 class="footer-logo">LDA Gazette</h3>
+                        <p class="footer-tagline">Actualidad en Tiempo Real</p>
+                    </div>
+                    <p class="footer-description">
+                        Tu fuente confiable de noticias políticas de México. 
+                        Información veraz, análisis profundo y cobertura completa 
+                        de los acontecimientos más relevantes del país.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-btn facebook">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="footer-social-btn twitter">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                        <a href="#" class="footer-social-btn instagram">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="#" class="footer-social-btn youtube">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Columna 2: Categorías parte 1 -->
+                <div class="footer-col">
+                    <h4 class="footer-title">Categorías</h4>
+                    <ul class="footer-links">
+                        <li><a href="categoria/política-nacional.html">Política Nacional</a></li>
+<li><a href="categoria/política-internacional.html">Política Internacional</a></li>
+<li><a href="categoria/economía-política.html">Economía y Política</a></li>
+<li><a href="categoria/seguridad.html">Seguridad y Justicia</a></li>
+<li><a href="categoria/elecciones.html">Elecciones y Partidos</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Columna 3: Categorías parte 2 / Información -->
+                <div class="footer-col">
+                    <h4 class="footer-title">Más Categorías</h4>
+                    <ul class="footer-links">
+                        <li><a href="categoria/derechos-sociales.html">Derechos y Políticas Sociales</a></li>
+<li><a href="categoria/medio-ambiente.html">Medio Ambiente y Energía</a></li>
+<li><a href="categoria/judicial.html">Poder Judicial</a></li>
+<li><a href="categoria/corrupción.html">Anticorrupción y Transparencia</a></li>
+<li><a href="categoria/análisis-opinión.html">Análisis y Opinión</a></li>
+                    </ul>
+                    <h4 class="footer-title" style="margin-top: 1.5rem;">Información</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Acerca de</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="team.html">Equipo Editorial</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Columna 4: Newsletter y Legal -->
+                <div class="footer-col">
+                    <h4 class="footer-title">Mantente Informado</h4>
+                    <p class="footer-newsletter-text">Recibe las noticias más importantes directamente en tu correo</p>
+                    <form class="newsletter-form" onsubmit="return false;">
+                        <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn">Suscribir</button>
+                    </form>
+                    
+                    <div class="footer-legal">
+                        <a href="privacy.html">Política de Privacidad</a>
+                        <span class="separator">•</span>
+                        <a href="terms.html">Términos y Condiciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="footer-bottom-content">
+                <p>&copy; 2026 LDA Gazette. Todos los derechos reservados.</p>
+                <p class="footer-credits">Diseñado con ❤️ para informar con calidad</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+.footer-completo {
+    background: #2c3e50;
+    color: white;
+    margin-top: 4rem;
+}
+
+.footer-main {
+    padding: 3rem 0 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 3rem;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-logo {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.footer-tagline {
+    color: #bdc3c7;
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+.footer-description {
+    color: #bdc3c7;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.footer-social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s;
+}
+
+.footer-social-btn:hover {
+    background: #000000;
+    transform: translateY(-3px);
+}
+
+.footer-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-links a {
+    color: #bdc3c7;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+    color: white;
+    padding-left: 0.5rem;
+}
+
+.footer-newsletter-text {
+    color: #bdc3c7;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.newsletter-input {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 0.95rem;
+}
+
+.newsletter-input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.newsletter-btn {
+    padding: 0.75rem;
+    background: #000000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.newsletter-btn:hover {
+    background: #EFEFEF;
+}
+
+.footer-legal {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.85rem;
+}
+
+.footer-legal a {
+    color: #bdc3c7;
+}
+
+.footer-legal a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.separator {
+    margin: 0 0.5rem;
+    color: #7f8c8d;
+}
+
+.footer-bottom {
+    background: #1a252f;
+    padding: 1.5rem 0;
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #95a5a6;
+    font-size: 0.9rem;
+}
+
+.footer-credits {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom-content {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+</style>
+
+</div>
+
+    <script>
+
+window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+    const circle = document.getElementById('progress-circle');
+    const text = document.getElementById('progress-text');
+    if (!preloader || !circle || !text) return;
+    
+    const circumference = 565.48;
+    let progress = 0;
+    const duration = 2000;
+    const interval = 20;
+    const steps = duration / interval;
+    const increment = 100 / steps;
+    
+    const timer = setInterval(() => {
+        progress += increment;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(timer);
+            setTimeout(() => {
+                preloader.classList.add('loaded');
+                setTimeout(() => preloader.remove(), 500);
+            }, 300);
+        }
+        const offset = circumference - (progress / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+        text.textContent = Math.floor(progress) + '%';
+    }, interval);
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto - Crónica Perspectiva</title>
+  <meta name="description" content="Contacto editorial y legal de Crónica Perspectiva." />
+  <style>
+    :root{--accent:#3D55EF;--accent2:#0ea5e9;--bg:#0b1220;--panel:rgba(255,255,255,.06);--border:rgba(255,255,255,.14);--text:#e6edf3;--muted:#9fb0c0}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,Arial,sans-serif;background:linear-gradient(180deg,#091022, #0b1220);color:var(--text);line-height:1.65}
+    a{color:inherit}
+
+    .shell{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+    .side{position:sticky;top:0;align-self:start;height:100vh;padding:18px;border-right:1px solid var(--border);background:rgba(0,0,0,.25);backdrop-filter: blur(10px)}
+    .brand a{text-decoration:none;display:block;padding:14px;border-radius:14px;background:var(--panel);border:1px solid var(--border)}
+    .brand strong{display:block;font-size:18px;font-weight:950;letter-spacing:-.02em}
+    .brand span{display:block;margin-top:6px;color:var(--muted);font-size:13px}
+    .nav{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+    .nav a{text-decoration:none;display:flex;gap:10px;align-items:center;padding:12px;border-radius:12px;border:1px solid transparent;font-weight:850}
+    .nav a:hover{background:rgba(255,255,255,.09);border-color:var(--border)}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+
+    .content{padding:34px 22px 40px}
+    .kicker{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:#0b1220;background:#a7f3d0;border-radius:999px;padding:8px 12px}
+    h1{margin-top:14px;font-size:40px;line-height:1.08;letter-spacing:-.03em;font-weight:1000}
+    p.lead{margin-top:12px;color:var(--muted);max-width:78ch}
+
+    .grid{margin-top:20px;display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    .card h2{font-size:18px}
+
+    label{display:block;font-weight:900;font-size:13px;margin-top:12px;color:#cfe0ef}
+    input,textarea{width:100%;margin-top:8px;padding:12px;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,.15);color:var(--text);font:inherit}
+    textarea{min-height:140px;resize:vertical}
+    .btn{margin-top:14px;display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:12px 14px;font-weight:1000;cursor:pointer}
+    .note{margin-top:10px;color:var(--muted);font-size:13px}
+
+    .pill{display:inline-block;margin-top:10px;border:1px solid rgba(61,85,239,.4);color:#dbeafe;background:rgba(61,85,239,.18);padding:6px 10px;border-radius:999px;font-weight:950;font-size:12px}
+
+    .footer{margin-top:26px;border-top:1px solid var(--border);padding-top:16px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+    .footer a{color:var(--muted)}
+
+    @media (max-width: 980px){
+      .shell{grid-template-columns:1fr}
+      .side{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">
+        <a href="index.html">
+          <strong>Crónica Perspectiva</strong>
+          <span>Contacto editorial y legal</span>
+        </a>
+      </div>
+      <nav class="nav" aria-label="Navegación">
+        <a href="index.html"><span class="dot"></span> Inicio</a>
+        <a href="categorias.html"><span class="dot"></span> Categorías</a>
+        <a href="privacy.html"><span class="dot"></span> Privacidad</a>
+        <a href="terms.html"><span class="dot"></span> Términos</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div class="kicker">Escribinos</div>
+      <h1>Contacto</h1>
+      <p class="lead">Este sitio es estático. El formulario es informativo; para contacto directo, usa el email publicado.</p>
+
+      <div class="grid">
+        <section class="card">
+          <h2>Formulario</h2>
+          <form onsubmit="return false;">
+            <label for="name">Nombre</label>
+            <input id="name" name="name" type="text" placeholder="Tu nombre" required />
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="tu@email.com" required />
+
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" placeholder="Tu consulta" required></textarea>
+
+            <button class="btn" type="submit">Enviar</button>
+            <div class="note">Sugerencia: incluye enlaces específicos si reportas un error.</div>
+          </form>
+        </section>
+
+        <aside class="card">
+          <h2>Datos</h2>
+          <div class="pill">Respuesta en días hábiles</div>
+          <p class="note" style="margin-top:12px"><strong>Editorial:</strong> editorial@cronicaperspectiva.example</p>
+          <p class="note"><strong>Legal/Privacidad:</strong> legal@cronicaperspectiva.example</p>
+          <p class="note"><strong>Ubicación:</strong> Ciudad de México, México</p>
+        </aside>
+      </div>
+
+      <div class="footer">
+        <div>
+          <a href="about.html">Acerca de</a> ·
+          <a href="team.html">Equipo</a> ·
+          <a href="privacy.html">Privacidad</a> ·
+          <a href="terms.html">Términos</a>
+        </div>
+        <div>© 2026 Crónica Perspectiva</div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

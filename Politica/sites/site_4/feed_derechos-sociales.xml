@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>LDA Gazette - Derechos Sociales</title>
+    <link>https://sitio-4.com/categoria/derechos-sociales</link>
+    <description>Noticias de derechos sociales en LDA Gazette</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 20 Jan 2026 08:44:10 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://sitio-4.com/sites/site_4/feed_derechos-sociales.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Consenso escaso</title>
+      <link>https://www.elpais.com.uy/opinion/columnistas/consenso-escaso</link>
+      <guid>https://www.elpais.com.uy/opinion/columnistas/consenso-escaso</guid>
+      <description>El punto neurálgico que divide las aguas ha sido la valoración de principios como la democracia y el respeto a las libertades y a los derechos ciudadanos.</description>
+      <content:encoded>&lt;![CDATA[Texto no disponible]]&gt;</content:encoded>
+      <pubDate>Sun, 18 Jan 2026 05:45:00 +0000</pubDate>
+      <dc:creator>Pablo Mieres</dc:creator>
+      <category>Derechos y Políticas Sociales</category>
+      <enclosure url="https://imgs.elpais.com.uy/dims4/default/6bfc0ab/2147483647/strip/true/crop/1440x700+0+0/resize/1440x700!/quality/90/?url=https%3A%2F%2Fel-pais-uruguay-production-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fc5%2Ff9%2F5af15c6a49008f02d397c5e0d189%2Fdescarga.jpeg" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

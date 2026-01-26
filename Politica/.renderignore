@@ -1,0 +1,40 @@
+# Render Ignore - Backend
+
+# Frontend build artifacts
+dist/
+frontend/dist/
+frontend/node_modules/
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporales
+*.tmp
+*.temp
+
+# Tests
+test/
+tests/
+*.test.js
+*.spec.js
+
+# Documentación que no se necesita en runtime
+docs/
+*.md
+!README.md
+
+# Git
+.git/
+.gitignore
+.gitattributes

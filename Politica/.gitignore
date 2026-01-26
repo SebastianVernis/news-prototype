@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Environment
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+data/archive/
+data/noticias_*.json
+data/newsapi_*.csv
+data/newsapi_*.json
+scripts/newsapi_*.csv
+scripts/newsapi_*.json
+generated_sites/
+sites/site*.html
+images/news/*.jpg
+images/news/*.png
+
+# Logs
+*.log
+
+# Node
+node_modules/
+dist/
+
+# Build
+build/
+*.egg-info/
+.blackboxcli/

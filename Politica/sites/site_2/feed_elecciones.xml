@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>Crónica Perspectiva - Elecciones</title>
+    <link>https://sitio-2.com/categoria/elecciones</link>
+    <description>Noticias de elecciones en Crónica Perspectiva</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 20 Jan 2026 08:36:53 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://sitio-2.com/sites/site_2/feed_elecciones.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Denuncian intento de infiltración del PRI y PAN en estructuras territoriales de Morena</title>
+      <link>https://www.jornada.com.mx/2026/01/19/capital/030n2cap</link>
+      <guid>https://www.jornada.com.mx/2026/01/19/capital/030n2cap</guid>
+      <description>Una nueva controversia sacude las estructuras internas del partido Movimiento Regeneración Nacional (Morena) en la Ciudad de México. El concejal de la alcaldía Benito Juárez, Hugo Torres Zumaya, denunció públicamente lo que califica como un intento deliberado de infiltración por parte de militantes ...</description>
+      <content:encoded>&lt;![CDATA[Una nueva controversia sacude las estructuras internas del partido Movimiento Regeneración Nacional (Morena) en la Ciudad de México. El concejal de la alcaldía Benito Juárez, Hugo Torres Zumaya, denunció públicamente lo que califica como un intento deliberado de infiltración por parte de militantes del Partido Revolucionario Institucional (PRI) y del Partido Acción Nacional (PAN) en la organización de los comités seccionales del partido guinda. Esta acusación no solamente expone tensiones entre las fuerzas políticas de la capital, sino que también revela las estrategias que los partidos tradicionales estarían implementando para contrarrestar el dominio electoral de Morena en territorios históricamente disputados.
+
+Los hechos denunciados ocurrieron durante la jornada de votación para definir la presidencia del comité seccional 4290, ubicado en la emblemática colonia Narvarte de la alcaldía Benito Juárez. Según el testimonio del concejal Torres Zumaya, durante el desarrollo de la asamblea se presentó un funcionario de la Secretaría del Bienestar federal identificado como Saúl Martínez, quien habría llegado acompañado de un grupo numeroso de personas con la intención de participar en el proceso de votación interna. La presencia de estas personas generó inmediata sospecha entre los militantes morenistas presentes, quienes comenzaron a cuestionar la legitimidad de su participación en un proceso que debería estar reservado exclusivamente para miembros activos y reconocidos del partido.
+
+La denuncia adquiere mayor gravedad cuando Torres Zumaya señala que las personas llevadas por el funcionario federal tienen vínculos directos y comprobables con figuras prominentes de los partidos de oposición. Específicamente, el concejal afirmó que este grupo mantiene cercanía con Israel Betanzos, presidente local del PRI en la Ciudad de México; con Jorge Romero, presidente nacional del PAN; y con el diputado Federico Döring, reconocido legislador panista conocido por su activa oposición]]&gt;</content:encoded>
+      <pubDate>Mon, 19 Jan 2026 08:37:51 +0000</pubDate>
+      <dc:creator>DEMOS, Desarrollo de Medios, S.A. de C.V.</dc:creator>
+      <category>Elecciones y Partidos</category>
+      <enclosure url="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Oposición al chavismo activa censo de venezolanos en el exilio que quieren regresar a su país</title>
+      <link>https://www.elpais.com.uy/mundo/oposicion-al-chavismo-activa-censo-de-venezolanos-en-el-exilio-que-quieren-regresar-a-su-pais</link>
+      <guid>https://www.elpais.com.uy/mundo/oposicion-al-chavismo-activa-censo-de-venezolanos-en-el-exilio-que-quieren-regresar-a-su-pais</guid>
+      <description>El partido de María Corina Machado inició un relevamiento en Ecuador; el régimen de Maduro retiró la embajada de Venezuela de allí, por lo que no se tienen datos actualizados de los migrantes.</description>
+      <content:encoded>&lt;![CDATA[Texto no disponible]]&gt;</content:encoded>
+      <pubDate>Mon, 19 Jan 2026 05:25:00 +0000</pubDate>
+      <dc:creator>Fabiana Culshaw</dc:creator>
+      <category>Elecciones y Partidos</category>
+      <enclosure url="https://imgs.elpais.com.uy/dims4/default/819eb6f/2147483647/strip/true/crop/8256x4013+0+7/resize/1440x700!/quality/90/?url=https%3A%2F%2Fel-pais-uruguay-production-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F5b%2F8d%2F835e943c4343b77d1f8fd0c3b4ff%2Fimagen-afp-92vj8u9.jpg" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

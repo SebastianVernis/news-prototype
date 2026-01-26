@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-01-20T01:14:14.444338",
+  "config": {
+    "articulos": 2,
+    "modo": "test_rapido"
+  },
+  "steps": {
+    "dependencies": {
+      "status": "success"
+    },
+    "fetch": {
+      "status": "success",
+      "count": 2
+    },
+    "paraphrase": {
+      "status": "success",
+      "variations": 2
+    },
+    "metadata": {
+      "status": "success",
+      "site_name": null,
+      "domain": null
+    },
+    "design": {
+      "status": "success",
+      "palette": null,
+      "fonts": "corporate_professional",
+      "layout": "responsive"
+    },
+    "logo": {
+      "status": "success",
+      "size": 308,
+      "style": "typographic_modern"
+    },
+    "save": {
+      "status": "success",
+      "output_dir": "test_output_flujo"
+    }
+  },
+  "success": true,
+  "tiempo_total_segundos": 35.72353935241699,
+  "stats": {
+    "noticias_parafraseadas": 2,
+    "sitios_creados": 1
+  }
+}

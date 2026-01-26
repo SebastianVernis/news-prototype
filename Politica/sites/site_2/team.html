@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equipo - Crónica Perspectiva</title>
+  <meta name="description" content="Equipo y criterios editoriales de Crónica Perspectiva." />
+  <style>
+    :root{--accent:#3D55EF;--accent2:#0ea5e9;--bg:#0b1220;--panel:rgba(255,255,255,.06);--border:rgba(255,255,255,.14);--text:#e6edf3;--muted:#9fb0c0}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,Arial,sans-serif;background:linear-gradient(180deg,#091022, #0b1220);color:var(--text);line-height:1.65}
+    a{color:inherit}
+
+    .shell{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+    .side{position:sticky;top:0;align-self:start;height:100vh;padding:18px;border-right:1px solid var(--border);background:rgba(0,0,0,.25);backdrop-filter: blur(10px)}
+    .brand a{text-decoration:none;display:block;padding:14px;border-radius:14px;background:var(--panel);border:1px solid var(--border)}
+    .brand strong{display:block;font-size:18px;font-weight:950;letter-spacing:-.02em}
+    .brand span{display:block;margin-top:6px;color:var(--muted);font-size:13px}
+    .nav{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+    .nav a{text-decoration:none;display:flex;gap:10px;align-items:center;padding:12px;border-radius:12px;border:1px solid transparent;font-weight:850}
+    .nav a:hover{background:rgba(255,255,255,.09);border-color:var(--border)}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+
+    .content{padding:34px 22px 40px}
+    .kicker{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:#0b1220;background:#a7f3d0;border-radius:999px;padding:8px 12px}
+    h1{margin-top:14px;font-size:40px;line-height:1.08;letter-spacing:-.03em;font-weight:1000}
+    p.lead{margin-top:12px;color:var(--muted);max-width:78ch}
+
+    .note{margin-top:18px;background:rgba(0,0,0,.18);border:1px dashed rgba(255,255,255,.22);border-radius:16px;padding:14px;color:#d7e2ec}
+
+    .grid{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    .avatar{width:44px;height:44px;border-radius:14px;background:rgba(61,85,239,.25);border:1px solid rgba(61,85,239,.35)}
+    .name{margin-top:10px;font-weight:1000}
+    .role{margin-top:4px;color:var(--muted);font-size:13px}
+    .bio{margin-top:10px;color:#d7e2ec;font-size:14px}
+
+    .footer{margin-top:26px;border-top:1px solid var(--border);padding-top:16px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+    .footer a{color:var(--muted)}
+
+    @media (max-width: 980px){
+      .shell{grid-template-columns:1fr}
+      .side{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">
+        <a href="index.html">
+          <strong>Crónica Perspectiva</strong>
+          <span>Equipo editorial</span>
+        </a>
+      </div>
+      <nav class="nav" aria-label="Navegación">
+        <a href="index.html"><span class="dot"></span> Inicio</a>
+        <a href="about.html"><span class="dot"></span> Acerca de</a>
+        <a href="contact.html"><span class="dot"></span> Contacto</a>
+        <a href="privacy.html"><span class="dot"></span> Privacidad</a>
+        <a href="terms.html"><span class="dot"></span> Términos</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div class="kicker">Transparencia editorial</div>
+      <h1>Equipo</h1>
+      <p class="lead">
+        Presentación de roles del equipo. Las firmas de artículos pueden corresponder a redacción, agencias
+        o colaboradores.
+      </p>
+
+      <div class="note">
+        Para correcciones o aclaraciones, escribí desde <a href="contact.html">Contacto</a> con el enlace del artículo.
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <div class="avatar"></div>
+          <div class="name">Dirección Editorial</div>
+          <div class="role">Lineamientos</div>
+          <div class="bio">Define estándares de estilo, atribución y priorización temática.</div>
+        </section>
+        <section class="card">
+          <div class="avatar"></div>
+          <div class="name">Redacción</div>
+          <div class="role">Cobertura</div>
+          <div class="bio">Seguimiento de agenda, síntesis y publicación por secciones.</div>
+        </section>
+        <section class="card">
+          <div class="avatar"></div>
+          <div class="name">Verificación</div>
+          <div class="role">Control de calidad</div>
+          <div class="bio">Revisión básica de consistencia, enlaces y metadatos.</div>
+        </section>
+        <section class="card">
+          <div class="avatar"></div>
+          <div class="name">Producto</div>
+          <div class="role">Web</div>
+          <div class="bio">Estructura del sitio, performance y mantenimiento.</div>
+        </section>
+      </div>
+
+      <div class="footer">
+        <div>
+          <a href="about.html">Acerca de</a> ·
+          <a href="contact.html">Contacto</a> ·
+          <a href="privacy.html">Privacidad</a> ·
+          <a href="terms.html">Términos</a>
+        </div>
+        <div>© 2026 Crónica Perspectiva</div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>InfoNacionalDigital - Elecciones</title>
+    <link>https://sitio-3.com/categoria/elecciones</link>
+    <description>Noticias de elecciones en InfoNacionalDigital</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 20 Jan 2026 08:40:24 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://sitio-3.com/sites/site_3/feed_elecciones.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PT y Segob acuerdan ‘construir juntos’ la iniciativa de reforma electoral</title>
+      <link>https://aristeguinoticias.com/180126/mexico/pt-y-segob-acuerdan-construir-juntos-la-iniciativa-de-reforma-electoral/</link>
+      <guid>https://aristeguinoticias.com/180126/mexico/pt-y-segob-acuerdan-construir-juntos-la-iniciativa-de-reforma-electoral/</guid>
+      <description>El acuerdo se dio tras declaraciones del líder del PT en la Cámara de Diputados, Reginaldo Sandoval, quien cuestionó la necesidad de la reforma electoral y destacó el papel de su partido y del PVEM en la aprobación de cambios constitucionales.</description>
+      <content:encoded>&lt;![CDATA[Texto no disponible]]&gt;</content:encoded>
+      <pubDate>Sun, 18 Jan 2026 11:54:34 +0000</pubDate>
+      <dc:creator>Redacción AN / MDS</dc:creator>
+      <category>Elecciones y Partidos</category>
+      <enclosure url="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/01/rosa-icela-alberto-anaya-pt-reforma-electoral-18012026.jpg" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

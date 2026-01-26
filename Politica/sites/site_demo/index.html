@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <!-- SEO Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Las Noticias más Recientes. Portal de noticias políticas.">
+    <meta name="keywords" content="política méxico, noticias políticas, análisis político, gobierno méxico">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ejemplo.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ejemplo.com">
+    <meta property="og:title" content="IUM Report - Las Noticias más Recientes">
+    <meta property="og:description" content="Las Noticias más Recientes. Portal de noticias políticas.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=Política+México">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="IUM Report">
+    <meta property="og:locale" content="es_MX">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ejemplo.com">
+    <meta name="twitter:title" content="IUM Report">
+    <meta name="twitter:description" content="Las Noticias más Recientes. Portal de noticias políticas.">
+    <meta name="twitter:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=Política+México">
+    <meta name="twitter:site" content="@IUMReport">
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="IUM Report RSS Feed" href="https://ejemplo.com/feed.xml">
+    
+    <!-- Theme -->
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "IUM Report",
+      "description": "Las Noticias más Recientes. Portal de noticias políticas.",
+      "url": "https://ejemplo.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://ejemplo.com/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "IUM Report",
+        "url": "https://ejemplo.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ejemplo.com/assets/logo.png"
+        }
+      }
+    }
+    </script>
+
+    <title>IUM Report - Las Noticias más Recientes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+        .hero {
+            background: linear-gradient(135deg, #B10B1F, #F1F1F1);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.25rem; opacity: 0.95; }
+        .nav {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .nav a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: #B10B1F;
+            font-weight: 600;
+        }
+        .nav a:hover { text-decoration: underline; }
+        .articles-grid {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .article-content {
+            padding: 1.5rem;
+        }
+        .category-badge {
+            display: inline-block;
+            background: #B10B1F20;
+            color: #B10B1F;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+        }
+        .article-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .article-meta {
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+    </style>
+
+    <style>
+
+/* Preloader Slide Down */
+.preloader-slide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.preloader-curtain {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(135deg, #B10B1F 0%, #F1F1F1 100%);
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.preloader-curtain-top {
+    top: 0;
+}
+
+.preloader-curtain-bottom {
+    bottom: 0;
+}
+
+.preloader-slide.loaded .preloader-curtain-top {
+    transform: translateY(-100%);
+}
+
+.preloader-slide.loaded .preloader-curtain-bottom {
+    transform: translateY(100%);
+}
+
+.preloader-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.preloader-slide.loaded .preloader-logo {
+    opacity: 0;
+}
+
+.preloader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+    </style>
+</head>
+<body>
+<!-- Preloader Slide Down -->
+<div id="preloader" class="preloader-slide">
+    <div class="preloader-curtain preloader-curtain-top"></div>
+    <div class="preloader-curtain preloader-curtain-bottom"></div>
+    <div class="preloader-logo">
+        <div class="preloader-spinner"></div>
+    </div>
+</div>
+
+    <header class="hero">
+        <h1>IUM Report</h1>
+        <p>Las Noticias más Recientes</p>
+    </header>
+    
+    <nav class="nav">
+        <a href="index.html">🏠 Inicio</a>
+        <a href="categorias.html">📑 Categorías</a>
+        <a href="feed.xml">📡 RSS</a>
+    </nav>
+    
+    <div class="articles-grid">
+        
+        <article class="article-card">
+            <a href="article_1.html" style="text-decoration: none; color: inherit;">
+                <img src="images/news_1.jpg" alt="FMI eleva previsión de crecimiento global a 3,3% por auge tecnológico pero advierte sobre riesgos comerciales" class="article-image">
+                <div class="article-content">
+                    <span class="category-badge">Política Internacional</span>
+                    <h2 class="article-title">FMI eleva previsión de crecimiento global a 3,3% por auge tecnológico pero advierte sobre riesgos comerciales</h2>
+                    <p class="article-description">El Fondo Monetario Internacional ha revisado al alza sus proyecciones económicas globales para 2026, presentando un panorama más optimista impulsado p...</p>
+                    <div class="article-meta">
+                        <span>👤 Montevideo Portal</span>
+                        <span>📅 2026-01-19</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_2.html" style="text-decoration: none; color: inherit;">
+                <img src="images/news_2.jpg" alt="México y Estados Unidos refuerzan coordinación bilateral contra el crimen organizado tras un año de Trump" class="article-image">
+                <div class="article-content">
+                    <span class="category-badge">Seguridad y Justicia</span>
+                    <h2 class="article-title">México y Estados Unidos refuerzan coordinación bilateral contra el crimen organizado tras un año de Trump</h2>
+                    <p class="article-description">A un año del regreso de Donald Trump a la presidencia de Estados Unidos para su segunda administración, la relación bilateral entre México y Washingto...</p>
+                    <div class="article-meta">
+                        <span>👤 Liliana Estevez</span>
+                        <span>📅 2026-01-19</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+        <article class="article-card">
+            <a href="article_3.html" style="text-decoration: none; color: inherit;">
+                <img src="https://via.placeholder.com/400x200/667eea/ffffff?text=Noticia" alt="Trump enfrenta creciente resistencia judicial: tensiones con la Suprema Corte estadounidense" class="article-image">
+                <div class="article-content">
+                    <span class="category-badge">Poder Judicial</span>
+                    <h2 class="article-title">Trump enfrenta creciente resistencia judicial: tensiones con la Suprema Corte estadounidense</h2>
+                    <p class="article-description">La administración del presidente Donald Trump atraviesa un momento de creciente complejidad en el frente interno, marcado por una paradoja fundamental...</p>
+                    <div class="article-meta">
+                        <span>👤 Alonso Romero</span>
+                        <span>📅 2026-01-19</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 IUM Report. Todos los derechos reservados.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="feed.xml" style="color: white;">📡 Suscríbete al RSS</a> • 
+            <a href="categorias.html" style="color: white;">📑 Ver Categorías</a>
+        </p>
+    </footer>
+
+    <script>
+
+// Preloader Slide Down
+window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+    
+    // Pequeño delay para efecto
+    setTimeout(() => {
+        preloader.classList.add('loaded');
+        
+        // Remover del DOM
+        setTimeout(() => {
+            preloader.remove();
+        }, 1000);
+    }, 500);
+});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: tech_cyan - Cyan tecnológico futurista */
+    --primary-color: #00ACC1;
+    --secondary-color: #26C6DA;
+    --accent-color: #FF6F00;
+    --background-color: #E0F7FA;
+    --background-color-2: #E0F7FA;
+    --text-color: #006064;
+    --light-text: #4DD0E1;
+    --urgent-color: #FF6F00;
+    --card-bg: #FFFFFF;
+}

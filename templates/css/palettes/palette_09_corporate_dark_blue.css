@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: corporate_dark_blue - Azul oscuro corporativo */
+    --primary-color: #34495E;
+    --secondary-color: #2980B9;
+    --accent-color: #E67E22;
+    --background-color: #ECF0F1;
+    --background-color-2: #FFFFFF;
+    --text-color: #2C3E50;
+    --light-text: #95A5A6;
+    --urgent-color: #E67E22;
+    --card-bg: #FFFFFF;
+}

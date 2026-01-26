@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: professional_blue - Azul profesional corporativo */
+    --primary-color: #2C3E50;
+    --secondary-color: #3498DB;
+    --accent-color: #E74C3C;
+    --background-color: #ECF0F1;
+    --background-color-2: #FFFFFF;
+    --text-color: #2C3E50;
+    --light-text: #7F8C8D;
+    --urgent-color: #E74C3C;
+    --card-bg: #FFFFFF;
+}

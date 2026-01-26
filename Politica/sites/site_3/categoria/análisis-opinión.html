@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Análisis y Opinión - Noticias y análisis de InfoNacionalDigital">
+    <meta name="keywords" content="análisis y opinión, política méxico, noticias">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Análisis y Opinión - InfoNacionalDigital">
+    <meta property="og:description" content="Noticias de Análisis y Opinión en InfoNacionalDigital">
+    <meta property="og:url" content="https://sitio-3.com/categoria/análisis-opinión.html">
+    
+    <title>Análisis y Opinión - InfoNacionalDigital</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1C1C1C 0%, #F5F5F5 100%);
+            color: white;
+            padding: 2rem 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-header {
+            background: white;
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            color: #1C1C1C;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .article-count {
+            display: inline-block;
+            background: #1C1C1C;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .articles-grid {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1C1C1C 0%, #F5F5F5 100%);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: #1C1C1C20;
+            color: #1C1C1C;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .article-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="site-name">InfoNacionalDigital</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Inicio</a> › <span>Análisis y Opinión</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="category-header">
+        <h1 class="category-title">Análisis y Opinión</h1>
+        <p class="category-description">Noticias y análisis político de análisis y opinión</p>
+        <span class="article-count">7 artículos</span>
+    </div>
+    
+    <div class="articles-grid">
+
+        <a href="../article_1.html" class="article-card">
+            <img src="https://e01-phantom-elmundo.uecdn.es/e02ff09f06b86f6c05d17fd866a1f97a/resize/1200/f/webp/assets/multimedia/imagenes/2026/01/17/17686605542261.jpg" alt="Félix Ovejero denuncia la complicidad de la izquierda en legitimar el nacionalismo territorial español" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Félix Ovejero denuncia la complicidad de la izquierda en legitimar el nacionalismo territorial español</h2>
+                <p class="article-description">El destacado ensayista y académico Félix Ovejero Lucas presenta su más reciente obra titulada "La invención del agravio. Nacionalismo y crisis de la democracia española", publicada por Alianza Editori</p>
+                <div class="article-meta">
+                    <span>👤 David Mejía</span>
+                    <span>📅 2026-01-18</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_2.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2026/01/18/ticketmaster-responde-precios-boletos-conciertos-2.jpg" alt="¿Cuánto costarán los boletos de BTS? La respuesta de Ticketmaster que enfureció al ARMY" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">¿Cuánto costarán los boletos de BTS? La respuesta de Ticketmaster que enfureció al ARMY</h2>
+                <p class="article-description">La expectativa por los conciertos de BTS en el Estadio GNP Seguros de la Ciudad de México los días 7, 9 y 10 de mayo sigue creciendo, pero la comunidad ARMY mantiene la presión sobre Ticketmaster ante</p>
+                <div class="article-meta">
+                    <span>👤 Javier Chávez M</span>
+                    <span>📅 2026-01-18</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_3.html" class="article-card">
+            <img src="https://cdn.forbes.com.mx/2024/09/personal-trabajo-presencial-hibrido.webp" alt="‘Schadenfreude’ o la alegría de ver el fracaso ajeno: ¿está bien sentirlo en el trabajo?" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">‘Schadenfreude’ o la alegría de ver el fracaso ajeno: ¿está bien sentirlo en el trabajo?</h2>
+                <p class="article-description">Forbes México.
+ ‘Schadenfreude’ o la alegría de ver el fracaso ajeno: ¿está bien sentirlo en el trabajo?
+
+Este sentimiento muy probablemente lo hemos experimentado, a veces de manera intencional y otr</p>
+                <div class="article-meta">
+                    <span>👤 Forbes México Staff</span>
+                    <span>📅 2026-01-18</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_4.html" class="article-card">
+            <img src="https://i.blogs.es/984df8/copia-de-lo-que-te-cuenta-netflix/840_560.jpeg" alt="Los mejores libros para leer en 2026: una selección de lecturas de todos los géneros para un año entre páginas" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Los mejores libros para leer en 2026: una selección de lecturas de todos los géneros para un año entre páginas</h2>
+                <p class="article-description">Vamos a recomendarte unas cuantas lecturas para 2026, pero sin ponernos excesivas condiciones: no todos son libros recién aparecidos en las librerías, aunque algunos sí; no todos son éxitos de ventas,</p>
+                <div class="article-meta">
+                    <span>👤 John Tones</span>
+                    <span>📅 2026-01-18</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_5.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/FNDTLXULKJDHDOQPVLTU72I5L4.png?smart=true&auth=1c9d2cbb069423b708b42b7fd2cfbc5058f7f3b84593e54b991f52e738e3d0d6&width=1200&height=630" alt="Defensores de su padre y de bajo perfil: ¿Quiénes son los hijos de Felipe Calderón y a qué se dedican?" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Defensores de su padre y de bajo perfil: ¿Quiénes son los hijos de Felipe Calderón y a qué se dedican?</h2>
+                <p class="article-description">A más de una década del sexenio de Felipe Calderón, su familia conserva presencia pública, con uno de sus hijos activo en el debate político y otros dos alejados del escenario nacional.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción</span>
+                    <span>📅 2026-01-18</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_6.html" class="article-card">
+            <img src="https://mfes.b37m.ru/actualidad/public_images/2026.01/article/696cc50059bf5b4fee07fc5f.jpg" alt="La apuesta de Trump por Groenlandia: podría entrar en la historia junto a Polk y McKinley" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">La apuesta de Trump por Groenlandia: podría entrar en la historia junto a Polk y McKinley</h2>
+                <p class="article-description">La posible incorporación de Groenlandia —con sus 2,1 millones de km²— tendría un impacto comparable.</p>
+                <div class="article-meta">
+                    <span>👤 RT en Español
+ , RT en Español</span>
+                    <span>📅 2026-01-18</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_7.html" class="article-card">
+            <img src="https://www.latercera.com/resizer/v2/G6T2E7HV55GKNOKBI7LIJ5R3IU.jpg?auth=5a263494b2618a63473748d4057fbed502456e174bf5f21f632e14e25ee23edd&height=630&width=1200&smart=true" alt="Alan McPherson: “América Latina tiene razón en estar preocupada por Trump”" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Alan McPherson: “América Latina tiene razón en estar preocupada por Trump”</h2>
+                <p class="article-description">El historiador de la Universidad de Temple y experto en las intervenciones estadounidenses en América Latina dice ser “pesimista sobre las perspectivas a largo plazo para los venezolanos”.</p>
+                <div class="article-meta">
+                    <span>👤 Fernando Fuentes</span>
+                    <span>📅 2026-01-18</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 InfoNacionalDigital. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="../feed_análisis-opinión.xml" style="color: white;">📡 RSS de esta categoría</a>
+        </p>
+    </footer>
+</body>
+</html>

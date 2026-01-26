@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>LDA Gazette - Elecciones</title>
+    <link>https://sitio-4.com/categoria/elecciones</link>
+    <description>Noticias de elecciones en LDA Gazette</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 20 Jan 2026 08:44:10 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://sitio-4.com/sites/site_4/feed_elecciones.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Donald Trump o la muerte del escándalo</title>
+      <link>https://www.elconfidencial.com/cultura/2026-01-18/trump-palabras-mentiras-propaganda-consecuencias_4285428/</link>
+      <guid>https://www.elconfidencial.com/cultura/2026-01-18/trump-palabras-mentiras-propaganda-consecuencias_4285428/</guid>
+      <description>En la campaña de 2016, Donald Trump aseguró que &amp;quot;Podría pararme en medio de la Quinta Avenida y dispararle a alguien, y no perdería ningún votante&amp;quot;. Era verdad</description>
+      <content:encoded>&lt;![CDATA[Acaba de comenzar 2026 y laactualidad política diaria, como es habitual desde hace diez años, está marcada por lasdeclaraciones de Donald Trump.Cada mañana de la última década somosrehenes de las palabrasdel político, que no en vano fuepresentador de televisión. Cada vez cuesta más levantar una ceja frente a las patochadas escandalosas que son el pan nuestro de cada día. Todo comenzó con el famoso "grab them by the pussy" — agarrarlas del coño, en español — en la primeracampaña presidencial. Con estos bonitos versos alejandrinos, ejemplos del más caballeroso amor cortés,comenzó el carrusel de la enajenación colectiva, golpe a golpe, palabra a palabra. Desde losinsultos misóginosa sus rivales — del "nasty woman" contra Hillary al "discapacitada mental" sobre Harris — pasando por ladesaprobación sistemáticaa toda laprofesión periodística, especialmente si la ejercen mujeres a las que ha llamado de manera frontal y pública cerdas, feas, asquerosas y estúpidas. Cuando se le ha puesto contra las cuerdas al respecto, de nuevo ha abierto su bocaza polutoria y dicho: "¿Saben por qué lo hago? Lo hago paradenigrarles y desacreditarles, para que cuando escriban historias negativas sobre mí, nadie les crea". Lo mismo han sufridolíderes internacionales democráticos— ese malicioso "me gusta tu ropa" que dedicó aZelenski— ycomunidades enteras, especialmente migrantes — calificó a lospaíses de procedenciacomo "pocilgas" y a los ciudadanos somalíes como "basura" —. Si lo que Juan dice de Pedro, dice más de Juan que de Pedro, no sé qué puede decir esto de suaudiencia,de los mediosy de todos los demás. A la vez que desarrolla esta estrategia ofensiva,Trump altera la realidad con las palabras. En ocasiones de manera simbólica, como con elreconocimiento de Jerusalén como capital de Israelo el cambio de nombre al golfo de México, otras veces mediante la simple mentira. ElWashington Postcontabilizómás de 29.000 bulos e inexactitudesde la boca del presidente en suprimer mandato. Así llegam]]&gt;</content:encoded>
+      <pubDate>Sun, 18 Jan 2026 04:00:00 +0000</pubDate>
+      <dc:creator>María Díaz</dc:creator>
+      <category>Elecciones y Partidos</category>
+      <enclosure url="https://images.ecestaticos.com/BwUfJCh4Pxdl9j1jtba9vJ9egoM=/0x0:2272x1515/600x315/filters:fill(white):format(jpg):quality(99):watermark(f.elconfidencial.com/file/bae/eea/fde/baeeeafde1b3229287b0c008f7602058.png,0,275,1)/f.elconfidencial.com/original/6c1/c3c/d66/6c1c3cd6670d2bda12e7ce8cc254c0e7.jpg" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

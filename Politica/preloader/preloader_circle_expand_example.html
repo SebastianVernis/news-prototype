@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo Preloader circle-expand</title>
+    <style>
+
+.preloader-circle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.6s ease;
+}
+.preloader-circle.loaded {
+    opacity: 0;
+    pointer-events: none;
+}
+.circle-expand {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border: 3px solid white;
+    border-radius: 50%;
+    animation: expandCircle 1.5s ease-in-out infinite;
+}
+.preloader-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes expandCircle {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+        body { font-family: Arial, sans-serif; padding: 2rem; }
+        h1 { color: #667eea; }
+    </style>
+</head>
+<body>
+
+<div id="preloader" class="preloader-circle">
+    <div class="circle-expand"></div>
+    <div class="preloader-text">Cargando...</div>
+</div>
+    <h1>Preloader: circle-expand</h1>
+    <p>Este preloader usa el estilo "circle-expand". Recarga la página para ver la animación de nuevo.</p>
+    
+    <script>
+
+window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+    setTimeout(() => {
+        preloader.classList.add('loaded');
+        setTimeout(() => preloader.remove(), 600);
+    }, 800);
+});
+    </script>
+</body>
+</html>

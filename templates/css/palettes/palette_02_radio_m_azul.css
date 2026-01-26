@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: radio_m_azul - Azul Radio M moderno */
+    --primary-color: #3D55EF;
+    --secondary-color: #F7F9F8;
+    --accent-color: #0693E3;
+    --background-color: #FFFFFF;
+    --background-color-2: #EFEFEF;
+    --text-color: #202124;
+    --light-text: #999999;
+    --urgent-color: #CF2E2E;
+    --card-bg: #FFFFFF;
+}

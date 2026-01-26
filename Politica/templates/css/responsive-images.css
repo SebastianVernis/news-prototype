@@ -1,0 +1,179 @@
+/* ===========================================
+   OPTIMIZACIÓN DE IMÁGENES RESPONSIVAS
+   Aplica a todos los templates
+   =========================================== */
+
+/* Reset básico para todas las imágenes */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Imágenes en cards de noticias */
+.news-card img,
+.card-image,
+.card-image-wrapper img {
+    max-height: 240px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Hero sections */
+.hero-full img,
+.hero-image {
+    max-height: 500px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-main img {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-item img,
+.hero-secondary img {
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Featured sections */
+.featured-article img,
+.article-image img {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.featured-card img {
+    max-height: 250px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Carousel */
+.carousel-slide img {
+    max-height: 450px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Stacked layouts */
+.stacked-item img {
+    max-height: 300px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Timeline */
+.timeline-content img {
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    margin: 10px 0;
+}
+
+/* Sidebar widgets */
+.widget img,
+.recent-list img,
+.trending-list img {
+    max-width: 80px;
+    max-height: 60px;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Magazine y Masonry */
+.layout-magazine .card-image,
+.layout-masonry .card-image {
+    max-height: 220px;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* Grid de noticias */
+.news-grid img {
+    max-height: 240px;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .news-card img,
+    .card-image,
+    .card-image-wrapper img {
+        max-height: 200px;
+    }
+    
+    .hero-full img,
+    .hero-image {
+        max-height: 300px;
+    }
+    
+    .hero-main img {
+        max-height: 250px;
+    }
+    
+    .featured-article img {
+        max-height: 250px;
+    }
+    
+    .carousel-slide img {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .news-card img,
+    .card-image,
+    .card-image-wrapper img {
+        max-height: 180px;
+    }
+    
+    .hero-full img,
+    .hero-image {
+        max-height: 200px;
+    }
+    
+    .hero-main img {
+        max-height: 200px;
+    }
+    
+    .carousel-slide img {
+        max-height: 220px;
+    }
+}
+
+/* Prevenir imágenes rotas de expandirse */
+img[alt] {
+    font-size: 0.85rem;
+    text-align: center;
+    background: #f0f0f0;
+    color: #999;
+    padding: 20px;
+}
+
+/* Lazy loading visual hint */
+img[loading="lazy"] {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}

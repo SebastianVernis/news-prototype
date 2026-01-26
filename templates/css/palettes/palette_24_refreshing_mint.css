@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: refreshing_mint - Menta refrescante */
+    --primary-color: #00695C;
+    --secondary-color: #00897B;
+    --accent-color: #FF6F00;
+    --background-color: #E0F2F1;
+    --background-color-2: #E0F2F1;
+    --text-color: #004D40;
+    --light-text: #26A69A;
+    --urgent-color: #FF6F00;
+    --card-bg: #FFFFFF;
+}

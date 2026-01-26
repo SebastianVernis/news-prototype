@@ -1,0 +1,14 @@
+{
+  "site_number": 4,
+  "site_name": "LDA Gazette",
+  "layout": 4,
+  "usa_sidebar": true,
+  "preloader": "progress-circle",
+  "total_articulos": 20,
+  "destacados": 3,
+  "placeholders": 17,
+  "imagenes_descargadas": 9,
+  "rss_feeds": 7,
+  "categorias_activas": 6,
+  "tiempo_generacion": 225.45237278938293
+}

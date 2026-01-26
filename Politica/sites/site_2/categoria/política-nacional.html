@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Política Nacional - Noticias y análisis de Crónica Perspectiva">
+    <meta name="keywords" content="política nacional, política méxico, noticias">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Política Nacional - Crónica Perspectiva">
+    <meta property="og:description" content="Noticias de Política Nacional en Crónica Perspectiva">
+    <meta property="og:url" content="https://sitio-2.com/categoria/política-nacional.html">
+    
+    <title>Política Nacional - Crónica Perspectiva</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3D55EF 0%, #F7F9F8 100%);
+            color: white;
+            padding: 2rem 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-header {
+            background: white;
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            color: #3D55EF;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .article-count {
+            display: inline-block;
+            background: #3D55EF;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .articles-grid {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #3D55EF 0%, #F7F9F8 100%);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: #3D55EF20;
+            color: #3D55EF;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .article-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="site-name">Crónica Perspectiva</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Inicio</a> › <span>Política Nacional</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="category-header">
+        <h1 class="category-title">Política Nacional</h1>
+        <p class="category-description">Noticias y análisis político de política nacional</p>
+        <span class="article-count">9 artículos</span>
+    </div>
+    
+    <div class="articles-grid">
+
+        <a href="../article_1.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Investigación penal a Jerome Powell desata tensión en mercados financieros globales" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Investigación penal a Jerome Powell desata tensión en mercados financieros globales</h2>
+                <p class="article-description">La relación cada vez más deteriorada entre Donald Trump, presidente de Estados Unidos, y Jerome Powell, presidente de la Reserva Federal (Fed), ha generado una nueva ola de incertidumbre en los mercad</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_2.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Movimiento Ciudadano advierte que reforma electoral desviaría atención de crisis con Estados Unidos" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Movimiento Ciudadano advierte que reforma electoral desviaría atención de crisis con Estados Unidos</h2>
+                <p class="article-description">Movimiento Ciudadano (MC) ha expresado públicamente su posición contraria a discutir en este momento una reforma electoral en México, argumentando que el contexto nacional e internacional exige priori</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_3.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Seguirá alianza con la 4T aun con diferendos en la reforma electoral: PVEM" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Seguirá alianza con la 4T aun con diferendos en la reforma electoral: PVEM</h2>
+                <p class="article-description">Frente a la eventual discusión de la iniciativa de reforma electoral que está por enviar la Presidencia de la República al Congreso de la Unión, el Partido Verde Ecologista de México (PVEM) no descart</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_4.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/AAXG6UOUTFGW5KMT3K3MTXNM54.jpeg?smart=true&auth=eeaccaa718f92e0f54cf037d8140e3e76a496782b18fa142ab2c321cd1bc6afd&width=1200&height=630" alt="‘La ‘4T’ tiene que reconocer la legitimidad de otros partidos’: José Woldenberg" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">‘La ‘4T’ tiene que reconocer la legitimidad de otros partidos’: José Woldenberg</h2>
+                <p class="article-description">José Woldenberg alertó que la reforma electoral de la 4T puede erosionar la pluralidad política y debilitar la legitimidad democrática si se diseña desde el poder y para el poder.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_5.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/QXPS4BWH4RAY5BUP6ZGIBYZ32M.jpeg?smart=true&auth=1f7292c96d84c8c7f41049a1df6a25f247d18aa42d63a50dca5d6b684348e844&width=1200&height=630" alt="La reforma electoral y las herencias que amenazan al régimen" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">La reforma electoral y las herencias que amenazan al régimen</h2>
+                <p class="article-description">La reforma electoral queda atrapada en disputas internas, resistencias de aliados y el debate sobre nepotismo y autonomía, exhibiendo que los mayores obstáculos del régimen están dentro de su propia c</p>
+                <div class="article-meta">
+                    <span>👤 Salvador Camarena</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_6.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/TIDYGTUMZRGVVOJ5AZZTCCSNOU.jpg?smart=true&auth=dd35fc2dfd036ab11ad8ed84df789f3108f3eb956033105b3b673945cc9b57ad&width=1200&height=630" alt="Renovado el TFJA" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Renovado el TFJA</h2>
+                <p class="article-description">José Ramón Amieva Gálvez inició su gestión al frente del Tribunal Federal de Justicia Administrativa, en una sucesión sin sobresaltos que marca continuidad institucional tras la salida de Guillermo Va</p>
+                <div class="article-meta">
+                    <span>👤 Confidencial .</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_7.html" class="article-card">
+            <img src="https://www.df.cl/noticias/site/artic/20260116/imag/foto_0000000620260116185700.jpg" alt="Aranceles, ataques a la Fed y cierre del Gobierno:el primer año de Trump en hitos y cifras" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Aranceles, ataques a la Fed y cierre del Gobierno:el primer año de Trump en hitos y cifras</h2>
+                <p class="article-description">El Presidente de EEUU muestra como resultado -hasta el minuto- un menor déficit comercial, pero también una actividad en desaceleración y muchas tensiones globales.</p>
+                <div class="article-meta">
+                    <span>👤 Amanda Santillán</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_8.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/AJOB473YIZHGHABOOOQCCED3GU.jpeg?smart=true&auth=66f7fc662d334ca9daa73b71afead85f5a9a3acbb7eb00b15270bf377f94e944&width=1200&height=630" alt="Welcome to Canada: Nuevo acuerdo entre Carney y Xi Jinping favorecerá a autos chinos... pero con condiciones" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Welcome to Canada: Nuevo acuerdo entre Carney y Xi Jinping favorecerá a autos chinos... pero con condiciones</h2>
+                <p class="article-description">Trump pretende que los fabricantes de automóviles  trasladen sus empresas a Estados Unidos desde Canadá.</p>
+                <div class="article-meta">
+                    <span>👤 Brian Platt</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_9.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2025/10/18/jorge-romero-anuncia-generacion-panistas.jpeg" alt="Reforma electoral busca legalizar dinero del 'narco' en política, acusa el PAN" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Reforma electoral busca legalizar dinero del 'narco' en política, acusa el PAN</h2>
+                <p class="article-description">El presidente nacional del PAN, Jorge Romero, advirtió que la reforma electoral impulsada por Morena busca legalizar el dinero del crimen organizado en la política.Acusaciones de financiamiento ilegal</p>
+                <div class="article-meta">
+                    <span>👤 Fernando Damián</span>
+                    <span>📅 2026-01-19</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 Crónica Perspectiva. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="../feed_política-nacional.xml" style="color: white;">📡 RSS de esta categoría</a>
+        </p>
+    </footer>
+</body>
+</html>

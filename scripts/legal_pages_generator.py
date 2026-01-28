@@ -111,33 +111,64 @@ class LegalPagesGenerator:
                 </section>
                 
                 <section class="legal-section">
-                    <h2>5. Limitación de Responsabilidad</h2>
-                    <p>En ningún caso {site_name} o sus proveedores serán responsables de ningún daño (incluidos, sin limitación, daños por pérdida de datos o ganancias, o debido a la interrupción del negocio) que surja del uso o la imposibilidad de usar los materiales en {site_name}.</p>
+                    <h2>5. Fuentes de Información y Proceso Editorial</h2>
+                    <h3>5.1 Origen de la Información</h3>
+                    <p>{site_name} recopila información de múltiples fuentes digitales públicas, incluyendo pero no limitado a: agencias de noticias internacionales, medios de comunicación digitales, portales de información gubernamental, y otras fuentes de dominio público accesibles a través de internet.</p>
+                    
+                    <h3>5.2 Proceso de Parafraseo y Transformación</h3>
+                    <p>Todo el contenido publicado en {site_name} ha sido sometido a un proceso de <strong>parafraseo y transformación editorial</strong> antes de su publicación. Este proceso incluye:</p>
+                    <ul>
+                        <li>Reescritura y reestructuración del contenido original utilizando técnicas de parafraseo lingüístico</li>
+                        <li>Sustitución de terminología por sinónimos y expresiones equivalentes</li>
+                        <li>Reorganización de la estructura narrativa y orden de presentación de la información</li>
+                        <li>Adaptación del estilo y tono para mantener coherencia editorial</li>
+                        <li>Asignación de autores ficticios generados automáticamente para los artículos</li>
+                    </ul>
+                    
+                    <h3>5.3 Descargo de Responsabilidad</h3>
+                    <p>El contenido presentado en este sitio tiene fines exclusivamente <strong>informativos y educativos</strong>. {site_name}:</p>
+                    <ul>
+                        <li>No reclama autoría original sobre las noticias de hecho reportadas</li>
+                        <li>No garantiza la exactitud, integridad o actualidad de la información presentada</li>
+                        <li>No se hace responsable por decisiones tomadas basadas en el contenido publicado</li>
+                        <li>Recomienda verificar la información con fuentes oficiales antes de actuar</li>
+                        <li>Actúa como agregador y transformador de información de dominio público</li>
+                    </ul>
+                    
+                    <h3>5.4 Uso Justo y Transformación</h3>
+                    <p>El uso de información de terceros se realiza bajo los principios de <strong>uso justo (fair use)</strong> y <strong>transformación creativa</strong>. El contenido se transforma sustancialmente mediante parafraseo antes de su publicación, generando una obra derivada con valor editorial añadido.</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>6. Precisión de los Materiales</h2>
+                    <h2>6. Limitación de Responsabilidad</h2>
+                    <p>En ningún caso {site_name} o sus proveedores serán responsables de ningún daño (incluidos, sin limitación, daños por pérdida de datos o ganancias, o debido a la interrupción del negocio) que surja del uso o la imposibilidad de usar los materiales en {site_name}.</p>
+                    <p>Esta limitación aplica especialmente al contenido informativo transformado mediante parafraseo, el cual se proporciona "tal cual" sin garantías de exactitud o integridad.</p>
+                </section>
+                
+                <section class="legal-section">
+                    <h2>7. Precisión de los Materiales</h2>
                     <p>Los materiales que aparecen en {site_name} pueden incluir errores técnicos, tipográficos o fotográficos. {site_name} no garantiza que ninguno de los materiales en su sitio web sea preciso, completo o actual.</p>
                     <p>{site_name} puede realizar cambios en los materiales contenidos en su sitio web en cualquier momento sin previo aviso.</p>
+                    <p><strong>Nota importante:</strong> Debido al proceso de parafraseo automatizado aplicado a nuestro contenido, pueden existir diferencias entre la información presentada aquí y las fuentes originales. Siempre verifique la información crítica con fuentes oficiales.</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>7. Enlaces</h2>
+                    <h2>8. Enlaces</h2>
                     <p>{site_name} no ha revisado todos los sitios vinculados a su sitio web y no es responsable de los contenidos de ningún sitio vinculado. La inclusión de cualquier enlace no implica respaldo por parte de {site_name} del sitio.</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>8. Modificaciones</h2>
+                    <h2>9. Modificaciones</h2>
                     <p>{site_name} puede revisar estos términos de servicio para su sitio web en cualquier momento sin previo aviso. Al usar este sitio web, usted acepta estar sujeto a la versión actual de estos términos de servicio.</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>9. Ley Aplicable</h2>
+                    <h2>10. Ley Aplicable</h2>
                     <p>Estos términos y condiciones se rigen e interpretan de acuerdo con las leyes de México y usted se somete irrevocablemente a la jurisdicción exclusiva de los tribunales en esa ubicación.</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>10. Contacto</h2>
+                    <h2>11. Contacto</h2>
                     <p>Si tiene preguntas sobre estos Términos y Condiciones, puede contactarnos en:</p>
                     <p><strong>Email:</strong> legal@{domain.replace('.com', '').replace('.mx', '').replace('.net', '')}.com<br>
                     <strong>Dirección:</strong> Ciudad de México, México</p>
@@ -240,7 +271,30 @@ class LegalPagesGenerator:
                 </section>
                 
                 <section class="legal-section">
-                    <h2>5. Compartir Información con Terceros</h2>
+                    <h2>5. Fuentes de Información y Procesamiento de Datos</h2>
+                    <h3>5.1 Fuentes de Información</h3>
+                    <p>{site_name} recopila información de fuentes públicas digitales accesibles en internet, incluyendo:</p>
+                    <ul>
+                        <li>Agencias de noticias internacionales y nacionales</li>
+                        <li>Medios de comunicación digitales y portales informativos</li>
+                        <li>Sitios gubernamentales y oficiales</li>
+                        <li>Bases de datos de dominio público</li>
+                        <li>APIs públicas de noticias y contenido</li>
+                    </ul>
+                    
+                    <h3>5.2 Procesamiento Automatizado</h3>
+                    <p>La información recopilada es procesada mediante sistemas automatizados que:</p>
+                    <ul>
+                        <li>Extraen y normalizan contenido de múltiples fuentes</li>
+                        <li>Aplican técnicas de parafraseo y transformación lingüística</li>
+                        <li>Sintetizan información de diversas fuentes sobre el mismo tema</li>
+                        <li>Generan metadatos y categorizaciones automáticas</li>
+                    </ul>
+                    <p>Este procesamiento se realiza de manera automatizada sin intervención humana directa en cada artículo.</p>
+                </section>
+                
+                <section class="legal-section">
+                    <h2>6. Compartir Información con Terceros</h2>
                     <p>No vendemos, comercializamos ni transferimos su información personal a terceros, excepto en los siguientes casos:</p>
                     <ul>
                         <li>Proveedores de servicios de confianza que nos ayudan a operar nuestro sitio web</li>
@@ -250,12 +304,12 @@ class LegalPagesGenerator:
                 </section>
                 
                 <section class="legal-section">
-                    <h2>6. Seguridad de los Datos</h2>
+                    <h2>7. Seguridad de los Datos</h2>
                     <p>La seguridad de su información personal es importante para nosotros. Implementamos medidas de seguridad diseñadas para proteger su información personal contra acceso no autorizado, alteración, divulgación o destrucción.</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>7. Derechos del Usuario</h2>
+                    <h2>8. Derechos del Usuario</h2>
                     <p>Usted tiene derecho a:</p>
                     <ul>
                         <li>Acceder a su información personal</li>
@@ -268,17 +322,17 @@ class LegalPagesGenerator:
                 </section>
                 
                 <section class="legal-section">
-                    <h2>8. Privacidad de los Niños</h2>
+                    <h2>9. Privacidad de los Niños</h2>
                     <p>Nuestro servicio no está dirigido a menores de 13 años. No recopilamos conscientemente información personal identificable de niños menores de 13 años. Si descubrimos que un niño menor de 13 años nos ha proporcionado información personal, la eliminaremos de nuestros servidores.</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>9. Cambios a esta Política</h2>
+                    <h2>10. Cambios a esta Política</h2>
                     <p>Podemos actualizar nuestra Política de Privacidad de vez en cuando. Le notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de "Última actualización".</p>
                 </section>
                 
                 <section class="legal-section">
-                    <h2>10. Contacto</h2>
+                    <h2>11. Contacto</h2>
                     <p>Si tiene preguntas sobre esta Política de Privacidad, puede contactarnos:</p>
                     <p><strong>Email:</strong> privacidad@{domain.replace('.com', '').replace('.mx', '').replace('.net', '')}.com<br>
                     <strong>Teléfono:</strong> +52 55 1234 5678<br>
@@ -332,7 +386,15 @@ class LegalPagesGenerator:
             },
             {
                 "pregunta": "¿Cómo verifican la información de las noticias?",
-                "respuesta": "Nuestro equipo editorial sigue estrictos estándares periodísticos. Todas las noticias son verificadas con múltiples fuentes antes de su publicación y se citan las fuentes originales cuando es aplicable."
+                "respuesta": "Nuestro sistema recopila información de múltiples fuentes digitales públicas y la somete a un proceso de parafraseo y transformación editorial antes de su publicación. Si bien no reclamamos autoría original sobre los hechos reportados, transformamos sustancialmente el contenido mediante técnicas de parafraseo lingüístico. Recomendamos verificar la información crítica con fuentes oficiales antes de actuar."
+            },
+            {
+                "pregunta": "¿De dónde proviene el contenido publicado?",
+                "respuesta": f"El contenido de {site_name} proviene de múltiples fuentes digitales públicas, incluyendo agencias de noticias internacionales, medios de comunicación digitales y portales de información gubernamental. Todo el contenido es transformado mediante parafraseo antes de su publicación, generando obras derivadas con valor editorial añadido."
+            },
+            {
+                "pregunta": "¿Por qué los artículos tienen autores que no reconozco?",
+                "respuesta": f"Los nombres de autor que aparecen en nuestros artículos son identificadores generados automáticamente por nuestro sistema editorial. Dado que el contenido proviene de múltiples fuentes y es transformado mediante parafraseo, utilizamos estos identificadores para mantener la consistencia editorial del sitio."
             },
             {
                 "pregunta": "¿Puedo cancelar mi suscripción al boletín?",

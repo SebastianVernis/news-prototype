@@ -59,26 +59,12 @@ class SectionGenerator:
     <meta property="og:url" content="{site_url}/categoria/{categoria_id}.html">
     
     <title>{categoria_nombre} - {site_name}</title>
+    <link rel="stylesheet" href="../style.css">
     
     <style>
-        * {{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }}
-        
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            background: #f5f7fa;
-        }}
-        
+        /* Estilos específicos de categoría que complementan style.css */
         .header {{
             background: linear-gradient(135deg, {primary_color} 0%, {secondary_color} 100%);
-            color: white;
-            padding: 2rem 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }}
         
         .header-content {{
@@ -324,17 +310,13 @@ class SectionGenerator:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categorías - {site_name}</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f7fa;
-        }}
+        /* Estilos específicos del índice de categorías */
         .header {{
             background: linear-gradient(135deg, {primary_color}, {secondary_color});
-            color: white;
-            padding: 3rem 1rem;
             text-align: center;
+            padding: 3rem 1rem;
         }}
         .header h1 {{ font-size: 2.5rem; margin-bottom: 0.5rem; }}
         .categories-grid {{

@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "id": "site_20260127_211554_3358",
-    "nombre": "Azteca24Tribune",
-    "tagline": "Actualidad en Tiempo Real",
+    "id": "site_20260127_220751_7634",
+    "nombre": "MX365Tribune",
+    "tagline": "Donde las Noticias Cobran Vida",
     "estilo": "aleatorio",
-    "dominio": "azteca24tribune.org",
+    "dominio": "mx365tribune.com.mx",
     "dominio_verificado": true,
-    "dominio_disponible": false,
+    "dominio_disponible": true,
     "colores": {
       "primario": "#34495E",
       "secundario": "#2980B9",
@@ -15,10 +15,10 @@
       "fondo": "#ECF0F1"
     },
     "logo": {
-      "nombre_completo": "Azteca24Tribune",
-      "iniciales": "A",
-      "estilo": "minimal",
-      "tipo": "wordmark",
+      "nombre_completo": "MX365Tribune",
+      "iniciales": "M",
+      "estilo": "classic",
+      "tipo": "emblem",
       "colores": {
         "primario": "#34495E",
         "secundario": "#2980B9",
@@ -26,8 +26,8 @@
         "texto": "#2C3E50",
         "fondo": "#ECF0F1"
       },
-      "fuente_sugerida": "Merriweather",
-      "peso_fuente": "black",
+      "fuente_sugerida": "Playfair Display",
+      "peso_fuente": "regular",
       "formato_salida": [
         "png",
         "svg"
@@ -43,30 +43,31 @@
       "Nacional",
       "Internacional",
       "Política",
+      "Salud",
       "Sociedad",
-      "Negocios",
-      "Opinión",
-      "Tecnología"
+      "Entretenimiento",
+      "Educación",
+      "Mundo"
     ],
     "contacto": {
-      "email_general": "contacto@azteca24tribune.org",
-      "email_redaccion": "redaccion@azteca24tribune.org",
-      "email_publicidad": "publicidad@azteca24tribune.org",
-      "telefono": "+52 55 4544 8015",
+      "email_general": "contacto@mx365tribune.com.mx",
+      "email_redaccion": "redaccion@mx365tribune.com.mx",
+      "email_publicidad": "publicidad@mx365tribune.com.mx",
+      "telefono": "+52 55 9758 5447",
       "direccion": "Ciudad de México, México",
       "horario": "Disponible 24/7"
     },
     "redes_sociales": {
-      "facebook": "https://facebook.com/azteca24tribune",
-      "twitter": "https://twitter.com/azteca24tribune",
-      "instagram": "https://instagram.com/azteca24tribune",
-      "youtube": "https://youtube.com/@azteca24tribune",
-      "linkedin": "https://linkedin.com/company/azteca24tribune",
-      "telegram": "https://t.me/azteca24tribune"
+      "facebook": "https://facebook.com/mx365tribune",
+      "twitter": "https://twitter.com/mx365tribune",
+      "instagram": "https://instagram.com/mx365tribune",
+      "youtube": "https://youtube.com/@mx365tribune",
+      "linkedin": "https://linkedin.com/company/mx365tribune",
+      "telegram": "https://t.me/mx365tribune"
     },
     "seo": {
-      "titulo": "Azteca24Tribune - Actualidad en Tiempo Real",
-      "descripcion": "Azteca24Tribune es tu fuente confiable de noticias e información actualizada. Actualidad en Tiempo Real. Mantente informado con las últimas noticias de México y el mundo.",
+      "titulo": "MX365Tribune - Donde las Noticias Cobran Vida",
+      "descripcion": "MX365Tribune es tu fuente confiable de noticias e información actualizada. Donde las Noticias Cobran Vida. Mantente informado con las últimas noticias de México y el mundo.",
       "keywords": [
         "noticias",
         "méxico",
@@ -76,57 +77,57 @@
         "economía",
         "deportes",
         "entretenimiento",
-        "azteca24tribune",
-        "azteca24tribune"
+        "mx365tribune",
+        "mx365tribune"
       ],
       "og_type": "website",
       "og_locale": "es_MX",
       "twitter_card": "summary_large_image"
     },
-    "fecha_creacion": "2026-01-27T21:15:54.688055",
+    "fecha_creacion": "2026-01-27T22:07:51.030674",
     "version": "1.0",
     "estado": "pre-creado"
   },
   "design": {
     "palette": {
-      "nombre": "radio_m_azul",
-      "descripcion": "Azul Radio M moderno",
-      "primary": "#3D55EF",
-      "secondary": "#F7F9F8",
-      "accent": "#0693E3",
-      "background": "#FFFFFF",
-      "background_2": "#EFEFEF",
-      "text": "#202124",
-      "light_text": "#999999",
-      "urgent": "#CF2E2E",
+      "nombre": "bright_yellow",
+      "descripcion": "Amarillo brillante y optimista",
+      "primary": "#F57F17",
+      "secondary": "#FBC02D",
+      "accent": "#0288D1",
+      "background": "#FFFDE7",
+      "text": "#F57F17",
+      "light_text": "#FDD835",
       "card_bg": "#FFFFFF"
     },
     "fonts": {
-      "nombre": "humanist_friendly",
-      "descripcion": "Humanista y amigable",
-      "primary": "'Source Sans Pro', sans-serif",
-      "secondary": "'Libre Baskerville', serif",
+      "nombre": "tech_modern",
+      "descripcion": "Tecnológico y futurista",
+      "primary": "'Roboto', sans-serif",
+      "secondary": "'Roboto Mono', monospace",
       "imports": [
-        "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;900&display=swap",
-        "https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap"
+        "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap",
+        "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
       ],
-      "line_height": "1.65",
+      "line_height": "1.5",
       "heading_weight": "900",
-      "body_weight": "400"
+      "body_weight": "400",
+      "menu_size": "12px",
+      "menu_transform": "uppercase"
     },
     "layout": {
       "layout_type": "featured_sidebar",
       "sidebar_position": "left",
-      "header_style": "modern_thin",
-      "nav_style": "hamburger",
+      "header_style": "magazine_style",
+      "nav_style": "tabs",
       "featured_layout": "diagonal_split",
-      "show_images": true,
+      "show_images": false,
       "news_per_row": 3,
-      "show_sidebar_widgets": true,
-      "footer_columns": 4,
-      "use_breadcrumbs": false,
-      "sticky_header": false
+      "show_sidebar_widgets": false,
+      "footer_columns": 3,
+      "use_breadcrumbs": true,
+      "sticky_header": true
     }
   },
-  "logo": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n    <!-- Círculo de fondo -->\n    <circle cx=\"100\" cy=\"100\" r=\"90\" fill=\"#3D55EF\"/>\n    \n    <!-- Iniciales -->\n    <text x=\"100\" y=\"130\" \n          font-family=\"Bebas Neue, Impact, sans-serif\" \n          font-size=\"80\"\n          font-weight=\"bold\"\n          text-anchor=\"middle\"\n          fill=\"#F7F9F8\">\n        TS\n    </text>\n</svg>"
+  "logo": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 300 80\" width=\"300\" height=\"80\">\n    <!-- Icono -->\n    <g transform=\"translate(10, 15) scale(2)\">\n        <path d=\"M3 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v12h12V6H3zm15.5 0l4.5 3v8l-4.5 3v-2.5l2.5-1.667V9.167L18.5 7.5V6z\"/>\n    </g>\n    \n    <!-- Texto -->\n    <text x=\"80\" y=\"55\" \n          font-family=\"Bebas Neue, sans-serif\" \n          font-size=\"36\"\n          font-weight=\"bold\"\n          fill=\"#F57F17\">\n        TEST SITE\n    </text>\n</svg>"
 }

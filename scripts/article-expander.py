@@ -221,6 +221,7 @@ Escribe SOLO el artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
             variation['expansion_structure'] = structure
             variation['variation_id'] = i + 1
             variation['word_count'] = len(body.split())
+            variation['original_article_id'] = article.get('id', article.get('url', hash(article.get('title', '')) % 10000))
             
             variations.append(variation)
             print(f"✅ ({variation['word_count']} palabras)")
@@ -231,16 +232,18 @@ Escribe SOLO el artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
         
         return variations
     
-    def process_articles(self, articles: List[Dict], variations_per_article: int = 3) -> List[Dict]:
+    def process_articles(self, articles: List[Dict], variations_per_article: int = 1) -> List[Dict]:
         """
-        Procesa múltiples artículos expandiéndolos
+        Procesa múltiples artículos expandiéndolos.
+        Genera UNA SOLA variación por artículo para asegurar que cada artículo
+        se use en un solo sitio.
         
         Args:
             articles: Lista de artículos a expandir
-            variations_per_article: Número de variaciones por artículo
+            variations_per_article: Número de variaciones por artículo (default: 1)
             
         Returns:
-            Lista de todos los artículos expandidos
+            Lista de artículos expandidos (1 por artículo original)
         """
         all_expanded = []
         
@@ -248,14 +251,15 @@ Escribe SOLO el artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
         print(f"📰 EXPANSIÓN DE ARTÍCULOS")
         print(f"{'='*70}")
         print(f"📊 Artículos a procesar: {len(articles)}")
-        print(f"📊 Variaciones por artículo: {variations_per_article}")
-        print(f"📊 Total artículos expandidos: {len(articles) * variations_per_article}")
+        print(f"📊 Variaciones por artículo: 1 (forzado)")
+        print(f"📊 Total artículos expandidos: {len(articles)}")
         
         for idx, article in enumerate(articles, 1):
             print(f"\n[{idx}/{len(articles)}] Procesando artículo...")
             
             try:
-                expanded_variations = self.expand_with_variations(article, variations_per_article)
+                # Forzar 1 variación por artículo
+                expanded_variations = self.expand_with_variations(article, num_variations=1)
                 all_expanded.extend(expanded_variations)
                 
             except Exception as e:

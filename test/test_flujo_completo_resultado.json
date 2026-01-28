@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-27T21:14:35.631706",
+  "timestamp": "2026-01-27T22:07:06.358861",
   "config": {
     "articulos": 2,
     "modo": "test_rapido"
@@ -24,13 +24,13 @@
     "design": {
       "status": "success",
       "palette": null,
-      "fonts": "humanist_friendly",
+      "fonts": "tech_modern",
       "layout": "responsive"
     },
     "logo": {
       "status": "success",
-      "size": 423,
-      "style": "badge_circle"
+      "size": 536,
+      "style": "icon_text"
     },
     "save": {
       "status": "success",
@@ -38,7 +38,7 @@
     }
   },
   "success": true,
-  "tiempo_total_segundos": 79.07288265228271,
+  "tiempo_total_segundos": 44.68556880950928,
   "stats": {
     "noticias_parafraseadas": 2,
     "sitios_creados": 1

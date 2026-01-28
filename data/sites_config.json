@@ -1,0 +1,148 @@
+{
+  "modo_asignacion": "manual",
+  "sitios_manuales": [
+    {
+      "nombre": "El Diario de Prueba",
+      "tagline": "Noticias confiables",
+      "dominio": "dprueba.com",
+      "fecha_agregado": "2026-01-27T22:11:29.790848",
+      "usado": true,
+      "fecha_usado": "2026-01-27T22:11:29.792034",
+      "sitio_id": "test_001"
+    },
+    {
+      "nombre": "Noticias Test",
+      "tagline": "Actualidad en tiempo real",
+      "dominio": null,
+      "fecha_agregado": "2026-01-27T22:11:29.791641",
+      "usado": true,
+      "fecha_usado": "2026-01-27T22:17:18.875218",
+      "sitio_id": "articulo_1"
+    }
+  ],
+  "preferencias_automatico": {
+    "estilos": [
+      "clasico",
+      "moderno",
+      "regional"
+    ],
+    "excluir_nombres": [],
+    "preferencias_tld": [
+      "com",
+      "mx",
+      "news"
+    ]
+  },
+  "historial_generados": [
+    {
+      "nombre": "La Altavoz",
+      "tagline": "Actualidad en Tiempo Real",
+      "dominio": "altavoz",
+      "tld": "net",
+      "dominio_completo": "altavoz.net",
+      "estilo": "clasico",
+      "fecha_generado": "2026-01-27T22:11:29.792968",
+      "sitio_id": "test_002",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "NotiAzteca Plus",
+      "tagline": "Siempre Informado",
+      "dominio": "notiaztecaplus",
+      "tld": "com",
+      "dominio_completo": "notiaztecaplus.com",
+      "estilo": "moderno",
+      "fecha_generado": "2026-01-27T22:17:18.875659",
+      "sitio_id": "articulo_2",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "Noticias Latino Hoy",
+      "tagline": "Información para Todos los Mexicanos",
+      "dominio": "noticiaslatinohoy",
+      "tld": "digital",
+      "dominio_completo": "noticiaslatinohoy.digital",
+      "estilo": "regional",
+      "fecha_generado": "2026-01-27T22:17:18.876421",
+      "sitio_id": "articulo_3",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "Los Bajío Actual",
+      "tagline": "Actualidad en Tiempo Real",
+      "dominio": "bajíoactual",
+      "tld": "info",
+      "dominio_completo": "bajíoactual.info",
+      "estilo": "regional",
+      "fecha_generado": "2026-01-27T22:17:18.876895",
+      "sitio_id": "articulo_4",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "Reporte Hoy",
+      "tagline": "Tu Fuente de Información Confiable",
+      "dominio": "reportehoy",
+      "tld": "news",
+      "dominio_completo": "reportehoy.news",
+      "estilo": "clasico",
+      "fecha_generado": "2026-01-27T22:17:18.877248",
+      "sitio_id": "articulo_5",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "El Observador Bulletin",
+      "tagline": "Actualidad en Tiempo Real",
+      "dominio": "observadorbulletin",
+      "tld": "news",
+      "dominio_completo": "observadorbulletin.news",
+      "estilo": "clasico",
+      "fecha_generado": "2026-01-27T22:17:18.877586",
+      "sitio_id": "articulo_6",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "HorizonteAzteca Online",
+      "tagline": "Información al Instante",
+      "dominio": "horizonteaztecaonlin",
+      "tld": "com",
+      "dominio_completo": "horizonteaztecaonlin.com",
+      "estilo": "moderno",
+      "fecha_generado": "2026-01-27T22:17:18.877972",
+      "sitio_id": "articulo_7",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "Hispano Hoy",
+      "tagline": "Mantente Informado",
+      "dominio": "hispanohoy",
+      "tld": "com.mx",
+      "dominio_completo": "hispanohoy.com.mx",
+      "estilo": "regional",
+      "fecha_generado": "2026-01-27T22:17:18.878326",
+      "sitio_id": "articulo_8",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "ExpressAzteca Online",
+      "tagline": "El Pulso de la Actualidad",
+      "dominio": "expressaztecaonline",
+      "tld": "digital",
+      "dominio_completo": "expressaztecaonline.digital",
+      "estilo": "moderno",
+      "fecha_generado": "2026-01-27T22:17:18.878727",
+      "sitio_id": "articulo_9",
+      "modo": "automatico"
+    },
+    {
+      "nombre": "Informativo Realidad",
+      "tagline": "Las Noticias más Recientes",
+      "dominio": "informativorealidad",
+      "tld": "info",
+      "dominio_completo": "informativorealidad.info",
+      "estilo": "clasico",
+      "fecha_generado": "2026-01-27T22:17:18.879121",
+      "sitio_id": "articulo_10",
+      "modo": "automatico"
+    }
+  ]
+}

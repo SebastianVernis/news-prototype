@@ -286,6 +286,7 @@ Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
             variation['variation_id'] = i + 1
             variation['style'] = style
             variation['original_title'] = title
+            variation['original_article_id'] = article.get('id', article.get('url', hash(title) % 10000))
             
             variations.append(variation)
             print("✅")
@@ -296,30 +297,31 @@ Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
         
         return variations
     
-    def process_articles(self, articles: List[Dict], variations_per_article: int = 40) -> List[Dict]:
+    def process_articles(self, articles: List[Dict], variations_per_article: int = 1) -> List[Dict]:
         """
-        Procesa múltiples artículos generando variaciones
+        Procesa múltiples artículos generando UNA SOLA variación por artículo.
         
         Args:
             articles: Lista de artículos originales
-            variations_per_article: Número de variaciones por artículo
+            variations_per_article: Número de variaciones por artículo (default: 1)
             
         Returns:
-            Lista con todos los artículos y sus variaciones
+            Lista con UNA variación por cada artículo original
         """
         all_variations = []
         
         print(f"\n{'='*70}")
-        print(f"🎯 Procesando {len(articles)} artículos con {variations_per_article} variaciones cada uno")
+        print(f"🎯 Procesando {len(articles)} artículos (1 variación por artículo)")
         print(f"{'='*70}")
         
         for idx, article in enumerate(articles, 1):
             print(f"\n[{idx}/{len(articles)}] Artículo: {article.get('title', 'Sin título')[:60]}...")
             
-            variations = self.generate_variations(article, variations_per_article)
+            # Forzar 1 variación por artículo
+            variations = self.generate_variations(article, num_variations=1)
             all_variations.extend(variations)
             
-            print(f"✅ Generadas {len(variations)} variaciones")
+            print(f"✅ Generada 1 variación")
         
         print(f"\n{'='*70}")
         print(f"✨ Total de artículos generados: {len(all_variations)}")

@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 from news import fetch_news, get_full_text
 sys.path.insert(0, 'scripts')
 from paraphrase import NewsParaphraser
+from site_name_manager import SiteNameManager
 
 # Importar expansor de artículos (opcional)
 try:
@@ -65,11 +66,13 @@ load_dotenv()
 class NewsAutomationSystem:
     """Sistema automatizado de noticias con IA"""
     
-    def __init__(self, num_articles: int = 5, variations_per_article: int = 40, api_source: str = 'newsapi', expand_articles: bool = False):
+    def __init__(self, num_articles: int = 5, variations_per_article: int = 1, api_source: str = 'newsapi', expand_articles: bool = False, site_name_mode: str = 'automatico'):
         self.num_articles = num_articles
-        self.variations_per_article = variations_per_article
+        # Forzar 1 variación por artículo - cada artículo se usa en un sitio diferente
+        self.variations_per_article = 1
         self.api_source = api_source.lower()
         self.expand_articles = expand_articles
+        self.site_name_mode = site_name_mode  # 'manual' o 'automatico'
         self.timestamp = datetime.now().strftime('%Y%m%d_%H%M')
         
         # Verificar API keys
@@ -78,6 +81,10 @@ class NewsAutomationSystem:
         # Inicializar componentes
         self.paraphraser = NewsParaphraser()
         self.image_generator = AIImageGenerator()
+        self.site_name_manager = SiteNameManager()
+        
+        # Configurar modo de nombres de sitios
+        self.site_name_manager.set_modo_asignacion(self.site_name_mode)
         
         # Inicializar expansor si está habilitado
         if self.expand_articles and EXPANDER_AVAILABLE:
@@ -208,30 +215,38 @@ class NewsAutomationSystem:
             articles: Lista de artículos originales
             
         Returns:
-            Lista de artículos con variaciones
+            Lista de artículos con variaciones (1 por artículo)
         """
         print(f"\n{'='*70}")
         if self.expand_articles:
-            print(f"📰 PASO 2: Expandiendo artículos completos ({self.variations_per_article} variaciones por artículo)")
+            print(f"📰 PASO 2: Expandiendo artículos completos (1 variación por artículo)")
         else:
-            print(f"📝 PASO 2: Parafraseando artículos ({self.variations_per_article} variaciones por artículo)")
+            print(f"📝 PASO 2: Parafraseando artículos (1 variación por artículo)")
         print(f"{'='*70}")
         
         try:
             if self.expand_articles:
-                # Usar el expansor de artículos completos
+                # Usar el expansor de artículos completos - SIEMPRE 1 variación
                 variations = self.expander.process_articles(
                     articles,
-                    variations_per_article=self.variations_per_article
+                    variations_per_article=1
                 )
                 file_prefix = 'expanded'
             else:
-                # Usar el parafraseador normal
+                # Usar el parafraseador normal - SIEMPRE 1 variación
                 variations = self.paraphraser.process_articles(
                     articles,
-                    variations_per_article=self.variations_per_article
+                    variations_per_article=1
                 )
                 file_prefix = 'paraphrased'
+            
+            # Asignar nombre de sitio a cada variación
+            for i, variation in enumerate(variations):
+                sitio_info = self.site_name_manager.obtener_siguiente_nombre(f"articulo_{i+1}")
+                variation['site_name'] = sitio_info.get('nombre')
+                variation['site_tagline'] = sitio_info.get('tagline')
+                variation['site_domain'] = sitio_info.get('dominio_completo')
+                variation['site_mode'] = sitio_info.get('modo')
             
             # Guardar variaciones
             output_file = f'data/noticias_{file_prefix}_{self.timestamp}.json'
@@ -329,17 +344,21 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description='Sistema automatizado de noticias con IA')
-    parser.add_argument('--articles', type=int, default=5, 
+    parser.add_argument('--articles', type=int, default=5,
                        help='Número de artículos a descargar (default: 5)')
-    parser.add_argument('--variations', type=int, default=40,
-                       help='Variaciones por artículo (default: 40)')
+    # El parámetro --variations se mantiene por compatibilidad pero se ignora
+    parser.add_argument('--variations', type=int, default=1,
+                       help='DEPRECATED: Siempre se usa 1 variación por artículo')
     parser.add_argument('--api', type=str, default='newsapi',
                        choices=['newsapi', 'apitube', 'newsdata', 'worldnews', 'legacy'],
                        help='API source a usar (default: newsapi)')
     parser.add_argument('--test', action='store_true',
-                       help='Modo prueba: 2 artículos, 5 variaciones')
+                       help='Modo prueba: 2 artículos, 1 variación')
     parser.add_argument('--expand', action='store_true',
                        help='Expandir artículos a versiones completas (~800 palabras)')
+    parser.add_argument('--site-name-mode', type=str, default='automatico',
+                       choices=['manual', 'automatico'],
+                       help='Modo de asignación de nombres de sitios (default: automatico)')
     
     args = parser.parse_args()
     
@@ -347,14 +366,16 @@ def main():
     if args.test:
         print("⚠️  MODO PRUEBA ACTIVADO")
         args.articles = 2
-        args.variations = 5
+        args.variations = 1
     
     # Crear y ejecutar sistema
+    # Nota: variations_per_article siempre es 1 (ignora el parámetro)
     system = NewsAutomationSystem(
         num_articles=args.articles,
-        variations_per_article=args.variations,
+        variations_per_article=1,  # Forzar 1 variación por artículo
         api_source=args.api,
-        expand_articles=args.expand
+        expand_articles=args.expand,
+        site_name_mode=args.site_name_mode
     )
     
     system.run()

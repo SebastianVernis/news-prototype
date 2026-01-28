@@ -289,7 +289,7 @@ class MasterOrchestrator:
                     self.log(f"  [{noticia_idx}/{len(noticias_principales)}] {noticia.get('title', '')[:50]}...")
                     
                     paraphrased = self.paraphraser.paraphrase_article(noticia, style=style)
-                    paraphrased['author'] = paraphrased.get('author') or self.legal_generator.generar_autor_aleatorio()
+                    paraphrased['author'] = paraphrased.get('author') or self.legal_generator.generar_autor_aleatorio(metadata['nombre'])
                     paraphrased['paraphrase_method'] = 'blackbox-grok'
                     
                     noticias_parafraseadas.append(paraphrased)

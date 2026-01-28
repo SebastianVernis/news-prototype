@@ -101,8 +101,10 @@ class MultiSourceSynthesizer:
                 title2 = article2.get('title', '')
                 keywords2 = set(self.extract_keywords(title2))
                 
-                # Calcular similitud por keywords y título
-                keyword_sim = len(keywords1 & keywords2) / max(len(keywords1), 1)
+                # Calcular similitud por keywords y título (índice Jaccard simétrico)
+                intersection = keywords1 & keywords2
+                union = keywords1 | keywords2
+                keyword_sim = len(intersection) / max(len(union), 1)
                 title_sim = self.calculate_similarity(title1, title2)
                 
                 # Score combinado
@@ -140,7 +142,7 @@ class MultiSourceSynthesizer:
             
             # Detectar hechos por patrones
             has_number = bool(re.search(r'\d+', sentence))
-            has_date = bool(re.search(r'\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}', sentence))
+            has_date = bool(re.search(r'\b\d{1,2}[/-]\d{1,2}[/-](?:19|20)\d{2}\b|\b(?:19|20)\d{2}\b', sentence))
             has_percentage = bool(re.search(r'\d+%|\d+\s*por\s*ciento', sentence, re.I))
             has_money = bool(re.search(r'\$[\d,]+|\d+\s*(pesos|dólares|euros|millones|miles)', sentence, re.I))
             has_quote = bool(re.search(r'[""''"].*?[""''"]', sentence))
@@ -272,9 +274,10 @@ class MultiSourceSynthesizer:
             ).hexdigest()[:10]
             
             if article_id not in used_articles:
-                article['synthesis_method'] = 'original'
-                article['sources_count'] = 1
-                synthesized.append(article)
+                article_copy = dict(article)
+                article_copy['synthesis_method'] = 'original'
+                article_copy['sources_count'] = 1
+                synthesized.append(article_copy)
         
         stats = {
             'total_input': len(articles),

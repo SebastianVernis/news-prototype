@@ -73,7 +73,7 @@ noticias_parafraseadas = []
 for idx, noticia in enumerate(noticias, 1):
     print(f"[{idx}/3] {noticia.get('title', '')[:50]}...", end=" ")
     resultado = paraphraser.paraphrase_article(noticia, style="formal y objetivo")
-    resultado['author'] = resultado.get('author') or LegalPagesGenerator().generar_autor_aleatorio()
+    resultado['author'] = resultado.get('author') or LegalPagesGenerator().generar_autor_aleatorio(site_name)
     noticias_parafraseadas.append(resultado)
     print("✅")
 

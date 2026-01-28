@@ -147,7 +147,7 @@ for site_num, (config, noticias_sitio) in enumerate(zip(sitios_config, [noticias
             style = ['formal y objetivo', 'técnico y detallado', 'analítico y crítico'][i % 3]
             resultado = paraphraser_blackbox.paraphrase_article(noticia, style=style)
             resultado['paraphrase_method'] = 'blackbox-grok'
-            resultado['author'] = resultado.get('author') or legal_gen.generar_autor_aleatorio()
+            resultado['author'] = resultado.get('author') or legal_gen.generar_autor_aleatorio(config['nombre'])
             destacados.append(resultado)
             print("✅")
         except Exception as e:
@@ -167,7 +167,7 @@ for site_num, (config, noticias_sitio) in enumerate(zip(sitios_config, [noticias
     # Agregar autores a placeholders
     for p in placeholders:
         if not p.get('author'):
-            p['author'] = legal_gen.generar_autor_aleatorio()
+            p['author'] = legal_gen.generar_autor_aleatorio(config['nombre'])
     
     # Combinar
     todos_articulos = destacados + placeholders

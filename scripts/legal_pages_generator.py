@@ -12,33 +12,19 @@ from datetime import datetime
 class LegalPagesGenerator:
     """Generador de contenido legal y páginas informativas"""
     
-    # Nombres de autores ficticios para artículos
-    AUTORES = [
-        "Ana García López",
-        "Carlos Mendoza",
-        "María Elena Rodríguez",
-        "José Luis Martínez",
-        "Laura Patricia Hernández",
-        "Roberto Sánchez",
-        "Diana Torres",
-        "Fernando Ramírez",
-        "Gabriela Morales",
-        "Eduardo Castro",
-        "Sofía Jiménez",
-        "Miguel Ángel Ruiz",
-        "Valentina Cruz",
-        "Alejandro Vargas",
-        "Camila Reyes",
-        "Diego Flores",
-        "Isabella Gutiérrez",
-        "Sebastián Ortiz",
-        "Lucía Navarro",
-        "Andrés Domínguez"
+    # Bylines transparentes y no personales para artículos
+    BYLINES_TRANSPARENTES = [
+        "Redacción {site_name}",
+        "Contenido automatizado / Equipo editorial",
+        "Equipo de Redacción {site_name}",
+        "Sistema de Publicación Automática",
+        "Edición Automatizada {site_name}"
     ]
-    
-    def generar_autor_aleatorio(self) -> str:
-        """Genera un nombre de autor aleatorio"""
-        return random.choice(self.AUTORES)
+
+    def generar_autor_aleatorio(self, site_name: str = "NewsSite") -> str:
+        """Genera un byline transparente y no personal"""
+        byline_template = random.choice(self.BYLINES_TRANSPARENTES)
+        return byline_template.format(site_name=site_name)
     
     def generar_terminos_condiciones(self, site_name: str, domain: str) -> str:
         """
@@ -394,7 +380,7 @@ class LegalPagesGenerator:
             },
             {
                 "pregunta": "¿Por qué los artículos tienen autores que no reconozco?",
-                "respuesta": f"Los nombres de autor que aparecen en nuestros artículos son identificadores generados automáticamente por nuestro sistema editorial. Dado que el contenido proviene de múltiples fuentes y es transformado mediante parafraseo, utilizamos estos identificadores para mantener la consistencia editorial del sitio."
+                "respuesta": f"Los artículos en {site_name} utilizan bylines transparentes y no personales para indicar claramente el origen editorial del contenido. Usamos identificadores como 'Redacción {site_name}' o la etiqueta explícita 'Contenido automatizado / Equipo editorial' para distinguir nuestro contenido transformado de las fuentes originales, manteniendo así la transparencia con nuestros lectores sobre el proceso editorial automatizado."
             },
             {
                 "pregunta": "¿Puedo cancelar mi suscripción al boletín?",
@@ -585,7 +571,7 @@ def main():
     about = generator.generar_acerca_de(site_name, "Tu fuente de noticias confiables", domain)
     print(f"   Generado: {len(about)} caracteres")
     
-    print(f"\n✅ Autor aleatorio generado: {generator.generar_autor_aleatorio()}")
+    print(f"\n✅ Autor aleatorio generado: {generator.generar_autor_aleatorio(site_name)}")
     
     print("\n" + "=" * 60)
     print("✅ Generación de páginas legales completada")

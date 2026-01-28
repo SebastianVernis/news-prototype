@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "id": "site_20260127_211554_3358",
+    "nombre": "Azteca24Tribune",
+    "tagline": "Actualidad en Tiempo Real",
+    "estilo": "aleatorio",
+    "dominio": "azteca24tribune.org",
+    "dominio_verificado": true,
+    "dominio_disponible": false,
+    "colores": {
+      "primario": "#34495E",
+      "secundario": "#2980B9",
+      "acento": "#E67E22",
+      "texto": "#2C3E50",
+      "fondo": "#ECF0F1"
+    },
+    "logo": {
+      "nombre_completo": "Azteca24Tribune",
+      "iniciales": "A",
+      "estilo": "minimal",
+      "tipo": "wordmark",
+      "colores": {
+        "primario": "#34495E",
+        "secundario": "#2980B9",
+        "acento": "#E67E22",
+        "texto": "#2C3E50",
+        "fondo": "#ECF0F1"
+      },
+      "fuente_sugerida": "Merriweather",
+      "peso_fuente": "black",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Sociedad",
+      "Negocios",
+      "Opinión",
+      "Tecnología"
+    ],
+    "contacto": {
+      "email_general": "contacto@azteca24tribune.org",
+      "email_redaccion": "redaccion@azteca24tribune.org",
+      "email_publicidad": "publicidad@azteca24tribune.org",
+      "telefono": "+52 55 4544 8015",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/azteca24tribune",
+      "twitter": "https://twitter.com/azteca24tribune",
+      "instagram": "https://instagram.com/azteca24tribune",
+      "youtube": "https://youtube.com/@azteca24tribune",
+      "linkedin": "https://linkedin.com/company/azteca24tribune",
+      "telegram": "https://t.me/azteca24tribune"
+    },
+    "seo": {
+      "titulo": "Azteca24Tribune - Actualidad en Tiempo Real",
+      "descripcion": "Azteca24Tribune es tu fuente confiable de noticias e información actualizada. Actualidad en Tiempo Real. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "azteca24tribune",
+        "azteca24tribune"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-01-27T21:15:54.688055",
+    "version": "1.0",
+    "estado": "pre-creado"
+  },
+  "design": {
+    "palette": {
+      "nombre": "radio_m_azul",
+      "descripcion": "Azul Radio M moderno",
+      "primary": "#3D55EF",
+      "secondary": "#F7F9F8",
+      "accent": "#0693E3",
+      "background": "#FFFFFF",
+      "background_2": "#EFEFEF",
+      "text": "#202124",
+      "light_text": "#999999",
+      "urgent": "#CF2E2E",
+      "card_bg": "#FFFFFF"
+    },
+    "fonts": {
+      "nombre": "humanist_friendly",
+      "descripcion": "Humanista y amigable",
+      "primary": "'Source Sans Pro', sans-serif",
+      "secondary": "'Libre Baskerville', serif",
+      "imports": [
+        "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;900&display=swap",
+        "https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap"
+      ],
+      "line_height": "1.65",
+      "heading_weight": "900",
+      "body_weight": "400"
+    },
+    "layout": {
+      "layout_type": "featured_sidebar",
+      "sidebar_position": "left",
+      "header_style": "modern_thin",
+      "nav_style": "hamburger",
+      "featured_layout": "diagonal_split",
+      "show_images": true,
+      "news_per_row": 3,
+      "show_sidebar_widgets": true,
+      "footer_columns": 4,
+      "use_breadcrumbs": false,
+      "sticky_header": false
+    }
+  },
+  "logo": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n    <!-- Círculo de fondo -->\n    <circle cx=\"100\" cy=\"100\" r=\"90\" fill=\"#3D55EF\"/>\n    \n    <!-- Iniciales -->\n    <text x=\"100\" y=\"130\" \n          font-family=\"Bebas Neue, Impact, sans-serif\" \n          font-size=\"80\"\n          font-weight=\"bold\"\n          text-anchor=\"middle\"\n          fill=\"#F7F9F8\">\n        TS\n    </text>\n</svg>"
+}

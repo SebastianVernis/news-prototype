@@ -134,13 +134,14 @@ Arch Linux:
         except Exception as e:
             return (False, {"error": f"Error: {str(e)}"})
     
-    def consultar_whois_local(self, dominio: str, servidor_whois: Optional[str] = None) -> Tuple[bool, str]:
+    def consultar_whois_local(self, dominio: str, servidor_whois: Optional[str] = None, timeout: int = 15) -> Tuple[bool, str]:
         """
-        Consulta whois local para un dominio
+        Consulta whois local para un dominio con mejor manejo de timeouts
         
         Args:
             dominio: Nombre de dominio completo (ej: example.com)
             servidor_whois: Servidor whois específico (opcional)
+            timeout: Tiempo máximo de espera en segundos
             
         Returns:
             tuple: (exito, salida_whois)
@@ -159,16 +160,18 @@ Arch Linux:
                 cmd,
                 capture_output=True,
                 text=True,
-                timeout=30
+                timeout=timeout,
+                check=False  # No lanzar excepción por códigos de salida no cero
             )
             
-            if result.returncode == 0:
-                return (True, result.stdout)
+            # Considerar éxito si hay alguna salida, incluso con código de error
+            if result.stdout or result.stderr:
+                return (True, result.stdout + result.stderr)
             else:
-                return (False, result.stderr)
+                return (False, "No output received")
                 
         except subprocess.TimeoutExpired:
-            return (False, "Timeout al consultar whois")
+            return (False, f"Timeout after {timeout} seconds")
         except Exception as e:
             return (False, f"Error: {str(e)}")
     
@@ -187,6 +190,79 @@ Arch Linux:
             return self.consultar_whois_api(dominio)
         else:
             return self.consultar_whois_local(dominio, servidor_whois)
+    
+    def verificar_dns(self, dominio: str) -> bool:
+        """
+        Verifica si el dominio tiene registros DNS (método alternativo)
+        
+        Args:
+            dominio: Nombre de dominio completo
+            
+        Returns:
+            bool: True si el dominio tiene registros DNS (probablemente registrado)
+        """
+        try:
+            import socket
+            socket.gethostbyname(dominio)
+            return True
+        except socket.gaierror:
+            return False
+        except Exception:
+            return False
+    
+    def verificar_dominio_mejorado(self, dominio: str) -> Dict:
+        """
+        Verificación con múltiples estrategias de respaldo
+        
+        Args:
+            dominio: Nombre de dominio completo
+            
+        Returns:
+            dict: Información de verificación mejorada
+        """
+        # Estrategia 1: Whois local con timeout corto
+        exito, datos = self.consultar_whois_local(dominio, timeout=10)
+        if exito:
+            resultado = self.analizar_disponibilidad_local(datos, dominio)
+            if resultado['estado'] != 'desconocido':
+                resultado['metodo'] = 'whois_local_rapido'
+                return resultado
+        
+        # Estrategia 2: Whois con servidores específicos
+        servidores = ['whois.verisign-grs.com', 'whois.publicdomainregistry.com']
+        for servidor in servidores:
+            exito, datos = self.consultar_whois_local(dominio, servidor_whois=servidor, timeout=10)
+            if exito:
+                resultado = self.analizar_disponibilidad_local(datos, dominio)
+                if resultado['estado'] != 'desconocido':
+                    resultado['metodo'] = f'whois_servidor_{servidor}'
+                    return resultado
+        
+        # Estrategia 3: Verificación DNS
+        if self.verificar_dns(dominio):
+            return {
+                "dominio": dominio,
+                "estado": "registrado",
+                "disponible": False,
+                "registrado": True,
+                "info_adicional": {},
+                "metodo": "dns"
+            }
+        
+        # Estrategia 4: Uso de API externa como respaldo
+        if self.usar_api:
+            exito, datos = self.consultar_whois_api(dominio)
+            if exito:
+                resultado = self.analizar_disponibilidad_api(datos, dominio)
+                resultado['metodo'] = 'api_apilayer'
+                return resultado
+        
+        return {
+            "dominio": dominio,
+            "estado": "error",
+            "disponible": None,
+            "error": "No se pudo verificar con ningún método"
+        }
     
     def analizar_disponibilidad_api(self, datos_whois: Dict, dominio: str) -> Dict:
         """
@@ -261,7 +337,7 @@ Arch Linux:
         """
         salida_lower = salida_whois.lower()
         
-        # Patrones que indican dominio NO disponible (registrado)
+        # Patrones que indican dominio NO disponible (registrado) - Ampliados
         patrones_registrado = [
             r'domain name:',
             r'registrar:',
@@ -271,10 +347,22 @@ Arch Linux:
             r'status: active',
             r'status: ok',
             r'name server',
-            r'nserver:'
+            r'nserver:',
+            r'admin-c:',
+            r'tech-c:',
+            r'domain status:',
+            r'expires:',
+            r'last update:',
+            r'updated date:',
+            r'expiration date:',
+            r'nameserver:',
+            r'dns:',
+            r'contact:',
+            r'owner:',
+            r'holder:'
         ]
         
-        # Patrones que indican dominio disponible
+        # Patrones que indican dominio disponible - Ampliados
         patrones_disponible = [
             r'no match',
             r'not found',
@@ -284,7 +372,15 @@ Arch Linux:
             r'no se encontr[oó]',
             r'objeto no existe',
             r'available',
-            r'disponible'
+            r'disponible',
+            r'domain is available',
+            r'no such domain',
+            r'domain does not exist',
+            r'no information found',
+            r'no records found',
+            r'no domain found',
+            r'domain is not registered',
+            r'no registration found'
         ]
         
         # Verificar si está registrado
@@ -356,7 +452,7 @@ Arch Linux:
     
     def verificar_dominio(self, dominio: str, usar_cache: bool = True) -> Dict[str, any]:
         """
-        Verifica la disponibilidad de un dominio
+        Verifica la disponibilidad de un dominio con estrategias múltiples
         
         Args:
             dominio: Dominio completo (ej: example.com)
@@ -382,7 +478,18 @@ Arch Linux:
                     "instrucciones": self.instalar_whois_instrucciones()
                 }
         
-        # Consultar whois
+        # Intentar verificación mejorada si no hay API
+        if not self.usar_api:
+            resultado = self.verificar_dominio_mejorado(dominio)
+            if resultado['estado'] != 'error':
+                resultado['desde_cache'] = False
+                if usar_cache:
+                    # Solo cachear resultados definitivos, no "desconocido"
+                    if resultado['estado'] in ['disponible', 'registrado']:
+                        self.verificaciones_cache[dominio] = resultado.copy()
+                return resultado
+        
+        # Fallback a método original
         exito, datos = self.consultar_whois(dominio)
         
         if not exito:

@@ -1,0 +1,28 @@
+{
+  "scrapers": {
+    "newsapi": {
+      "status": "❌",
+      "error": "cannot import name 'fetch_newsapi' from 'newsapi' (/home/sebastianvernis/Soluciones_Digitales/lib/python3.13/site-packages/newsapi/__init__.py)"
+    },
+    "apitube": {
+      "status": "❌",
+      "error": "No module named 'apitube'"
+    },
+    "newsdata": {
+      "status": "❌",
+      "error": "No module named 'newsdata'"
+    },
+    "worldnews": {
+      "status": "❌",
+      "error": "No module named 'worldnews'"
+    }
+  },
+  "paraphrase": {
+    "status": "❌",
+    "error": "No module named 'paraphrase'"
+  },
+  "compatibility": {
+    "status": "❌",
+    "error": "No module named 'paraphrase'"
+  }
+}

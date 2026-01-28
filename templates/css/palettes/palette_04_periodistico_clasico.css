@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: periodistico_clasico - Negro clásico tradicional */
+    --primary-color: #000000;
+    --secondary-color: #EFEFEF;
+    --accent-color: #CF2E2E;
+    --background-color: #FFFFFF;
+    --background-color-2: #F7F9F8;
+    --text-color: #333333;
+    --light-text: #666666;
+    --urgent-color: #FDE636;
+    --card-bg: #FAFAFA;
+}

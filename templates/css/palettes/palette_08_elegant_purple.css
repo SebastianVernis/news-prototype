@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: elegant_purple - Púrpura elegante y sofisticado */
+    --primary-color: #8E44AD;
+    --secondary-color: #9B59B6;
+    --accent-color: #E74C3C;
+    --background-color: #F8F9FA;
+    --background-color-2: #FFFFFF;
+    --text-color: #2C3E50;
+    --light-text: #A569BD;
+    --urgent-color: #E74C3C;
+    --card-bg: #FFFFFF;
+}

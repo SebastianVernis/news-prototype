@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: sober_charcoal - Carbón sobrio y profesional */
+    --primary-color: #263238;
+    --secondary-color: #455A64;
+    --accent-color: #FF5722;
+    --background-color: #ECEFF1;
+    --background-color-2: #ECEFF1;
+    --text-color: #263238;
+    --light-text: #78909C;
+    --urgent-color: #FF5722;
+    --card-bg: #FFFFFF;
+}

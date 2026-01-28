@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>México7x24Info - Seguridad</title>
+    <link>https://test-2-por-categoria.com/categoria/seguridad</link>
+    <description>Noticias de seguridad en México7x24Info</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 20 Jan 2026 07:26:47 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://test-2-por-categoria.com/sites/test_2_por_categoria/feed_seguridad.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Trump desquicia el sistema comercial global</title>
+      <link>https://www.elfinanciero.com.mx/opinion/enrique-quintana/2026/01/19/trump-desquicia-el-sistema-comercial-global/</link>
+      <guid>https://www.elfinanciero.com.mx/opinion/enrique-quintana/2026/01/19/trump-desquicia-el-sistema-comercial-global/</guid>
+      <description>Donald Trump está usando los aranceles como herramienta de coerción geopolítica. El argumento de la “seguridad” se mezcla con el de los recursos minerales y con una lógica territorial.</description>
+      <content:encoded>&lt;![CDATA[La ofensiva de Donald Trump para hacerse con Groenlandia dejó de seruna excentricidad geopolíticay se convirtió ya enun factor de dislocación comercial. El 17 de eneroDonald Trump amenazó conaranceles adicionalesde 10 por ciento a partir del 1 de febrero —y con un aumento de hasta 25 por ciento el 1 de junio— contra Dinamarca, Noruega, Suecia, Francia, Alemania, Países Bajos, Finlandia y Gran Bretaña,hasta que Estados Unidos pueda hacerse con Groenlandia.En el mismo mensaje insistió en que no aceptará nada menos que la propiedad del territorio y no descartó el uso de la fuerza. La reacción europea no fue solo política. Voces desde Bruselas advirtieron que nuevos arancelessocavarían la relación transatlánticay abrirían una espiral peligrosa. En paralelo, un reporte de Bloomberg señaló que laUnión Europea está dispuestaa congelar o inclusodescarrilar el entendimiento comercialque había venido construyéndose con Washington. La razón es simple: si el acceso al mercado estadounidense se condiciona a respaldos geopolíticos puntuales, cualquier acuerdo pierde credibilidad. Hoy se firma, mañana se reinterpreta a golpe de arancel. Conviene dimensionar qué significa patear el tablero transatlántico. Las exportaciones conjuntas de laUnión Europea a Estados Unidossumaron531 mil millones de dólares,lo que representó cerca del 20 por ciento del total comprado por los estadounidenses. El impacto de gravar con aranceles ese monto no es asunto menor, pues la relación entre ambas zonas es unaparte fundamental del marco comercial global. Aun así, Trump está usando los aranceles como herramienta de coerción geopolítica. El argumento de la “seguridad” se mezcla con el de los recursos minerales y con una lógica territorial. Groenlandia ya alberga la base Pituffik de la Fuerza Espacial Norteamericanay existe desde 1951 un acuerdo que permite a Estados Unidos desplegar fuerzas en ese territorio danés. Ahora quiere todo. La consecuencia inmediata no es solo el enojo europeo; es el incentivo]]&gt;</content:encoded>
+      <pubDate>Mon, 19 Jan 2026 11:12:31 +0000</pubDate>
+      <dc:creator>Enrique Quintana</dc:creator>
+      <category>Seguridad y Justicia</category>
+      <enclosure url="https://www.elfinanciero.com.mx/resizer/v2/EUSGGVOAV5FZ7NRH7GA7KCIFYE.png?smart=true&amp;auth=7f2b53aa30fafd8c1f16dbd264a447c3e3ce95b88a2f6f1905a94fc504996a7b&amp;width=1200&amp;height=630" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

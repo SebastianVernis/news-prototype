@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: sobrio_corporativo - Negro corporativo profesional */
+    --primary-color: #1C1C1C;
+    --secondary-color: #F5F5F5;
+    --accent-color: #3D55EF;
+    --background-color: #FFFFFF;
+    --background-color-2: #F7F9F8;
+    --text-color: #161617;
+    --light-text: #999999;
+    --urgent-color: #FF6900;
+    --card-bg: #FFFFFF;
+}

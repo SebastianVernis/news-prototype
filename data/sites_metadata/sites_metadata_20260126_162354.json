@@ -1,0 +1,89 @@
+[
+  {
+    "id": "site_20260126_162354_1484",
+    "nombre": "InformativoInformadorMéxico",
+    "tagline": "Noticias desde el Corazón de México",
+    "estilo": "aleatorio",
+    "dominio": "informativoinformado.news",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#34495E",
+      "secundario": "#2980B9",
+      "acento": "#E67E22",
+      "texto": "#2C3E50",
+      "fondo": "#ECF0F1"
+    },
+    "logo": {
+      "nombre_completo": "InformativoInformadorMéxico",
+      "iniciales": "I",
+      "estilo": "tech",
+      "tipo": "wordmark",
+      "colores": {
+        "primario": "#34495E",
+        "secundario": "#2980B9",
+        "acento": "#E67E22",
+        "texto": "#2C3E50",
+        "fondo": "#ECF0F1"
+      },
+      "fuente_sugerida": "Montserrat",
+      "peso_fuente": "bold",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Educación",
+      "Sociedad",
+      "Mundo"
+    ],
+    "contacto": {
+      "email_general": "contacto@informativoinformado.news",
+      "email_redaccion": "redaccion@informativoinformado.news",
+      "email_publicidad": "publicidad@informativoinformado.news",
+      "telefono": "+52 55 6796 8522",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/informativoinformado",
+      "twitter": "https://twitter.com/informativoinformado",
+      "instagram": "https://instagram.com/informativoinformado",
+      "youtube": "https://youtube.com/@informativoinformado",
+      "linkedin": "https://linkedin.com/company/informativoinformado",
+      "telegram": "https://t.me/informativoinformado"
+    },
+    "seo": {
+      "titulo": "InformativoInformadorMéxico - Noticias desde el Corazón de México",
+      "descripcion": "InformativoInformadorMéxico es tu fuente confiable de noticias e información actualizada. Noticias desde el Corazón de México. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "informativoinformadorméxico",
+        "informativoinformado"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-01-26T16:23:54.373717",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

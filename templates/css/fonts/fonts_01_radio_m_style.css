@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    /* Fuentes: radio_m_style - Bebas Neue + Poppins (Radio M) */
+    --font-primary: 'Bebas Neue', Impact, sans-serif;
+    --font-secondary: 'Poppins', sans-serif;
+    --line-height: 1.7;
+    --heading-weight: 400;
+    --body-weight: 400;
+    --menu-size: 12px;
+    --menu-transform: uppercase;
+}

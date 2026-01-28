@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: natural_olive - Verde oliva natural */
+    --primary-color: #827717;
+    --secondary-color: #AFB42B;
+    --accent-color: #FF6F00;
+    --background-color: #F9FBE7;
+    --background-color-2: #F9FBE7;
+    --text-color: #827717;
+    --light-text: #C0CA33;
+    --urgent-color: #FF6F00;
+    --card-bg: #FFFFFF;
+}

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo de Noticias - 40 Plantillas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .template-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .template-preview {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="15" fill="white" opacity="0.1"/><rect y="20" width="60" height="8" fill="white" opacity="0.15"/><rect y="32" width="80" height="6" fill="white" opacity="0.1"/><rect y="42" width="70" height="6" fill="white" opacity="0.1"/><rect y="55" width="90" height="12" fill="white" opacity="0.1"/><rect y="72" width="50" height="8" fill="white" opacity="0.15"/><rect y="84" width="65" height="6" fill="white" opacity="0.1"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .template-number {
+            font-size: 4em;
+            color: white;
+            font-weight: 900;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            z-index: 1;
+            position: relative;
+        }
+
+        .template-info {
+            padding: 25px;
+        }
+
+        .template-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .template-description {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .template-colors {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .color-dot {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .view-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .view-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+            font-size: 1.1em;
+        }
+
+        /* Unique gradient for each card */
+        .template-card:nth-child(1) .template-preview { background: linear-gradient(135deg, #2C3E50, #E74C3C); }
+        .template-card:nth-child(2) .template-preview { background: linear-gradient(135deg, #1A1A2E, #FF6B6B); }
+        .template-card:nth-child(3) .template-preview { background: linear-gradient(135deg, #6A0DAD, #00D9FF); }
+        .template-card:nth-child(4) .template-preview { background: linear-gradient(135deg, #2D6A4F, #52B788); }
+        .template-card:nth-child(5) .template-preview { background: linear-gradient(135deg, #FF6F00, #FFA726); }
+        .template-card:nth-child(6) .template-preview { background: linear-gradient(135deg, #006BA6, #00D9FF); }
+        .template-card:nth-child(7) .template-preview { background: linear-gradient(135deg, #B71C1C, #E53935); }
+        .template-card:nth-child(8) .template-preview { background: linear-gradient(135deg, #283593, #5C6BC0); }
+        .template-card:nth-child(9) .template-preview { background: linear-gradient(135deg, #1565C0, #42A5F5); }
+        .template-card:nth-child(10) .template-preview { background: linear-gradient(135deg, #00695C, #26A69A); }
+        .template-card:nth-child(11) .template-preview { background: linear-gradient(135deg, #4A148C, #AB47BC); }
+        .template-card:nth-child(12) .template-preview { background: linear-gradient(135deg, #BF360C, #FF5722); }
+        .template-card:nth-child(13) .template-preview { background: linear-gradient(135deg, #424242, #757575); }
+        .template-card:nth-child(14) .template-preview { background: linear-gradient(135deg, #006064, #0097A7); }
+        .template-card:nth-child(15) .template-preview { background: linear-gradient(135deg, #1B5E20, #66BB6A); }
+        .template-card:nth-child(16) .template-preview { background: linear-gradient(135deg, #C62828, #EF5350); }
+        .template-card:nth-child(17) .template-preview { background: linear-gradient(135deg, #AD1457, #EC407A); }
+        .template-card:nth-child(18) .template-preview { background: linear-gradient(135deg, #6A1B9A, #AB47BC); }
+        .template-card:nth-child(19) .template-preview { background: linear-gradient(135deg, #4527A0, #7E57C2); }
+        .template-card:nth-child(20) .template-preview { background: linear-gradient(135deg, #283593, #5C6BC0); }
+        .template-card:nth-child(21) .template-preview { background: linear-gradient(135deg, #1565C0, #42A5F5); }
+        .template-card:nth-child(22) .template-preview { background: linear-gradient(135deg, #0277BD, #29B6F6); }
+        .template-card:nth-child(23) .template-preview { background: linear-gradient(135deg, #00838F, #26C6DA); }
+        .template-card:nth-child(24) .template-preview { background: linear-gradient(135deg, #00695C, #26A69A); }
+        .template-card:nth-child(25) .template-preview { background: linear-gradient(135deg, #2E7D32, #66BB6A); }
+        .template-card:nth-child(26) .template-preview { background: linear-gradient(135deg, #558B2F, #9CCC65); }
+        .template-card:nth-child(27) .template-preview { background: linear-gradient(135deg, #9E9D24, #D4E157); }
+        .template-card:nth-child(28) .template-preview { background: linear-gradient(135deg, #F9A825, #FFEB3B); }
+        .template-card:nth-child(29) .template-preview { background: linear-gradient(135deg, #FF8F00, #FFA726); }
+        .template-card:nth-child(30) .template-preview { background: linear-gradient(135deg, #EF6C00, #FF7043); }
+        .template-card:nth-child(31) .template-preview { background: linear-gradient(135deg, #D84315, #FF5722); }
+        .template-card:nth-child(32) .template-preview { background: linear-gradient(135deg, #5D4037, #8D6E63); }
+        .template-card:nth-child(33) .template-preview { background: linear-gradient(135deg, #455A64, #78909C); }
+        .template-card:nth-child(34) .template-preview { background: linear-gradient(135deg, #37474F, #607D8B); }
+        .template-card:nth-child(35) .template-preview { background: linear-gradient(135deg, #263238, #546E7A); }
+        .template-card:nth-child(36) .template-preview { background: linear-gradient(135deg, #880E4F, #E91E63); }
+        .template-card:nth-child(37) .template-preview { background: linear-gradient(135deg, #4A148C, #9C27B0); }
+        .template-card:nth-child(38) .template-preview { background: linear-gradient(135deg, #311B92, #673AB7); }
+        .template-card:nth-child(39) .template-preview { background: linear-gradient(135deg, #1A237E, #3F51B5); }
+        .template-card:nth-child(40) .template-preview { background: linear-gradient(135deg, #004D40, #00897B); }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📰 Prototipo de Noticias</h1>
+            <p class="subtitle">Explora 40 plantillas únicas de sitios web de noticias con diseños diferentes</p>
+        </header>
+
+        <div class="templates-grid">
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">01</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Editorial Clásico</h3>
+                    <p class="template-description">Diseño tradicional de periódico con fuentes serif y estructura limpia</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #2C3E50;"></div>
+                        <div class="color-dot" style="background-color: #E74C3C;"></div>
+                        <div class="color-dot" style="background-color: #3498DB;"></div>
+                    </div>
+                    <a href="base.html?template=1" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">02</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Revista Moderna</h3>
+                    <p class="template-description">Tipografía audaz con acentos de degradado y estilo contemporáneo</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #1A1A2E;"></div>
+                        <div class="color-dot" style="background-color: #FF6B6B;"></div>
+                        <div class="color-dot" style="background-color: #FFD93D;"></div>
+                    </div>
+                    <a href="base.html?template=2" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">03</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Futurista Oscuro</h3>
+                    <p class="template-description">Acentos neón sobre fondo oscuro con estética tecnológica moderna</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #6A0DAD;"></div>
+                        <div class="color-dot" style="background-color: #00D9FF;"></div>
+                        <div class="color-dot" style="background-color: #FF10F0;"></div>
+                    </div>
+                    <a href="base.html?template=3" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">04</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Verde Minimalista</h3>
+                    <p class="template-description">Diseño limpio y ecológico con paleta inspirada en la naturaleza</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #2D6A4F;"></div>
+                        <div class="color-dot" style="background-color: #52B788;"></div>
+                        <div class="color-dot" style="background-color: #95D5B2;"></div>
+                    </div>
+                    <a href="base.html?template=4" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">05</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Naranja Audaz</h3>
+                    <p class="template-description">Energético y llamativo con tonos naranjas vibrantes</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #FF6F00;"></div>
+                        <div class="color-dot" style="background-color: #FFA726;"></div>
+                        <div class="color-dot" style="background-color: #FFD54F;"></div>
+                    </div>
+                    <a href="base.html?template=5" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">06</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Cyan Profesional</h3>
+                    <p class="template-description">Corporativo y confiable con paleta azul fría</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #006BA6;"></div>
+                        <div class="color-dot" style="background-color: #0496FF;"></div>
+                        <div class="color-dot" style="background-color: #00D9FF;"></div>
+                    </div>
+                    <a href="base.html?template=6" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">07</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Rojo Urgente</h3>
+                    <p class="template-description">Diseño urgente e impactante para cobertura de noticias de última hora</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #B71C1C;"></div>
+                        <div class="color-dot" style="background-color: #E53935;"></div>
+                        <div class="color-dot" style="background-color: #FFCDD2;"></div>
+                    </div>
+                    <a href="base.html?template=7" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">08</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Índigo Real</h3>
+                    <p class="template-description">Elegante y sofisticado con tonos púrpura profundos</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #283593;"></div>
+                        <div class="color-dot" style="background-color: #5C6BC0;"></div>
+                        <div class="color-dot" style="background-color: #C5CAE9;"></div>
+                    </div>
+                    <a href="base.html?template=8" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">09</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Azul Cielo</h3>
+                    <p class="template-description">Fresco y optimista con paleta azul brillante</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #1565C0;"></div>
+                        <div class="color-dot" style="background-color: #42A5F5;"></div>
+                        <div class="color-dot" style="background-color: #BBDEFB;"></div>
+                    </div>
+                    <a href="base.html?template=9" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">10</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Teal Moderno</h3>
+                    <p class="template-description">Diseño contemporáneo con colores teal calmantes</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #00695C;"></div>
+                        <div class="color-dot" style="background-color: #26A69A;"></div>
+                        <div class="color-dot" style="background-color: #B2DFDB;"></div>
+                    </div>
+                    <a href="base.html?template=10" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">11</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Púrpura Majestuoso</h3>
+                    <p class="template-description">Lujoso y creativo con tonos púrpura ricos</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #4A148C;"></div>
+                        <div class="color-dot" style="background-color: #AB47BC;"></div>
+                        <div class="color-dot" style="background-color: #E1BEE7;"></div>
+                    </div>
+                    <a href="base.html?template=11" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">12</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Naranja Quemado</h3>
+                    <p class="template-description">Cálido y acogedor con esquema de colores otoñales</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #BF360C;"></div>
+                        <div class="color-dot" style="background-color: #FF5722;"></div>
+                        <div class="color-dot" style="background-color: #FFAB91;"></div>
+                    </div>
+                    <a href="base.html?template=12" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">13</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Monocromático</h3>
+                    <p class="template-description">Diseño atemporal en blanco y negro con acentos grises</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #424242;"></div>
+                        <div class="color-dot" style="background-color: #757575;"></div>
+                        <div class="color-dot" style="background-color: #BDBDBD;"></div>
+                    </div>
+                    <a href="base.html?template=13" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">14</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Océano Profundo</h3>
+                    <p class="template-description">Inspirado en el mar profundo con paleta cyan oscura</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #006064;"></div>
+                        <div class="color-dot" style="background-color: #0097A7;"></div>
+                        <div class="color-dot" style="background-color: #B2EBF2;"></div>
+                    </div>
+                    <a href="base.html?template=14" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">15</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Verde Bosque</h3>
+                    <p class="template-description">Natural y orgánico con tonos verdes profundos</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #1B5E20;"></div>
+                        <div class="color-dot" style="background-color: #66BB6A;"></div>
+                        <div class="color-dot" style="background-color: #C8E6C9;"></div>
+                    </div>
+                    <a href="base.html?template=15" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">16</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Rojo Cardenal</h3>
+                    <p class="template-description">Fuerte y autoritario con paleta roja profunda</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #C62828;"></div>
+                        <div class="color-dot" style="background-color: #EF5350;"></div>
+                        <div class="color-dot" style="background-color: #FFCDD2;"></div>
+                    </div>
+                    <a href="base.html?template=16" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">17</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Rosa Pasión</h3>
+                    <p class="template-description">Vibrante y energético con acentos rosa brillantes</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #AD1457;"></div>
+                        <div class="color-dot" style="background-color: #EC407A;"></div>
+                        <div class="color-dot" style="background-color: #F8BBD0;"></div>
+                    </div>
+                    <a href="base.html?template=17" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">18</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Amatista</h3>
+                    <p class="template-description">Diseño púrpura místico con colores inspirados en gemas</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #6A1B9A;"></div>
+                        <div class="color-dot" style="background-color: #AB47BC;"></div>
+                        <div class="color-dot" style="background-color: #E1BEE7;"></div>
+                    </div>
+                    <a href="base.html?template=18" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">19</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Púrpura Profundo</h3>
+                    <p class="template-description">Esquema de color violeta rico y sofisticado</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #4527A0;"></div>
+                        <div class="color-dot" style="background-color: #7E57C2;"></div>
+                        <div class="color-dot" style="background-color: #D1C4E9;"></div>
+                    </div>
+                    <a href="base.html?template=19" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">20</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Noche Índigo</h3>
+                    <p class="template-description">Inspirado en la medianoche con azules índigo profundos</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #283593;"></div>
+                        <div class="color-dot" style="background-color: #5C6BC0;"></div>
+                        <div class="color-dot" style="background-color: #C5CAE9;"></div>
+                    </div>
+                    <a href="base.html?template=20" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">21</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Cielo Azur</h3>
+                    <p class="template-description">Inspirado en cielo despejado con tonos azur brillantes</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #1565C0;"></div>
+                        <div class="color-dot" style="background-color: #42A5F5;"></div>
+                        <div class="color-dot" style="background-color: #BBDEFB;"></div>
+                    </div>
+                    <a href="base.html?template=21" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">22</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Azul Claro</h3>
+                    <p class="template-description">Aireado y espacioso con paleta azul suave</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #0277BD;"></div>
+                        <div class="color-dot" style="background-color: #29B6F6;"></div>
+                        <div class="color-dot" style="background-color: #B3E5FC;"></div>
+                    </div>
+                    <a href="base.html?template=22" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">23</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Cyan Tropical</h3>
+                    <p class="template-description">Inspirado en la playa con acentos turquesa</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #00838F;"></div>
+                        <div class="color-dot" style="background-color: #26C6DA;"></div>
+                        <div class="color-dot" style="background-color: #B2EBF2;"></div>
+                    </div>
+                    <a href="base.html?template=23" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">24</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Verde Jade</h3>
+                    <p class="template-description">Tonos verdes inspirados en piedras preciosas</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #00695C;"></div>
+                        <div class="color-dot" style="background-color: #26A69A;"></div>
+                        <div class="color-dot" style="background-color: #B2DFDB;"></div>
+                    </div>
+                    <a href="base.html?template=24" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">25</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Verde Césped</h3>
+                    <p class="template-description">Diseño inspirado en pradera fresca</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #2E7D32;"></div>
+                        <div class="color-dot" style="background-color: #66BB6A;"></div>
+                        <div class="color-dot" style="background-color: #C8E6C9;"></div>
+                    </div>
+                    <a href="base.html?template=25" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">26</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Lima Fresco</h3>
+                    <p class="template-description">Paleta de color lima energética y fresca</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #558B2F;"></div>
+                        <div class="color-dot" style="background-color: #9CCC65;"></div>
+                        <div class="color-dot" style="background-color: #DCEDC8;"></div>
+                    </div>
+                    <a href="base.html?template=26" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">27</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Amarillo Brillante</h3>
+                    <p class="template-description">Soleado y optimista con amarillos vibrantes</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #9E9D24;"></div>
+                        <div class="color-dot" style="background-color: #D4E157;"></div>
+                        <div class="color-dot" style="background-color: #F0F4C3;"></div>
+                    </div>
+                    <a href="base.html?template=27" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">28</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Hora Dorada</h3>
+                    <p class="template-description">Tonos dorados cálidos inspirados en el atardecer</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #F9A825;"></div>
+                        <div class="color-dot" style="background-color: #FFEB3B;"></div>
+                        <div class="color-dot" style="background-color: #FFF9C4;"></div>
+                    </div>
+                    <a href="base.html?template=28" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">29</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Ámbar Cálido</h3>
+                    <p class="template-description">Esquema de color ámbar acogedor e invitador</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #FF8F00;"></div>
+                        <div class="color-dot" style="background-color: #FFA726;"></div>
+                        <div class="color-dot" style="background-color: #FFE0B2;"></div>
+                    </div>
+                    <a href="base.html?template=29" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">30</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Mandarina</h3>
+                    <p class="template-description">Paleta naranja brillante inspirada en cítricos</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #EF6C00;"></div>
+                        <div class="color-dot" style="background-color: #FF7043;"></div>
+                        <div class="color-dot" style="background-color: #FFCCBC;"></div>
+                    </div>
+                    <a href="base.html?template=30" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">31</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Naranja Rústico</h3>
+                    <p class="template-description">Terrenal y arraigado con tonos terracota</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #D84315;"></div>
+                        <div class="color-dot" style="background-color: #FF5722;"></div>
+                        <div class="color-dot" style="background-color: #FFAB91;"></div>
+                    </div>
+                    <a href="base.html?template=31" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">32</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Tierra Marrón</h3>
+                    <p class="template-description">Natural y arraigado con tonos marrones</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #5D4037;"></div>
+                        <div class="color-dot" style="background-color: #8D6E63;"></div>
+                        <div class="color-dot" style="background-color: #D7CCC8;"></div>
+                    </div>
+                    <a href="base.html?template=32" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">33</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Gris Azul</h3>
+                    <p class="template-description">Paleta gris-azul profesional y neutral</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #455A64;"></div>
+                        <div class="color-dot" style="background-color: #78909C;"></div>
+                        <div class="color-dot" style="background-color: #CFD8DC;"></div>
+                    </div>
+                    <a href="base.html?template=33" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">34</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Pizarra Moderna</h3>
+                    <p class="template-description">Diseño gris pizarra contemporáneo</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #37474F;"></div>
+                        <div class="color-dot" style="background-color: #607D8B;"></div>
+                        <div class="color-dot" style="background-color: #B0BEC5;"></div>
+                    </div>
+                    <a href="base.html?template=34" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">35</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Carbón Oscuro</h3>
+                    <p class="template-description">Tema carbón oscuro elegante y moderno</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #263238;"></div>
+                        <div class="color-dot" style="background-color: #546E7A;"></div>
+                        <div class="color-dot" style="background-color: #90A4AE;"></div>
+                    </div>
+                    <a href="base.html?template=35" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">36</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Magenta Audaz</h3>
+                    <p class="template-description">Diseño magenta llamativo</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #880E4F;"></div>
+                        <div class="color-dot" style="background-color: #E91E63;"></div>
+                        <div class="color-dot" style="background-color: #FCE4EC;"></div>
+                    </div>
+                    <a href="base.html?template=36" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">37</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Sueño Violeta</h3>
+                    <p class="template-description">Combinación violeta-púrpura soñadora</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #4A148C;"></div>
+                        <div class="color-dot" style="background-color: #9C27B0;"></div>
+                        <div class="color-dot" style="background-color: #F3E5F5;"></div>
+                    </div>
+                    <a href="base.html?template=37" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">38</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Ultra Violeta</h3>
+                    <p class="template-description">Diseño moderno ultra violeta audaz</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #311B92;"></div>
+                        <div class="color-dot" style="background-color: #673AB7;"></div>
+                        <div class="color-dot" style="background-color: #EDE7F6;"></div>
+                    </div>
+                    <a href="base.html?template=38" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">39</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Azul Marino Profesional</h3>
+                    <p class="template-description">Diseño empresarial azul marino clásico</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #1A237E;"></div>
+                        <div class="color-dot" style="background-color: #3F51B5;"></div>
+                        <div class="color-dot" style="background-color: #E8EAF6;"></div>
+                    </div>
+                    <a href="base.html?template=39" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview">
+                    <div class="template-number">40</div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">Lujo Esmeralda</h3>
+                    <p class="template-description">Tema verde esmeralda lujoso</p>
+                    <div class="template-colors">
+                        <div class="color-dot" style="background-color: #004D40;"></div>
+                        <div class="color-dot" style="background-color: #00897B;"></div>
+                        <div class="color-dot" style="background-color: #A7FFEB;"></div>
+                    </div>
+                    <a href="base.html?template=40" class="view-button">Ver Plantilla</a>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>🎨 40 Plantillas Únicas de Noticias • Construidas con HTML y CSS</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Haz clic en cualquier plantilla para ver el diseño completo</p>
+        </footer>
+    </div>
+</body>
+</html>

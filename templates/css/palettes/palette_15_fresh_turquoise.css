@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: fresh_turquoise - Turquesa fresco y limpio */
+    --primary-color: #00897B;
+    --secondary-color: #26A69A;
+    --accent-color: #FFB300;
+    --background-color: #E0F2F1;
+    --background-color-2: #E0F2F1;
+    --text-color: #004D40;
+    --light-text: #4DB6AC;
+    --urgent-color: #FFB300;
+    --card-bg: #FFFFFF;
+}

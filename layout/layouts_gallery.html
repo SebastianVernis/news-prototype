@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de 10 Layouts Profesionales</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, sans-serif; background: #f5f7fa; padding: 2rem; }
+        .header { text-align: center; margin-bottom: 3rem; }
+        .header h1 { font-size: 2.5rem; color: #2c3e50; margin-bottom: 0.5rem; }
+        .gallery { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 2rem; }
+        .layout-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s; }
+        .layout-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+        .layout-preview { width: 100%; height: 250px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; font-weight: 800; }
+        .layout-info { padding: 1.5rem; }
+        .layout-name { font-size: 1.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 0.5rem; }
+        .layout-description { color: #6c757d; font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6; }
+        .layout-features { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .feature-tag { background: #ecf0f1; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; color: #2c3e50; }
+        .view-button { display: block; width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; }
+        .view-button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 Galería de 10 Layouts Profesionales</h1>
+        <p style="color: #6c757d; font-size: 1.1rem;">Explora diferentes diseños para sitios de noticias</p>
+    </div>
+    
+    <div class="gallery">
+
+        <div class="layout-card">
+            <div class="layout-preview">1</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 1: Classic News</h2>
+                <p class="layout-description">destacados-left-sidebar-right</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Carrusel</span>
+<span class="feature-tag">Header horizontal</span>
+<span class="feature-tag">Footer 4</span>
+                </div>
+                <a href="layout_1_classic_news.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">2</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 2: Modern Flip</h2>
+                <p class="layout-description">sidebar-left-destacados-right</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Carrusel</span>
+<span class="feature-tag">Header horizontal</span>
+<span class="feature-tag">Footer 3</span>
+                </div>
+                <a href="layout_2_modern_flip.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">3</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 3: Magazine Style</h2>
+                <p class="layout-description">carousel-destacados-top-split-bottom</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Header vertical</span>
+<span class="feature-tag">Footer 2</span>
+                </div>
+                <a href="layout_3_magazine_style.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">4</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 4: Grid Master</h2>
+                <p class="layout-description">destacados-3col-sidebar-bottom</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Carrusel</span>
+<span class="feature-tag">Header horizontal</span>
+<span class="feature-tag">Footer minimal</span>
+                </div>
+                <a href="layout_4_grid_master.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">5</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 5: Premium Portal</h2>
+                <p class="layout-description">destacados-full-miniatures-grid</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Header horizontal</span>
+<span class="feature-tag">Footer newsletter</span>
+                </div>
+                <a href="layout_5_premium_portal.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">6</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 6: Minimalist</h2>
+                <p class="layout-description">carousel-large-compact-list</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Header minimal</span>
+<span class="feature-tag">Footer simple</span>
+                </div>
+                <a href="layout_6_minimalist.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">7</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 7: Masonry News</h2>
+                <p class="layout-description">destacados-masonry-sidebar-sticky</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Carrusel</span>
+<span class="feature-tag">Header horizontal</span>
+<span class="feature-tag">Footer 4</span>
+                </div>
+                <a href="layout_7_masonry_news.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">8</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 8: Hero Focus</h2>
+                <p class="layout-description">hero-destacado-grid-2col</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Header magazine</span>
+<span class="feature-tag">Footer split</span>
+                </div>
+                <a href="layout_8_hero_focus.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">9</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 9: Balanced 3-Col</h2>
+                <p class="layout-description">carousel-3col-balanced</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Carrusel</span>
+<span class="feature-tag">Header news</span>
+<span class="feature-tag">Footer 3</span>
+                </div>
+                <a href="layout_9_balanced_3-col.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+        <div class="layout-card">
+            <div class="layout-preview">10</div>
+            <div class="layout-info">
+                <h2 class="layout-name">Layout 10: Timeline Portal</h2>
+                <p class="layout-description">destacados-cards-timeline-sidebar</p>
+                <div class="layout-features">
+                    <span class="feature-tag">Header boxed</span>
+<span class="feature-tag">Footer magazine</span>
+                </div>
+                <a href="layout_10_timeline_portal.html" target="_blank" class="view-button">Ver Layout Completo</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

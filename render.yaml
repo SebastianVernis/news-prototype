@@ -1,0 +1,93 @@
+# Render Blueprint - News Generator Backend
+# https://render.com/docs/blueprint-spec
+
+services:
+  # Backend API Service
+  - type: web
+    name: news-generator-backend
+    runtime: python
+    plan: free    # Free tier con cron job para evitar suspension
+    # plan: starter  # $7/mes - Upgrade cuando sea necesario
+    
+    # Build
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r backend/requirements.txt
+    
+    # Start
+    startCommand: gunicorn -w 2 -t 300 -b 0.0.0.0:$PORT backend.app:app
+    
+    # Source
+    repo: https://github.com/SebastianVernis/Tecnolog-a  # Cambiar por tu repo
+    branch: master
+    
+    # Environment
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      
+      - key: FLASK_ENV
+        value: production
+      
+      - key: BLACKBOX_API_KEY
+        sync: false  # Secret - configurar en Render dashboard
+      
+      - key: NEWSAPI_KEY
+        sync: false  # Secret - configurar en Render dashboard
+      
+      - key: VERCEL_TOKEN
+        sync: false  # Secret - para deploy automático a Vercel
+      
+      - key: AWS_ACCESS_KEY_ID
+        sync: false  # Secret - si usas S3
+      
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false  # Secret - si usas S3
+      
+      - key: AWS_S3_BUCKET
+        value: news-generator-sites  # Cambiar por tu bucket
+      
+      - key: AWS_REGION
+        value: us-east-1
+      
+      - key: STORAGE_TYPE
+        value: disk  # 'disk', 's3', or 'r2'
+      
+      - key: OUTPUT_BASE_DIR
+        value: /opt/render/project/src/generated_sites
+    
+    # Health check
+    healthCheckPath: /api/health
+    
+    # Auto-deploy
+    autoDeploy: true
+    
+    # Persistent Disk (Opcional - $1/GB/mes)
+    # Recomendado solo si no usas S3/R2
+    # DISABLED for free tier - uncomment if you upgrade to paid plan
+    # disk:
+    #   name: generated-sites-disk
+    #   mountPath: /opt/render/project/src/generated_sites
+    #   sizeGB: 10  # 10GB = $10/mes
+    
+    # Regiones (elegir la más cercana a usuarios)
+    # oregon, frankfurt, singapore
+    region: oregon
+
+  # Cron Job - Keep Alive ($1/mes)
+  # DISABLED - Uncomment if you want to keep the service awake 24/7
+  # - type: cron
+  #   name: news-generator-keep-alive
+  #   runtime: python
+  #   schedule: "*/10 * * * *"  # Cada 10 minutos
+  #   buildCommand: "pip install requests"
+  #   startCommand: "python scripts/keep_alive_cron.py"
+  #   repo: https://github.com/YOUR_USERNAME/news-prototype
+  #   branch: main
+  #   envVars:
+  #     - key: BACKEND_URL
+  #       value: https://news-generator-backend.onrender.com
+
+# Variables de entorno compartidas
+# Puedes definirlas aquí o en Render Dashboard
+# Para secrets, usa Render Dashboard por seguridad

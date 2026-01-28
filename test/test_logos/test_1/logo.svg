@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80">
+    <!-- Icono -->
+    <g transform="translate(10, 15) scale(2)">
+        <path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
+    </g>
+    
+    <!-- Texto -->
+    <text x="80" y="55" 
+          font-family="Bebas Neue, sans-serif" 
+          font-size="36"
+          font-weight="bold"
+          fill="#B10B1F">
+        NOTICIAS HOY
+    </text>
+</svg>

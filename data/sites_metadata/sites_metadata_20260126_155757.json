@@ -1,0 +1,89 @@
+[
+  {
+    "id": "site_20260126_155757_4947",
+    "nombre": "MediaDirecto24/7",
+    "tagline": "Las Noticias más Recientes",
+    "estilo": "aleatorio",
+    "dominio": "mediadirecto247.press",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#27AE60",
+      "secundario": "#16A085",
+      "acento": "#F39C12",
+      "texto": "#2C3E50",
+      "fondo": "#ECF0F1"
+    },
+    "logo": {
+      "nombre_completo": "MediaDirecto24/7",
+      "iniciales": "M",
+      "estilo": "classic",
+      "tipo": "lettermark",
+      "colores": {
+        "primario": "#27AE60",
+        "secundario": "#16A085",
+        "acento": "#F39C12",
+        "texto": "#2C3E50",
+        "fondo": "#ECF0F1"
+      },
+      "fuente_sugerida": "Open Sans",
+      "peso_fuente": "bold",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Opinión",
+      "Negocios",
+      "Sociedad"
+    ],
+    "contacto": {
+      "email_general": "contacto@mediadirecto247.press",
+      "email_redaccion": "redaccion@mediadirecto247.press",
+      "email_publicidad": "publicidad@mediadirecto247.press",
+      "telefono": "+52 55 9179 2613",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/mediadirecto247",
+      "twitter": "https://twitter.com/mediadirecto247",
+      "instagram": "https://instagram.com/mediadirecto247",
+      "youtube": "https://youtube.com/@mediadirecto247",
+      "linkedin": "https://linkedin.com/company/mediadirecto247",
+      "telegram": "https://t.me/mediadirecto247"
+    },
+    "seo": {
+      "titulo": "MediaDirecto24/7 - Las Noticias más Recientes",
+      "descripcion": "MediaDirecto24/7 es tu fuente confiable de noticias e información actualizada. Las Noticias más Recientes. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "mediadirecto24/7",
+        "mediadirecto247"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-01-26T15:57:57.666630",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

@@ -1,0 +1,252 @@
+/**
+ * Variables Base CSS - Sistema de diseño unificado
+ * Basado en análisis de Radio M y sitios profesionales mexicanos
+ */
+
+:root {
+    /* ========================================
+       DIMENSIONES Y LAYOUT
+       ======================================== */
+    --site-width: 1070px;
+    --content-width: 69%;
+    --sidebar-width: 300px;
+    --container-padding: 15px;
+    
+    /* ========================================
+       ESPACIADO
+       ======================================== */
+    --gap-xs: 5px;
+    --gap-sm: 10px;
+    --gap-md: 20px;
+    --gap-lg: 35px;
+    --gap-xl: 50px;
+    
+    --padding-xs: 5px;
+    --padding-sm: 10px;
+    --padding-md: 15px;
+    --padding-lg: 25px;
+    --padding-xl: 40px;
+    
+    /* ========================================
+       BORDER RADIUS
+       ======================================== */
+    --radius-sm: 4px;
+    --radius-box: 6px;
+    --radius-button: 10px;
+    --radius-image: 10px;
+    --radius-full: 9999px;
+    
+    /* ========================================
+       TIPOGRAFÍA
+       ======================================== */
+    /* Familias de fuentes */
+    --font-body: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-heading: "Bebas Neue", Impact, "Arial Black", sans-serif;
+    --font-accent: "Montserrat", "Helvetica Neue", sans-serif;
+    
+    /* Tamaños de fuente */
+    --font-size-xs: 11px;
+    --font-size-sm: 12px;
+    --font-size-base: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 22px;
+    --font-size-2xl: 28px;
+    --font-size-3xl: 36px;
+    --font-size-4xl: 48px;
+    
+    /* Line heights */
+    --line-height-tight: 1.2;
+    --line-height-base: 1.5;
+    --line-height-relaxed: 1.7;
+    --line-height-loose: 2.0;
+    
+    /* Font weights */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+    
+    /* Letter spacing */
+    --letter-spacing-tight: -0.02em;
+    --letter-spacing-normal: 0em;
+    --letter-spacing-wide: 0.05em;
+    --letter-spacing-wider: 0.1em;
+    
+    /* ========================================
+       COLORES (Se sobrescriben por tema)
+       ======================================== */
+    --color-primary: #B10B1F;
+    --color-secondary: #F1F1F1;
+    --color-accent: #D1D1D1;
+    --color-bg: #FFFFFF;
+    --color-bg-alt: #EDEDED;
+    --color-text: #202124;
+    --color-text-light: #999999;
+    --color-text-lighter: #CCCCCC;
+    --color-urgent: #FDE636;
+    --color-border: #EFEFEF;
+    --color-link: var(--color-primary);
+    --color-link-hover: var(--color-secondary);
+    
+    /* ========================================
+       HEADER
+       ======================================== */
+    --header-height: 65px;
+    --header-secondary-height: 50px;
+    --header-z-index: 100;
+    
+    /* ========================================
+       SOMBRAS
+       ======================================== */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    
+    /* ========================================
+       Z-INDEX SYSTEM
+       ======================================== */
+    --z-base: 1;
+    --z-dropdown: 50;
+    --z-sticky: 90;
+    --z-header: 100;
+    --z-offcanvas: 200;
+    --z-modal: 300;
+    --z-tooltip: 400;
+    
+    /* ========================================
+       TRANSICIONES
+       ======================================== */
+    --transition-fast: 150ms ease-in-out;
+    --transition-base: 250ms ease-in-out;
+    --transition-slow: 350ms ease-in-out;
+    
+    /* ========================================
+       BREAKPOINTS (Para uso en media queries)
+       ======================================== */
+    --breakpoint-xs: 480px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    
+    /* ========================================
+       COMPONENTES ESPECÍFICOS
+       ======================================== */
+    /* Cards */
+    --card-padding: var(--padding-md);
+    --card-radius: var(--radius-box);
+    --card-shadow: var(--shadow-sm);
+    --card-shadow-hover: var(--shadow-md);
+    
+    /* Buttons */
+    --button-padding-y: 10px;
+    --button-padding-x: 20px;
+    --button-radius: var(--radius-button);
+    --button-font-weight: var(--font-weight-bold);
+    
+    /* Category badges */
+    --badge-padding-y: 5px;
+    --badge-padding-x: 12px;
+    --badge-radius: var(--radius-button);
+    --badge-font-size: var(--font-size-sm);
+    --badge-font-weight: var(--font-weight-bold);
+    
+    /* Input fields */
+    --input-padding-y: 10px;
+    --input-padding-x: 15px;
+    --input-radius: var(--radius-sm);
+    --input-border: 1px solid var(--color-border);
+    
+    /* ========================================
+       UTILIDADES
+       ======================================== */
+    --max-width-text: 65ch;
+    --max-width-content: 800px;
+}
+
+/* ========================================
+   MODO OSCURO (Opcional)
+   ======================================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #1C1C1C;
+        --color-bg-alt: #161617;
+        --color-text: rgba(255, 255, 255, 0.8);
+        --color-text-light: rgba(255, 255, 255, 0.6);
+        --color-border: rgba(255, 255, 255, 0.1);
+        --card-bg: #161617;
+    }
+}
+
+/* ========================================
+   CLASES DE UTILIDAD
+   ======================================== */
+
+/* Texto UPPERCASE (menús, badges) */
+.uppercase {
+    text-transform: uppercase;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Container responsivo */
+.container {
+    max-width: var(--site-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+}
+
+/* Grid base */
+.grid {
+    display: grid;
+    gap: var(--gap-md);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 768px) {
+    .grid-3, .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Flex utilities */
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Shadows */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+/* Transitions */
+.transition { transition: all var(--transition-base); }
+.transition-fast { transition: all var(--transition-fast); }
+.transition-slow { transition: all var(--transition-slow); }

@@ -1,0 +1,12 @@
+:root {
+    /* Paleta: vibrant_orange - Naranja vibrante y enérgico */
+    --primary-color: #FF6F00;
+    --secondary-color: #FFA726;
+    --accent-color: #FFD54F;
+    --background-color: #FFF8E1;
+    --background-color-2: #FFFFFF;
+    --text-color: #E65100;
+    --light-text: #FF8A50;
+    --urgent-color: #FF6F00;
+    --card-bg: #FFFFFF;
+}

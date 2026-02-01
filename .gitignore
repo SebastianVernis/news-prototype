@@ -52,3 +52,5 @@ build/
 *generated_sites*
 *sites*
 *images*/
+*.jpg
+*.png

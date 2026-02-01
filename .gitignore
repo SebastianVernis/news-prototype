@@ -31,6 +31,7 @@ data/newsapi_*.json
 scripts/newsapi_*.csv
 scripts/newsapi_*.json
 generated_sites/
+generated_images/
 sites/site*.html
 images/news/*.jpg
 images/news/*.png
@@ -46,3 +47,8 @@ dist/
 build/
 *.egg-info/
 .blackboxcli/
+*newsapi_*
+*article_*
+*generated_sites*
+*sites*
+*images*/

@@ -16,10 +16,12 @@ from threading import Lock
 load_dotenv()
 
 # Cargar múltiples keys para rotación
+# Modelo por defecto: blackboxai/x-ai/grok-code-fast-1:free (recomendado)
+DEFAULT_MODEL = 'blackboxai/x-ai/grok-code-fast-1:free'
 BLACKBOX_API_KEY_1 = os.getenv('BLACKBOX_API_KEY_1')
-BLACKBOX_MODEL_1 = os.getenv('BLACKBOX_MODEL_1', 'blackboxai/x-ai/grok-code-fast-1:free')
+BLACKBOX_MODEL_1 = os.getenv('BLACKBOX_MODEL_1', DEFAULT_MODEL)
 BLACKBOX_API_KEY_2 = os.getenv('BLACKBOX_API_KEY_2')
-BLACKBOX_MODEL_2 = os.getenv('BLACKBOX_MODEL_2', 'blackboxai/x-ai/grok-code-fast-1:free')
+BLACKBOX_MODEL_2 = os.getenv('BLACKBOX_MODEL_2', DEFAULT_MODEL)
 
 BLACKBOX_API_URL = 'https://api.blackbox.ai/chat/completions'
 
@@ -29,8 +31,9 @@ class BlackboxParallelParaphraser:
     
     def __init__(self, api_keys: List[str] = None):
         # Cargar todas las keys y modelos disponibles
+        # Usar siempre el modelo blackboxai/x-ai/grok-code-fast-1:free por defecto
         if api_keys:
-            self.api_configs = [{'key': k, 'model': 'blackboxai/x-ai/grok-code-fast-1:free', 'id': f'CUSTOM_{i}'} for i, k in enumerate(api_keys) if k and 'PENDIENTE' not in k]
+            self.api_configs = [{'key': k, 'model': DEFAULT_MODEL, 'id': f'CUSTOM_{i}'} for i, k in enumerate(api_keys) if k and 'PENDIENTE' not in k]
         else:
             self.api_configs = []
             
@@ -190,6 +193,14 @@ Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
             self.success_count += 1
             
             result = response.json()
+            
+            # Validar estructura de respuesta
+            if 'choices' not in result or not result['choices']:
+                raise ValueError(f"Respuesta inválida de Blackbox API: {result}")
+            
+            if 'message' not in result['choices'][0] or 'content' not in result['choices'][0]['message']:
+                raise ValueError(f"Estructura de respuesta inesperada: {result}")
+            
             paraphrased = result['choices'][0]['message']['content'].strip()
             
             # Crear copia del artículo con texto parafraseado

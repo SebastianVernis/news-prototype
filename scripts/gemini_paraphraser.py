@@ -170,9 +170,18 @@ Tu reescritura (SIN firmas, SIN metadata):"""
             
             result = response.json()
             
+            # Validar estructura de respuesta
+            if 'candidates' not in result or not result['candidates']:
+                raise ValueError(f"Respuesta inválida de Gemini API: {result}")
+            
+            if 'content' not in result['candidates'][0] or 'parts' not in result['candidates'][0]['content']:
+                raise ValueError(f"Estructura de respuesta inesperada: {result}")
+            
+            if not result['candidates'][0]['content']['parts']:
+                raise ValueError(f"Respuesta vacía de Gemini: {result}")
+            
             # Extraer texto de la respuesta de Gemini
-            if 'candidates' in result and len(result['candidates']) > 0:
-                text = result['candidates'][0]['content']['parts'][0]['text'].strip()
+            text = result['candidates'][0]['content']['parts'][0]['text'].strip()
                 
                 # Limpiar texto de firmas y metadata comunes
                 text = self._limpiar_firmas(text)

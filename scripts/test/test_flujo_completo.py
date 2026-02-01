@@ -122,21 +122,44 @@ def main():
         
         # Paso 3: Parafrasear noticias
         print_step(3, total_steps, "Parafraseando artículos con Blackbox AI")
-        
+
         try:
+            # Intentar usar Blackbox paralelo si hay múltiples keys
+            from blackbox_parallel import BlackboxParallelParaphraser
             from paraphrase import NewsParaphraser
-            
-            paraphraser = NewsParaphraser()
-            all_variations = []
-            
-            for i, article in enumerate(articles, 1):
-                print_info(f"Parafraseando artículo {i}/2...")
-                variations = paraphraser.generate_variations(article, num_variations=1)
-                all_variations.extend(variations)
-            
-            print_success(f"Generadas {len(all_variations)} variaciones")
-            results['steps']['paraphrase'] = {'status': 'success', 'variations': len(all_variations)}
-            
+
+            # Verificar si hay múltiples keys disponibles
+            try:
+                parallel_paraphraser = BlackboxParallelParaphraser()
+                if len(parallel_paraphraser.api_configs) >= 2:
+                    print_info(f"Usando Blackbox paralelo ({len(parallel_paraphraser.api_configs)} keys)")
+                    all_variations = parallel_paraphraser.parafrasear_lote_paralelo(
+                        articles[:2],  # Solo 2 artículos para test
+                        max_workers=2
+                    )
+                    paraphrase_method = 'blackbox-parallel'
+                else:
+                    raise ValueError("Solo 1 key disponible")
+            except Exception as parallel_error:
+                print_info(f"Usando Blackbox estándar (fallback)")
+                paraphraser = NewsParaphraser()
+                all_variations = []
+
+                for i, article in enumerate(articles[:2], 1):
+                    print_info(f"Parafraseando artículo {i}/2...")
+                    variations = paraphraser.generate_variations(article, num_variations=1)
+                    all_variations.extend(variations)
+                paraphrase_method = 'blackbox-standard'
+
+            successful = sum(1 for v in all_variations if v.get('paraphrased', True))
+            print_success(f"Generadas {len(all_variations)} variaciones ({successful} exitosas)")
+            results['steps']['paraphrase'] = {
+                'status': 'success',
+                'variations': len(all_variations),
+                'method': paraphrase_method,
+                'successful': successful
+            }
+
         except Exception as e:
             print_error(f"Error parafraseando: {e}")
             results['steps']['paraphrase'] = {'status': 'error', 'error': str(e)}

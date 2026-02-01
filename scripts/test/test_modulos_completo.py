@@ -84,8 +84,9 @@ def main():
     print(f"""
 {Colors.CYAN}╔═══════════════════════════════════════════════════════════════════╗
 ║                                                                   ║
-║  🧪 VERIFICACIÓN DE 16 MÓDULOS DEL SISTEMA                       ║
+║  🧪 VERIFICACIÓN DE 17 MÓDULOS DEL SISTEMA                       ║
 ║  Generador Automático de Sitios de Noticias                      ║
+║  Incluye Blackbox AI (estándar y paralelo)                       ║
 ║                                                                   ║
 ╚═══════════════════════════════════════════════════════════════════╝{Colors.ENDC}
 """)
@@ -96,25 +97,26 @@ def main():
         ('Site Pre-Creation', 'site_pre_creation.py', 'Generador de metadata de sitios'),
         ('Site Name Generator', 'site_name_generator.py', 'Generador de nombres de sitios'),
         ('Domain Verifier', 'domain_verifier.py', 'Verificador de dominios disponibles'),
-        
-        # Módulos de contenido
+
+        # Módulos de contenido - Blackbox AI
         ('NewsAPI', 'api/newsapi.py', 'API de NewsAPI.org'),
-        ('Paraphrase', 'paraphrase.py', 'Motor de parafraseo con Blackbox AI'),
+        ('Paraphrase', 'paraphrase.py', 'Motor de parafraseo con Blackbox AI (estándar)'),
+        ('Blackbox Parallel', 'blackbox_parallel.py', 'Parafraseo paralelo con múltiples keys'),
         ('Article Expander', 'article-expander.py', 'Expandidor de artículos'),
-        
+
         # Módulos de diseño
         ('Logo Generator SVG', 'logo_generator_svg.py', 'Generador de logos SVG'),
         ('Color Palette Generator', 'color_palette_generator.py', 'Generador de paletas de colores'),
         ('Font Family Generator', 'font_family_generator.py', 'Generador de familias tipográficas'),
         ('Layout Generator', 'layout_generator.py', 'Generador de layouts'),
         ('Layout CSS Generator', 'layout_css_generator.py', 'Generador de CSS para layouts'),
-        
+
         # Módulos de componentes HTML
         ('Header Generator', 'header_generator.py', 'Generador de headers'),
         ('Footer Generator', 'footer_generator.py', 'Generador de footers'),
         ('Legal Pages Generator', 'legal_pages_generator.py', 'Generador de páginas legales'),
         ('Template Combiner', 'template_combiner.py', 'Combinador de templates'),
-        
+
         # Módulo de generación final
         ('Generate Sites', 'generate-sites.py', 'Generador final de sitios HTML'),
     ]

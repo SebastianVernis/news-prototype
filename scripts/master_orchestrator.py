@@ -289,7 +289,13 @@ class MasterOrchestrator:
                     self.log(f"  [{noticia_idx}/{len(noticias_principales)}] {noticia.get('title', '')[:50]}...")
                     
                     paraphrased = self.paraphraser.paraphrase_article(noticia, style=style)
-                    paraphrased['author'] = paraphrased.get('author') or self.legal_generator.generar_autor_aleatorio(metadata['nombre'])
+                    
+                    # Generar metadata del sitio si no existe para obtener el nombre
+                    if not hasattr(self, '_metadata_cache'):
+                        self._metadata_cache = self.name_generator.generar_nombre_completo()
+                    site_name = self._metadata_cache.get('nombre', 'Noticias')
+                    
+                    paraphrased['author'] = paraphrased.get('author') or self.legal_generator.generar_autor_aleatorio(site_name)
                     paraphrased['paraphrase_method'] = 'blackbox-grok'
                     
                     noticias_parafraseadas.append(paraphrased)

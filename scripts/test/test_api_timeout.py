@@ -38,7 +38,7 @@ def test_endpoint_direct():
     }
     
     payload = {
-        "model": "blackboxai/blackbox-pro",
+        "model": "blackboxai/x-ai/grok-code-fast-1:free",
         "messages": [
             {"role": "user", "content": "Di 'hola' en español"}
         ],
@@ -164,7 +164,7 @@ def test_error_handling():
     }
     
     payload = {
-        "model": "blackboxai/blackbox-pro",
+        "model": "blackboxai/x-ai/grok-code-fast-1:free",
         "messages": [{"role": "user", "content": "test"}],
         "max_tokens": 50
     }

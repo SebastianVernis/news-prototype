@@ -132,6 +132,16 @@ Artículo expandido con PÁRRAFOS BIEN SEPARADOS:"""
             response.raise_for_status()
             
             result = response.json()
+            
+            # Validar estructura de respuesta
+            if 'choices' not in result or not result['choices']:
+                print(f"❌ Respuesta inválida de API: {result}")
+                return text
+            
+            if 'message' not in result['choices'][0] or 'content' not in result['choices'][0]['message']:
+                print(f"❌ Estructura de respuesta inesperada: {result}")
+                return text
+            
             paraphrased = result['choices'][0]['message']['content'].strip()
             return paraphrased
             

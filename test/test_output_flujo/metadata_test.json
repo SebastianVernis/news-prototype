@@ -1,32 +1,32 @@
 {
   "metadata": {
-    "id": "site_20260127_220751_7634",
-    "nombre": "MX365Tribune",
-    "tagline": "Donde las Noticias Cobran Vida",
+    "id": "site_20260131_165007_1367",
+    "nombre": "365MXWire",
+    "tagline": "Noticias desde el Corazón de México",
     "estilo": "aleatorio",
-    "dominio": "mx365tribune.com.mx",
+    "dominio": "365mxwire.mx",
     "dominio_verificado": true,
     "dominio_disponible": true,
     "colores": {
-      "primario": "#34495E",
-      "secundario": "#2980B9",
-      "acento": "#E67E22",
+      "primario": "#27AE60",
+      "secundario": "#16A085",
+      "acento": "#F39C12",
       "texto": "#2C3E50",
       "fondo": "#ECF0F1"
     },
     "logo": {
-      "nombre_completo": "MX365Tribune",
-      "iniciales": "M",
-      "estilo": "classic",
+      "nombre_completo": "365MXWire",
+      "iniciales": "3",
+      "estilo": "bold",
       "tipo": "emblem",
       "colores": {
-        "primario": "#34495E",
-        "secundario": "#2980B9",
-        "acento": "#E67E22",
+        "primario": "#27AE60",
+        "secundario": "#16A085",
+        "acento": "#F39C12",
         "texto": "#2C3E50",
         "fondo": "#ECF0F1"
       },
-      "fuente_sugerida": "Playfair Display",
+      "fuente_sugerida": "Merriweather",
       "peso_fuente": "regular",
       "formato_salida": [
         "png",
@@ -43,31 +43,30 @@
       "Nacional",
       "Internacional",
       "Política",
-      "Salud",
-      "Sociedad",
-      "Entretenimiento",
       "Educación",
-      "Mundo"
+      "Opinión",
+      "Sociedad",
+      "Economía"
     ],
     "contacto": {
-      "email_general": "contacto@mx365tribune.com.mx",
-      "email_redaccion": "redaccion@mx365tribune.com.mx",
-      "email_publicidad": "publicidad@mx365tribune.com.mx",
-      "telefono": "+52 55 9758 5447",
+      "email_general": "contacto@365mxwire.mx",
+      "email_redaccion": "redaccion@365mxwire.mx",
+      "email_publicidad": "publicidad@365mxwire.mx",
+      "telefono": "+52 55 1733 9327",
       "direccion": "Ciudad de México, México",
       "horario": "Disponible 24/7"
     },
     "redes_sociales": {
-      "facebook": "https://facebook.com/mx365tribune",
-      "twitter": "https://twitter.com/mx365tribune",
-      "instagram": "https://instagram.com/mx365tribune",
-      "youtube": "https://youtube.com/@mx365tribune",
-      "linkedin": "https://linkedin.com/company/mx365tribune",
-      "telegram": "https://t.me/mx365tribune"
+      "facebook": "https://facebook.com/365mxwire",
+      "twitter": "https://twitter.com/365mxwire",
+      "instagram": "https://instagram.com/365mxwire",
+      "youtube": "https://youtube.com/@365mxwire",
+      "linkedin": "https://linkedin.com/company/365mxwire",
+      "telegram": "https://t.me/365mxwire"
     },
     "seo": {
-      "titulo": "MX365Tribune - Donde las Noticias Cobran Vida",
-      "descripcion": "MX365Tribune es tu fuente confiable de noticias e información actualizada. Donde las Noticias Cobran Vida. Mantente informado con las últimas noticias de México y el mundo.",
+      "titulo": "365MXWire - Noticias desde el Corazón de México",
+      "descripcion": "365MXWire es tu fuente confiable de noticias e información actualizada. Noticias desde el Corazón de México. Mantente informado con las últimas noticias de México y el mundo.",
       "keywords": [
         "noticias",
         "méxico",
@@ -77,57 +76,55 @@
         "economía",
         "deportes",
         "entretenimiento",
-        "mx365tribune",
-        "mx365tribune"
+        "365mxwire",
+        "365mxwire"
       ],
       "og_type": "website",
       "og_locale": "es_MX",
       "twitter_card": "summary_large_image"
     },
-    "fecha_creacion": "2026-01-27T22:07:51.030674",
+    "fecha_creacion": "2026-01-31T16:50:07.051979",
     "version": "1.0",
     "estado": "pre-creado"
   },
   "design": {
     "palette": {
-      "nombre": "bright_yellow",
-      "descripcion": "Amarillo brillante y optimista",
-      "primary": "#F57F17",
-      "secondary": "#FBC02D",
-      "accent": "#0288D1",
-      "background": "#FFFDE7",
-      "text": "#F57F17",
-      "light_text": "#FDD835",
+      "nombre": "refreshing_mint",
+      "descripcion": "Menta refrescante",
+      "primary": "#00695C",
+      "secondary": "#00897B",
+      "accent": "#FF6F00",
+      "background": "#E0F2F1",
+      "text": "#004D40",
+      "light_text": "#26A69A",
       "card_bg": "#FFFFFF"
     },
     "fonts": {
-      "nombre": "tech_modern",
-      "descripcion": "Tecnológico y futurista",
-      "primary": "'Roboto', sans-serif",
-      "secondary": "'Roboto Mono', monospace",
+      "nombre": "corporate_professional",
+      "descripcion": "Corporativo y profesional",
+      "primary": "'Work Sans', sans-serif",
+      "secondary": "'Spectral', serif",
       "imports": [
-        "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap",
-        "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
+        "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600;800&display=swap",
+        "https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&display=swap"
       ],
-      "line_height": "1.5",
-      "heading_weight": "900",
-      "body_weight": "400",
-      "menu_size": "12px",
-      "menu_transform": "uppercase"
+      "line_height": "1.6",
+      "heading_weight": "800",
+      "body_weight": "400"
     },
     "layout": {
-      "layout_type": "featured_sidebar",
-      "sidebar_position": "left",
-      "header_style": "magazine_style",
-      "nav_style": "tabs",
-      "featured_layout": "diagonal_split",
-      "show_images": false,
-      "news_per_row": 3,
-      "show_sidebar_widgets": false,
-      "footer_columns": 3,
-      "use_breadcrumbs": true,
+      "layout_type": "editorial",
+      "sidebar_position": "right",
+      "header_style": "stacked",
+      "nav_style": "horizontal",
+      "featured_layout": "stacked",
+      "show_images": true,
+      "news_per_row": 4,
+      "show_sidebar_widgets": true,
+      "footer_columns": 4,
+      "use_breadcrumbs": false,
       "sticky_header": true
     }
   },
-  "logo": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 300 80\" width=\"300\" height=\"80\">\n    <!-- Icono -->\n    <g transform=\"translate(10, 15) scale(2)\">\n        <path d=\"M3 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v12h12V6H3zm15.5 0l4.5 3v8l-4.5 3v-2.5l2.5-1.667V9.167L18.5 7.5V6z\"/>\n    </g>\n    \n    <!-- Texto -->\n    <text x=\"80\" y=\"55\" \n          font-family=\"Bebas Neue, sans-serif\" \n          font-size=\"36\"\n          font-weight=\"bold\"\n          fill=\"#F57F17\">\n        TEST SITE\n    </text>\n</svg>"
+  "logo": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" width=\"200\" height=\"200\">\n    \n    \n    <!-- Iniciales -->\n    <text x=\"50\" y=\"70\" \n          font-family=\"Bebas Neue, Impact, sans-serif\" \n          font-size=\"40\"\n          font-weight=\"bold\"\n          text-anchor=\"middle\"\n          fill=\"white\">\n        TS\n    </text>\n</svg>"
 }

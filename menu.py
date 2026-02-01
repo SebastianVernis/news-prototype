@@ -316,13 +316,16 @@ def menu_generacion():
             ('1', '🚀 Generar sitio completo (20 noticias, modo rápido)'),
             ('2', '🔍 Generar sitio con verificación de dominios'),
             ('3', '💾 Generar usando cache de noticias'),
-            ('4', '⚙️  Generar con opciones personalizadas'),
-            ('5', '📊 Ver último sitio generado'),
-            ('6', '🌐 Servir sitios en navegador')
+            ('4', '🔌 Generar en MODO OFFLINE (Spacy+NLTK, sin APIs de IA)'),
+            ('5', '⚡ Generar con Blackbox paralelo (2 workers)'),
+            ('6', '🤖 Generar con Blackbox estándar'),
+            ('7', '⚙️  Generar con opciones personalizadas'),
+            ('8', '📊 Ver último sitio generado'),
+            ('9', '🌐 Servir sitios en navegador')
         ])
-        
-        choice = get_user_choice(['1', '2', '3', '4', '5', '6'])
-        
+
+        choice = get_user_choice(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
         if choice == '0':
             break
         elif choice == 'q':
@@ -330,22 +333,49 @@ def menu_generacion():
         elif choice == '1':
             run_script('scripts/master_orchestrator.py', 'Generación rápida de sitio completo')
         elif choice == '2':
-            run_script('scripts/master_orchestrator.py', 'Generación con verificación de dominios', 
+            run_script('scripts/master_orchestrator.py', 'Generación con verificación de dominios',
                       ['--verificar-dominios'])
         elif choice == '3':
-            run_script('scripts/master_orchestrator.py', 'Generación usando cache', 
+            run_script('scripts/master_orchestrator.py', 'Generación usando cache',
                       ['--usar-cache'])
         elif choice == '4':
+            print(f"\n{Colors.CYAN}🔌 MODO OFFLINE{Colors.ENDC}")
+            print(f"{Colors.GREEN}Usa Spacy + NLTK para parafraseo sin APIs de IA{Colors.ENDC}")
+            print(f"{Colors.YELLOW}Ventajas:{Colors.ENDC}")
+            print("  • No requiere API keys de Blackbox/Gemini")
+            print("  • Funciona 100% offline")
+            print("  • Más rápido (no hay latencia de red)")
+            print(f"{Colors.YELLOW}Nota:{Colors.ENDC} La calidad es diferente al usar IA generativa")
+            confirm = input(f"\n{Colors.CYAN}¿Continuar? (s/N): {Colors.ENDC}").strip().lower()
+            if confirm == 's':
+                run_script('scripts/master_orchestrator.py', 'Generación modo offline (Spacy+NLTK)',
+                          ['--offline'])
+        elif choice == '5':
+            print(f"\n{Colors.CYAN}⚡ BLACKBOX PARALELO{Colors.ENDC}")
+            print(f"{Colors.YELLOW}Requiere 2+ API keys configuradas en .env:{Colors.ENDC}")
+            print("  - BLACKBOX_API_KEY_PRO")
+            print("  - BLACKBOX_API_KEY_FREE")
+            print("  - BLACKBOX_API_KEY_ALT")
+            confirm = input(f"\n{Colors.CYAN}¿Continuar? (s/N): {Colors.ENDC}").strip().lower()
+            if confirm == 's':
+                run_script('scripts/blackbox_parallel.py', 'Parafraseo paralelo con Blackbox')
+        elif choice == '6':
+            print(f"\n{Colors.CYAN}🤖 BLACKBOX ESTÁNDAR{Colors.ENDC}")
+            print(f"{Colors.YELLOW}Usa BLACKBOX_API_KEY única{Colors.ENDC}")
+            run_script('scripts/paraphrase.py', 'Parafraseo estándar con Blackbox')
+        elif choice == '7':
             print(f"\n{Colors.YELLOW}⚙️  Opciones disponibles:{Colors.ENDC}")
             print("  --verificar-dominios  : Verificar disponibilidad con WHOIS")
             print("  --usar-cache         : Usar noticias guardadas")
             print("  --output-dir PATH    : Directorio de salida personalizado")
-            
+            print("  --api-whois          : Usar APILayer WHOIS API")
+            print("  --offline            : Modo offline (sin APIs externas)")
+
             args_input = input(f"\n{Colors.CYAN}Ingresa argumentos (o Enter para ninguno): {Colors.ENDC}").strip()
             args = args_input.split() if args_input else []
-            
+
             run_script('scripts/master_orchestrator.py', 'Generación personalizada', args)
-        elif choice == '5':
+        elif choice == '8':
             site_dir = Path('generated_sites/site_1')
             if site_dir.exists():
                 print(f"\n{Colors.GREEN}📁 Último sitio generado:{Colors.ENDC}")
@@ -357,7 +387,7 @@ def menu_generacion():
             else:
                 print(f"\n{Colors.RED}❌ No hay sitios generados aún{Colors.ENDC}")
             pause()
-        elif choice == '6':
+        elif choice == '9':
             menu_servir_sitios()
 
 def menu_tests():
@@ -367,53 +397,95 @@ def menu_tests():
         print_menu("🧪 TESTS Y VERIFICACIÓN", [
             ('1', '✅ Test de integración de módulos (verificar 16 módulos)'),
             ('2', '🚀 Test de flujo completo (2 artículos, rápido)'),
-            ('3', '🤖 Test de Blackbox API'),
-            ('4', '📝 Test de parafraseo rápido'),
-            ('5', '🔗 Test de integración general'),
-            ('6', '📊 Ver resultados del último test')
+            ('3', '🔌 Test de parafraseo OFFLINE (Spacy+NLTK)'),
+            ('4', '🤖 Test de Blackbox API'),
+            ('5', '⚡ Test de Blackbox paralelo'),
+            ('6', '📝 Test de parafraseo rápido'),
+            ('7', '🔌 Test de parafraseo Blackbox directo'),
+            ('8', '🔗 Test de integración general'),
+            ('9', '📊 Ver resultados del último test')
         ])
-        
-        choice = get_user_choice(['1', '2', '3', '4', '5', '6'])
-        
+
+        choice = get_user_choice(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
         if choice == '0':
             break
         elif choice == 'q':
             sys.exit(0)
         elif choice == '1':
-            run_script('scripts/test/test_modulos_completo.py', 
+            run_script('scripts/test/test_modulos_completo.py',
                       'Test de verificación de 16 módulos')
         elif choice == '2':
-            run_script('scripts/test/test_flujo_completo.py', 
+            run_script('scripts/test/test_flujo_completo.py',
                       'Test de flujo end-to-end (2 artículos)')
         elif choice == '3':
-            run_script('scripts/test/test_blackbox.py', 
-                      'Test de conexión con Blackbox AI')
+            print(f"\n{Colors.CYAN}🔌 TEST PARAFRASEO OFFLINE{Colors.ENDC}")
+            print(f"{Colors.GREEN}Prueba el parafraseo lingüístico con Spacy+NLTK{Colors.ENDC}")
+            print(f"{Colors.YELLOW}No requiere API keys - 100% offline{Colors.ENDC}")
+            run_script('scripts/linguistic_paraphraser.py',
+                      'Test de parafraseo offline (Spacy+NLTK)')
         elif choice == '4':
-            run_script('scripts/test/test_paraphrase_quick.py', 
-                      'Test rápido de parafraseo')
+            run_script('scripts/test/test_blackbox.py',
+                      'Test de conexión con Blackbox AI')
         elif choice == '5':
-            run_script('scripts/test/test_integration.py', 
-                      'Test de integración general')
+            print(f"\n{Colors.CYAN}⚡ TEST BLACKBOX PARALELO{Colors.ENDC}")
+            print(f"{Colors.YELLOW}Este test usa múltiples API keys para acelerar el parafraseo{Colors.ENDC}")
+            run_script('scripts/blackbox_parallel.py',
+                      'Test de parafraseo paralelo con Blackbox')
         elif choice == '6':
-            test_results = Path('test/test_flujo_completo_resultado.json')
-            if test_results.exists():
-                import json
-                with open(test_results, 'r') as f:
-                    data = json.load(f)
-                
-                print(f"\n{Colors.GREEN}📊 Últimos resultados de test:{Colors.ENDC}\n")
-                print(f"  Timestamp: {data.get('timestamp')}")
-                print(f"  Éxito: {'✅' if data.get('success') else '❌'}")
-                print(f"  Artículos: {data.get('config', {}).get('articulos')}")
-                print(f"  Tiempo: {data.get('tiempo_total_segundos', 0):.2f}s")
-                
-                stats = data.get('stats', {})
-                print(f"\n  Estadísticas:")
-                print(f"    - Noticias: {stats.get('noticias_parafraseadas', 0)}")
-                print(f"    - Imágenes: {stats.get('imagenes_generadas', 0)}")
-                print(f"    - Sitios: {stats.get('sitios_creados', 0)}")
-            else:
-                print(f"\n{Colors.RED}❌ No hay resultados de tests disponibles{Colors.ENDC}")
+            run_script('scripts/test/test_paraphrase_quick.py',
+                      'Test rápido de parafraseo')
+        elif choice == '7':
+            print(f"\n{Colors.CYAN}🔌 TEST PARAFRASEO BLACKBOX DIRECTO{Colors.ENDC}")
+            print(f"{Colors.YELLOW}Prueba el módulo paraphrase.py directamente{Colors.ENDC}")
+            run_script('scripts/paraphrase.py',
+                      'Test de parafraseo Blackbox directo')
+        elif choice == '8':
+            run_script('scripts/test/test_integration.py',
+                      'Test de integración general')
+        elif choice == '9':
+            # Mostrar resultados de tests disponibles
+            print(f"\n{Colors.CYAN}📊 RESULTADOS DE TESTS DISPONIBLES:{Colors.ENDC}\n")
+
+            result_files = [
+                ('test/test_flujo_completo_resultado.json', 'Flujo Completo'),
+                ('noticias_blackbox_parallel_test.json', 'Blackbox Paralelo'),
+                ('scripts/test_results.json', 'Integración'),
+            ]
+
+            found_any = False
+            for file_path, name in result_files:
+                result_file = Path(file_path)
+                if result_file.exists():
+                    found_any = True
+                    try:
+                        import json
+                        with open(result_file, 'r') as f:
+                            data = json.load(f)
+
+                        print(f"{Colors.BOLD}{name}:{Colors.ENDC}")
+                        if 'timestamp' in data:
+                            print(f"  Timestamp: {data.get('timestamp')}")
+                        if 'success' in data:
+                            print(f"  Éxito: {'✅' if data.get('success') else '❌'}")
+                        if 'tiempo_total_segundos' in data:
+                            print(f"  Tiempo: {data.get('tiempo_total_segundos', 0):.2f}s")
+
+                        # Stats específicos
+                        if 'stats' in data:
+                            stats = data.get('stats', {})
+                            print(f"  Stats: {stats}")
+                        elif 'articles' in data:
+                            print(f"  Artículos: {len(data.get('articles', []))}")
+                        print()
+                    except Exception as e:
+                        print(f"{Colors.YELLOW}  ⚠️ Error leyendo {name}: {e}{Colors.ENDC}\n")
+
+            if not found_any:
+                print(f"{Colors.RED}❌ No hay resultados de tests disponibles{Colors.ENDC}")
+                print(f"\n{Colors.YELLOW}Ejecuta un test primero:{Colors.ENDC}")
+                print("  Menú Principal → 2 (Tests) → 1-7")
+
             pause()
 
 def menu_documentacion():
@@ -507,6 +579,11 @@ def menu_utilidades():
             print(f"    - Total módulos: 17 (+ logo_generator_svg)")
             print(f"    - Uso directo: 9")
             print(f"    - Uso indirecto: 7")
+            print(f"\n  {Colors.BOLD}Blackbox AI:{Colors.ENDC}")
+            print(f"    - Modo estándar: 1 API key")
+            print(f"    - Modo paralelo: 2+ API keys")
+            print(f"    - Modelos soportados: blackboxai-pro, grok-code-fast")
+            print(f"    - Rotación automática de keys")
             print(f"\n  {Colors.BOLD}Combinaciones:{Colors.ENDC}")
             print(f"    - Paletas profesionales: 20 (4 verificadas)")
             print(f"    - Tipografías: 15 (4 de sitios reales)")
@@ -528,26 +605,60 @@ def menu_utilidades():
             print(f"    - ✅ Variables CSS unificadas")
             print(f"    - ✅ Headers sticky + offcanvas")
             print(f"    - ✅ Cards profesionales con badges")
+            print(f"\n  {Colors.BOLD}Mejoras Blackbox (31 Ene 2026):{Colors.ENDC}")
+            print(f"    - ✅ Parafraseo paralelo con múltiples keys")
+            print(f"    - ✅ Menú actualizado con flujos Blackbox")
+            print(f"    - ✅ Tests específicos para Blackbox")
             pause()
         
         elif choice == '3':
             print(f"\n{Colors.GREEN}🔑 Verificando API Keys:{Colors.ENDC}\n")
-            
+
             from dotenv import load_dotenv
             load_dotenv()
-            
-            keys = {
+
+            # Verificar todas las posibles keys de Blackbox
+            blackbox_keys = {
                 'BLACKBOX_API_KEY': os.getenv('BLACKBOX_API_KEY'),
-                'NEWS_API_KEY': os.getenv('NEWS_API_KEY')
+                'BLACKBOX_API_KEY_PRO': os.getenv('BLACKBOX_API_KEY_PRO'),
+                'BLACKBOX_API_KEY_FREE': os.getenv('BLACKBOX_API_KEY_FREE'),
+                'BLACKBOX_API_KEY_ALT': os.getenv('BLACKBOX_API_KEY_ALT'),
+                'BLACKBOX_API_KEY_1': os.getenv('BLACKBOX_API_KEY_1'),
+                'BLACKBOX_API_KEY_2': os.getenv('BLACKBOX_API_KEY_2'),
             }
-            
-            for key_name, key_value in keys.items():
+
+            news_keys = {
+                'NEWS_API_KEY': os.getenv('NEWS_API_KEY'),
+                'NEWSAPI_KEY': os.getenv('NEWSAPI_KEY'),
+            }
+
+            print(f"{Colors.BOLD}Blackbox API Keys:{Colors.ENDC}")
+            active_blackbox = 0
+            for key_name, key_value in blackbox_keys.items():
+                if key_value and 'PENDIENTE' not in str(key_value):
+                    masked = key_value[:8] + '...' + key_value[-4:] if len(key_value) > 12 else '***'
+                    print(f"  ✅ {key_name}: {masked}")
+                    active_blackbox += 1
+                else:
+                    print(f"  ⚪ {key_name}: No configurada")
+
+            print(f"\n{Colors.BOLD}News API Keys:{Colors.ENDC}")
+            for key_name, key_value in news_keys.items():
                 if key_value:
                     masked = key_value[:8] + '...' + key_value[-4:] if len(key_value) > 12 else '***'
                     print(f"  ✅ {key_name}: {masked}")
                 else:
-                    print(f"  ❌ {key_name}: NO CONFIGURADA")
-            
+                    print(f"  ⚪ {key_name}: No configurada")
+
+            print(f"\n{Colors.CYAN}Resumen:{Colors.ENDC}")
+            print(f"  Blackbox keys activas: {active_blackbox}")
+            if active_blackbox >= 2:
+                print(f"  {Colors.GREEN}✅ Configuración paralela disponible{Colors.ENDC}")
+            elif active_blackbox == 1:
+                print(f"  {Colors.YELLOW}⚠️  Solo modo estándar disponible{Colors.ENDC}")
+            else:
+                print(f"  {Colors.RED}❌ Se requiere al menos una API key{Colors.ENDC}")
+
             pause()
         
         elif choice == '4':

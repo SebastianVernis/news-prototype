@@ -182,79 +182,78 @@ Tu reescritura (SIN firmas, SIN metadata):"""
             
             # Extraer texto de la respuesta de Gemini
             text = result['candidates'][0]['content']['parts'][0]['text'].strip()
+            
+            # Limpiar texto de firmas y metadata comunes
+            text = self._limpiar_firmas(text)
+            
+            # Parsear respuesta
+            article_copy = article.copy()
+            
+            import re
+            
+            if '[TÍTULO]' in text and '[CONTENIDO]' in text:
+                parts = text.split('[CONTENIDO]')
+                title_part = parts[0].replace('[TÍTULO]', '').strip()
+                content_part = parts[1].strip() if len(parts) > 1 else text
                 
-                # Limpiar texto de firmas y metadata comunes
-                text = self._limpiar_firmas(text)
+                # Limpiar corchetes del título
+                title_part = re.sub(r'[\[\]]', '', title_part).strip()
                 
-                # Parsear respuesta
-                article_copy = article.copy()
+                article_copy['title'] = title_part[:150] if title_part else title
+                article_copy['full_text'] = content_part
+                article_copy['content'] = content_part
+                article_copy['description'] = content_part[:300] + '...' if len(content_part) > 300 else content_part
+                article_copy['paraphrased'] = True
+                article_copy['paraphrase_method'] = 'gemini-simple'
+            elif '[TÍTULO]' in text and '[DESCRIPCIÓN]' in text:
+                # Formato antiguo
+                parts = text.split('[DESCRIPCIÓN]')
+                title_part = parts[0].replace('[TÍTULO]', '').strip()
+                desc_part = parts[1].strip() if len(parts) > 1 else text
                 
-                import re
+                # Limpiar corchetes
+                title_part = re.sub(r'[\[\]]', '', title_part).strip()
                 
-                if '[TÍTULO]' in text and '[CONTENIDO]' in text:
-                    parts = text.split('[CONTENIDO]')
-                    title_part = parts[0].replace('[TÍTULO]', '').strip()
-                    content_part = parts[1].strip() if len(parts) > 1 else text
-                    
+                article_copy['title'] = title_part[:150] if title_part else title
+                article_copy['full_text'] = desc_part
+                article_copy['description'] = desc_part[:300] + '...' if len(desc_part) > 300 else desc_part
+                article_copy['paraphrased'] = True
+                article_copy['paraphrase_method'] = 'gemini-simple'
+            else:
+                # Fallback: usar párrafos
+                parrafos = [p.strip() for p in text.split('\n\n') if p.strip() and len(p.strip()) > 20]
+                
+                # Buscar título si empieza con [TÍTULO] o está en corchetes
+                first_line = parrafos[0] if parrafos else ''
+                
+                # Remover cualquier formato [TEXTO] del título
+                titulo_extraido = re.sub(r'^\[([^\]]+)\]', r'\1', first_line).strip()
+                
+                # Si el título tenía formato de corchetes, remover de párrafos
+                if first_line.startswith('[') and ']' in first_line:
+                    parrafos = parrafos[1:]  # Remover título de los párrafos
+                elif len(parrafos) > 1:
+                    parrafos = parrafos[1:]  # Primera línea es título
+                
+                # Si título está vacío, usar original
+                if not titulo_extraido or len(titulo_extraido) < 10:
+                    titulo_extraido = title
+                
+                if parrafos:
                     # Limpiar corchetes del título
-                    title_part = re.sub(r'[\[\]]', '', title_part).strip()
+                    titulo_limpio = re.sub(r'[\[\]]', '', titulo_extraido).strip()
                     
-                    article_copy['title'] = title_part[:150] if title_part else title
-                    article_copy['full_text'] = content_part
-                    article_copy['content'] = content_part
-                    article_copy['description'] = content_part[:300] + '...' if len(content_part) > 300 else content_part
+                    article_copy['title'] = titulo_limpio[:150] if titulo_limpio else title
+                    article_copy['full_text'] = '\n\n'.join(parrafos)
+                    article_copy['content'] = '\n\n'.join(parrafos)
+                    article_copy['description'] = parrafos[0][:300] + '...' if parrafos[0] and len(parrafos[0]) > 300 else parrafos[0]
                     article_copy['paraphrased'] = True
-                    article_copy['paraphrase_method'] = 'gemini-simple'
-                elif '[TÍTULO]' in text and '[DESCRIPCIÓN]' in text:
-                    # Formato antiguo
-                    parts = text.split('[DESCRIPCIÓN]')
-                    title_part = parts[0].replace('[TÍTULO]', '').strip()
-                    desc_part = parts[1].strip() if len(parts) > 1 else text
-                    
-                    # Limpiar corchetes
-                    title_part = re.sub(r'[\[\]]', '', title_part).strip()
-                    
-                    article_copy['title'] = title_part[:150] if title_part else title
-                    article_copy['full_text'] = desc_part
-                    article_copy['description'] = desc_part[:300] + '...' if len(desc_part) > 300 else desc_part
-                    article_copy['paraphrased'] = True
-                    article_copy['paraphrase_method'] = 'gemini-simple'
+                    article_copy['paraphrase_method'] = 'gemini-simple-fallback'
                 else:
-                    # Fallback: usar párrafos
-                    parrafos = [p.strip() for p in text.split('\n\n') if p.strip() and len(p.strip()) > 20]
-                    
-                    # Buscar título si empieza con [TÍTULO] o está en corchetes
-                    first_line = parrafos[0] if parrafos else ''
-                    
-                    # Remover cualquier formato [TEXTO] del título
-                    import re
-                    titulo_extraido = re.sub(r'^\[([^\]]+)\]', r'\1', first_line).strip()
-                    
-                    # Si el título tenía formato de corchetes, remover de párrafos
-                    if first_line.startswith('[') and ']' in first_line:
-                        parrafos = parrafos[1:]  # Remover título de los párrafos
-                    elif len(parrafos) > 1:
-                        parrafos = parrafos[1:]  # Primera línea es título
-                    
-                    # Si título está vacío, usar original
-                    if not titulo_extraido or len(titulo_extraido) < 10:
-                        titulo_extraido = title
-                    
-                    if parrafos:
-                        # Limpiar corchetes del título
-                        titulo_limpio = re.sub(r'[\[\]]', '', titulo_extraido).strip()
-                        
-                        article_copy['title'] = titulo_limpio[:150] if titulo_limpio else title
-                        article_copy['full_text'] = '\n\n'.join(parrafos)
-                        article_copy['content'] = '\n\n'.join(parrafos)
-                        article_copy['description'] = parrafos[0][:300] + '...' if parrafos[0] and len(parrafos[0]) > 300 else parrafos[0]
-                        article_copy['paraphrased'] = True
-                        article_copy['paraphrase_method'] = 'gemini-simple-fallback'
-                    else:
-                        article_copy['paraphrased'] = False
-                        article_copy['paraphrase_method'] = 'original'
-                
-                return article_copy
+                    article_copy['paraphrased'] = False
+                    article_copy['paraphrase_method'] = 'original'
+            
+            return article_copy
             
             # Si falla el parseo, retornar original SIN modificar
             article_copy = article.copy()

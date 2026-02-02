@@ -366,12 +366,13 @@ class MasterOrchestrator:
         self.log(f"Placeholders completados: {len(placeholders)}", "SUCCESS")
         return placeholders
     
-    def paso_2_5_categorizar_noticias(self, noticias: List[Dict]) -> List[Dict]:
+    def paso_2_5_categorizar_noticias(self, noticias: List[Dict], use_ai: bool = True) -> List[Dict]:
         """
-        Paso 2.5: Categoriza noticias usando IA
+        Paso 2.5: Categoriza noticias (IA o keywords)
         
         Args:
             noticias: Lista de noticias parafraseadas
+            use_ai: Si True usa IA, si False usa keywords
             
         Returns:
             Lista de noticias con categorías asignadas
@@ -380,9 +381,12 @@ class MasterOrchestrator:
         self.log("PASO 2.5: Categorizando Noticias", "PROGRESS")
         self.log("=" * 70)
         
+        method = "IA (Blackbox)" if use_ai else "Keywords"
+        self.log(f"Método de categorización: {method}")
+        
         noticias_categorizadas = self.categorizador.categorizar_lote(
             noticias,
-            use_ai=True,
+            use_ai=use_ai,
             batch_delay=0.3
         )
         
@@ -561,7 +565,7 @@ No text, no watermarks."""
                                    noticias: List[Dict],
                                    imagenes: Dict[str, str],
                                    logos: Dict[int, str],
-                                   templates_metadata: List[Dict]) -> List[str]:
+                                   templates_metadata: List[Dict]) -> List[Dict]:
         """
         Paso 7: Genera sitio HTML completo
         
@@ -573,13 +577,24 @@ No text, no watermarks."""
             templates_metadata: Metadata de templates CSS
             
         Returns:
-            Lista de paths de sitios generados
+            Lista de diccionarios con info del sitio (index_path, site_dir, site_num)
         """
         self.log("=" * 70)
         self.log("PASO 7: Generando Sitio HTML", "PROGRESS")
         self.log("=" * 70)
         
         sitios_generados = []
+        
+        # Validar que sites_metadata sea una lista
+        if not isinstance(sites_metadata, list) or not sites_metadata:
+            self.log("Error: sites_metadata está vacío o no es una lista", "ERROR")
+            return sitios_generados
+        
+        # Validar que templates_metadata sea una lista
+        if not isinstance(templates_metadata, list) or not templates_metadata:
+            self.log("Error: templates_metadata está vacío o no es una lista", "ERROR")
+            return sitios_generados
+        
         metadata = sites_metadata[0]
         idx = self.next_site_number
         
@@ -625,11 +640,17 @@ No text, no watermarks."""
             # Copiar CSS
             self._copiar_css(site_dir, idx)
             
-            sitios_generados.append(str(index_path))
+            sitios_generados.append({
+                'index_path': str(index_path),
+                'site_dir': site_dir,
+                'site_num': idx
+            })
             self.stats["sitios_creados"] += 1
             
         except Exception as e:
             self.log(f"Error generando sitio: {e}", "ERROR")
+            import traceback
+            traceback.print_exc()
         
         self.log(f"Sitio HTML generado", "SUCCESS")
         return sitios_generados
@@ -825,7 +846,7 @@ No text, no watermarks."""
                     </figure>
                     
                     <div class="article-content">
-                    {self._formatear_contenido_html(noticia.get('full_article', noticia.get('content', noticia.get('description', ''))))}
+                    {self._formatear_contenido_html(noticia.get('full_article', noticia.get('full_text', noticia.get('content', noticia.get('description', '')))))}
                     </div>
                     
                     <footer class="article-footer">
@@ -972,7 +993,11 @@ No text, no watermarks."""
             self.log(f"Total artículos: {len(todos_articulos)} ({len(articulos_principales)} destacados + {len(placeholders)} placeholders)")
             
             # Paso 2.5: Categorizar todos los artículos
-            noticias_categorizadas = self.paso_2_5_categorizar_noticias(todos_articulos)
+            # En modo offline, usar keywords en lugar de IA
+            noticias_categorizadas = self.paso_2_5_categorizar_noticias(
+                todos_articulos,
+                use_ai=not offline_mode
+            )
             
             # Paso 2.6: Marcar y ordenar destacados
             noticias_categorizadas = self.featured_manager.marcar_destacados(noticias_categorizadas)
@@ -999,14 +1024,21 @@ No text, no watermarks."""
                 logos, templates_metadata
             )
             
+            # Verificar que se generó al menos un sitio
+            if not sitios_generados:
+                raise Exception("No se pudo generar ningún sitio")
+            
+            # Obtener site_dir del primer sitio
+            site_dir = sitios_generados[0]['site_dir']
+            
             # Paso 8: Generar RSS feeds
-            self.paso_8_generar_rss_feeds(noticias_categorizadas, sites_metadata[0], sitios_generados[0]['site_dir'])
+            self.paso_8_generar_rss_feeds(noticias_categorizadas, sites_metadata[0], site_dir)
             
             # Paso 9: Generar páginas de categorías
-            self.paso_9_generar_paginas_categorias(noticias_categorizadas, sites_metadata[0], sitios_generados[0]['site_dir'])
+            self.paso_9_generar_paginas_categorias(noticias_categorizadas, sites_metadata[0], site_dir)
             
             # Paso 10: Generar imágenes Open Graph
-            self.paso_10_generar_og_images(noticias_categorizadas, sites_metadata[0], sitios_generados[0]['site_dir'])
+            self.paso_10_generar_og_images(noticias_categorizadas, sites_metadata[0], site_dir)
             
             # Calcular estadísticas finales
             tiempo_total = time.time() - self.stats["tiempo_inicio"]
@@ -1054,9 +1086,23 @@ No text, no watermarks."""
     
     def _guardar_resumen(self, resultado: Dict):
         """Guarda un resumen de la ejecución"""
+        # Convertir Paths a strings para serialización JSON
+        resultado_copy = self._convert_paths_to_strings(resultado)
+        
         resumen_path = self.output_base_dir / f"run_summary_{self.run_id}.json"
         with open(resumen_path, 'w', encoding='utf-8') as f:
-            json.dump(resultado, f, indent=2, ensure_ascii=False)
+            json.dump(resultado_copy, f, indent=2, ensure_ascii=False)
+    
+    def _convert_paths_to_strings(self, obj):
+        """Convierte objetos Path a strings recursivamente"""
+        if isinstance(obj, Path):
+            return str(obj)
+        elif isinstance(obj, dict):
+            return {k: self._convert_paths_to_strings(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [self._convert_paths_to_strings(item) for item in obj]
+        else:
+            return obj
     
     def paso_8_generar_rss_feeds(self, noticias: List[Dict], site_metadata: Dict, site_dir: Path):
         """
@@ -1157,7 +1203,9 @@ No text, no watermarks."""
         
         try:
             # Configurar output dir para OG images
-            self.og_image_generator.output_dir = site_dir / 'og-images'
+            og_dir = site_dir / 'og-images'
+            og_dir.mkdir(parents=True, exist_ok=True)  # Crear directorio
+            self.og_image_generator.output_dir = og_dir
             
             # Generar imágenes
             og_images = self.og_image_generator.generar_og_images_lote(

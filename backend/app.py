@@ -124,12 +124,12 @@ def generate_sites():
         generate_metadata = data.get('generateMetadata', True)
         
         # Construir comando
-        cmd = [
-            'python3',
-            str(SCRIPTS_DIR / 'generate-sites.py'),
-            '--cantidad', str(quantity),
-            '--no-interactivo'
-        ]
+    cmd = [
+        sys.executable,
+        str(SCRIPTS_DIR / 'generate-sites.py'),
+        '--cantidad', str(quantity),
+        '--no-interactivo'
+    ]
         
         if verify_domains:
             cmd.append('--verificar-dominios')

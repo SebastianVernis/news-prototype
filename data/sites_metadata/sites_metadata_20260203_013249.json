@@ -1,0 +1,89 @@
+[
+  {
+    "id": "site_20260203_013249_1651",
+    "nombre": "PressExpress24",
+    "tagline": "Información Digital en Tiempo Real",
+    "estilo": "aleatorio",
+    "dominio": "pressexpress24.press",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#2C3E50",
+      "secundario": "#3498DB",
+      "acento": "#E74C3C",
+      "texto": "#2C3E50",
+      "fondo": "#ECF0F1"
+    },
+    "logo": {
+      "nombre_completo": "PressExpress24",
+      "iniciales": "P",
+      "estilo": "tech",
+      "tipo": "wordmark",
+      "colores": {
+        "primario": "#2C3E50",
+        "secundario": "#3498DB",
+        "acento": "#E74C3C",
+        "texto": "#2C3E50",
+        "fondo": "#ECF0F1"
+      },
+      "fuente_sugerida": "Montserrat",
+      "peso_fuente": "regular",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Opinión",
+      "Ciencia",
+      "Economía"
+    ],
+    "contacto": {
+      "email_general": "contacto@pressexpress24.press",
+      "email_redaccion": "redaccion@pressexpress24.press",
+      "email_publicidad": "publicidad@pressexpress24.press",
+      "telefono": "+52 55 5785 8867",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/pressexpress24",
+      "twitter": "https://twitter.com/pressexpress24",
+      "instagram": "https://instagram.com/pressexpress24",
+      "youtube": "https://youtube.com/@pressexpress24",
+      "linkedin": "https://linkedin.com/company/pressexpress24",
+      "telegram": "https://t.me/pressexpress24"
+    },
+    "seo": {
+      "titulo": "PressExpress24 - Información Digital en Tiempo Real",
+      "descripcion": "PressExpress24 es tu fuente confiable de noticias e información actualizada. Información Digital en Tiempo Real. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "pressexpress24",
+        "pressexpress24"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-02-03T01:32:49.669775",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

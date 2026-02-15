@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Política Internacional - Noticias y análisis de Noticias">
+    <meta name="keywords" content="política internacional, política méxico, noticias">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Política Internacional - Noticias">
+    <meta property="og:description" content="Noticias de Política Internacional en Noticias">
+    <meta property="og:url" content="https://ejemplo.com/categoria/política-internacional.html">
+    
+    <title>Política Internacional - Noticias</title>
+    <link rel="stylesheet" href="../style.css">
+    
+    <style>
+        /* Estilos específicos de categoría que complementan style.css */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-header {
+            background: white;
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .article-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .articles-grid {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: #667eea20;
+            color: #667eea;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .article-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="site-name">Noticias</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Inicio</a> › <span>Política Internacional</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="category-header">
+        <h1 class="category-title">Política Internacional</h1>
+        <p class="category-description">Noticias y análisis político de política internacional</p>
+        <span class="article-count">16 artículos</span>
+    </div>
+    
+    <div class="articles-grid">
+
+        <a href="../article_1.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/02/cuba-estados-unidos-an-1-02022026.jpg" alt="La falta de combustible en Cuba ya es una crisis humanitaria: Ricardo Pascoe" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">La falta de combustible en Cuba ya es una crisis humanitaria: Ricardo Pascoe</h2>
+                <p class="article-description">Ricardo Pascoe, exembajador de México en Cuba, aseguró en 'Aristegui en Vivo' que la suspensión del envío de petróleo mexicano a la isla, tras presiones de Estados Unidos, ha profundizado el aislamien</p>
+                <div class="article-meta">
+                    <span>👤 Redacción AN / MDS</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_2.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/02/bachelet-onu-candidatura-02022026.jpg" alt="Chile inscribe candidatura de Bachelet para dirigir ONU y anuncia apoyo de México y Brasil" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Chile inscribe candidatura de Bachelet para dirigir ONU y anuncia apoyo de México y Brasil</h2>
+                <p class="article-description">Exdirectora de ONU Mujeres y ex alta comisionada de las Naciones Unidas para los Derechos Humanos, su candidatura está "respaldada por una trayectoria impecable y ampliamente valorada en el mundo".</p>
+                <div class="article-meta">
+                    <span>👤 Redacción AN / ARF</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_3.html" class="article-card">
+            <img src="https://img.europapress.es/fotoweb/fotonoticia_20260202145035_1200.jpg" alt="Urtasun elude responder si España debe boicotear el Mundial 2026 pero pone en valor las críticas al ICE en los Grammy" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Urtasun elude responder si España debe boicotear el Mundial 2026 pero pone en valor las críticas al ICE en los Grammy</h2>
+                <p class="article-description">El ministro de Cultura, Ernest Urtasun, ha puesto en valor las manifestaciones "denuncia" contra las actuaciones y redadas de los agentes del Servicio de Control de Inmigración y Aduanas (ICE) en Esta</p>
+                <div class="article-meta">
+                    <span>👤 None</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_4.html" class="article-card">
+            <img src="https://imagenes.montevideo.com.uy/imgnoticias/202602/_W933_80/945928.jpg" alt="“¡Comieron humanos!”: revelaciones de caso Epstein “reflotaron” clásico de la conspiración" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">“¡Comieron humanos!”: revelaciones de caso Epstein “reflotaron” clásico de la conspiración</h2>
+                <p class="article-description">En 2009, la mexicana Gabriela Rico sufrió una crisis de nervios y soltó graves acusaciones. El paradero de la mujer es desconocido.</p>
+                <div class="article-meta">
+                    <span>👤 Montevideo Portal</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_5.html" class="article-card">
+            <img src="https://www.df.cl/noticias/site/artic/20260202/imag/foto_0000000420260202082808/Aton_1122212.jpeg" alt="Boric oficializa la candidatura de Bachelet a la secretaría general de la ONU, con apoyos de Brasil y México" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Boric oficializa la candidatura de Bachelet a la secretaría general de la ONU, con apoyos de Brasil y México</h2>
+                <p class="article-description">Pese a la resistencia de la oposición, el mandatario concretó la postulación de la exmandataria a este cargo de relevancia internacional.</p>
+                <div class="article-meta">
+                    <span>👤 Claudia Rivas</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_6.html" class="article-card">
+            <img src="https://s1.staticld.com/2026/02/02/1200/675/483x542/cubano-recoge-basura-habana-020226.jpg" alt="Las negociaciones de Trump con Cuba dan sus primeros frutos: "El tiempo del comunismo se acabó"" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Las negociaciones de Trump con Cuba dan sus primeros frutos: "El tiempo del comunismo se acabó"</h2>
+                <p class="article-description">La dictadura caribeña "propone renovar la cooperación técnica con Estados Unidos en áreas que incluyen la lucha contra el terrorismo".</p>
+                <div class="article-meta">
+                    <span>👤 Yésica Sánchez</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_7.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/5BFVYNCJIZC45LP276ASVZRKDE.jpg?smart=true&auth=36a4dc905b387add32e85e61f32eb9b63b28298f2f042cb0f7ad77b918417165&width=1200&height=630" alt="México, fuera de la mesa (2)" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">México, fuera de la mesa (2)</h2>
+                <p class="article-description">Jacques Rogozinski analiza cómo los cambios en la visión del comercio en Estados Unidos tendrían impacto en México.</p>
+                <div class="article-meta">
+                    <span>👤 Jacques Rogozinski</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_8.html" class="article-card">
+            <img src="https://mfes.b37m.ru/actualidad/public_images/2026.02/article/697ffdb659bf5b4dc8666145.jpg" alt=""Descuartizaban bebés, les sacaban los intestinos y comían sus heces": archivos de Epstein revelan sacrificios rituales" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">"Descuartizaban bebés, les sacaban los intestinos y comían sus heces": archivos de Epstein revelan sacrificios rituales</h2>
+                <p class="article-description">Una de la víctimas relató una especie de sacrificio ritual mientras estaba en un yate propiedad del financiero  fallecido.</p>
+                <div class="article-meta">
+                    <span>👤 RT en Español
+ , RT en Español</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_9.html" class="article-card">
+            <img src="https://s3.elespanol.com/2026/01/01/actualidad/1003744075953_260740334_1706x960.jpg?fmt=jpeg" alt="La "fábrica de bebés" de los magnates chinos y el vacío legal que desafía a Estados Unidos en la gestación subrogada" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">La "fábrica de bebés" de los magnates chinos y el vacío legal que desafía a Estados Unidos en la gestación subrogada</h2>
+                <p class="article-description">Los casos de chinos multimillonarios que engendran cientos de hijos por gestación en EEUU han desatado una tormenta ética y política en Washington.
+Más información: Una denuncia en Galicia provoca el </p>
+                <div class="article-meta">
+                    <span>👤 Marga Zambrana</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_10.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/02/protesta-cuba-mexico-petroleo-ayuda-humanitaria-010226-1.jpg" alt="Manifestantes piden a México sostener apoyo a Cuba ante endurecimiento de medidas de EE.UU." class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Manifestantes piden a México sostener apoyo a Cuba ante endurecimiento de medidas de EE.UU.</h2>
+                <p class="article-description">Con banderas, pancartas y consignas, asistentes dijeron que el objetivo fue expresar solidaridad con la población cubana y rechazar lo que describieron como una política de “asfixia”.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción AN / LP</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_11.html" class="article-card">
+            <img src="https://www.meneame.net//cdn.mnmstatic.net/img/mnm/logo-350x350.png" alt="Alemania dice sí al Mundial 2026: descarta boicot pese a tensiones políticas" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Alemania dice sí al Mundial 2026: descarta boicot pese a tensiones políticas</h2>
+                <p class="article-description">La Federación Alemana de Fútbol (DFB) confirmó que su selección participará en el Mundial 2026 en Estados Unidos, Canadá y México, descartando cualquier boicot. La decisión busca separar el deporte de</p>
+                <div class="article-meta">
+                    <span>👤 History_apa</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_12.html" class="article-card">
+            <img src="https://www.nacion.com/resizer/v2/55LQ2KGB75HEFKQNOWNBA34HSA.jpg?smart=true&auth=c58648f0fad2922f5761edc3696b0def17049c6596ffbab620b8b7c3c59b97d1&width=1440" alt="‘Prisioneros en casa’: La situación de una familia mexicana bajo las redadas de Trump" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">‘Prisioneros en casa’: La situación de una familia mexicana bajo las redadas de Trump</h2>
+                <p class="article-description">Familia mexicana lleva dos meses encerrados en Mineápolis. El miedo a la Operación Metro Surge y al ICE convierte el sueño americano en una pesadilla de puertas blindadas.</p>
+                <div class="article-meta">
+                    <span>👤 AFP</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_13.html" class="article-card">
+            <img src="https://resizer.glanacion.com/resizer/v2/el-papa-leon-xiv-pidio-dialogo-entre-estados-T34WW45MFFGZTFSS6ZCQ2PVT7I.jpg?auth=5996ddedce0258ab774f25715d92c15e0bb8cf8326763ef94b9633376d4a6808&width=1200&quality=70&smart=false&height=800" alt="Ante el aumento de la tensión, el papa León XIV urgió al diálogo entre Estados Unidos y Cuba" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Ante el aumento de la tensión, el papa León XIV urgió al diálogo entre Estados Unidos y Cuba</h2>
+                <p class="article-description">El Sumo Pontífice respaldó un mensaje de los obispos católicos de la isla que advirtieron que la falta de petróleo podría generar caos social</p>
+                <div class="article-meta">
+                    <span>👤 Elisabetta Piqué</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_14.html" class="article-card">
+            <img src="https://img2.huffingtonpost.es/files/og_thumbnail/uploads/2026/01/29/jared-kushner-observa-a-la-prensa-tras-una-cumbre-de-la-coalicion-de-voluntarios-sobre-ucrania-en-el-palacio-de-el-eliseo-en-paris-el-6-de-enero-de-2026.jpeg" alt="Las cosas que no sabías de Jared Kushner, el 'yernísimo' de Trump que se relame con Oriente Medio" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Las cosas que no sabías de Jared Kushner, el 'yernísimo' de Trump que se relame con Oriente Medio</h2>
+                <p class="article-description"><![CDATA[<p>Cuando Donald Trump regresó a la presidencia de Estados Unidos hace un año, una ausencia destacaba en su nuevo equipo. ¿Dónde estaba su yernísimo, Jared Kushner, ese al que llamaba "mi est</p>
+                <div class="article-meta">
+                    <span>👤 Carmen Rengel</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_15.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Rolando Cordera Campos: Plan México: un año de planeación (des)figurada" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Rolando Cordera Campos: Plan México: un año de planeación (des)figurada</h2>
+                <p class="article-description">Días antes de que el empresario voraz asumiera por segunda ocasión la presidencia de Estados Unidos, el 13 de enero de 2025 la presidenta Sheinbaum, acompañada por su gabinete así como por miembros de</p>
+                <div class="article-meta">
+                    <span>👤 Rolando Cordera Campos</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_16.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Rolando Cordera Campos: Plan México: un año de planeación (des)figurada" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Internacional</span>
+                <h2 class="article-title">Rolando Cordera Campos: Plan México: un año de planeación (des)figurada</h2>
+                <p class="article-description">Días antes de que el empresario voraz asumiera por segunda ocasión la presidencia de Estados Unidos, el 13 de enero de 2025 la presidenta Sheinbaum, acompañada por su gabinete así como por miembros de</p>
+                <div class="article-meta">
+                    <span>👤 Rolando Cordera Campos</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 Noticias. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="../feed_política-internacional.xml" style="color: white;">📡 RSS de esta categoría</a>
+        </p>
+    </footer>
+</body>
+</html>

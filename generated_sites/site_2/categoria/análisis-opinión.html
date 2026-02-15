@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Análisis y Opinión - Noticias y análisis de Noticias">
+    <meta name="keywords" content="análisis y opinión, política méxico, noticias">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Análisis y Opinión - Noticias">
+    <meta property="og:description" content="Noticias de Análisis y Opinión en Noticias">
+    <meta property="og:url" content="https://ejemplo.com/categoria/análisis-opinión.html">
+    
+    <title>Análisis y Opinión - Noticias</title>
+    <link rel="stylesheet" href="../style.css">
+    
+    <style>
+        /* Estilos específicos de categoría que complementan style.css */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-header {
+            background: white;
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .article-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .articles-grid {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: #667eea20;
+            color: #667eea;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .article-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="site-name">Noticias</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Inicio</a> › <span>Análisis y Opinión</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="category-header">
+        <h1 class="category-title">Análisis y Opinión</h1>
+        <p class="category-description">Noticias y análisis político de análisis y opinión</p>
+        <span class="article-count">33 artículos</span>
+    </div>
+    
+    <div class="articles-grid">
+
+        <a href="../article_1.html" class="article-card">
+            <img src="https://resizer.glanacion.com/resizer/v2/la-latina-designada-por-zohran-mamdani-en-nueva-Z4DQ4YZQ6JH3DL3YGGIHVDALKY.jpg?auth=f98c264fe58d08e8baa26c760f6a1f8f0b5a69f6b4814cc6f6f81656514518fb&width=1200&quality=70&smart=false&height=800" alt="Quién es la nueva comisionada latina nombrada por Mamdani en Nueva York: hace historia en la ciudad" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Quién es la nueva comisionada latina nombrada por Mamdani en Nueva York: hace historia en la ciudad</h2>
+                <p class="article-description">Quién es Yesenia Mata, la primera latina designada como comisionada de Veteranos en Nueva York, su trayectoria, rol en la gestión de Mamdani y los otros nombramientos clave.</p>
+                <div class="article-meta">
+                    <span>👤 LA NACION</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_2.html" class="article-card">
+            <img src="https://www.df.cl/noticias/site/artic/20260202/imag/foto_0000000220260202150837/20260202_Nueva_Gen_BIG11_SUP.jpg" alt="Start-Up Chile selecciona a 64 emprendimientos tecnológicos para acelerar desde marzo" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Start-Up Chile selecciona a 64 emprendimientos tecnológicos para acelerar desde marzo</h2>
+                <p class="article-description">Entre las seleccionadas por la aceleradora de Corfo, el 45% de las firmas se basa en IA y buscan acelerar, principalmente, el desarrollo de la agricultura, los recursos naturales y las herramientas TI</p>
+                <div class="article-meta">
+                    <span>👤 Laura Flores</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_3.html" class="article-card">
+            <img src="https://www.bostonherald.com/wp-content/uploads/2026/02/M201XICO-GAS_NATURAL_73344.jpg?w=1024&h=683" alt="Apuesta de México por el gas natural enfrenta resistencia de comunidades y complica metas climáticas" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Apuesta de México por el gas natural enfrenta resistencia de comunidades y complica metas climáticas</h2>
+                <p class="article-description">Por JULIÁN TREJO BAX, TERESA DE MIGUEL y M.K. WILDEMAN LOS ARRECIFES, México (AP) — El sol ya se ha metido y un manto violáceo empieza a teñir las nubes cuando Mauricio Contreras y su hija Eunices sal</p>
+                <div class="article-meta">
+                    <span>👤 Associated Press Spanish</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_4.html" class="article-card">
+            <img src="https://i.blogs.es/4ef083/cargador-auto-electrico-espana-mexico-disponibilidad/840_560.jpeg" alt="La paradoja de los centro de carga para autos eléctricos: no es que no haya, es que la gente no los quiere usar" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">La paradoja de los centro de carga para autos eléctricos: no es que no haya, es que la gente no los quiere usar</h2>
+                <p class="article-description">En el mundo el debate sobre autos eléctricos casi siempre empieza con la misma idea. Faltan cargadores y por eso la gente teme quedar tirada en carretera. Sin embargo, las cifras dibujan otro panorama</p>
+                <div class="article-meta">
+                    <span>👤 Adolfo Reséndiz</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_5.html" class="article-card">
+            <img src="https://img2.huffingtonpost.es/files/og_thumbnail/uploads/2026/02/02/los-cantantes-julio-iglesias-y-victor-manuel.jpeg" alt="Víctor Manuel señala lo que más le ha sorprendido de todo lo relacionado con Julio Iglesias: apunta a alguien en concreto" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Víctor Manuel señala lo que más le ha sorprendido de todo lo relacionado con Julio Iglesias: apunta a alguien en concret</h2>
+                <p class="article-description"><![CDATA[<p>El cantante Víctor Manuel se ha pronunciado con toda claridad sobre las acusaciones contra Julio Iglesias, cuya denuncia por agresión sexual por parte de dos exempleadas ha sido archivada </p>
+                <div class="article-meta">
+                    <span>👤 Rodrigo Carretero</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_6.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2026/01/30/programa-identifico-focos-rojos-demarcacion.jpg" alt="Puntos Dalia, sitios de resguardo momentáneos que las mujeres en situación de violencia pueden utilizar en la alcaldía Álvaro Obregón" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Puntos Dalia, sitios de resguardo momentáneos que las mujeres en situación de violencia pueden utilizar en la alcaldía Á</h2>
+                <p class="article-description">Hace poco más de un año, en las oficinas de la alcaldía Álvaro Obregón comenzó a gestarse una idea. Reporte tras reporte, autoridades de la demarcación reconocieron la necesidad de impulsar un program</p>
+                <div class="article-meta">
+                    <span>👤 Anel Tello</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_7.html" class="article-card">
+            <img src="https://images.ecestaticos.com/TyGILPvf_NuhCeGfDMlHupPCY74=/0x0:1956x1404/600x315/filters:fill(white):format(jpg):quality(99):watermark(f.elconfidencial.com/file/bae/eea/fde/baeeeafde1b3229287b0c008f7602058.png,0,275,1)/f.elconfidencial.com/original/a0a/da9/c2e/a0ada9c2e2a677e523d9730af9f3e552.jpg" alt="Es uno de los westerns olvidados de principios de siglo, y está en Disney+: la leyenda fronteriza de David Crockett" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Es uno de los westerns olvidados de principios de siglo, y está en Disney+: la leyenda fronteriza de David Crockett</h2>
+                <p class="article-description">La película retrata momentos como la llegada inesperada de las tropas de Santa Anna, el cerco sobre un fuerte y la resistencia desesperada de un grupo consciente de su destino</p>
+                <div class="article-meta">
+                    <span>👤 A. R.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_8.html" class="article-card">
+            <img src="https://www.tribuna.com.mx/u/fotografias/m/2026/2/2/f1280x720-490557_622232_5050.jpg" alt="Precio del dólar HOY lunes 2 de febrero 2026: ¿Cómo amaneció el peso mexicano según el tipo de cambio?" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Precio del dólar HOY lunes 2 de febrero 2026: ¿Cómo amaneció el peso mexicano según el tipo de cambio?</h2>
+                <p class="article-description">Descubre cuál es el precio del dólar para HOY, lunes 2 de febrero del 2026, según el tipo de cambio en este inicio de semana, ¿cae o se alza el peso?</p>
+                <div class="article-meta">
+                    <span>👤 Alejandra HolguÍn</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_9.html" class="article-card">
+            <img src="https://imgs.elpais.com.uy/dims4/default/b1c8426/2147483647/strip/true/crop/1148x558+0+106/resize/1440x700!/quality/90/?url=https%3A%2F%2Fel-pais-uruguay-production-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2Ff5%2Fa4%2F04f341e640608a9fc8d959768d2b%2F2148693336.jpg" alt="¿Qué se celebra hoy, lunes 2 de febrero de 2026 alrededor del mundo? Las efemérides de esta jornada" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">¿Qué se celebra hoy, lunes 2 de febrero de 2026 alrededor del mundo? Las efemérides de esta jornada</h2>
+                <p class="article-description">En esta jornada de 2 de febrero, hay múltiples sucesos que cumplen años. Se trate de hechos históricos, nacimientos o días festivos, aquí se describen los más relevantes.</p>
+                <div class="article-meta">
+                    <span>👤 Ismael Suárez</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_10.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/02/fotos/028n1cap-1.jpg" alt="Creció 48.5 por ciento el delito de venta de drogas al menudeo en 2025: fiscalía" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Creció 48.5 por ciento el delito de venta de drogas al menudeo en 2025: fiscalía</h2>
+                <p class="article-description">El delito de narcomenudeo en su modalidad de venta registró “un aumento relevante” al pasar de 2 mil 299 carpetas de investigación en 2024 a 3 mil 414 en 2025, es decir, mil 115 más, equivalentes a un</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_11.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Unidad, principal tarea, dice el nuevo dirigente guinda" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Unidad, principal tarea, dice el nuevo dirigente guinda</h2>
+                <p class="article-description">Su principal encomienda será “mantener la unidad y la cohesión, y el diálogo y el respeto” en su bancada, subrayó Ignacio Mier luego de ser nombrado coordinador de los senadores de Morena.</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_12.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Carlos Fernández-Vega: México SA" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Carlos Fernández-Vega: México SA</h2>
+                <p class="article-description">Cada que ladra, y lo hace permanentemente, ( fuck) Trump garantiza, por lo menos, tres elementos: mentiras, sandeces y agresiones a granel. Entre lo más reciente, que no lo último, el esperpéntico per</p>
+                <div class="article-meta">
+                    <span>👤 Carlos Fernández-Vega</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_13.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Jaime Ortega: Cárdenas y Cuba: el torrente de la solidaridad" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Jaime Ortega: Cárdenas y Cuba: el torrente de la solidaridad</h2>
+                <p class="article-description">El vínculo entre Cuba y México es de muy largo cuño. La simpatía por los movimientos independentistas y revolucionarios en la isla son tan antiguos como ellos mismos. Esta actitud se vio fortalecida p</p>
+                <div class="article-meta">
+                    <span>👤 Jaime Ortega</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_14.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Editorial: Cuba y las mentiras de Trump" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Editorial: Cuba y las mentiras de Trump</h2>
+                <p class="article-description">El jueves pasado la presidenta Claudia Sheinbaum sostuvo una conversación telefónica con su homólogo estadunidense, Donald Trump, quien poco después calificó de “muy positiva” la charla, elogió a la m</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_15.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Jaime Ortega: Cárdenas y Cuba: el torrente de la solidaridad" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Jaime Ortega: Cárdenas y Cuba: el torrente de la solidaridad</h2>
+                <p class="article-description">El vínculo entre Cuba y México es de muy largo cuño. La simpatía por los movimientos independentistas y revolucionarios en la isla son tan antiguos como ellos mismos. Esta actitud se vio fortalecida p</p>
+                <div class="article-meta">
+                    <span>👤 Jaime Ortega</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_16.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2026/02/01/anos-delegaciones-cdmx-convirtieron-alcaldias-1.jpg" alt="La transformación de CdMx desde 2016: de capital a metrópoli moderna" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">La transformación de CdMx desde 2016: de capital a metrópoli moderna</h2>
+                <p class="article-description">Desde el 2016 ya no hay 'sábado, Distrito Federal' —como cantabaChava Flores, quien retrató la capital en sus letras— porque el corazón del país se transformó en Ciudad de México (CdMx).El D.F. cambió</p>
+                <div class="article-meta">
+                    <span>👤 Israel George</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_17.html" class="article-card">
+            <img src="https://static.eldiario.es/clip/8d261fdb-0540-43db-8b89-6e914816f3fc_facebook-aspect-ratio_default_0.jpg" alt=" BOLETÍN | Trenes de febrero" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title"> BOLETÍN | Trenes de febrero</h2>
+                <p class="article-description">¿Quieres recibir este boletín cada mañana? - Te mandamos a tu correo un resumen de las claves de la actualidad. Haz clic aquí 
+
+
+ Hola, 
+ 
+ Agarra un café y vamos al lío. ¡Buenos días!
+ Trenes de feb</p>
+                <div class="article-meta">
+                    <span>👤 Juan Luis Sánchez</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_18.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/K7CMMO3ZLZGYNIOQ2VZXIELAGE.jpeg?smart=true&auth=968ecf76899e0b31a40cd3eb3833644fc3af7dc2d1ab3c6ba709c9119d6ac029&width=1200&height=630" alt="Narco rojo" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Narco rojo</h2>
+                <p class="article-description">Se dice que el narco no tiene ideología, pero la tiene: son capitalistas salvajes.</p>
+                <div class="article-meta">
+                    <span>👤 Fernando García Ramírez</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_19.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/RQHJOSXOYNDGNHN4BK63GHKUPI.png?smart=true&auth=a45c3e7304b759dbb71d7e748009ccf6410eecebce8c18da6c0b1a1a39963605&width=1200&height=630" alt="La paz se construye en el mostrador: Diálogos por la Paz y el poder de los negocios familiares" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">La paz se construye en el mostrador: Diálogos por la Paz y el poder de los negocios familiares</h2>
+                <p class="article-description">La paz no empieza en un discurso. Empieza en lo cotidiano: en la familia, en el negocio y en la comunidad.</p>
+                <div class="article-meta">
+                    <span>👤 Octavio de la Torre de Stéffano</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_20.html" class="article-card">
+            <img src="https://resizer.glanacion.com/resizer/v2/marcha-de-trabajadores-de-pdvsa-en-Q2M7FPJY6JDCJMMYU4PZ4ZUNMQ.jpg?auth=88be8b76037581fcdeb38b7a3f518230ce64a85e0fb7c746d33102353ecc8b2a&width=1200&quality=70&smart=false&height=800" alt="Venezuela y la riqueza de su petróleo" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Venezuela y la riqueza de su petróleo</h2>
+                <p class="article-description">Venezuela y la riqueza de su petróleo</p>
+                <div class="article-meta">
+                    <span>👤 None</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_21.html" class="article-card">
+            <img src="https://resizer.glanacion.com/resizer/v2/la-preocupacion-de-karen-bass-y-el-mensaje-de-la-HYNSEBN64JEY5HJILXYI4AJUEY.jpg?auth=cdc2e996bec8915804c7394c7676a2998acd8576ebb92c76216c10d070ae232a&width=1200&quality=70&smart=false&height=800" alt="En Los Ángeles: la preocupación de Karen Bass por la presencia de extranjeros durante el Mundial 2026" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">En Los Ángeles: la preocupación de Karen Bass por la presencia de extranjeros durante el Mundial 2026</h2>
+                <p class="article-description">La alcaldesa de Los Ángeles, Karen Bass, se refirió a la llegada de extranjeros a la ciudad por el Mundial 2026; descubre qué dijo y el pedido que le hizo a Donald Trump.</p>
+                <div class="article-meta">
+                    <span>👤 LA NACION</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_22.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2026/02/01/actor-alcazar-interpretara-daniel-arizmendi.jpg" alt="¿Quién es Damián Alcázar, el reconocido actor polifacético que 'dará vida' a Daniel Arizmendi en la serie ‘El mochaorejas’?" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">¿Quién es Damián Alcázar, el reconocido actor polifacético que 'dará vida' a Daniel Arizmendi en la serie ‘El mochaoreja</h2>
+                <p class="article-description">El actor Damián Alcázar se vuelve parte de una ambiciosa producción, en donde se hablará sobre un episodio que marcó a la comunidad mexicana.El caso de Daniel Arizmendi, mejor conocido como 'El Mochao</p>
+                <div class="article-meta">
+                    <span>👤 Karla Vázquez</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_23.html" class="article-card">
+            <img src="https://imgs.elpais.com.uy/dims4/default/868ce06/2147483647/strip/true/crop/1152x560+0+21/resize/1440x700!/quality/90/?url=https%3A%2F%2Fel-pais-uruguay-production-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F94%2F43%2Fe5183e5c443a988cdf7071ee696f%2Fgabriel-regueira.png" alt="Gabriel Regueira: el relator inicia nueva etapa tras su salida de Carve Deportiva: "Fue un baldazo de agua fría"" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Gabriel Regueira: el relator inicia nueva etapa tras su salida de Carve Deportiva: "Fue un baldazo de agua fría"</h2>
+                <p class="article-description">El periodista deportivo debuta como cabeza de las transmisiones de Radio Nacional CX 30 con "Somos fútbol", su nueva marca luego de varios años en la 1010.</p>
+                <div class="article-meta">
+                    <span>👤 Miguel Bardesio</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_24.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/Q62VHSELPBFA7C4ADBS6FRID3Y.jpeg?smart=true&auth=7588bed2c4d8d10ee8e9707877f51f05b03e1920bb2e69ab069833fe8cfbe0a4&width=1200&height=630" alt="La historia del ‘Mauriciosaurio’ Fernández: ¿Cómo un político mexicano terminó con su propio dinosaurio?" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">La historia del ‘Mauriciosaurio’ Fernández: ¿Cómo un político mexicano terminó con su propio dinosaurio?</h2>
+                <p class="article-description">Conoce la historia del Mauriciosaurus fernandezi, un fósil marino descubierto en Vallecillo, Nuevo León, y nombrado en honor al político mexicano Mauricio Fernández.</p>
+                <div class="article-meta">
+                    <span>👤 Brenda Nairobi Aguilar</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_25.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/U2LLU7K6KBBCJJAIJIZA65SSUE.png?smart=true&auth=15b3944627da4524e6e7df8834b9acc64e1f2e165cab8bbb9b039311ff3e6cf2&width=1200&height=630" alt="La historia de Yoli, el refresco que creó la frase ‘se le botó la canica’ que ahora es ‘primo’ de la Coca" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">La historia de Yoli, el refresco que creó la frase ‘se le botó la canica’ que ahora es ‘primo’ de la Coca</h2>
+                <p class="article-description">Esta es la historia del refresco Yoli: cómo nació en Guerrero, creó la frase “se le botó la canica” y terminó como parte de Coca-Cola FEMSA.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_26.html" class="article-card">
+            <img src="https://ichef.bbci.co.uk/news/1024/branded_mundo/d4db/live/9255c100-fb59-11f0-80ad-435009e66207.jpg" alt="Por qué América Latina ha sido el territorio ideal para imaginar y crear utopías (y casi todas terminaron mal)" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Por qué América Latina ha sido el territorio ideal para imaginar y crear utopías (y casi todas terminaron mal)</h2>
+                <p class="article-description">Casi desde el momento mismo de la llegada de los conquistadores españoles, nuestra región se convirtió en territorio fértil para las utopías. Y todavía ocurre. En esta entrevista exploramos por qué.</p>
+                <div class="article-meta">
+                    <span>👤 https://www.facebook.com/bbcnews</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_27.html" class="article-card">
+            <img src="https://www.tribuna.com.mx/u/fotografias/m/2026/2/1/f1280x720-490516_622191_5050.png" alt="Lista COMPLETA de GANADORES Sorteo Zodiaco No. 1733 de Lotería Nacional, HOY domingo 1 de FEBRERO" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Lista COMPLETA de GANADORES Sorteo Zodiaco No. 1733 de Lotería Nacional, HOY domingo 1 de FEBRERO</h2>
+                <p class="article-description">Hoy es día de Sorteo Zodiaco No. 1733 en la Lotería Nacional; TRIBUNA te presenta la lista COMPLETA de ganadores de este domingo 1 de febrero de 2026</p>
+                <div class="article-meta">
+                    <span>👤 Alejandra Avalos</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_28.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/01/nota-fadanelli-uno.jpg" alt="“Me considero un hombre de tendencia socialista y de ánimo anarquista”: Guillermo Fadanelli" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">“Me considero un hombre de tendencia socialista y de ánimo anarquista”: Guillermo Fadanelli</h2>
+                <p class="article-description">El escritor mexicano publica su nueva novela ‘Fango’.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción AN / HG</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_29.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Marath Baruch Bolaños López*: Trabajo digno en el siglo XXI" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Marath Baruch Bolaños López*: Trabajo digno en el siglo XXI</h2>
+                <p class="article-description">El trabajo, entendido en términos filosóficos como el conjunto de actividades dedicadas a transformar la naturaleza para satisfacer las necesidades humanas, no es una realidad inerte. Ha experimentado</p>
+                <div class="article-meta">
+                    <span>👤 Marath Baruch Bolaños López*</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_30.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/01/fotos/022e1mun-1.jpg" alt="“La relación entre Donald Trump y el fascismo es cada vez más evidente”" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">“La relación entre Donald Trump y el fascismo es cada vez más evidente”</h2>
+                <p class="article-description">Madrid. La humanidad atraviesa un momento crucial en la historia, con una guerra en curso y de pronós-tico incierto, alerta el filósofo mexicano José Guadalupe Gandarilla, autor y coordinador del libr</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_31.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/01/fotos/a10n2dep-1.jpg" alt="Arranca hoy la Serie del Caribe en Zapopan" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Arranca hoy la Serie del Caribe en Zapopan</h2>
+                <p class="article-description">Luego de convertirse en sede emergente de la Serie del Caribe tras la inestabilidad política en Venezuela, México comienza hoy la búsqueda de su título 10 en la competencia.</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_32.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/01/fotos/002n1pol-1.jpg" alt="Inaceptable, negar la ayuda humanitaria a un país: De la Fuente" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Inaceptable, negar la ayuda humanitaria a un país: De la Fuente</h2>
+                <p class="article-description">México considera inaceptable “que no haya ayuda humanitaria donde sea requerida, cuando algún país del mundo lo requiere”, definió el secretario de Relaciones Exteriores, Juan Ramón de la Fuente, en l</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_33.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Marath Baruch Bolaños López*: Trabajo digno en el siglo XXI" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Análisis y Opinión</span>
+                <h2 class="article-title">Marath Baruch Bolaños López*: Trabajo digno en el siglo XXI</h2>
+                <p class="article-description">El trabajo, entendido en términos filosóficos como el conjunto de actividades dedicadas a transformar la naturaleza para satisfacer las necesidades humanas, no es una realidad inerte. Ha experimentado</p>
+                <div class="article-meta">
+                    <span>👤 Marath Baruch Bolaños López*</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 Noticias. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="../feed_análisis-opinión.xml" style="color: white;">📡 RSS de esta categoría</a>
+        </p>
+    </footer>
+</body>
+</html>

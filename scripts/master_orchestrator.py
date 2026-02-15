@@ -968,8 +968,7 @@ No text, no watermarks."""
                     </figure>
 
                     <div class="article-content">
-                    {f'<h2 class="article-subtitle">{noticia.get("description", "")[:200]}{"..." if len(noticia.get("description", "")) > 200 else ""}</h2>' if noticia.get("description") else ""}
-                    {self._formatear_contenido_html(noticia.get("full_article", noticia.get("full_text", noticia.get("content", noticia.get("description", "")))))}
+                        {self._formatear_contenido_html(noticia.get("full_article", noticia.get("full_text", noticia.get("content", ""))))}
                     </div>
 
                     <footer class="article-footer">

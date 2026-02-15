@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Política Nacional - Noticias y análisis de Noticias">
+    <meta name="keywords" content="política nacional, política méxico, noticias">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Política Nacional - Noticias">
+    <meta property="og:description" content="Noticias de Política Nacional en Noticias">
+    <meta property="og:url" content="https://ejemplo.com/categoria/política-nacional.html">
+    
+    <title>Política Nacional - Noticias</title>
+    <link rel="stylesheet" href="../style.css">
+    
+    <style>
+        /* Estilos específicos de categoría que complementan style.css */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-header {
+            background: white;
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .article-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .articles-grid {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: #667eea20;
+            color: #667eea;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .article-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="site-name">Noticias</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Inicio</a> › <span>Política Nacional</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="category-header">
+        <h1 class="category-title">Política Nacional</h1>
+        <p class="category-description">Noticias y análisis político de política nacional</p>
+        <span class="article-count">31 artículos</span>
+    </div>
+    
+    <div class="articles-grid">
+
+        <a href="../article_1.html" class="article-card">
+            <img src="https://cdn.forbes.com.mx/2025/07/IA-voces-doblaje.webp" alt="Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine ante la IA" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine ante la IA</h2>
+                <p class="article-description">Forbes México.
+ Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine ante la IA
+
+Sobre la regulación del uso de la IA en el doblaje en México, la secretaria de Cultura seña</p>
+                <div class="article-meta">
+                    <span>👤 Forbes México Staff</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_2.html" class="article-card">
+            <img src="https://www.latercera.com/resizer/v2/RFMQ3PDZ6VDQRAPVXNYGDVXHMM.jpg?auth=e312d4bbc387531c0a77c679555299b23d89dd887926b0dd31d71a5d5c3bfd90&height=630&width=1200&smart=true" alt="Desde la DC hasta el PC: oficialismo respalda la inscripción de candidatura de Michelle Bachelet a la ONU" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Desde la DC hasta el PC: oficialismo respalda la inscripción de candidatura de Michelle Bachelet a la ONU</h2>
+                <p class="article-description">Con un amplio respaldo, la alianza oficialista ha expresado el apoyo a la candidatura de la expresidenta, Michelle Bachelet, destacando su trayectoria, la participación de México y Brasil y abordando </p>
+                <div class="article-meta">
+                    <span>👤 Felipe Alcafus</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_3.html" class="article-card">
+            <img src="https://www.latercera.com/resizer/v2/QTHRTLNADRGGHMUULNNNRUWLZA.jpeg?auth=8b751f5e6b6c4ffb360fc937cfeb3a093b8ee0c873e26ddcbf2228054240c5a0&height=630&width=1200&smart=true" alt="La operación de La Moneda por Bachelet que irritó a la OPE" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">La operación de La Moneda por Bachelet que irritó a la OPE</h2>
+                <p class="article-description">La formalización de la inscripción de la expresidenta como carta a la Secretaría General de la ONU desató la molestia del círculo de Kast, donde esperaban tomar la decisión final. Ahora, con el anunci</p>
+                <div class="article-meta">
+                    <span>👤 David Tralma,Pedro Rosas</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_4.html" class="article-card">
+            <img src="https://www.latercera.com/resizer/v2/H6A6RIL2KZCRNESW6DW7SPUZT4.jpg?auth=3e73c14eed3fb6a7ba107e1bc342803bedd9eb94abfbafb648ada40154b2c7fb&height=630&width=1200&smart=true" alt="La Moneda responde a Kast: “Para ser gobierno se requiere caminar y masticar chicle al mismo tiempo”" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">La Moneda responde a Kast: “Para ser gobierno se requiere caminar y masticar chicle al mismo tiempo”</h2>
+                <p class="article-description">Desde el Ejecutivo respondieron el emplazamiento del presidente electo tras la oficialización de la candidatura de Michelle Bachelet a la Secretaría General de la ONU.</p>
+                <div class="article-meta">
+                    <span>👤 Alonso Aranda</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_5.html" class="article-card">
+            <img src="https://cdn.forbes.com.mx/2026/02/0x0-12.webp" alt="El bitcoin cae con fuerza: por qué bajó de los 78,000 dólares, aquí te contamos" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">El bitcoin cae con fuerza: por qué bajó de los 78,000 dólares, aquí te contamos</h2>
+                <p class="article-description">Forbes México.
+ El bitcoin cae con fuerza: por qué bajó de los 78,000 dólares, aquí te contamos
+
+El bitcoin cotizaba alrededor de los 84,000 dólares el viernes, pero cayó abruptamente el sábado y desc</p>
+                <div class="article-meta">
+                    <span>👤 Mike Stunson</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_6.html" class="article-card">
+            <img src="http://peru21.pe/sites/default/efsfiles/styles/amp_1200x675_16_9/public/2026-02/bachelet.jpg?itok=9Uwhv26K" alt="Michelle Bachelet es propuesta para dirigir la ONU con respaldo de México y Brasil" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Michelle Bachelet es propuesta para dirigir la ONU con respaldo de México y Brasil</h2>
+                <p class="article-description">El presidente chileno Gabriel Boric confirmó la inscripción formal de la candidatura de la exmandataria para la Secretaría General de las Naciones Unidas.</p>
+                <div class="article-meta">
+                    <span>👤 Esther Vargas</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_7.html" class="article-card">
+            <img src="https://www.tribuna.com.mx/u/fotografias/m/2026/2/2/f1280x720-490578_622253_5050.png" alt="Claudia Sheinbaum descarta conflictos por la renuncia de Adán Augusto y asegura su apoyo a Morena" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Claudia Sheinbaum descarta conflictos por la renuncia de Adán Augusto y asegura su apoyo a Morena</h2>
+                <p class="article-description">Claudia Sheinbaum se pronunció sobre la decisión de Adán Augusto López Hernández de dejar la coordinación de Morena en el Senado de la República</p>
+                <div class="article-meta">
+                    <span>👤 Cynthia Ángel</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_8.html" class="article-card">
+            <img src="https://www.latercera.com/resizer/v2/XJ7O5FUHEVAANBQRLNN6R2KDGM.jpg?auth=35d0807b6f2c81a976de3d899821585d3be863b106d692930edebae407cb4beb&height=630&width=1200&smart=true" alt="Con Brasil y México: Presidente Boric anuncia inscripción de candidatura de Michelle Bachelet a la ONU" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Con Brasil y México: Presidente Boric anuncia inscripción de candidatura de Michelle Bachelet a la ONU</h2>
+                <p class="article-description">El Mandatario realizó la declaración desde La Moneda, acompañado de la expresidenta, el canciller Alberto van Klaveren y los embajadores de ambos países que apoyan la cruzada por la Secretaría General</p>
+                <div class="article-meta">
+                    <span>👤 Alonso Aranda</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_9.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2026/02/02/coordinador-entrante-saliente-morena-senado.jpg" alt="Inician periodo sin Adán como líder y esperan la reforma" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Inician periodo sin Adán como líder y esperan la reforma</h2>
+                <p class="article-description">El Congreso de la Unión abrió su periodo de sesiones ya sin Adán Augusto López como coordinador de los senadores de Morena y a la espera de la iniciativa de reforma electoral por parte del Ejecutivo.E</p>
+                <div class="article-meta">
+                    <span>👤 Liliana Padilla,Fernando Damián</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_10.html" class="article-card">
+            <img src="https://media.cnnchile.com/sites/2/2026/02/GABRIEL-BORIC-MICHELLE-BACHELET.png" alt="Presidente Boric oficializa la candidatura de Michelle Bachelet a la ONU: Contará con apoyo de Brasil y México" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Presidente Boric oficializa la candidatura de Michelle Bachelet a la ONU: Contará con apoyo de Brasil y México</h2>
+                <p class="article-description">El Mandatario afirmó que la postulación ya fue inscrita ante Naciones Unidas y que se presentará en multilateralismo. En el anuncio, realizado a las afueras del Palacio de La Moneda junto al canciller</p>
+                <div class="article-meta">
+                    <span>👤 CNN Chile</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_11.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Senadores respaldan a la Presidenta" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Senadores respaldan a la Presidenta</h2>
+                <p class="article-description">Los grupos parlamentarios de los partidos Morena, del Trabajo y Verde Ecologista de México en el Senado respaldaron la postura de la presidenta Claudia Sheinbaum de mantener la ayuda humanitaria al pu</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_12.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Seremos amables; habrá un tipo de pacto con la isla: el magnate" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Seremos amables; habrá un tipo de pacto con la isla: el magnate</h2>
+                <p class="article-description">Washington. El presidente estadunidense, Donald Trump, afirmó que “Cuba es una nación en crisis. Lo ha sido durante mucho tiempo, pero ahora no tiene a Venezuela para sostenerla. Así que estamos habla</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_13.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/02/fotos/010o1pol-1.jpg" alt="Julio Hernández López: Astillero" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Julio Hernández López: Astillero</h2>
+                <p class="article-description">Por lo pronto, pierde la posición privilegiada de jefe político del Senado. Se queda con fuero, lo cual no es poca cosa ( La Barredora os contempla, ex gobernador), con la posibilidad de cambiar escañ</p>
+                <div class="article-meta">
+                    <span>👤 Julio Hernández López</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_14.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Familia mexicana en Mineápolis, prisionera en su casa" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Familia mexicana en Mineápolis, prisionera en su casa</h2>
+                <p class="article-description">Mineápolis. Ana, Carlos y su hijo Luis, de origen mexicano, llevan encerrados en su casa de Mineápolis dos meses, desde que agentes federales comenzaron las redadas para detener a inmigrantes por orde</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_15.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/02/fotos/005n1pol-1.jpg" alt="Entre escándalos, Adán López deja el liderazgo de Morena en el Senado" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Entre escándalos, Adán López deja el liderazgo de Morena en el Senado</h2>
+                <p class="article-description">Envuelto en la polémica y tras más de siete meses de enfrentar un escándalo tras otro, Adán Augusto López Hernández dejó ayer la coordinación del grupo parlamentario de Morena en el Senado y la presid</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_16.html" class="article-card">
+            <img src="https://www.bostonherald.com/wp-content/uploads/2026/02/EEUU-ELECCIONES-INMIGRACION_66096.jpg?w=1024&h=683" alt="Electores de un distrito en Colorado se muestran divididos en torno a medidas migratorias de Trump" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Electores de un distrito en Colorado se muestran divididos en torno a medidas migratorias de Trump</h2>
+                <p class="article-description">Por NICHOLAS RICCARDI GREELEY, Colorado, EE.UU. (AP) — Al igual que muchos de quienes votaron por Donald Trump, Miranda Niedermeier no se opone a que se controle la inmigración. Se sintió alentada por</p>
+                <div class="article-meta">
+                    <span>👤 Associated Press Spanish</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_17.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2020/11/12/luisa-maria-alcalde-lujan-secretaria-2.jpg" alt="Morena se solidariza con Cuba ante amagos arancelarios de Trump: "Estas decisiones impactan a los pueblos"" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Morena se solidariza con Cuba ante amagos arancelarios de Trump: "Estas decisiones impactan a los pueblos"</h2>
+                <p class="article-description">Luisa María Alcalde Luján, a nombre del Movimiento de Regeneración Nacional (Morena), se solidarizó con Cuba luego de que el presidente de Estados Unidos, Donald Trump, amagara consubirle lo aranceles</p>
+                <div class="article-meta">
+                    <span>👤 Rafael Mejía Fernández de Lara</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_18.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/LCQ7BVODINBVJBLHU2WFGKQHWE.jpg?smart=true&auth=73831397147ea7cf36da201810ab7814a7b7301197fd96225a43dbef0b3613e6&width=1200&height=630" alt="Adán Augusto López deja coordinación de Morena: Esta es la nueva tarea del senador tabasqueño" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Adán Augusto López deja coordinación de Morena: Esta es la nueva tarea del senador tabasqueño</h2>
+                <p class="article-description">Adán Augusto López deja la coordinación de Morena en el Senado para liderar trabajo territorial y fortalecer al partido rumbo a las elecciones de 2027.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_19.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2025/11/claudia-sheinbaum-revocacion-mandato-adelantar-2027-ahorrar-recursos-111125.jpg" alt="Mirador Político: La presidenta no tiene quien le escriba | Jorge Alcocer V." class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Mirador Político: La presidenta no tiene quien le escriba | Jorge Alcocer V.</h2>
+                <p class="article-description">Hasta 2015 nuestro sistema electoral había funcionado adecuadamente, permitiendo una aceptable correspondencia entre votos, curules y escaños, sin obstaculizar las alianzas legislativas para conformar</p>
+                <div class="article-meta">
+                    <span>👤 Jorge Alcocer V.</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_20.html" class="article-card">
+            <img src="https://cdn.milenio.com/uploads/media/2026/02/01/arturo-avila-diputado-morena-entrevista.jpeg" alt=""Me inscribiré a encuesta de Aguascalientes, pero si puedo ayudar a recuperar la Cuauhtémoc me anoto": Arturo Ávila" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">"Me inscribiré a encuesta de Aguascalientes, pero si puedo ayudar a recuperar la Cuauhtémoc me anoto": Arturo Ávila</h2>
+                <p class="article-description">El vocero de Morena en la Cámara de Diputados, Arturo Ávila, aseguró que se inscribirá en la contienda interna por la candidatura a la gubernatura de Aguascalientes rumbo a 2027.Aunque, de haber algún</p>
+                <div class="article-meta">
+                    <span>👤 Redacción</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_21.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/02/claudia-sheinbaum-ayuda-humanitaria-cuba-010226.jpg" alt="Sheinbaum anuncia envío de ayuda humanitaria de México a Cuba" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Sheinbaum anuncia envío de ayuda humanitaria de México a Cuba</h2>
+                <p class="article-description">El anuncio ocurre tras el anuncio de medidas de Estados Unidos contra países que suministren petróleo a la isla.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción AN / LP</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_22.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/02/deja-adan-augusto-coordinador-morena-senado-ignacio-mier-010226-1.jpg" alt="Adán Augusto deja la coordinación de Morena en el Senado; queda Ignacio Mier al frente" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Adán Augusto deja la coordinación de Morena en el Senado; queda Ignacio Mier al frente</h2>
+                <p class="article-description">Morena informó que la transición se da tras cumplir los objetivos legislativos del Plan C.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción AN / LP</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_23.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/2WEIZXRP7BHOPLJ437QHG57PMU.jpg?smart=true&auth=42984620bdc3d6efc40c830ac1ba2344b9b97969f7819a70116bd525baad322a&width=1200&height=630" alt="Cuando Carlos Bonavides defendió a AMLO y Sheinbaum: ‘El mejor presidente desde Moctezuma’" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Cuando Carlos Bonavides defendió a AMLO y Sheinbaum: ‘El mejor presidente desde Moctezuma’</h2>
+                <p class="article-description">Carlos Bonavides ha reiterado su respaldo al proyecto de la Cuarta Transformación en varias ocasiones, principalmente por los programas sociales.</p>
+                <div class="article-meta">
+                    <span>👤 Redacción</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_24.html" class="article-card">
+            <img src="https://resizer.glanacion.com/resizer/v2/trump-presiona-a-diaz-canel-y-busca-4TWK3H5ZDBFZ5CXHCGFWPCEGN4.png?auth=818a308fcdbd1f767f6e5059b10213baadfaac9e31acb4e6e656b1e9f62f5c4a&width=1200&quality=70&smart=false&height=800" alt="Trump afirma que comenzó a dialogar con la dictadura cubana mientras mantiene la asfixia de crudo sobre la isla" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Trump afirma que comenzó a dialogar con la dictadura cubana mientras mantiene la asfixia de crudo sobre la isla</h2>
+                <p class="article-description">Últimamente, el jefe de la Casa Blanca tomó medidas para cortar los suministros de petróleo procedentes de Venezuela y México; el régimen castrista denunció que las maniobras apuntan a un ataque a la </p>
+                <div class="article-meta">
+                    <span>👤 LA NACION</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_25.html" class="article-card">
+            <img src="https://www.latercera.com/resizer/v2/5BCB7ZP5OPCS65ERVWXTAVAMJU.jpg?auth=6cd2ccf2d606c9c7e995f4b286805f93329a1ad30478b6a682d3fd624631d87d&height=630&width=1200&smart=true" alt="Trump dice que EE.UU. “empieza a hablar con Cuba” mientras usa el petróleo para presionar a la isla" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Trump dice que EE.UU. “empieza a hablar con Cuba” mientras usa el petróleo para presionar a la isla</h2>
+                <p class="article-description">“No tiene por qué haber una crisis humanitaria. Creo que probablemente vendrán a nosotros y querrían hacer un trato. Así que Cuba volverá a ser libre. Vendrán a nosotros y harán un trato", aseguró el </p>
+                <div class="article-meta">
+                    <span>👤 Fernando Fuentes</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_26.html" class="article-card">
+            <img src="https://www.latercera.com/resizer/v2/6NU47YX2FBHIVCYQKGYH4KD37E.jpg?auth=b789b579a3a7b9522fbd8f553c433d0c980be30873e49ee322820ccff0cffa74&height=630&width=1200&smart=true" alt="Jorge Quiroga: “La región debe tener una voz clara frente a Venezuela”" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Jorge Quiroga: “La región debe tener una voz clara frente a Venezuela”</h2>
+                <p class="article-description">El exmandatario boliviano, quien participará en marzo en el lanzamiento de la cátedra "Presidente Sebastián Piñera" de la UDD, es optimista sobre las oportunidades que se abren en Sudamérica por el gi</p>
+                <div class="article-meta">
+                    <span>👤 Francisco Artaza</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_27.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Antonio Gershenson: ¿Quiénes nos defienden?" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Antonio Gershenson: ¿Quiénes nos defienden?</h2>
+                <p class="article-description">Muy bien, estamos entonces insistiendo en que debemos proteger nuestra soberanía. No es posible que a estas alturas de los agravios y los exabruptos del presidente irresponsable de Estados Unidos noso</p>
+                <div class="article-meta">
+                    <span>👤 Antonio Gershenson</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_28.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Antonio Gershenson: ¿Quiénes nos defienden?" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Antonio Gershenson: ¿Quiénes nos defienden?</h2>
+                <p class="article-description">Muy bien, estamos entonces insistiendo en que debemos proteger nuestra soberanía. No es posible que a estas alturas de los agravios y los exabruptos del presidente irresponsable de Estados Unidos noso</p>
+                <div class="article-meta">
+                    <span>👤 Antonio Gershenson</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_29.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Cuba canta a la paz y en defensa de la soberanía" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Cuba canta a la paz y en defensa de la soberanía</h2>
+                <p class="article-description">La Habana. Varios artistas cubanos se han unido para cantarle a la paz y en defensa de la soberanía nacional, ello en contundente rechazo a las medidas adoptadas por el gobierno estadunidense contra l</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_30.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="Federación alemana descarta boicot al Mundial" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Federación alemana descarta boicot al Mundial</h2>
+                <p class="article-description">Berlín. La Federación Alemana de Futbol (DBF, por sus siglas en alemán) descartó un boicot al Mundial 2026 a pesar de los llamados internos para enviar un mensaje al presidente de Estados Unidos, Dona</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_31.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/01/fotos/005n1pol-1.jpg" alt="Rosa Icela: reforma electoral, “con todos” los partidos aliados" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Política Nacional</span>
+                <h2 class="article-title">Rosa Icela: reforma electoral, “con todos” los partidos aliados</h2>
+                <p class="article-description">La reforma electoral que enviará la presidenta Claudia Sheinbaum al Congreso será “con todos” los partidos de la alianza, afirmó la titular de la Secretaría de Gobernación (SG), Rosa Icela Rodríguez, </p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 Noticias. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="../feed_política-nacional.xml" style="color: white;">📡 RSS de esta categoría</a>
+        </p>
+    </footer>
+</body>
+</html>

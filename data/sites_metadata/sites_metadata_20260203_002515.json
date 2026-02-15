@@ -1,0 +1,90 @@
+[
+  {
+    "id": "site_20260203_002515_4825",
+    "nombre": "El Altavoz Report",
+    "tagline": "La Verdad en Cada Historia",
+    "estilo": "aleatorio",
+    "dominio": "altavozreport.org",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#27AE60",
+      "secundario": "#16A085",
+      "acento": "#F39C12",
+      "texto": "#2C3E50",
+      "fondo": "#ECF0F1"
+    },
+    "logo": {
+      "nombre_completo": "El Altavoz Report",
+      "iniciales": "EAR",
+      "estilo": "elegant",
+      "tipo": "emblem",
+      "colores": {
+        "primario": "#27AE60",
+        "secundario": "#16A085",
+        "acento": "#F39C12",
+        "texto": "#2C3E50",
+        "fondo": "#ECF0F1"
+      },
+      "fuente_sugerida": "Source Sans Pro",
+      "peso_fuente": "black",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Entretenimiento",
+      "Salud",
+      "Sociedad",
+      "Tecnología"
+    ],
+    "contacto": {
+      "email_general": "contacto@altavozreport.org",
+      "email_redaccion": "redaccion@altavozreport.org",
+      "email_publicidad": "publicidad@altavozreport.org",
+      "telefono": "+52 55 5389 9428",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/altavozreport",
+      "twitter": "https://twitter.com/altavozreport",
+      "instagram": "https://instagram.com/altavozreport",
+      "youtube": "https://youtube.com/@altavozreport",
+      "linkedin": "https://linkedin.com/company/altavozreport",
+      "telegram": "https://t.me/altavozreport"
+    },
+    "seo": {
+      "titulo": "El Altavoz Report - La Verdad en Cada Historia",
+      "descripcion": "El Altavoz Report es tu fuente confiable de noticias e información actualizada. La Verdad en Cada Historia. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "el altavoz report",
+        "altavozreport"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-02-03T00:25:15.459315",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

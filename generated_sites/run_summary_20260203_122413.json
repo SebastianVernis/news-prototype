@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "run_id": "20260203_122413",
+  "sitios_generados": [
+    {
+      "index_path": "/home/sebastianvernis/Trabajo/news-prototype/generated_sites/site_2/index.html",
+      "site_dir": "/home/sebastianvernis/Trabajo/news-prototype/generated_sites/site_2",
+      "site_num": 2
+    }
+  ],
+  "stats": {
+    "noticias_descargadas": 100,
+    "articulos_principales": 20,
+    "placeholders_generados": 80,
+    "noticias_parafraseadas": 100,
+    "imagenes_generadas": 100,
+    "sitios_creados": 1,
+    "tiempo_inicio": 1770143053.441374,
+    "tiempo_total_segundos": 269.47173738479614,
+    "tiempo_total_minutos": 4.4911956230799355
+  },
+  "output_dir": "/home/sebastianvernis/Trabajo/news-prototype/generated_sites"
+}

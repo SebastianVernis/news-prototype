@@ -1,0 +1,90 @@
+[
+  {
+    "id": "site_20260131_192551_2601",
+    "nombre": "Reportes MX",
+    "tagline": "Noticias que Importan",
+    "estilo": "aleatorio",
+    "dominio": "reportesmx.news",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#34495E",
+      "secundario": "#2980B9",
+      "acento": "#E67E22",
+      "texto": "#2C3E50",
+      "fondo": "#ECF0F1"
+    },
+    "logo": {
+      "nombre_completo": "Reportes MX",
+      "iniciales": "RM",
+      "estilo": "tech",
+      "tipo": "emblem",
+      "colores": {
+        "primario": "#34495E",
+        "secundario": "#2980B9",
+        "acento": "#E67E22",
+        "texto": "#2C3E50",
+        "fondo": "#ECF0F1"
+      },
+      "fuente_sugerida": "Merriweather",
+      "peso_fuente": "black",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Entretenimiento",
+      "Ciencia",
+      "Salud",
+      "Educación"
+    ],
+    "contacto": {
+      "email_general": "contacto@reportesmx.news",
+      "email_redaccion": "redaccion@reportesmx.news",
+      "email_publicidad": "publicidad@reportesmx.news",
+      "telefono": "+52 55 1412 7901",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/reportesmx",
+      "twitter": "https://twitter.com/reportesmx",
+      "instagram": "https://instagram.com/reportesmx",
+      "youtube": "https://youtube.com/@reportesmx",
+      "linkedin": "https://linkedin.com/company/reportesmx",
+      "telegram": "https://t.me/reportesmx"
+    },
+    "seo": {
+      "titulo": "Reportes MX - Noticias que Importan",
+      "descripcion": "Reportes MX es tu fuente confiable de noticias e información actualizada. Noticias que Importan. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "reportes mx",
+        "reportesmx"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-01-31T19:25:51.437192",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

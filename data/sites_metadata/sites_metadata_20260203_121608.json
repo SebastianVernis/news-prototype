@@ -1,0 +1,90 @@
+[
+  {
+    "id": "site_20260203_121608_2561",
+    "nombre": "24MéxicoHerald",
+    "tagline": "El Pulso de la Actualidad",
+    "estilo": "aleatorio",
+    "dominio": "24méxicoherald.mx",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#8E44AD",
+      "secundario": "#9B59B6",
+      "acento": "#E74C3C",
+      "texto": "#2C3E50",
+      "fondo": "#F8F9FA"
+    },
+    "logo": {
+      "nombre_completo": "24MéxicoHerald",
+      "iniciales": "2",
+      "estilo": "bold",
+      "tipo": "combination",
+      "colores": {
+        "primario": "#8E44AD",
+        "secundario": "#9B59B6",
+        "acento": "#E74C3C",
+        "texto": "#2C3E50",
+        "fondo": "#F8F9FA"
+      },
+      "fuente_sugerida": "Montserrat",
+      "peso_fuente": "bold",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Cultura",
+      "Tecnología",
+      "Opinión",
+      "Salud"
+    ],
+    "contacto": {
+      "email_general": "contacto@24méxicoherald.mx",
+      "email_redaccion": "redaccion@24méxicoherald.mx",
+      "email_publicidad": "publicidad@24méxicoherald.mx",
+      "telefono": "+52 55 7295 4825",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/24méxicoherald",
+      "twitter": "https://twitter.com/24méxicoherald",
+      "instagram": "https://instagram.com/24méxicoherald",
+      "youtube": "https://youtube.com/@24méxicoherald",
+      "linkedin": "https://linkedin.com/company/24méxicoherald",
+      "telegram": "https://t.me/24méxicoherald"
+    },
+    "seo": {
+      "titulo": "24MéxicoHerald - El Pulso de la Actualidad",
+      "descripcion": "24MéxicoHerald es tu fuente confiable de noticias e información actualizada. El Pulso de la Actualidad. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "24méxicoherald",
+        "24méxicoherald"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-02-03T12:16:08.354648",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

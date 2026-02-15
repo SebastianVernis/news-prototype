@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>Sitio de Noticias - Elecciones</title>
+    <link>https://ejemplo.com/categoria/elecciones</link>
+    <description>Noticias de elecciones en Sitio de Noticias</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 03 Feb 2026 12:28:34 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://ejemplo.com//home/sebastianvernis/Trabajo/news-prototype/generated_sites/site_2/feed_elecciones.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Elecciones 2026: Keylor Navas entra a la arena política desde sus redes sociales</title>
+      <link>https://www.nacion.com/politica/elecciones-2026-keylor-navas-entra-a-la-arena/MV5ZYOZ5RRBYNOGDDQPVZMQXEE/story/</link>
+      <guid>https://www.nacion.com/politica/elecciones-2026-keylor-navas-entra-a-la-arena/MV5ZYOZ5RRBYNOGDDQPVZMQXEE/story/</guid>
+      <description>El arquero costarricense Keylor Navas preguntó a sus seguidores en redes sociales quién</description>
+      <content:encoded>&lt;![CDATA[‌‌ ‌ ‌ El guardameta costarricenseKeylor Navasdecidió adentrarse en el mundo de la política en estaselecciones 2026a través de sus redes sociales. El arquero, que milita actualmente en elPumas de México, realizó un sondeo con sus seguidores en sus redes sociales de Instagram y Facebook con una pregunta: “-¿Quién ganará mañana?"(la publicación se hizo sábado en la noche). Sin embargo, aunque la papeleta real cuenta con 20 opciones, Keylor solo incluyó cuatro candidatos en su “encuesta” informal, en el siguiente orden: En un corte hecho a primera hora del domingo, y desafiando la prohibición del Tribunal Supremo de Elecciones (TSE) de divulgar encuestas, los resultados de la urna de Navas mostraban resultados dispares: en Facebook Laura Fernández se iba imponiendo, mientras que en Instagram Ramos era el ganador con amplia diferencia. El posteo no incluye la explicación de cómo escogióesas candidaturas, ni algún otro detalle adicional. Parece ser solo una forma de involucrarse en el proceso electoral al que están convocados a participar todos los costarricenses. En todo caso, es muy poco probable que el Halcón pueda ejercer su voto esta jornada, debido a que está registrado como elector en Madrid, lacapital de España, donde jugó por varios años con el Real Madrid.]]&gt;</content:encoded>
+      <pubDate>Sun, 01 Feb 2026 13:52:15 +0000</pubDate>
+      <dc:creator>Esteban Valverde</dc:creator>
+      <category>Elecciones y Partidos</category>
+      <enclosure url="https://www.nacion.com/resizer/v2/WXCIQLN4UNECJGFAJP36UHSNAE.png?smart=true&amp;auth=f556e895ccd75503791ea945ad54aaa38e6c820d303b1881160a82c0f3a1ecfa&amp;width=1440" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Elecciones 2026: Costa Rica asiste a las urnas con el gran reto de disminuir el abstencionismo</title>
+      <link>https://www.nacion.com/politica/elecciones-2026-costa-rica-asiste-a-las-urnas-con/DTWNAPTXB5B2HKP7U34WGEYZLQ/story/</link>
+      <guid>https://www.nacion.com/politica/elecciones-2026-costa-rica-asiste-a-las-urnas-con/DTWNAPTXB5B2HKP7U34WGEYZLQ/story/</guid>
+      <description>Más de 3 millones de costarricenses son llamados a escoger entre 20 aspirantes a ocupar la silla presidencial por los siguientes cuatro años.</description>
+      <content:encoded>&lt;![CDATA[‌‌ ‌ ‌ La población costarricense celebra una vez más la fiesta democráticaen las elecciones presidenciales y legislativas de este domingo. Un total de3.731.788 personasestán llamadas a las urnas, lo que representa un aumento del 4,3% con respecto a hace cuatro años, y en la papeleta encontrarán20 candidatosque pretenden ocupar la silla presidencial de Zapote del 8 de mayo próximo al 8 de mayo del 2030. El Tribunal Supremo de Elecciones (TSE) imprimióuna papeleta por votante para presidenciay vicepresidencias, y3.664.518 para diputaciones(una cantidad menor, porque el voto en el extranjero no elige congresistas), para un total de7.396.306papeletas. Losprimeros resultados provisionales se darán a conocer este mismo domingo a las 8:45 p. m.Esto incluye información de 7.154 juntas receptoras de votos (JRV) en 2.103 centros de votación. Como lo establece el artículo 138 de la Constitución Política,quien obtenga un 40% de losvotos válidosganará la presidencia de la República. Los sufragios en blanco y nulos, aunque cuentan para la estadística de votos emitidos,no se suman entre los votos válidos y, por lo tanto, no influyen en el umbral del 40%. Si nadie alcanza ese porcentaje, el domingo 5 de abril, el TSE abrirá las urnas otra vez para escoger al nuevo mandatario entre las dos opciones más votadas, escenario que ha ocurrido cuatro veces en la historia de Costa Rica y, de forma consecutiva, en los tres últimos comicios. En orden de aparición en la papeleta, los aspirantes son:]]&gt;</content:encoded>
+      <pubDate>Sun, 01 Feb 2026 11:00:00 +0000</pubDate>
+      <dc:creator>Yeryis Salas</dc:creator>
+      <category>Elecciones y Partidos</category>
+      <enclosure url="https://www.nacion.com/resizer/v2/BTAKF3KE3NFWPHKFVWYUAAZETM.jpg?smart=true&amp;auth=0c67a93dd767c41588e32a1244f9b55def621aff2ed9be57d8251322e8656d45&amp;width=1440" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

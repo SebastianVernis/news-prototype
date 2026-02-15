@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>Sitio de Noticias - Medio Ambiente</title>
+    <link>https://ejemplo.com/categoria/medio-ambiente</link>
+    <description>Noticias de medio ambiente en Sitio de Noticias</description>
+    <language>es-MX</language>
+    <lastBuildDate>Tue, 03 Feb 2026 12:28:34 +0000</lastBuildDate>
+    <generator>News Prototype Generator</generator>
+    <atom:link href="https://ejemplo.com//home/sebastianvernis/Trabajo/news-prototype/generated_sites/site_2/feed_medio-ambiente.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Alonso Romero: La consolidación de Pemex</title>
+      <link>https://www.jornada.com.mx/2026/02/02/opinion/015a1pol</link>
+      <guid>https://www.jornada.com.mx/2026/02/02/opinion/015a1pol</guid>
+      <description>Los resultados de las políticas económicas rara vez son inmediatos. El caso de la política energética de México es el ejemplo. A los regímenes neoliberales les tomó 30 años destruir la capacidad productiva de energéticos en México. Pasamos de ser un país con …</description>
+      <content:encoded>&lt;![CDATA[os resultados de las políticaseconómicas rara vez son inmediatos. El caso de la política energética de México es el ejemplo. A los regímenes neoliberales les tomó 30 años destruir la capacidad productiva de energéticos en México. Pasamos de ser un país con un alto índice de independencia energética, tanto en el sentido tradicional (producir más energía de la que se consume) como en el sentido extendido, que incluye la capacidad de producción de tecnología, investigación y mano de obra especializada. Un ecosistema complejo de instituciones y centros de investigación dedicados a la materia energética fue lentamente desmantelado bajo la errónea premisa de que importar todo siempre sale más barato. La estocada final se dio cuando se aprobó la reforma energética de Peña Nieto, y Pemex fue particularmente asediado por una serie de funcionarios públicos que desde la Dirección General y desde la Secretaría de Energía destruyeron la capacidad productiva, específicamente donde existe más valor agregado y se generan los productos de mayor utilidad, la refinación y la petroquímica. Para dimensionar el daño que le hicieron a Pemex es importante recordar algunos números. Peña Nieto y su equipo recibieron Pemex en diciembre de 2012 produciendo 1.4 millones de barriles diarios de petrolíferos y lo entregaron seis años después con una producción de tan sólo 554 mil barriles, una disminución de 62 por ciento en tan sólo seis años. En materia de diésel, gasolinas y combustóleo, 35 por ciento de lo producido era combustóleo y sólo se cubría 30 por ciento de la demanda de gasolinas. El Sistema Nacional de Refinación en su conjunto operaba a 30 por ciento de la capacidad instalada y tenía pérdidas de 363 pesos por cada barril refinado. Todo eso a pesar de haber endeudado la empresa hasta 100 mil millones de dólares. Por si fuera poco, también lograron que el saldo de la balanza comercial en materia petrolera se volviera negativo. Dejando claro que no nos salía más barato importar que ref]]&gt;</content:encoded>
+      <pubDate>Mon, 02 Feb 2026 08:06:23 +0000</pubDate>
+      <dc:creator>Alonso Romero</dc:creator>
+      <category>Medio Ambiente y Energía</category>
+      <enclosure url="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Alonso Romero: La consolidación de Pemex</title>
+      <link>https://www.jornada.com.mx/2026/02/02/politica/015a1pol</link>
+      <guid>https://www.jornada.com.mx/2026/02/02/politica/015a1pol</guid>
+      <description>Los resultados de las políticas económicas rara vez son inmediatos. El caso de la política energética de México es el ejemplo. A los regímenes neoliberales les tomó 30 años destruir la capacidad productiva de energéticos en México. Pasamos de ser un país con …</description>
+      <content:encoded>&lt;![CDATA[os resultados de las políticaseconómicas rara vez son inmediatos. El caso de la política energética de México es el ejemplo. A los regímenes neoliberales les tomó 30 años destruir la capacidad productiva de energéticos en México. Pasamos de ser un país con un alto índice de independencia energética, tanto en el sentido tradicional (producir más energía de la que se consume) como en el sentido extendido, que incluye la capacidad de producción de tecnología, investigación y mano de obra especializada. Un ecosistema complejo de instituciones y centros de investigación dedicados a la materia energética fue lentamente desmantelado bajo la errónea premisa de que importar todo siempre sale más barato. La estocada final se dio cuando se aprobó la reforma energética de Peña Nieto, y Pemex fue particularmente asediado por una serie de funcionarios públicos que desde la Dirección General y desde la Secretaría de Energía destruyeron la capacidad productiva, específicamente donde existe más valor agregado y se generan los productos de mayor utilidad, la refinación y la petroquímica. Para dimensionar el daño que le hicieron a Pemex es importante recordar algunos números. Peña Nieto y su equipo recibieron Pemex en diciembre de 2012 produciendo 1.4 millones de barriles diarios de petrolíferos y lo entregaron seis años después con una producción de tan sólo 554 mil barriles, una disminución de 62 por ciento en tan sólo seis años. En materia de diésel, gasolinas y combustóleo, 35 por ciento de lo producido era combustóleo y sólo se cubría 30 por ciento de la demanda de gasolinas. El Sistema Nacional de Refinación en su conjunto operaba a 30 por ciento de la capacidad instalada y tenía pérdidas de 363 pesos por cada barril refinado. Todo eso a pesar de haber endeudado la empresa hasta 100 mil millones de dólares. Por si fuera poco, también lograron que el saldo de la balanza comercial en materia petrolera se volviera negativo. Dejando claro que no nos salía más barato importar que ref]]&gt;</content:encoded>
+      <pubDate>Mon, 02 Feb 2026 08:06:23 +0000</pubDate>
+      <dc:creator>Alonso Romero</dc:creator>
+      <category>Medio Ambiente y Energía</category>
+      <enclosure url="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

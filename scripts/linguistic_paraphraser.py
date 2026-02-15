@@ -206,8 +206,8 @@ class LinguisticParaphraser:
                     new_tokens.append(token.text_with_ws)
                 else:
                     changes_made += 1
-                    # Añadir espacio si el original lo tenía
-                    ws = token.whitespace_
+                    # Usar espacio en blanco original si está disponible, si no, usar un espacio
+                    ws = token.whitespace_ if token.whitespace_ else ' '
                     new_tokens.append(choice + ws)
             else:
                 new_tokens.append(token.text_with_ws)

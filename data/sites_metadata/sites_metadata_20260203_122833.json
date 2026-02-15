@@ -1,0 +1,89 @@
+[
+  {
+    "id": "site_20260203_122833_8457",
+    "nombre": "MexicanoExpress Plus",
+    "tagline": "Información para Todos los Mexicanos",
+    "estilo": "aleatorio",
+    "dominio": "mexicanoexpressplus.news",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#8E44AD",
+      "secundario": "#9B59B6",
+      "acento": "#E74C3C",
+      "texto": "#2C3E50",
+      "fondo": "#F8F9FA"
+    },
+    "logo": {
+      "nombre_completo": "MexicanoExpress Plus",
+      "iniciales": "MP",
+      "estilo": "tech",
+      "tipo": "combination",
+      "colores": {
+        "primario": "#8E44AD",
+        "secundario": "#9B59B6",
+        "acento": "#E74C3C",
+        "texto": "#2C3E50",
+        "fondo": "#F8F9FA"
+      },
+      "fuente_sugerida": "Playfair Display",
+      "peso_fuente": "black",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Cultura",
+      "Ciencia",
+      "Deportes"
+    ],
+    "contacto": {
+      "email_general": "contacto@mexicanoexpressplus.news",
+      "email_redaccion": "redaccion@mexicanoexpressplus.news",
+      "email_publicidad": "publicidad@mexicanoexpressplus.news",
+      "telefono": "+52 55 8026 3634",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/mexicanoexpressplus",
+      "twitter": "https://twitter.com/mexicanoexpressplus",
+      "instagram": "https://instagram.com/mexicanoexpressplus",
+      "youtube": "https://youtube.com/@mexicanoexpressplus",
+      "linkedin": "https://linkedin.com/company/mexicanoexpressplus",
+      "telegram": "https://t.me/mexicanoexpressplus"
+    },
+    "seo": {
+      "titulo": "MexicanoExpress Plus - Información para Todos los Mexicanos",
+      "descripcion": "MexicanoExpress Plus es tu fuente confiable de noticias e información actualizada. Información para Todos los Mexicanos. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "mexicanoexpress plus",
+        "mexicanoexpressplus"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-02-03T12:28:33.123767",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

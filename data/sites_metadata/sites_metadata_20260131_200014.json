@@ -1,0 +1,90 @@
+[
+  {
+    "id": "site_20260131_200014_9640",
+    "nombre": "Información de México",
+    "tagline": "México en Primera Plana",
+    "estilo": "aleatorio",
+    "dominio": "informaciónméxico.com",
+    "dominio_verificado": false,
+    "dominio_disponible": true,
+    "colores": {
+      "primario": "#4A4A4A",
+      "secundario": "#7F8C8D",
+      "acento": "#E74C3C",
+      "texto": "#2C3E50",
+      "fondo": "#FFFFFF"
+    },
+    "logo": {
+      "nombre_completo": "Información de México",
+      "iniciales": "IDM",
+      "estilo": "elegant",
+      "tipo": "emblem",
+      "colores": {
+        "primario": "#4A4A4A",
+        "secundario": "#7F8C8D",
+        "acento": "#E74C3C",
+        "texto": "#2C3E50",
+        "fondo": "#FFFFFF"
+      },
+      "fuente_sugerida": "Source Sans Pro",
+      "peso_fuente": "medium",
+      "formato_salida": [
+        "png",
+        "svg"
+      ],
+      "dimensiones": {
+        "logo_principal": "500x200",
+        "favicon": "64x64",
+        "social": "1200x630"
+      }
+    },
+    "categorias": [
+      "Inicio",
+      "Nacional",
+      "Internacional",
+      "Política",
+      "Ciencia",
+      "Sociedad",
+      "Mundo",
+      "Educación"
+    ],
+    "contacto": {
+      "email_general": "contacto@informaciónméxico.com",
+      "email_redaccion": "redaccion@informaciónméxico.com",
+      "email_publicidad": "publicidad@informaciónméxico.com",
+      "telefono": "+52 55 5581 4197",
+      "direccion": "Ciudad de México, México",
+      "horario": "Disponible 24/7"
+    },
+    "redes_sociales": {
+      "facebook": "https://facebook.com/informaciónméxico",
+      "twitter": "https://twitter.com/informaciónméxico",
+      "instagram": "https://instagram.com/informaciónméxico",
+      "youtube": "https://youtube.com/@informaciónméxico",
+      "linkedin": "https://linkedin.com/company/informaciónméxico",
+      "telegram": "https://t.me/informaciónméxico"
+    },
+    "seo": {
+      "titulo": "Información de México - México en Primera Plana",
+      "descripcion": "Información de México es tu fuente confiable de noticias e información actualizada. México en Primera Plana. Mantente informado con las últimas noticias de México y el mundo.",
+      "keywords": [
+        "noticias",
+        "méxico",
+        "actualidad",
+        "información",
+        "política",
+        "economía",
+        "deportes",
+        "entretenimiento",
+        "información de méxico",
+        "informaciónméxico"
+      ],
+      "og_type": "website",
+      "og_locale": "es_MX",
+      "twitter_card": "summary_large_image"
+    },
+    "fecha_creacion": "2026-01-31T20:00:14.480097",
+    "version": "1.0",
+    "estado": "pre-creado"
+  }
+]

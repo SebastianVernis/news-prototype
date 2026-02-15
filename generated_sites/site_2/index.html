@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MexicanoExpress Plus - Información para Todos los Mexicanos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+    </style>
+
+    <style>
+
+.preloader-balls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.4s ease;
+}
+.preloader-balls.loaded {
+    opacity: 0;
+    pointer-events: none;
+}
+.balls-container {
+    display: flex;
+    gap: 10px;
+}
+.ball {
+    width: 20px;
+    height: 20px;
+    background: #667eea;
+    border-radius: 50%;
+    animation: bounce 0.6s ease-in-out infinite alternate;
+}
+.ball:nth-child(1) { animation-delay: 0s; }
+.ball:nth-child(2) { animation-delay: 0.2s; }
+.ball:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-40px); }
+}
+    </style>
+</head>
+<body>
+<div id="preloader" class="preloader-balls">
+    <div class="balls-container">
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+    </div>
+</div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <!-- Branding (Izquierda) -->
+            <div class="branding">
+                <a href="index.html" class="logo-link">
+                    <img src="logo.svg" alt="MexicanoExpress Plus" class="logo">
+                    <span class="site-title">MexicanoExpress Plus</span>
+                </a>
+            </div>
+
+            <!-- Menu Toggle (Móvil) -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Navegación (Derecha) -->
+            <nav class="main-nav" id="mainNav">
+                <div class="nav-header">
+                    <span class="nav-title">Categorías</span>
+                    <button class="nav-close" id="navClose">&times;</button>
+                </div>
+
+                <div class="nav-content">
+                    <a href="index.html" class="menu-item">🏠 Inicio</a>
+                    <a href="categorias.html" class="menu-item">📑 Todas las Categorías</a>
+
+                    <div class="menu-divider"></div>
+
+                    <div class="nav-dropdown">
+                        <button class="dropdown-trigger">
+                            Explorar Categorías ▾
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="categoria/política-nacional.html" class="menu-item">Política Nacional</a>
+<a href="categoria/política-internacional.html" class="menu-item">Política Internacional</a>
+<a href="categoria/economía-política.html" class="menu-item">Economía y Política</a>
+<a href="categoria/seguridad.html" class="menu-item">Seguridad y Justicia</a>
+<a href="categoria/elecciones.html" class="menu-item">Elecciones y Partidos</a>
+<a href="categoria/derechos-sociales.html" class="menu-item">Derechos y Políticas Sociales</a>
+<a href="categoria/medio-ambiente.html" class="menu-item">Medio Ambiente y Energía</a>
+<a href="categoria/judicial.html" class="menu-item">Poder Judicial</a>
+<a href="categoria/corrupción.html" class="menu-item">Anticorrupción y Transparencia</a>
+<a href="categoria/análisis-opinión.html" class="menu-item">Análisis y Opinión</a>
+                        </div>
+                    </div>
+
+                    <div class="menu-divider"></div>
+                    <a href="feed.xml" class="menu-item">📡 RSS Feed</a>
+                </div>
+
+                <!-- Redes Sociales en el menú -->
+                <div class="nav-social">
+                    <a href="#" class="social-icon" aria-label="Facebook">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Twitter">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="WhatsApp">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Overlay para menú móvil -->
+            <div class="nav-overlay" id="navOverlay"></div>
+        </div>
+    </header>
+
+    <style>
+        .main-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Branding */
+        .branding {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .site-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Menu Toggle (Móvil) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(8px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-8px);
+        }
+
+        /* Navegación */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-header {
+            display: none;
+        }
+
+        .nav-content {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .menu-item {
+            padding: 0.75rem 1.25rem;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .menu-item:hover {
+            background: #667eea15;
+            color: #667eea;
+        }
+
+        .menu-divider {
+            width: 1px;
+            height: 20px;
+            background: #e0e0e0;
+            margin: 0 0.5rem;
+        }
+
+        .menu-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #95a5a6;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 0 0.5rem;
+        }
+
+        /* Dropdown Styles */
+        .nav-dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-trigger {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            color: #2c3e50;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .dropdown-trigger:hover {
+            background: #667eea10;
+            color: #667eea;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: white;
+            min-width: 280px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            padding: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2px;
+            z-index: 1100;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-menu .menu-item {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.6rem 1rem;
+        }
+
+        .dropdown-menu .menu-item:hover {
+            background: #667eea10;
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .nav-social {
+            display: flex;
+            gap: 0.75rem;
+            padding-left: 1rem;
+            border-left: 1px solid #e0e0e0;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #667eea10;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-overlay {
+            display: none;
+        }
+
+        .nav-close {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-nav {
+                position: fixed;
+                top: 0;
+                right: -320px;
+                width: 320px;
+                height: 100vh;
+                background: white;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                flex-direction: column;
+                align-items: stretch;
+                overflow-y: auto;
+                z-index: 1001;
+            }
+
+            .main-nav.active {
+                right: 0;
+            }
+
+            .nav-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.5rem;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .nav-title {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #667eea;
+            }
+
+            .nav-close {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 2rem;
+                color: #2c3e50;
+                cursor: pointer;
+                line-height: 1;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 1rem;
+            }
+
+            .menu-item {
+                padding: 1rem 1.25rem;
+                border-radius: 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .menu-divider {
+                width: 100%;
+                height: 1px;
+                margin: 0.5rem 0;
+            }
+
+            .menu-label {
+                padding: 1rem 1.25rem;
+                display: block;
+            }
+
+            /* Mobile Dropdown Override */
+            .nav-dropdown {
+                width: 100%;
+                display: block;
+            }
+
+            .dropdown-trigger {
+                display: none;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                width: 100%;
+                background: transparent;
+                max-height: none;
+                overflow: visible;
+            }
+
+            .dropdown-menu .menu-item {
+                padding: 1rem 1.25rem;
+                border-bottom: 1px solid #f0f0f0;
+                border-radius: 0;
+            }
+
+            .dropdown-menu .menu-item:hover {
+                transform: none;
+                background: #667eea05;
+            }
+
+            .nav-social {
+                border-left: none;
+                border-top: 1px solid #e0e0e0;
+                padding: 1.5rem 1.25rem;
+                margin-top: 1rem;
+            }
+
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1000;
+            }
+
+            .nav-overlay.active {
+                display: block;
+            }
+        }
+    </style>
+
+    <script>
+        // Menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navClose = document.getElementById('navClose');
+            const mainNav = document.getElementById('mainNav');
+            const navOverlay = document.getElementById('navOverlay');
+
+            function openMenu() {
+                mainNav.classList.add('active');
+                navOverlay.classList.add('active');
+                menuToggle.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                mainNav.classList.remove('active');
+                navOverlay.classList.remove('active');
+                menuToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            if (menuToggle) menuToggle.addEventListener('click', openMenu);
+            if (navClose) navClose.addEventListener('click', closeMenu);
+            if (navOverlay) navOverlay.addEventListener('click', closeMenu);
+        });
+    </script>
+
+
+    <div class="news-ticker">
+        <div class="ticker-label">🔴 ÚLTIMAS NOTICIAS</div>
+        <div class="ticker-content">
+            <div class="ticker-track" id="tickerTrack">
+                
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_1.html" class="ticker-link">
+                        “La relación entre Donald Trump y el fascismo es cada vez más evidente”
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Nacional</span>
+                    <a href="article_2.html" class="ticker-link">
+                        Federación alemana descarta boicot al Mundial
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_3.html" class="ticker-link">
+                        Arranca hoy la Serie del Caribe en Zapopan
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Internacional</span>
+                    <a href="article_4.html" class="ticker-link">
+                        Rolando Cordera Campos: Plan México: un año de planeación (des)figurada
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Nacional</span>
+                    <a href="article_5.html" class="ticker-link">
+                        Rosa Icela: reforma electoral, “con todos” los partidos aliados
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Derechos y Políticas Sociales</span>
+                    <a href="article_6.html" class="ticker-link">
+                        CNTE decide en asamblea impulsar brigadeo y paro nacional de 72 horas
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Economía y Política</span>
+                    <a href="article_7.html" class="ticker-link">
+                        Para tomar en cuenta
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Internacional</span>
+                    <a href="article_8.html" class="ticker-link">
+                        Rolando Cordera Campos: Plan México: un año de planeación (des)figurada
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_9.html" class="ticker-link">
+                        Inaceptable, negar la ayuda humanitaria a un país: De la Fuente
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_10.html" class="ticker-link">
+                        Marath Baruch Bolaños López*: Trabajo digno en el siglo XXI
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_1.html" class="ticker-link">
+                        “La relación entre Donald Trump y el fascismo es cada vez más evidente”
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Nacional</span>
+                    <a href="article_2.html" class="ticker-link">
+                        Federación alemana descarta boicot al Mundial
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_3.html" class="ticker-link">
+                        Arranca hoy la Serie del Caribe en Zapopan
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Internacional</span>
+                    <a href="article_4.html" class="ticker-link">
+                        Rolando Cordera Campos: Plan México: un año de planeación (des)figurada
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Nacional</span>
+                    <a href="article_5.html" class="ticker-link">
+                        Rosa Icela: reforma electoral, “con todos” los partidos aliados
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Derechos y Políticas Sociales</span>
+                    <a href="article_6.html" class="ticker-link">
+                        CNTE decide en asamblea impulsar brigadeo y paro nacional de 72 horas
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Economía y Política</span>
+                    <a href="article_7.html" class="ticker-link">
+                        Para tomar en cuenta
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Política Internacional</span>
+                    <a href="article_8.html" class="ticker-link">
+                        Rolando Cordera Campos: Plan México: un año de planeación (des)figurada
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_9.html" class="ticker-link">
+                        Inaceptable, negar la ayuda humanitaria a un país: De la Fuente
+                    </a>
+                </div>
+
+
+                <div class="ticker-item">
+                    <span class="ticker-badge">Análisis y Opinión</span>
+                    <a href="article_10.html" class="ticker-link">
+                        Marath Baruch Bolaños López*: Trabajo digno en el siglo XXI
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .news-ticker {
+            background: #667eea;
+            color: white;
+            padding: 0.75rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-label {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: rgba(0,0,0,0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        .ticker-content {
+            margin-left: 200px;
+            overflow: hidden;
+        }
+
+        .ticker-track {
+            display: flex;
+            gap: 3rem;
+            animation: scroll 60s linear infinite;
+            will-change: transform;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .ticker-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .ticker-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ticker-link:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+
+        @media (max-width: 768px) {
+            .ticker-label {
+                position: static;
+                transform: none;
+                display: inline-block;
+                margin-bottom: 0.5rem;
+            }
+
+            .ticker-content {
+                margin-left: 1rem;
+            }
+        }
+    </style>
+
+
+    <div class="main-layout">
+        <div class="layout-container">
+            <!-- Grid Destacados (Izquierda) -->
+            <main class="featured-grid">
+                <h2 class="section-title">⭐ Artículos Destacados</h2>
+                
+                <article class="featured-article">
+                    <a href="article_1.html" class="featured-link">
+                        <div class="featured-image-container">
+                            <img src="https://resizer.glanacion.com/resizer/v2/la-latina-designada-por-zohran-mamdani-en-nueva-Z4DQ4YZQ6JH3DL3YGGIHVDALKY.jpg?auth=f98c264fe58d08e8baa26c760f6a1f8f0b5a69f6b4814cc6f6f81656514518fb&width=1200&quality=70&smart=false&height=800" alt="Quién es la nueva comisionada latina nombrada por Mamdani en Nueva York: hace historia en la ciudad" class="featured-image">
+                            <span class="featured-badge">⭐ Destacado</span>
+                        </div>
+                        <div class="featured-body">
+                            <span class="featured-category">Análisis y Opinión</span>
+                            <h2 class="featured-title">Quién es la nueva comisionada latina nombrada por Mamdani en Nueva York: hace historia en la ciudad</h2>
+                            <p class="featured-excerpt">Quién es Yesenia Mata, la primera latina designada como comisionada de Veteranos en Nueva York, su trayectoria, rol en la gestión de Mamdani y los otros nombramientos clave....</p>
+                            <div class="featured-meta">
+                                <span>👤 LA NACION</span>
+                                <span>📅 2026-02-02</span>
+                                <span>📖 Lectura completa</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="featured-article">
+                    <a href="article_2.html" class="featured-link">
+                        <div class="featured-image-container">
+                            <img src="https://cdn.forbes.com.mx/2025/07/IA-voces-doblaje.webp" alt="Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine ante la IA" class="featured-image">
+                            <span class="featured-badge">⭐ Destacado</span>
+                        </div>
+                        <div class="featured-body">
+                            <span class="featured-category">Política Nacional</span>
+                            <h2 class="featured-title">Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine ante la IA</h2>
+                            <p class="featured-excerpt">Forbes México.
+ Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine ante la IA
+
+Sobre la regulación del uso de la IA en el doblaje en México, la secretaria de Cultura seña...</p>
+                            <div class="featured-meta">
+                                <span>👤 Forbes México Staff</span>
+                                <span>📅 2026-02-02</span>
+                                <span>📖 Lectura completa</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="featured-article">
+                    <a href="article_3.html" class="featured-link">
+                        <div class="featured-image-container">
+                            <img src="https://www.df.cl/noticias/site/artic/20260202/imag/foto_0000000220260202150837/20260202_Nueva_Gen_BIG11_SUP.jpg" alt="Start-Up Chile selecciona a 64 emprendimientos tecnológicos para acelerar desde marzo" class="featured-image">
+                            <span class="featured-badge">⭐ Destacado</span>
+                        </div>
+                        <div class="featured-body">
+                            <span class="featured-category">Análisis y Opinión</span>
+                            <h2 class="featured-title">Start-Up Chile selecciona a 64 emprendimientos tecnológicos para acelerar desde marzo</h2>
+                            <p class="featured-excerpt">Entre las seleccionadas por la aceleradora de Corfo, el 45% de las firmas se basa en IA y buscan acelerar, principalmente, el desarrollo de la agricultura, los recursos naturales y las herramientas TI...</p>
+                            <div class="featured-meta">
+                                <span>👤 Laura Flores</span>
+                                <span>📅 2026-02-02</span>
+                                <span>📖 Lectura completa</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+
+            </main>
+
+            <!-- Sidebar Miniaturas (Derecha) -->
+            <aside class="sidebar">
+                <h3 class="sidebar-title-header">📰 Más Noticias</h3>
+                
+                <article class="sidebar-item">
+                    <a href="article_4.html" class="sidebar-link">
+                        <img src="https://resizer.glanacion.com/resizer/v2/la-latina-designada-por-zohran-mamdani-en-nueva-Z4DQ4YZQ6JH3DL3YGGIHVDALKY.jpg?auth=f98c264fe58d08e8baa26c760f6a1f8f0b5a69f6b4814cc6f6f81656514518fb&width=1200&quality=70&smart=false&height=800" alt="Quién es la nueva comisionada latina nombrada por Mamdani en Nueva York: hace historia en la ciudad" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Análisis y Opinión</span>
+                            <h4 class="sidebar-title">Quién es la nueva comisionada latina nombrada por Mamdani en Nueva York: hace hi</h4>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="sidebar-item">
+                    <a href="article_5.html" class="sidebar-link">
+                        <img src="https://cdn.forbes.com.mx/2025/07/IA-voces-doblaje.webp" alt="Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine ante la IA" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Política Nacional</span>
+                            <h4 class="sidebar-title">Gobierno de Sheinbaum prepara cambios legales al doblaje y una nueva ley de cine</h4>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="sidebar-item">
+                    <a href="article_6.html" class="sidebar-link">
+                        <img src="https://www.df.cl/noticias/site/artic/20260202/imag/foto_0000000220260202150837/20260202_Nueva_Gen_BIG11_SUP.jpg" alt="Start-Up Chile selecciona a 64 emprendimientos tecnológicos para acelerar desde marzo" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Análisis y Opinión</span>
+                            <h4 class="sidebar-title">Start-Up Chile selecciona a 64 emprendimientos tecnológicos para acelerar desde </h4>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="sidebar-item">
+                    <a href="article_7.html" class="sidebar-link">
+                        <img src="https://www.bostonherald.com/wp-content/uploads/2026/02/M201XICO-GAS_NATURAL_73344.jpg?w=1024&h=683" alt="Apuesta de México por el gas natural enfrenta resistencia de comunidades y complica metas climáticas" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Análisis y Opinión</span>
+                            <h4 class="sidebar-title">Apuesta de México por el gas natural enfrenta resistencia de comunidades y compl</h4>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="sidebar-item">
+                    <a href="article_8.html" class="sidebar-link">
+                        <img src="https://i.blogs.es/4ef083/cargador-auto-electrico-espana-mexico-disponibilidad/840_560.jpeg" alt="La paradoja de los centro de carga para autos eléctricos: no es que no haya, es que la gente no los quiere usar" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Análisis y Opinión</span>
+                            <h4 class="sidebar-title">La paradoja de los centro de carga para autos eléctricos: no es que no haya, es </h4>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="sidebar-item">
+                    <a href="article_9.html" class="sidebar-link">
+                        <img src="https://www.latercera.com/resizer/v2/RFMQ3PDZ6VDQRAPVXNYGDVXHMM.jpg?auth=e312d4bbc387531c0a77c679555299b23d89dd887926b0dd31d71a5d5c3bfd90&height=630&width=1200&smart=true" alt="Desde la DC hasta el PC: oficialismo respalda la inscripción de candidatura de Michelle Bachelet a la ONU" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Política Nacional</span>
+                            <h4 class="sidebar-title">Desde la DC hasta el PC: oficialismo respalda la inscripción de candidatura de M</h4>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="sidebar-item">
+                    <a href="article_10.html" class="sidebar-link">
+                        <img src="https://www.latercera.com/resizer/v2/QTHRTLNADRGGHMUULNNNRUWLZA.jpeg?auth=8b751f5e6b6c4ffb360fc937cfeb3a093b8ee0c873e26ddcbf2228054240c5a0&height=630&width=1200&smart=true" alt="La operación de La Moneda por Bachelet que irritó a la OPE" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Política Nacional</span>
+                            <h4 class="sidebar-title">La operación de La Moneda por Bachelet que irritó a la OPE</h4>
+                        </div>
+                    </a>
+                </article>
+
+
+                <article class="sidebar-item">
+                    <a href="article_11.html" class="sidebar-link">
+                        <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/02/cuba-estados-unidos-an-1-02022026.jpg" alt="La falta de combustible en Cuba ya es una crisis humanitaria: Ricardo Pascoe" class="sidebar-image">
+                        <div class="sidebar-content">
+                            <span class="sidebar-category">Política Internacional</span>
+                            <h4 class="sidebar-title">La falta de combustible en Cuba ya es una crisis humanitaria: Ricardo Pascoe</h4>
+                        </div>
+                    </a>
+                </article>
+
+            </aside>
+        </div>
+    </div>
+
+    <style>
+        .main-layout {
+            background: #f5f7fa;
+            padding: 2rem 0;
+        }
+
+        .layout-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Featured Grid */
+        .featured-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .featured-article {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .featured-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .featured-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .featured-image-container {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .featured-article:hover .featured-image {
+            transform: scale(1.05);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .featured-body {
+            padding: 2rem;
+        }
+
+        .featured-category {
+            display: inline-block;
+            background: #667eea20;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .featured-title {
+            font-size: 2rem;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .featured-excerpt {
+            color: #6c757d;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+            flex-wrap: wrap;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-title-header {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .sidebar-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-item:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+            transform: translateX(5px);
+        }
+
+        .sidebar-link {
+            display: flex;
+            gap: 1rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar-image {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .sidebar-content {
+            padding: 0.75rem 0.75rem 0.75rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-category {
+            display: inline-block;
+            background: #667eea15;
+            color: #667eea;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            align-self: flex-start;
+        }
+
+        .sidebar-title {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #2c3e50;
+            font-weight: 600;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @media (max-width: 1024px) {
+            .layout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .sidebar-title-header {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <!-- Columna 1: Sobre el sitio -->
+            <div class="footer-column">
+                <h3 class="footer-title">MexicanoExpress Plus</h3>
+                <p class="footer-description">
+                    Tu fuente confiable de noticias políticas de México.
+                    Información veraz, análisis profundo y cobertura completa.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-icon facebook" aria-label="Facebook">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="footer-social-icon twitter" aria-label="Twitter">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="footer-social-icon instagram" aria-label="Instagram">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="footer-social-icon youtube" aria-label="YouTube">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Categorías -->
+            <div class="footer-column">
+                <h3 class="footer-title">Categorías</h3>
+                <div class="footer-links">
+                    <a href="categoria/política-nacional.html">Política Nacional</a>
+<a href="categoria/política-internacional.html">Política Internacional</a>
+<a href="categoria/economía-política.html">Economía y Política</a>
+<a href="categoria/seguridad.html">Seguridad y Justicia</a>
+<a href="categoria/elecciones.html">Elecciones y Partidos</a>
+<a href="categoria/derechos-sociales.html">Derechos y Políticas Sociales</a>
+<a href="categoria/medio-ambiente.html">Medio Ambiente y Energía</a>
+<a href="categoria/judicial.html">Poder Judicial</a>
+                </div>
+            </div>
+
+            <!-- Columna 3: Enlaces -->
+            <div class="footer-column">
+                <h3 class="footer-title">Información</h3>
+                <div class="footer-links">
+                    <a href="about.html">Acerca de</a>
+                    <a href="contact.html">Contacto</a>
+                    <a href="privacy.html">Privacidad</a>
+                    <a href="feed.xml">RSS Feed</a>
+                </div>
+            </div>
+
+            <!-- Columna 4: Newsletter -->
+            <div class="footer-column">
+                <h3 class="footer-title">Suscríbete</h3>
+                <p class="footer-newsletter-text">Recibe las últimas noticias en tu correo</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="tu@email.com" class="newsletter-input">
+                    <button type="submit" class="newsletter-button">Suscribir</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+            <div class="footer-container">
+                <p>&copy; 2026 MexicanoExpress Plus. Todos los derechos reservados.</p>
+                <p class="footer-credits">Diseñado con ❤️ para informar con calidad</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .main-footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 0;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .footer-description {
+            color: #bdc3c7;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social-icon:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 0.5rem;
+        }
+
+        .footer-newsletter-text {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .newsletter-button {
+            padding: 0.75rem 1.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-credits {
+            font-size: 0.85rem !important;
+            opacity: 0.7;
+        }
+    </style>
+
+
+    <script>
+
+window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+    setTimeout(() => {
+        preloader.classList.add('loaded');
+        setTimeout(() => preloader.remove(), 400);
+    }, 600);
+});
+    </script>
+</body>
+</html>

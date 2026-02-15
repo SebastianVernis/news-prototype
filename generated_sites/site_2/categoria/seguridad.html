@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seguridad y Justicia - Noticias y análisis de Noticias">
+    <meta name="keywords" content="seguridad y justicia, política méxico, noticias">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Seguridad y Justicia - Noticias">
+    <meta property="og:description" content="Noticias de Seguridad y Justicia en Noticias">
+    <meta property="og:url" content="https://ejemplo.com/categoria/seguridad.html">
+    
+    <title>Seguridad y Justicia - Noticias</title>
+    <link rel="stylesheet" href="../style.css">
+    
+    <style>
+        /* Estilos específicos de categoría que complementan style.css */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-header {
+            background: white;
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .article-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .articles-grid {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: #667eea20;
+            color: #667eea;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .article-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="site-name">Noticias</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Inicio</a> › <span>Seguridad y Justicia</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="category-header">
+        <h1 class="category-title">Seguridad y Justicia</h1>
+        <p class="category-description">Noticias y análisis político de seguridad y justicia</p>
+        <span class="article-count">6 artículos</span>
+    </div>
+    
+    <div class="articles-grid">
+
+        <a href="../article_1.html" class="article-card">
+            <img src="https://editorial.aristeguinoticias.com/wp-content/uploads/2026/02/violencia-sinaloa-cuartoscuro-culiacan-02022026.jpg" alt="Violencia en Sinaloa se intensifica por refuerzos a ‘Los Chapitos’ y disputas de poder: Saucedo" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Seguridad y Justicia</span>
+                <h2 class="article-title">Violencia en Sinaloa se intensifica por refuerzos a ‘Los Chapitos’ y disputas de poder: Saucedo</h2>
+                <p class="article-description">David Saucedo, consultor en seguridad, aseguró en 'Aristegui en Vivo' que el repunte de la violencia en Sinaloa responde al reforzamiento reciente de Los Chapitos con apoyo del cártel Jalisco Nueva Ge</p>
+                <div class="article-meta">
+                    <span>👤 Redacción AN / MDS</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_2.html" class="article-card">
+            <img src="https://www.jornada.com.mx/imagemeta/1200x630BN.jpg" alt="El Correo Ilustrado" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Seguridad y Justicia</span>
+                <h2 class="article-title">El Correo Ilustrado</h2>
+                <p class="article-description">El capítulo mexicano de la Red de Intelectuales y Artistas en Defensa de la Humanidad expresa su repudio a la escalada imperialista contra Cuba, al declararla una “amenaza inusual y extraordinaria” pa</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_3.html" class="article-card">
+            <img src="https://www.jornada.com.mx/2026/02/02/fotos/026n1est-1.jpg" alt="San Andrés, pacto incumplido que es “referente de la lucha indígena”" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Seguridad y Justicia</span>
+                <h2 class="article-title">San Andrés, pacto incumplido que es “referente de la lucha indígena”</h2>
+                <p class="article-description">San Cristóbal de Las Casas, Chis., Los acuerdos de San Andrés, firmados el 16 de febrero de 1996 entre el Ejército Zapatista de Liberación Nacional (EZLN) y el gobierno federal, “representan un partea</p>
+                <div class="article-meta">
+                    <span>👤 DEMOS, Desarrollo de Medios, S.A. de C.V.</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_4.html" class="article-card">
+            <img src="https://www.elfinanciero.com.mx/resizer/v2/4ZYQDF4PL5FK5BVJFUCCQY2TXE.jpg?smart=true&auth=ea5c57f630c8f2f4088cf0c644df9bddb3c79d46c2f72d05781561da66e88a6a&width=1200&height=630" alt="Atentados de alto impacto" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Seguridad y Justicia</span>
+                <h2 class="article-title">Atentados de alto impacto</h2>
+                <p class="article-description">Los reportes preliminares del crimen no apuntan a un asesinato circunstancial, sino uno premeditado al entrar a su casa.</p>
+                <div class="article-meta">
+                    <span>👤 Raymundo Riva Palacio</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_5.html" class="article-card">
+            <img src="https://cdn.img.noticiaslatam.lat/images/sharing/article/spa/1170921873.jpg?11634393761769990842" alt="Los demócratas apuestan por una estrategia "cínica y razonable" ante la polémica por ICE, dice experto" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Seguridad y Justicia</span>
+                <h2 class="article-title">Los demócratas apuestan por una estrategia "cínica y razonable" ante la polémica por ICE, dice experto</h2>
+                <p class="article-description">La excandidata presidencial demócrata Kamala Harris respaldó "desfinanciar a la policía" en medio de las protestas "Black Lives Matter", pero luego dio marcha atrás, generando desconfianza entre propi</p>
+                <div class="article-meta">
+                    <span>👤 Rodrigo Duarte</span>
+                    <span>📅 2026-02-02</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="../article_6.html" class="article-card">
+            <img src="https://cdn.forbes.com.mx/2026/01/ICE-arrestos-casas.webp" alt="ICE no solo parece y actúa como una fuerza paramilitar, lo es, y eso hace que sea más difícil de controlar" class="article-image" loading="lazy">
+            <div class="article-content">
+                <span class="article-category">Seguridad y Justicia</span>
+                <h2 class="article-title">ICE no solo parece y actúa como una fuerza paramilitar, lo es, y eso hace que sea más difícil de controlar</h2>
+                <p class="article-description">Forbes México.
+ ICE no solo parece y actúa como una fuerza paramilitar, lo es, y eso hace que sea más difícil de controlar
+
+ICE fue descrita como una fuerza paramilitar en EU, combinando característic</p>
+                <div class="article-meta">
+                    <span>👤 Forbes México Staff</span>
+                    <span>📅 2026-02-01</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 Noticias. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="../feed_seguridad.xml" style="color: white;">📡 RSS de esta categoría</a>
+        </p>
+    </footer>
+</body>
+</html>

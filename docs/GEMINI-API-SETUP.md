@@ -94,7 +94,7 @@ Request 5  → usa KEY_2
 
 ```bash
 # Asegúrate de tener al menos GEMINI_API_KEY_1 en .env
-python3 scripts/gemini_paraphraser.py
+python3 core/scripts/gemini_paraphraser.py
 ```
 
 ### Test con Rotación (3 keys)
@@ -102,7 +102,7 @@ python3 scripts/gemini_paraphraser.py
 ```bash
 # Agrega las 3 keys al .env
 # Ejecuta el test
-python3 scripts/gemini_paraphraser.py
+python3 core/scripts/gemini_paraphraser.py
 ```
 
 Salida esperada:
@@ -125,7 +125,7 @@ Tiempo estimado: ~2s
 ### Generar Placeholders
 
 ```bash
-python3 scripts/placeholder_generator.py
+python3 core/scripts/placeholder_generator.py
 ```
 
 Generará:
@@ -214,7 +214,7 @@ curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-e
 ### Test 3: Parafraseo Paralelo
 
 ```bash
-python3 scripts/gemini_paraphraser.py
+python3 core/scripts/gemini_paraphraser.py
 ```
 
 ---
@@ -281,7 +281,7 @@ python3 scripts/gemini_paraphraser.py
 # 1. Parafraseo completo (Blackbox) para artículos principales
 # 2. Parafraseo simple (Gemini paralelo) para placeholders
 
-python3 scripts/master_orchestrator.py
+python3 core/scripts/master_orchestrator.py
 ```
 
 Flujo:

@@ -48,14 +48,13 @@ python3 -m venv venv
 source venv/bin/activate  # En Windows: venv\Scripts\activate
 
 # Instalar dependencias
-pip install -r requirements.txt
+pip install -r core/requirements.txt
 ```
 
 ### 2. Generar Sitios (Modo Interactivo)
 
 ```bash
-cd scripts
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 ```
 
 El sistema te preguntará:
@@ -67,10 +66,10 @@ El sistema te preguntará:
 ### 3. Ver Resultados
 
 ```bash
-# Los sitios se generan en sites/
-open ../sites/site1.html  # macOS
-xdg-open ../sites/site1.html  # Linux
-start ../sites/site1.html  # Windows
+# Los sitios se generan en output/sites/
+open ../output/sites/site1.html  # macOS
+xdg-open ../output/sites/site1.html  # Linux
+start ../output/sites/site1.html  # Windows
 ```
 
 ---
@@ -80,27 +79,26 @@ start ../sites/site1.html  # Windows
 ### Modo Interactivo (Recomendado)
 
 ```bash
-cd scripts
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 ```
 
 ### Modo No-Interactivo (CLI)
 
 ```bash
 # Generar 5 sitios
-python3 generate-sites.py --cantidad 5 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 5 --no-interactivo
 
 # Generar 10 sitios con verificación de dominios
-python3 generate-sites.py --cantidad 10 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --verificar-dominios --no-interactivo
 
 # Usar metadatos existentes
-python3 generate-sites.py --cantidad 20 --metadata-file ../data/sites_metadata/sites_metadata_20260108.json
+python3 core/scripts/generate-sites.py --cantidad 20 --metadata-file ../content/data/sites_metadata/sites_metadata_20260108.json
 ```
 
 ### Script Rápido
 
 ```bash
-cd scripts
+cd core/scripts
 ./run.sh              # Modo interactivo
 ./run.sh --cantidad 5 # Generar 5 sitios rápido
 ```
@@ -113,7 +111,7 @@ cd scripts
 |-----------|-------------|---------|
 | `--cantidad N` | Número de sitios a crear (1-100) | `--cantidad 10` |
 | `--verificar-dominios` | Verificar disponibilidad con whois | `--verificar-dominios` |
-| `--metadata-file PATH` | Usar metadatos específicos | `--metadata-file ../data/sites_metadata/archivo.json` |
+| `--metadata-file PATH` | Usar metadatos específicos | `--metadata-file ../content/data/sites_metadata/archivo.json` |
 | `--generar-metadata` | Forzar generación de metadatos nuevos | `--generar-metadata` |
 | `--no-interactivo` | Desactivar modo interactivo | `--no-interactivo` |
 
@@ -123,48 +121,31 @@ cd scripts
 
 ```
 news-prototype/
-├── scripts/
-│   ├── generate-sites.py         # ⭐ Generador principal
-│   ├── layout_generator.py       # Layouts dinámicos
-│   ├── site_name_generator.py    # Generador de nombres
-│   ├── site_pre_creation.py      # Protocolo de pre-creación
-│   ├── domain_verifier.py        # Verificador de dominios
-│   ├── paraphrase.py             # Parafraseo de noticias
-│   ├── generate-images-ai.py     # Generación de imágenes AI
-│   ├── article-expander.py       # Expansión de artículos
-│   ├── run.sh                    # Script de ejecución rápida
-│   ├── api/                      # Scripts de APIs de noticias
-│   │   ├── newsapi.py
-│   │   ├── newsdata.py
-│   │   ├── worldnews.py
-│   │   └── apitube.py
-│   ├── test/                     # Scripts de testing
-│   │   ├── test_integration.py
-│   │   ├── test_blackbox.py
-│   │   └── test_paraphrase_quick.py
-│   └── utils/                    # Utilidades
-│       └── utils.py
-│
-├── data/
-│   ├── noticias_final_*.json     # Noticias parafraseadas activas
-│   ├── sites_metadata/           # Metadatos de sitios (3 más recientes)
-│   └── archive/                  # Datos históricos
-│
-├── sites/                        # Sitios HTML generados
-│   ├── site1.html
-│   ├── site2.html
-│   └── ...
-│
-├── templates/
-│   └── css/                      # 40 estilos CSS únicos
-│
-├── images/
-│   └── news/                     # Imágenes generadas con AI
-│
+├── apps/
+│   ├── backend/                  # Flask API
+│   ├── frontend/                 # React + Vite
+│   └── workers/                  # Cloudflare Workers
+├── core/
+│   ├── scripts/                  # Generación + utilidades + tests
+│   ├── core/menu.py                   # Menú interactivo
+│   ├── core/menu.sh                   # Launcher
+│   └── requirements.txt          # Dependencias del generador
+├── content/
+│   ├── data/                     # JSON y metadatos
+│   ├── templates/                # CSS templates
+│   ├── layout/                   # Layout demos
+│   ├── reference-sites/          # Referencias
+│   ├── demos/                    # Demos HTML
+│   └── samples/                  # Muestras (categorías, meta tags)
+├── assets/                       # Fonts, SVG, CSS base
+├── output/
+│   ├── generated_sites/          # Sitios completos (site_N/)
+│   ├── sites/                    # HTML single-file
+│   ├── generated_images/         # Imágenes generadas
+│   ├── public/og-images/         # OG images
+│   └── tests/                    # Artefactos de testing
+├── infra/                        # Deploy y config
 └── docs/                         # Documentación
-    ├── README.md                 # Docs principales
-    ├── SITE-PRE-CREATION.md      # Protocolo técnico completo
-    └── archive/                  # Documentación histórica
 ```
 
 ---
@@ -245,7 +226,7 @@ Cada sitio incluye metadatos completos en JSON:
 
 ### Desarrollo Rápido (3-5 sitios)
 ```bash
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 # Cantidad: 3
 # Verificar: No
 # ~10 segundos
@@ -253,19 +234,19 @@ python3 generate-sites.py
 
 ### Producción (40+ sitios)
 ```bash
-python3 generate-sites.py --cantidad 40 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 40 --no-interactivo
 # ~2 minutos sin verificación
 ```
 
 ### Con Verificación de Dominios
 ```bash
-python3 generate-sites.py --cantidad 10 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --verificar-dominios --no-interactivo
 # ~3-5 minutos (rate limiting whois)
 ```
 
 ### CI/CD Automatizado
 ```bash
-python3 generate-sites.py --cantidad 25 --no-interactivo --generar-metadata
+python3 core/scripts/generate-sites.py --cantidad 25 --no-interactivo --generar-metadata
 # Completamente automatizado
 ```
 
@@ -305,7 +286,7 @@ self.nucleos = ["Diario", "Prensa", "Noticias", ...]
 
 - **[docs/README.md](docs/README.md)** - Documentación del sistema de automatización
 - **[docs/SITE-PRE-CREATION.md](docs/SITE-PRE-CREATION.md)** - Protocolo técnico completo
-- **[CHANGELOG.md](CHANGELOG.md)** - Historial de cambios
+- **[docs/CHANGELOG.md](docs/CHANGELOG.md)** - Historial de cambios
 
 ### Documentación Archivada
 - **[docs/archive/GUIA-INTERACTIVA.md](docs/archive/GUIA-INTERACTIVA.md)** - Guía detallada del modo interactivo
@@ -318,26 +299,24 @@ self.nucleos = ["Diario", "Prensa", "Noticias", ...]
 
 ### 1. Recopilación de Noticias
 ```bash
-cd scripts/api
-python3 newsapi.py        # Obtener noticias de NewsAPI
-python3 newsdata.py       # Obtener noticias de NewsData
-python3 worldnews.py      # Obtener noticias de WorldNews
+python3 core/scripts/api/newsapi.py   # Obtener noticias de NewsAPI
+python3 core/scripts/api/newsdata.py  # Obtener noticias de NewsData
+python3 core/scripts/api/worldnews.py # Obtener noticias de WorldNews
 ```
 
 ### 2. Parafraseo con AI
 ```bash
-cd scripts
-python3 paraphrase.py     # Parafrasear noticias
+python3 core/scripts/paraphrase.py     # Parafrasear noticias
 ```
 
 ### 3. Generación de Imágenes
 ```bash
-python3 generate-images-ai.py  # Generar imágenes con AI
+python3 core/scripts/generate-images-ai.py  # Generar imágenes con AI
 ```
 
 ### 4. Generación de Sitios
 ```bash
-python3 generate-sites.py      # Generar sitios HTML
+python3 core/scripts/generate-sites.py      # Generar sitios HTML
 ```
 
 ---
@@ -384,7 +363,7 @@ sudo dnf install whois
 ### Error: "No se pudieron cargar las noticias"
 ```bash
 # Verificar archivo de noticias
-ls ../data/noticias_final_*.json
+ls ../content/data/noticias_final_*.json
 
 # Regenerar si es necesario
 python3 paraphrase.py
@@ -393,7 +372,7 @@ python3 paraphrase.py
 ### Los sitios no tienen CSS
 ```bash
 # Verificar templates CSS
-ls ../templates/css/template*.css
+ls ../content/templates/css/template*.css
 ```
 
 ---
@@ -402,14 +381,14 @@ ls ../templates/css/template*.css
 
 ### Archivos Activos
 - **Root**: Scripts principales, configuración
-- **data/**: Últimas noticias y 3 metadatos más recientes
+- **content/data/**: Últimas noticias y 3 metadatos más recientes
 - **docs/**: Documentación vigente
 
 ### Archivos Archivados
-- **data/archive/**: Datos históricos
-- **data/sites_metadata/archive/**: Metadatos antiguos
+- **content/data/archive/**: Datos históricos
+- **content/data/sites_metadata/archive/**: Metadatos antiguos
 - **docs/archive/**: Documentación histórica
-- **scripts/archive/**: Scripts deprecated
+- **core/scripts/archive/**: Scripts deprecated
 
 ---
 
@@ -439,8 +418,7 @@ MIT License - Ver [LICENSE](LICENSE) para más detalles
 ## 🎉 ¡Comienza Ahora!
 
 ```bash
-cd scripts
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 ```
 
 **Genera sitios de noticias únicos en minutos** 🚀

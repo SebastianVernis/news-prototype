@@ -33,10 +33,10 @@ Politica/
 ├── 🐍 SCRIPTS PYTHON
 │   ├── main.py                        # Orquestador legacy
 │   ├── news.py                        # Módulo de noticias
-│   ├── menu.py                        # Menú interactivo
-│   └── menu.sh                        # Menú bash
+│   ├── core/menu.py                        # Menú interactivo
+│   └── core/menu.sh                        # Menú bash
 │
-├── 📁 scripts/ (27 archivos)
+├── 📁 core/scripts/ (27 archivos)
 │   ├── master_orchestrator.py         # Orquestador principal
 │   ├── logo_generator_svg.py          # NUEVO Sprint 1
 │   ├── color_palette_generator.py     # Actualizado Sprint 1
@@ -112,28 +112,28 @@ Politica/
 │       ├── shapes/ (4 iconos)
 │       └── political/ (3 iconos)
 │
-├── 📁 backend/
+├── 📁 apps/backend/
 │   ├── app.py
-│   └── requirements.txt
+│   └── core/requirements.txt
 │
-├── 📁 frontend/
+├── 📁 apps/frontend/
 │   ├── index.html
 │   └── src/
 │
-├── 📁 data/
+├── 📁 content/data/
 │   └── [archivos .json de noticias]
 │
-├── 📁 generated_sites/
+├── 📁 output/generated_sites/
 │   ├── site_1/
 │   ├── site_2/
 │   └── [... site_N]
 │
-├── 📁 public/
+├── 📁 output/public/
 │   ├── images/
-│   ├── sites/
-│   └── templates/
+│   ├── output/sites/
+│   └── content/templates/
 │
-└── 📁 templates/
+└── 📁 content/templates/
     └── css/ (templates generados)
 ```
 
@@ -165,7 +165,7 @@ Politica/
 
 ### Rutas Actualizadas en Código
 
-**menu.py**:
+**core/menu.py**:
 - ✅ Documentación → rutas docs/*
 - ✅ Opciones 3-10 → paths correctos
 
@@ -214,11 +214,11 @@ Documentos obsoletos
 
 - [x] Carpetas creadas: design, integration, guides, testing, changelog
 - [x] Archivos movidos: 17 documentos
-- [x] Rutas actualizadas en menu.py: 7 paths
+- [x] Rutas actualizadas en core/menu.py: 7 paths
 - [x] docs/README.md creado: índice completo
 - [x] Assets organizados: css, fonts, svg-icons
 - [x] Scripts sin cambios: imports funcionan
-- [x] Tests de paths: menu.py funciona
+- [x] Tests de paths: core/menu.py funciona
 
 ---
 
@@ -253,7 +253,7 @@ cat DIAGRAMA-FLUJO-COMPLETO.md  # Arquitectura
 
 ### Menú Interactivo
 ```bash
-python3 menu.py
+python3 core/menu.py
 # Opción 3: Documentación (rutas actualizadas)
 # Opción 3 → 8: TODO-MEJORAS-DISEÑO
 # Opción 3 → 9: ANALISIS-DISEÑO-REFERENCIA
@@ -268,7 +268,7 @@ python3 menu.py
 1. Determinar categoría (design, guides, integration, testing, changelog)
 2. Crear en docs/[categoría]/
 3. Actualizar docs/README.md
-4. Si es acceso frecuente, agregar a menu.py
+4. Si es acceso frecuente, agregar a core/menu.py
 5. Actualizar CHANGELOG.md
 
 ### Al Referenciar Documento
@@ -302,5 +302,5 @@ Usar rutas relativas desde docs/:
 **Reorganización completada**: 19 Enero 2026 16:00  
 **Archivos movidos**: 17  
 **Carpetas creadas**: 5  
-**Rutas actualizadas**: menu.py (7 paths)  
+**Rutas actualizadas**: core/menu.py (7 paths)  
 **Estado**: ✅ Completo y verificado

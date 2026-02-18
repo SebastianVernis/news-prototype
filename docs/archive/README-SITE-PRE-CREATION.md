@@ -12,23 +12,23 @@ Sistema completo para preparar sitios de noticias antes de su creación:
 ### 1. Generar Metadatos de Sitios
 
 ```bash
-cd scripts
+cd core/scripts
 
 # Generar 5 sitios (sin verificar dominios)
-python3 site_pre_creation.py --cantidad 5
+python3 core/scripts/site_pre_creation.py --cantidad 5
 
 # Generar 5 sitios con verificación whois (requiere whois instalado)
-python3 site_pre_creation.py --cantidad 5 --verificar-dominios
+python3 core/scripts/site_pre_creation.py --cantidad 5 --verificar-dominios
 ```
 
 ### 2. Integrar con Generador de Sitios
 
 ```bash
 # Generar metadatos y crear sitios HTML automáticamente
-python3 generate-sites.py --generar-metadata
+python3 core/scripts/generate-sites.py --generar-metadata
 
 # Usar archivo de metadatos existente
-python3 generate-sites.py --metadata-file ../data/sites_metadata/sites_metadata_20260108_161003.json
+python3 core/scripts/generate-sites.py --metadata-file ../content/data/sites_metadata/sites_metadata_20260108_161003.json
 ```
 
 ---
@@ -36,7 +36,7 @@ python3 generate-sites.py --metadata-file ../data/sites_metadata/sites_metadata_
 ## 📦 Qué Genera
 
 ### Archivo de Metadatos Completo
-`data/sites_metadata/sites_metadata_TIMESTAMP.json`
+`content/data/sites_metadata/sites_metadata_TIMESTAMP.json`
 
 Contiene array de sitios con:
 - Nombre y tagline
@@ -49,7 +49,7 @@ Contiene array de sitios con:
 - Metadatos SEO
 
 ### Archivo para Site-Builder
-`data/sites_metadata/builder_site_ID.json`
+`content/data/sites_metadata/builder_site_ID.json`
 
 Formato optimizado para constructores de sitios, incluye:
 - Configuración de marca (nombre, colores, logo)
@@ -160,7 +160,7 @@ sudo dnf install whois
 
 ### Ejecución
 ```bash
-$ python3 site_pre_creation.py --cantidad 3
+$ python3 core/scripts/site_pre_creation.py --cantidad 3
 
 🚀 Generando metadatos para 3 sitios...
 ============================================================
@@ -180,7 +180,7 @@ $ python3 site_pre_creation.py --cantidad 3
    Dominio: mexicoahora.mx
    Disponible: ✅
 
-💾 Metadatos guardados en: ../data/sites_metadata/sites_metadata_20260108_161003.json
+💾 Metadatos guardados en: ../content/data/sites_metadata/sites_metadata_20260108_161003.json
 
 📊 Resumen:
    Total de sitios: 3
@@ -251,31 +251,31 @@ $ python3 site_pre_creation.py --cantidad 3
 
 ### Caso 1: Generar 40 Sitios Únicos
 ```bash
-cd scripts
+cd core/scripts
 
 # Generar metadatos
-python3 site_pre_creation.py --cantidad 40
+python3 core/scripts/site_pre_creation.py --cantidad 40
 
 # Crear sitios HTML
-python3 generate-sites.py --metadata-file ../data/sites_metadata/sites_metadata_*.json
+python3 core/scripts/generate-sites.py --metadata-file ../content/data/sites_metadata/sites_metadata_*.json
 ```
 
 ### Caso 2: Verificar Disponibilidad Real
 ```bash
 # Requiere whois instalado
-python3 site_pre_creation.py --cantidad 10 --verificar-dominios
+python3 core/scripts/site_pre_creation.py --cantidad 10 --verificar-dominios
 ```
 
 ### Caso 3: Flujo Completo Automatizado
 ```bash
 # Todo en un comando
-python3 generate-sites.py --generar-metadata
+python3 core/scripts/generate-sites.py --generar-metadata
 ```
 
 ### Caso 4: Pool de Sitios para Uso Futuro
 ```bash
 # Generar 100 metadatos para reusar
-python3 site_pre_creation.py --cantidad 100 --output ../data/sites_pool
+python3 core/scripts/site_pre_creation.py --cantidad 100 --output ../content/data/sites_pool
 ```
 
 ---
@@ -302,7 +302,7 @@ python3 site_name_generator.py
 python3 domain_verifier.py
 
 # Probar protocolo completo
-python3 site_pre_creation.py --cantidad 3
+python3 core/scripts/site_pre_creation.py --cantidad 3
 ```
 
 ---
@@ -317,8 +317,8 @@ Sistema completo implementado y funcional:
 
 ```bash
 # Comienza ahora
-cd scripts
-python3 site_pre_creation.py --cantidad 5
+cd core/scripts
+python3 core/scripts/site_pre_creation.py --cantidad 5
 ```
 
 ---

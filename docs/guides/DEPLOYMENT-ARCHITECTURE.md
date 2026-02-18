@@ -141,7 +141,7 @@ services:
     name: news-generator-backend
     env: python
     plan: starter
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: "pip install -r core/requirements.txt && pip install -r apps/backend/requirements.txt"
     startCommand: "gunicorn -w 2 -b 0.0.0.0:$PORT backend.app:app"
     envVars:
       - key: PYTHON_VERSION
@@ -387,7 +387,7 @@ VITE_API_URL = "https://news-generator-api.workers.dev"
 **Solución**: Procesar en background con Queues
 ```typescript
 // Endpoint recibe request
-app.post('/api/sites/generate', async (c) => {
+app.post('/api/output/sites/generate', async (c) => {
   const jobId = crypto.randomUUID();
   
   // Encolar job

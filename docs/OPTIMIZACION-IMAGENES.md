@@ -71,7 +71,7 @@ Se agregaron estilos inline a **todas las imágenes** en el generador de layouts
 
 ### **2. Nuevo Archivo CSS Global**
 
-**Archivo:** `/templates/css/responsive-images.css`
+**Archivo:** `/content/templates/css/responsive-images.css`
 
 Este archivo proporciona reglas CSS globales para **todos los templates**:
 
@@ -127,10 +127,10 @@ El archivo `responsive-images.css` se importó en **todos los 40 templates CSS**
 
 ```bash
 # Aplicado automáticamente a:
-templates/css/template1.css
-templates/css/template2.css
+content/templates/css/template1.css
+content/templates/css/template2.css
 ...
-templates/css/template40.css
+content/templates/css/template40.css
 ```
 
 **Método de aplicación:**
@@ -182,8 +182,8 @@ templates/css/template40.css
 
 ```bash
 # Sitios regenerados
-cd scripts
-python3 generate-sites.py --cantidad 10 --no-interactivo
+cd core/scripts
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 **Resultado:**
@@ -239,14 +239,14 @@ img[loading="lazy"] {
 ## 📁 Archivos Modificados
 
 ### **1. Scripts**
-- ✅ `scripts/layout_generator.py` - 9 ediciones aplicadas
+- ✅ `core/scripts/layout_generator.py` - 9 ediciones aplicadas
 
 ### **2. CSS**
-- ✅ `templates/css/responsive-images.css` - Nuevo archivo (187 líneas)
-- ✅ `templates/css/template1.css` hasta `template40.css` - Import agregado
+- ✅ `content/templates/css/responsive-images.css` - Nuevo archivo (187 líneas)
+- ✅ `content/templates/css/template1.css` hasta `template40.css` - Import agregado
 
 ### **3. Sitios**
-- ✅ `sites/site1.html` hasta `site10.html` - Regenerados
+- ✅ `output/sites/site1.html` hasta `site10.html` - Regenerados
 
 ---
 
@@ -272,8 +272,8 @@ style="max-height: 300px; width: 100%; object-fit: cover;"
 
 **Opción 3: Regenerar sitios**
 ```bash
-cd scripts
-python3 generate-sites.py --cantidad N --no-interactivo
+cd core/scripts
+python3 core/scripts/generate-sites.py --cantidad N --no-interactivo
 ```
 
 ---

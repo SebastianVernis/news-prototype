@@ -6,32 +6,32 @@
 - **Error**: `got an unexpected keyword argument 'usar_api'`
 - **Causa**: Parámetro incorrecto en inicialización
 - **Solución**: Eliminado parámetro `usar_api` de línea 96
-- **Archivo**: `scripts/master_orchestrator.py:96`
+- **Archivo**: `core/scripts/master_orchestrator.py:96`
 
 ### 2. **AttributeError: NewsParaphraser.paraphrase_article()**
 - **Error**: `'NewsParaphraser' object has no attribute 'paraphrase_article'`
 - **Causa**: Método faltante en clase
 - **Solución**: Copiado método completo desde Tecnología
-- **Archivo**: `scripts/paraphrase.py:116-178`
+- **Archivo**: `core/scripts/paraphrase.py:116-178`
 
 ### 3. **TypeError: HTMLLayoutBuilder.build_header()**
 - **Error**: `takes 3 positional arguments but 4 were given`
 - **Causa**: Falta parámetro `logo_path`
 - **Solución**: Agregado parámetro opcional `logo_path: str = None`
-- **Archivo**: `scripts/layout_generator.py:235`
+- **Archivo**: `core/scripts/layout_generator.py:235`
 - **Bonus**: Integrado logos en todos los estilos de header (centered, split, minimal, bold)
 
 ### 4. **AttributeError: HTMLLayoutBuilder.build_footer()**
 - **Error**: `'HTMLLayoutBuilder' object has no attribute 'build_footer'`
 - **Causa**: Método faltante
 - **Solución**: Implementado método con integración de FooterGenerator + fallback
-- **Archivo**: `scripts/layout_generator.py:662-712`
+- **Archivo**: `core/scripts/layout_generator.py:662-712`
 
 ### 5. **AttributeError: ArticleExpander.expand_article()**
 - **Error**: `'str' object has no attribute 'get'`
 - **Causa**: Campo `source` puede ser string o dict
 - **Solución**: Agregado manejo de tipo con validación
-- **Archivo**: `scripts/article-expander.py:57-70`
+- **Archivo**: `core/scripts/article-expander.py:57-70`
 
 ---
 
@@ -47,9 +47,9 @@
 - Aborta con error claro si sitio ya existe
 
 **Archivos modificados**:
-- `scripts/master_orchestrator.py:118-142` (método detector)
-- `scripts/master_orchestrator.py:90` (inicialización)
-- `scripts/master_orchestrator.py:854-858` (verificación temprana)
+- `core/scripts/master_orchestrator.py:118-142` (método detector)
+- `core/scripts/master_orchestrator.py:90` (inicialización)
+- `core/scripts/master_orchestrator.py:854-858` (verificación temprana)
 
 **Resultado**: 
 - ✅ site_1, site_2, site_3... site_9 creados sin sobrescribir
@@ -64,11 +64,11 @@
 - Verificación condicional: solo usa cache si `use_cache=True`
 
 **Archivos modificados**:
-- `scripts/generate-images-newsapi.py:19` (parámetro en __init__)
-- `scripts/generate-images-newsapi.py:46` (verificación condicional)
-- `scripts/generate-images-unified.py:40` (parámetro en __init__)
-- `scripts/generate-images-unified.py:55` (propagación a NewsAPIImageGenerator)
-- `scripts/master_orchestrator.py:102` (use_cache=False por defecto)
+- `core/scripts/generate-images-newsapi.py:19` (parámetro en __init__)
+- `core/scripts/generate-images-newsapi.py:46` (verificación condicional)
+- `core/scripts/generate-images-unified.py:40` (parámetro en __init__)
+- `core/scripts/generate-images-unified.py:55` (propagación a NewsAPIImageGenerator)
+- `core/scripts/master_orchestrator.py:102` (use_cache=False por defecto)
 
 **Resultado**:
 - ✅ Cada ejecución descarga imágenes frescas
@@ -182,7 +182,7 @@ Plan ejecutivo completo con prioridades.
 ## 🚀 Próximos Pasos Sugeridos
 
 ### Implementación Inmediata (1-2 horas)
-1. Crear `scripts/logo_generator_svg.py`
+1. Crear `core/scripts/logo_generator_svg.py`
 2. Descargar fuentes: Poppins, Bebas Neue
 3. Crear biblioteca SVG básica (10 iconos)
 4. Integrar al flujo principal
@@ -204,12 +204,12 @@ Plan ejecutivo completo con prioridades.
 ## 📁 Archivos Modificados
 
 ### Scripts Python (5 archivos)
-1. `scripts/master_orchestrator.py` - 6 cambios
-2. `scripts/paraphrase.py` - 1 método agregado
-3. `scripts/layout_generator.py` - 3 métodos actualizados
-4. `scripts/article-expander.py` - 1 fix
-5. `scripts/generate-images-newsapi.py` - 2 cambios
-6. `scripts/generate-images-unified.py` - 1 cambio
+1. `core/scripts/master_orchestrator.py` - 6 cambios
+2. `core/scripts/paraphrase.py` - 1 método agregado
+3. `core/scripts/layout_generator.py` - 3 métodos actualizados
+4. `core/scripts/article-expander.py` - 1 fix
+5. `core/scripts/generate-images-newsapi.py` - 2 cambios
+6. `core/scripts/generate-images-unified.py` - 1 cambio
 
 ### Documentación (5 archivos nuevos)
 1. `NOTA-LOGOS-SVG.md` - Especificación técnica logos SVG

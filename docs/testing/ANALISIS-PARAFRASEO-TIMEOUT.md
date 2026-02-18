@@ -50,7 +50,7 @@ Formato de respuesta: Estructurado con [TÍTULO] y [ARTÍCULO]
 
 **Detalles de Implementación:**
 ```python
-# scripts/paraphrase.py:102
+# core/scripts/paraphrase.py:102
 response = requests.post(API_URL, headers=self.headers, json=payload, timeout=90)
 ```
 
@@ -155,7 +155,7 @@ response = requests.post(API_URL, headers=self.headers, json=payload, timeout=90
 **Prioridad:** ALTA
 
 ```python
-# Nuevo módulo sugerido: scripts/utils/api_retry.py
+# Nuevo módulo sugerido: core/scripts/utils/api_retry.py
 
 import time
 from typing import Callable, Any
@@ -312,17 +312,17 @@ except (KeyError, IndexError) as e:
 
 ### Test Rápido
 ```bash
-python3 scripts/test/test_paraphrase_quick.py
+python3 core/scripts/test/test_paraphrase_quick.py
 ```
 
 ### Test Completo de Timeouts
 ```bash
-python3 scripts/test/test_api_timeout.py
+python3 core/scripts/test/test_api_timeout.py
 ```
 
 ### Test de Flujo Completo
 ```bash
-python3 scripts/test/test_flujo_completo.py
+python3 core/scripts/test/test_flujo_completo.py
 ```
 
 ---
@@ -355,7 +355,7 @@ time curl -X POST https://api.blackbox.ai/chat/completions \
   -d '{"model":"blackboxai/blackbox-pro","messages":[{"role":"user","content":"test"}]}'
 
 # 3. Revisar logs de timeouts específicos
-grep -r "Timeout" scripts/ --include="*.py"
+grep -r "Timeout" core/scripts/ --include="*.py"
 ```
 
 **Acción Sugerida:**

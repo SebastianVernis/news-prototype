@@ -61,8 +61,8 @@ Se ha implementado exitosamente el sistema completo de noticias con múltiples A
 
 **Uso:**
 ```bash
-python3 main.py --api newsapi --articles 5 --variations 40
-python3 main.py --api worldnews --test
+python3 core/main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api worldnews --test
 ```
 
 ### 5. **Scripts de Ejecución**
@@ -134,7 +134,7 @@ Todos los scrapers devuelven estructura unificada:
 ### Flujo 1: Descarga Individual
 
 ```bash
-python3 newsapi.py --size 20       # NewsAPI.org
+python3 core/scripts/api/newsapi.py --size 20       # NewsAPI.org
 python3 worldnews.py --size 20     # WorldNewsAPI
 python3 newsdata.py --size 10      # Newsdata.io (máx 10)
 ```
@@ -158,13 +158,13 @@ bash run_all_apis.sh test         # 5 artículos/API
 
 ```bash
 # NewsAPI
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 
 # WorldNews
-python3 main.py --api worldnews --articles 5 --variations 40
+python3 core/main.py --api worldnews --articles 5 --variations 40
 
 # Modo prueba
-python3 main.py --api newsapi --test
+python3 core/main.py --api newsapi --test
 ```
 
 **Salida:**
@@ -187,7 +187,7 @@ python3 test_paraphrase_quick.py
 ### Prueba Realizada: Flujo Completo
 
 ```bash
-python3 main.py --api newsapi --articles 1 --variations 2
+python3 core/main.py --api newsapi --articles 1 --variations 2
 ```
 
 **Resultados:**
@@ -409,7 +409,7 @@ El sistema está **completamente implementado y funcional** según las especific
 
 ```bash
 # Flujo completo: 5 artículos, 40 variaciones cada uno = 200 posts
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 
 # Resultado: 200 artículos únicos con imágenes en ~45 minutos
 ```

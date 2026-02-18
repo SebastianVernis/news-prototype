@@ -134,7 +134,7 @@ Fin (exactamente N sitios generados)
 ### Ejemplo 1: Generar 3 Sitios
 
 ```bash
-$ python3 generate-sites.py
+$ python3 core/scripts/generate-sites.py
 
 📊 ¿Cuántos sitios deseas crear? (1-100) [default: 10]: 3
 ✅ Se crearán 3 sitios
@@ -153,7 +153,7 @@ $ python3 generate-sites.py
    ✅ Sitio 3/3: El Informador
 
 🎉 ¡Completado!
-📁 3 sitios generados en '../sites/'
+📁 3 sitios generados en '../output/sites/'
 ```
 
 **Tiempo:** ~10-15 segundos
@@ -165,7 +165,7 @@ $ python3 generate-sites.py
 ### Ejemplo 2: Generar 50 Sitios
 
 ```bash
-$ python3 generate-sites.py --cantidad 50 --no-interactivo
+$ python3 core/scripts/generate-sites.py --cantidad 50 --no-interactivo
 
 🧹 Limpiando sitios antiguos...
    Eliminados 3 sitios antiguos
@@ -177,7 +177,7 @@ $ python3 generate-sites.py --cantidad 50 --no-interactivo
    ✅ 50 sitios generados
 
 🎉 ¡Completado!
-📁 50 sitios generados en '../sites/'
+📁 50 sitios generados en '../output/sites/'
 ```
 
 **Tiempo:** ~2-3 minutos
@@ -213,14 +213,14 @@ $ python3 generate-sites.py --cantidad 50 --no-interactivo
 
 ```bash
 # Generar 5 sitios
-python3 generate-sites.py --cantidad 5 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 5 --no-interactivo
 
 # Verificar cantidad
-ls ../sites/site*.html | wc -l
+ls ../output/sites/site*.html | wc -l
 # Output: 5 ✅
 
 # Verificar metadatos
-cat ../data/sites_metadata/sites_metadata_*.json | jq '. | length'
+cat ../content/data/sites_metadata/sites_metadata_*.json | jq '. | length'
 # Output: 5 ✅
 ```
 
@@ -228,14 +228,14 @@ cat ../data/sites_metadata/sites_metadata_*.json | jq '. | length'
 
 ```bash
 # Primera ejecución: 10 sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
-ls ../sites/site*.html | wc -l
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
+ls ../output/sites/site*.html | wc -l
 # Output: 10 ✅
 
 # Segunda ejecución: 3 sitios
-python3 generate-sites.py --cantidad 3 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 3 --no-interactivo
 # 🧹 Elimina los 10 anteriores
-ls ../sites/site*.html | wc -l
+ls ../output/sites/site*.html | wc -l
 # Output: 3 ✅ (no quedan los 7 sobrantes)
 ```
 
@@ -243,7 +243,7 @@ ls ../sites/site*.html | wc -l
 
 ```bash
 # Generar sitios sin imágenes AI
-python3 generate-sites.py --cantidad 5 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 5 --no-interactivo
 
 # Abrir sitio y verificar
 # ✅ Los placeholders se usan correctamente
@@ -271,7 +271,7 @@ python3 generate-sites.py --cantidad 5 --no-interactivo
 ### Desarrollo Local (Iteración Rápida)
 ```bash
 # Generar solo 2-3 sitios para pruebas
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 # Cantidad: 2
 # Tiempo: ~10 segundos ⚡
 # Perfecto para desarrollo rápido
@@ -280,7 +280,7 @@ python3 generate-sites.py
 ### Testing QA (Batch Mediano)
 ```bash
 # Generar 10 sitios para QA
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 # Tiempo: ~30 segundos
 # Suficiente variedad para testing
 ```
@@ -288,7 +288,7 @@ python3 generate-sites.py --cantidad 10 --no-interactivo
 ### Producción (Batch Completo)
 ```bash
 # Generar 40-50 sitios para producción
-python3 generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
 # Tiempo: ~10-15 minutos (con verificación)
 # Listo para deploy
 ```
@@ -296,7 +296,7 @@ python3 generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
 ### CI/CD (Automatización)
 ```bash
 # Pipeline automatizado
-python3 generate-sites.py --cantidad 25 --no-interactivo --generar-metadata
+python3 core/scripts/generate-sites.py --cantidad 25 --no-interactivo --generar-metadata
 # Tiempo: ~1-2 minutos
 # Sin interacción humana
 ```

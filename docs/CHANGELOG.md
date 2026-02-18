@@ -149,7 +149,7 @@ Usuario Interactivo → Configuración → Metadatos → Layouts → Sitios HTML
 
 ```
 news-prototype/
-├── scripts/
+├── core/scripts/
 │   ├── generate-sites.py       ⭐ Actualizado (modo interactivo)
 │   ├── layout_generator.py     ✨ Nuevo
 │   ├── site_name_generator.py  ✨ Nuevo
@@ -157,7 +157,7 @@ news-prototype/
 │   ├── site_pre_creation.py    ✨ Nuevo
 │   ├── run.sh                  ✨ Nuevo
 │   └── test-interactive.sh     ✨ Nuevo
-├── data/
+├── content/data/
 │   └── sites_metadata/         ✨ Nuevo directorio
 ├── docs/
 │   └── SITE-PRE-CREATION.md    ✨ Nuevo

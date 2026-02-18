@@ -47,7 +47,7 @@ Asegurar que TODOS los artículos generados en TODOS los sitios tengan:
 
 ## 🔧 Archivos Modificados
 
-### 1. `scripts/paraphrase.py`
+### 1. `core/scripts/paraphrase.py`
 
 **Cambios principales:**
 
@@ -91,7 +91,7 @@ INSTRUCCIONES CRÍTICAS DE FORMATO Y CALIDAD:
 
 ---
 
-### 2. `scripts/article-expander.py`
+### 2. `core/scripts/article-expander.py`
 
 **Cambios principales:**
 
@@ -137,7 +137,7 @@ for line in lines:
 
 ---
 
-### 3. `scripts/master_orchestrator.py`
+### 3. `core/scripts/master_orchestrator.py`
 
 **Verificado y correcto:**
 
@@ -160,7 +160,7 @@ else:
 
 ---
 
-### 4. `scripts/servir_ejemplos.py`
+### 4. `core/scripts/servir_ejemplos.py`
 
 **Error corregido:**
 
@@ -259,27 +259,27 @@ Para cada artículo generado, verificar:
 
 ### Test rápido de parafraseo
 ```bash
-python3 scripts/test/test_paraphrase_quick.py
+python3 core/scripts/test/test_paraphrase_quick.py
 ```
 
 ### Test completo de calidad
 ```bash
-python3 scripts/test/test_calidad_parrafos.py
+python3 core/scripts/test/test_calidad_parrafos.py
 ```
 
 ### Test de timeouts y endpoint
 ```bash
-python3 scripts/test/test_api_timeout.py
+python3 core/scripts/test/test_api_timeout.py
 ```
 
 ### Generar 2 ejemplos completos
 ```bash
-python3 scripts/generar_2_ejemplos.py
+python3 core/scripts/generar_2_ejemplos.py
 ```
 
 ### Servir ejemplos en navegador
 ```bash
-python3 scripts/servir_ejemplos.py
+python3 core/scripts/servir_ejemplos.py
 # Visitar: http://localhost:8001 y http://localhost:8002
 ```
 
@@ -328,16 +328,16 @@ entrevista para el programa La Silla Roja de El Financiero Televisión...
 
 1. **Ejecutar tests de calidad**
    ```bash
-   python3 scripts/test/test_calidad_parrafos.py
+   python3 core/scripts/test/test_calidad_parrafos.py
    ```
 
 2. **Revisar configuración de prompts**
-   - `scripts/paraphrase.py` líneas 55-115
-   - `scripts/article-expander.py` líneas 87-145
+   - `core/scripts/paraphrase.py` líneas 55-115
+   - `core/scripts/article-expander.py` líneas 87-145
 
 3. **Verificar renderizado HTML**
-   - `scripts/master_orchestrator.py` línea 667 (`_formatear_contenido_html`)
-   - Templates HTML en `scripts/servir_ejemplos.py`
+   - `core/scripts/master_orchestrator.py` línea 667 (`_formatear_contenido_html`)
+   - Templates HTML en `core/scripts/servir_ejemplos.py`
 
 4. **Ajustar parámetros si es necesario**
    - `max_tokens`: 4000 (paraphrase), 3000 (expander)

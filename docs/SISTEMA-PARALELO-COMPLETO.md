@@ -206,7 +206,7 @@ for i in [1,2]:
 ### Test 2: Gemini Paralelo
 
 ```bash
-python3 scripts/gemini_paraphraser.py
+python3 core/scripts/gemini_paraphraser.py
 ```
 
 **Resultado esperado:**
@@ -217,7 +217,7 @@ python3 scripts/gemini_paraphraser.py
 ### Test 3: Blackbox Paralelo
 
 ```bash
-python3 scripts/blackbox_parallel.py
+python3 core/scripts/blackbox_parallel.py
 ```
 
 **Resultado esperado:**
@@ -227,7 +227,7 @@ python3 scripts/blackbox_parallel.py
 ### Test 4: Placeholders Completos
 
 ```bash
-python3 scripts/placeholder_generator.py
+python3 core/scripts/placeholder_generator.py
 ```
 
 **Resultado esperado:**
@@ -427,7 +427,7 @@ blackbox_workers = 2
 
 ```bash
 # Generar sitio completo con placeholders
-python3 scripts/master_orchestrator.py
+python3 core/scripts/master_orchestrator.py
 ```
 
 ### Flujo Completo
@@ -447,7 +447,7 @@ python3 scripts/master_orchestrator.py
 ## 📚 Archivos del Sistema
 
 ```
-scripts/
+core/scripts/
 ├── gemini_paraphraser.py          # Gemini paralelo (4 keys)
 ├── blackbox_parallel.py           # Blackbox paralelo (1-2 keys)
 ├── placeholder_generator.py       # Genera placeholders
@@ -489,7 +489,7 @@ docs/
 
 2. **Test del sistema completo:**
    ```bash
-   python3 scripts/placeholder_generator.py
+   python3 core/scripts/placeholder_generator.py
    ```
 
 3. **Integrar en master_orchestrator**

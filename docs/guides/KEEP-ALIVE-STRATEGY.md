@@ -15,7 +15,7 @@ Render Free Tier suspende servicios después de **15 minutos de inactividad** (s
 - type: cron
   name: news-generator-keep-alive
   schedule: "*/10 * * * *"  # Cada 10 minutos
-  startCommand: "python scripts/keep_alive_cron.py"
+  startCommand: "python core/scripts/keep_alive_cron.py"
 ```
 
 **Ventajas:**
@@ -183,7 +183,7 @@ crontab -e
 ```bash
 cd /home/sebastianvernis/news-prototype/Tecnología
 export BACKEND_URL=https://news-generator-backend.onrender.com
-python3 scripts/keep_alive_cron.py
+python3 core/scripts/keep_alive_cron.py
 ```
 
 ### Probar GitHub Action manualmente
@@ -243,7 +243,7 @@ buildCommand: "pip install requests"
 
 ### Reducir Cold Start Time
 ```python
-# En backend/app.py
+# En apps/backend/app.py
 # Minimizar imports pesados en startup
 # Lazy load librerías no críticas
 ```

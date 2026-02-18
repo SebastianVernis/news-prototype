@@ -3,7 +3,7 @@
 ## 🎯 Prioridad ALTA (Impacto Inmediato)
 
 ### 1. **Logos SVG sin IA** 
-**Archivo**: Crear `scripts/logo_generator_svg.py`
+**Archivo**: Crear `core/scripts/logo_generator_svg.py`
 
 **Implementar**:
 - Logos tipográficos puros (solo texto + CSS)
@@ -34,7 +34,7 @@ mkdir -p Politica/assets/svg-icons/{news,shapes,political}
 ---
 
 ### 2. **Paletas Profesionales Verificadas**
-**Archivo**: `scripts/palette_generator.py`
+**Archivo**: `core/scripts/palette_generator.py`
 
 **Agregar paletas extraídas**:
 
@@ -90,7 +90,7 @@ PALETAS_PROFESIONALES = {
 ---
 
 ### 3. **Tipografías de Sitios Reales**
-**Archivo**: `scripts/typography_generator.py`
+**Archivo**: `core/scripts/typography_generator.py`
 
 **Agregar combinaciones verificadas**:
 
@@ -254,7 +254,7 @@ COMBINACIONES_PROFESIONALES = [
 ## 🎨 Prioridad MEDIA (Mejoras Visuales)
 
 ### 5. **Header Mejorado**
-**Archivo**: `scripts/header_generator.py`
+**Archivo**: `core/scripts/header_generator.py`
 
 **Implementar**:
 - Sticky header por defecto
@@ -267,7 +267,7 @@ COMBINACIONES_PROFESIONALES = [
   3. Secciones secundarias
 
 ### 6. **Cards de Noticias Mejoradas**
-**Archivo**: `scripts/layout_generator.py`
+**Archivo**: `core/scripts/layout_generator.py`
 
 **Estructura estándar**:
 ```html
@@ -319,7 +319,7 @@ COMBINACIONES_PROFESIONALES = [
 ```
 
 ### 7. **Grid System Mejorado**
-**Archivo**: `scripts/layout_generator.py`
+**Archivo**: `core/scripts/layout_generator.py`
 
 **Implementar**:
 ```python

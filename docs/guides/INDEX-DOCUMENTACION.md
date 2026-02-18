@@ -7,9 +7,9 @@
 ## 🎮 Menú Interactivo (RECOMENDADO)
 
 ```bash
-./menu.sh
+./core/menu.sh
 # o
-python menu.py
+python core/menu.py
 ```
 
 **Acceso unificado a:**
@@ -203,7 +203,7 @@ Tecnología/
 ### 👤 Usuario Final (Generar Sitios)
 1. **README-GENERADOR.md** - Setup y quick start
 2. **RESUMEN-FLUJO.md** - Qué esperar del output
-3. Generar sitio con `python scripts/master_orchestrator.py`
+3. Generar sitio con `python core/scripts/master_orchestrator.py`
 
 ### 👨‍💻 Desarrollador (Modificar Código)
 1. **AGENTS.md** - Leer completo antes de editar
@@ -220,7 +220,7 @@ Tecnología/
 ### 👔 Gerente / Revisor
 1. **RESUMEN-FLUJO.md** - Overview en 1 página
 2. **README-GENERADOR.md** - Estadísticas y features
-3. **Ver demo** en `generated_sites/site_1/`
+3. **Ver demo** en `output/generated_sites/site_1/`
 4. **DIAGRAMA-FLUJO-COMPLETO.md** - Detalles técnicos si necesario
 
 ### 🚀 DevOps (Deploy)
@@ -326,14 +326,14 @@ Tecnología/
 ## 🎓 Recursos Educativos
 
 ### Para aprender CSS moderno:
-- **Context7 Library**: `/websites/css-tricks_almanac`
-- **Tailwind CSS v3**: `/websites/v3_tailwindcss`
+- **Context7 Library**: `/weboutput/sites/css-tricks_almanac`
+- **Tailwind CSS v3**: `/weboutput/sites/v3_tailwindcss`
 - **AGENTS.md**: Sección "CSS Grid Best Practices"
 
 ### Para entender el flujo:
 1. Leer **RESUMEN-FLUJO.md** (5 minutos)
 2. Generar un sitio (3 minutos)
-3. Explorar output en `generated_sites/site_1/`
+3. Explorar output en `output/generated_sites/site_1/`
 4. Leer **DIAGRAMA-FLUJO-COMPLETO.md** (20 minutos)
 5. Revisar código de módulos específicos
 

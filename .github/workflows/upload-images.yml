@@ -1,0 +1,46 @@
+# Workflow para gestión de imágenes de noticias
+# Este workflow se ejecutaría cuando se generan nuevas imágenes
+
+name: Upload Images to R2 and Update API
+on:
+  workflow_dispatch:
+    inputs:
+      article_slug:
+        description: 'Slug del artículo'
+        required: true
+        default: 'nuevo-articulo'
+      image_path:
+        description: 'Ruta de la imagen local'
+        required: true
+        default: './images/nuevo-articulo.jpg'
+
+jobs:
+  upload-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install boto3 requests python-dotenv
+      
+      - name: Configure AWS Credentials for R2
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          aws-region: auto
+          endpoint-url: https://${{ secrets.CF_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      
+      - name: Upload image to R2
+        run: |
+          python scripts/upload_to_r2.py "${{ inputs.image_path }}" "${{ inputs.article_slug }}"
+      
+      - name: Update API with new image URL
+        run: |
+          python scripts/update_api_image.py "${{ inputs.article_slug }}" "${{ secrets.API_UPDATE_TOKEN }}"

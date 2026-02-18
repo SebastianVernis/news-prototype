@@ -13,7 +13,7 @@
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Ejecutar flujo completo (descarga + parafraseo + imágenes + sitios)
-python3 main.py --api newsapi --articles 5
+python3 core/main.py --api newsapi --articles 5
 ```
 
 **¿Qué hace?**
@@ -34,17 +34,17 @@ python3 main.py --api newsapi --articles 5
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Opción A: NewsAPI (recomendado)
-python3 main.py --api newsapi --articles 5
+python3 core/main.py --api newsapi --articles 5
 
 # Opción B: Newsdata.io
-python3 main.py --api newsdata --articles 5
+python3 core/main.py --api newsdata --articles 5
 
 # Opción C: WorldNewsAPI
-python3 main.py --api worldnews --articles 5
+python3 core/main.py --api worldnews --articles 5
 ```
 
 **Output esperado:**
-- Archivo: `data/noticias_newsapi_[fecha].json`
+- Archivo: `content/data/noticias_newsapi_[fecha].json`
 - 5 noticias originales con contenido completo
 
 ---
@@ -64,7 +64,7 @@ python3 paraphrase.py
 - Total: 5 × 40 = 200 noticias únicas
 
 **Output esperado:**
-- Archivo: `data/noticias_paraphrased_[fecha].json`
+- Archivo: `content/data/noticias_paraphrased_[fecha].json`
 - 200 noticias únicas
 
 **Duración estimada:** 5-10 minutos
@@ -87,7 +87,7 @@ python3 generate-images-ai.py
 
 **Output esperado:**
 - Imágenes en: `images/news/article_[id]_[var].jpg`
-- Archivo actualizado: `data/noticias_final_[fecha].json`
+- Archivo actualizado: `content/data/noticias_final_[fecha].json`
 
 **Duración estimada:** 5-10 minutos (depende de API)
 
@@ -101,7 +101,7 @@ python3 generate-images-ai.py
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Ejecutar generador interactivo
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 ```
 
 **Preguntas que hará:**
@@ -118,20 +118,20 @@ python3 generate-sites.py
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Generar 10 sitios sin preguntas
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # Generar 40 sitios con verificación de dominios
-python3 generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
 
 # Generar 5 sitios usando metadatos específicos
-python3 generate-sites.py --cantidad 5 \
-  --metadata-file ../data/sites_metadata/sites_metadata_20260108.json \
+python3 core/scripts/generate-sites.py --cantidad 5 \
+  --metadata-file ../content/data/sites_metadata/sites_metadata_20260108.json \
   --no-interactivo
 ```
 
 **Output esperado:**
-- Sitios HTML en: `sites/site1.html`, `site2.html`, etc.
-- Metadatos en: `data/sites_metadata/sites_metadata_[fecha].json`
+- Sitios HTML en: `output/sites/site1.html`, `site2.html`, etc.
+- Metadatos en: `content/data/sites_metadata/sites_metadata_[fecha].json`
 
 **Duración estimada:** 20-40 segundos
 
@@ -145,10 +145,10 @@ python3 generate-sites.py --cantidad 5 \
 cd /home/sebastianvernis/news-prototype/scripts
 
 # 1. Descargar, parafrasear y generar imágenes (todo incluido)
-python3 main.py --api newsapi --articles 5
+python3 core/main.py --api newsapi --articles 5
 
 # 2. Generar 10 sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 **Tiempo total:** 15-25 minutos
@@ -161,10 +161,10 @@ python3 generate-sites.py --cantidad 10 --no-interactivo
 cd /home/sebastianvernis/news-prototype/scripts
 
 # 1. Descargar 10 noticias (400 variaciones)
-python3 main.py --api newsapi --articles 10
+python3 core/main.py --api newsapi --articles 10
 
 # 2. Generar 100 sitios
-python3 generate-sites.py --cantidad 100 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 100 --no-interactivo
 ```
 
 **Tiempo total:** 30-45 minutos
@@ -214,7 +214,7 @@ ls -lh *.html
 xdg-open site1.html
 
 # O simplemente navegar a:
-# file:///home/sebastianvernis/news-prototype/sites/site1.html
+# file:///home/sebastianvernis/news-prototype/output/sites/site1.html
 ```
 
 ---
@@ -222,7 +222,7 @@ xdg-open site1.html
 ### **Ver Metadatos de Sitios**
 
 ```bash
-cd /home/sebastianvernis/news-prototype/data/sites_metadata
+cd /home/sebastianvernis/news-prototype/content/data/sites_metadata
 
 # Ver metadatos generados
 cat sites_metadata_*.json | jq '.[0]'
@@ -237,16 +237,16 @@ cat sites_metadata_*.json | jq '.[0]'
 cd /home/sebastianvernis/news-prototype
 
 # Eliminar sitios
-rm -f sites/*.html
+rm -f output/sites/*.html
 
 # Eliminar imágenes antiguas (CUIDADO)
 # rm -rf images/news/*.jpg
 
 # Eliminar noticias antiguas (CUIDADO)
-# rm -f data/noticias_*.json
+# rm -f content/data/noticias_*.json
 
 # Eliminar metadatos antiguos (CUIDADO)
-# rm -f data/sites_metadata/sites_metadata_*.json
+# rm -f content/data/sites_metadata/sites_metadata_*.json
 
 echo "✅ Limpieza completada"
 ```
@@ -258,7 +258,7 @@ echo "✅ Limpieza completada"
 ### **main.py (Descarga de Noticias)**
 
 ```bash
-python3 main.py [opciones]
+python3 core/main.py [opciones]
 
 Opciones:
   --api [newsapi|newsdata|worldnews]  # API a utilizar (default: newsapi)
@@ -271,13 +271,13 @@ Opciones:
 **Ejemplos:**
 ```bash
 # 10 noticias de tecnología
-python3 main.py --api newsapi --articles 10 --category technology
+python3 core/main.py --api newsapi --articles 10 --category technology
 
 # Noticias de Argentina
-python3 main.py --api newsapi --articles 5 --country ar
+python3 core/main.py --api newsapi --articles 5 --country ar
 
 # Noticias en inglés de USA
-python3 main.py --api newsapi --articles 5 --country us --language en
+python3 core/main.py --api newsapi --articles 5 --country us --language en
 ```
 
 ---
@@ -285,7 +285,7 @@ python3 main.py --api newsapi --articles 5 --country us --language en
 ### **generate-sites.py (Generación de Sitios)**
 
 ```bash
-python3 generate-sites.py [opciones]
+python3 core/scripts/generate-sites.py [opciones]
 
 Opciones:
   --cantidad N                # Número de sitios (1-100)
@@ -298,14 +298,14 @@ Opciones:
 **Ejemplos:**
 ```bash
 # 20 sitios rápido
-python3 generate-sites.py --cantidad 20 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 20 --no-interactivo
 
 # 50 sitios con dominios verificados
-python3 generate-sites.py --cantidad 50 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 50 --verificar-dominios --no-interactivo
 
 # Usar metadatos específicos
-python3 generate-sites.py --cantidad 10 \
-  --metadata-file ../data/sites_metadata/sites_metadata_20260108_162552.json
+python3 core/scripts/generate-sites.py --cantidad 10 \
+  --metadata-file ../content/data/sites_metadata/sites_metadata_20260108_162552.json
 ```
 
 ---
@@ -352,13 +352,13 @@ El generador usa configuraciones aleatorias, pero puedes regenerar para obtener 
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Generar 10 sitios (iteración 1)
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
-# Ver resultados en sites/
+# Ver resultados en output/sites/
 
 # Eliminar y regenerar con nuevos estilos
-rm -f ../sites/*.html
-python3 generate-sites.py --cantidad 10 --no-interactivo
+rm -f ../output/sites/*.html
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # Cada ejecución genera combinaciones diferentes de:
 # - 21 tipos de layouts
@@ -379,20 +379,20 @@ python3 generate-sites.py --cantidad 10 --no-interactivo
 cd /home/sebastianvernis/news-prototype
 
 # 2. Verificar estructura de directorios
-ls -la data/ images/ scripts/ sites/ templates/
+ls -la content/data/ images/ core/scripts/ output/sites/ content/templates/
 
 # 3. Ejecutar flujo completo
-cd scripts
-python3 main.py --api newsapi --articles 5
+cd core/scripts
+python3 core/main.py --api newsapi --articles 5
 
 # 4. Generar sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # 5. Verificar resultados
-ls -lh ../sites/*.html
+ls -lh ../output/sites/*.html
 
 # 6. Abrir un sitio en navegador
-xdg-open ../sites/site1.html
+xdg-open ../output/sites/site1.html
 ```
 
 ---
@@ -404,8 +404,8 @@ xdg-open ../sites/site1.html
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Flujo completo en 2 comandos
-python3 main.py --api newsapi --articles 5
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/main.py --api newsapi --articles 5
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # Listo en 15-20 minutos
 ```
@@ -418,11 +418,11 @@ python3 generate-sites.py --cantidad 10 --no-interactivo
 
 ```bash
 # Verificar archivo de noticias existe
-ls -lh /home/sebastianvernis/news-prototype/data/noticias_final_*.json
+ls -lh /home/sebastianvernis/news-prototype/content/data/noticias_final_*.json
 
 # Si no existe, ejecutar:
 cd /home/sebastianvernis/news-prototype/scripts
-python3 main.py --api newsapi --articles 5
+python3 core/main.py --api newsapi --articles 5
 ```
 
 ---
@@ -471,16 +471,16 @@ BLACKBOX_API_KEY=tu_key_aqui
 cd /home/sebastianvernis/news-prototype/scripts
 
 # 1. Descargar + Parafrasear + Generar Imágenes
-python3 main.py --api newsapi --articles 5
+python3 core/main.py --api newsapi --articles 5
 
 # 2. Generar sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # 3. Ver resultados
-ls -lh ../sites/*.html
+ls -lh ../output/sites/*.html
 
 # ============================================
-# FIN - Sitios listos en ~/news-prototype/sites/
+# FIN - Sitios listos en ~/news-prototype/output/sites/
 # ============================================
 ```
 

@@ -70,7 +70,7 @@ BLACKBOX_API_KEY="[configurada]"                        ✅ Activa
 
 ```bash
 # Usar una API específica
-python3 newsapi.py --size 20
+python3 core/scripts/api/newsapi.py --size 20
 python3 worldnews.py --size 20
 python3 newsdata.py --size 10
 ```
@@ -96,13 +96,13 @@ bash run_all_apis.sh test
 
 ```bash
 # Con NewsAPI
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 
 # Con WorldNews
-python3 main.py --api worldnews --articles 5 --variations 40
+python3 core/main.py --api worldnews --articles 5 --variations 40
 
 # Modo test
-python3 main.py --api newsapi --test
+python3 core/main.py --api newsapi --test
 ```
 
 **Salida:**
@@ -176,14 +176,14 @@ article = {
 
 ### 1. Probar una API Nueva
 ```bash
-python3 newsapi.py --size 5
+python3 core/scripts/api/newsapi.py --size 5
 # Revisa los archivos JSON/CSV generados
 ```
 
 ### 2. Generar Contenido para Redes Sociales
 ```bash
 # 2 artículos, 10 variaciones cada uno = 20 posts
-python3 main.py --api newsapi --articles 2 --variations 10
+python3 core/main.py --api newsapi --articles 2 --variations 10
 ```
 
 ### 3. Comparar Fuentes

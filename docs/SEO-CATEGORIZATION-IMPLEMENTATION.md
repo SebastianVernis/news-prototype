@@ -21,7 +21,7 @@
 ## 📂 Nuevos Archivos Creados
 
 ```
-scripts/
+core/scripts/
 ├── categorizer.py              # Categorización con IA
 ├── rss_generator.py            # Generador de RSS 2.0
 ├── seo_metadata_generator.py   # Meta tags SEO
@@ -271,7 +271,7 @@ og_generator.generar_og_images_lote(articles, site_metadata)
 
 **Output:**
 ```
-public/og-images/
+output/public/og-images/
 ├── og_article_1.png
 ├── og_article_2.png
 ├── og_article_3.png
@@ -319,39 +319,39 @@ public/og-images/
 
 ### Test Completo de SEO
 ```bash
-python3 scripts/test/test_sitio_completo_seo.py
+python3 core/scripts/test/test_sitio_completo_seo.py
 ```
 **Verifica:** Categorización, RSS, Meta tags, Secciones
 
 ### Test de Categorización
 ```bash
-python3 scripts/categorizer.py
+python3 core/scripts/categorizer.py
 ```
 **Output:** `noticias_categorizadas_test.json`
 
 ### Test de RSS
 ```bash
-python3 scripts/rss_generator.py
+python3 core/scripts/rss_generator.py
 ```
 **Output:** `feed_test.xml`
 
 ### Test de Metadatos SEO
 ```bash
-python3 scripts/seo_metadata_generator.py
+python3 core/scripts/seo_metadata_generator.py
 ```
 **Output:** `meta_tags_example.html`
 
 ### Test de Secciones
 ```bash
-python3 scripts/section_generator.py
+python3 core/scripts/section_generator.py
 ```
 **Output:** `categorias.html` + `categoria/*.html`
 
 ### Test de OG Images
 ```bash
-python3 scripts/og_image_generator.py
+python3 core/scripts/og_image_generator.py
 ```
-**Output:** `public/og-images/og_article_*.png`
+**Output:** `output/public/og-images/og_article_*.png`
 
 ---
 
@@ -518,19 +518,19 @@ site_1/
 
 ### Generar Sitio Completo con SEO
 ```bash
-python3 scripts/master_orchestrator.py
+python3 core/scripts/master_orchestrator.py
 ```
 
 ### Parámetros Disponibles
 ```bash
 # Con verificación de dominios
-python3 scripts/master_orchestrator.py --verificar-dominios
+python3 core/scripts/master_orchestrator.py --verificar-dominios
 
 # Usando noticias en cache
-python3 scripts/master_orchestrator.py --usar-cache
+python3 core/scripts/master_orchestrator.py --usar-cache
 
 # Directorio de salida personalizado
-python3 scripts/master_orchestrator.py --output-dir /path/to/output
+python3 core/scripts/master_orchestrator.py --output-dir /path/to/output
 ```
 
 ---
@@ -573,7 +573,7 @@ python3 scripts/master_orchestrator.py --output-dir /path/to/output
 - **Testing:** https://developers.facebook.com/tools/debug/
 
 ### Twitter Cards
-- **Spec:** https://developer.twitter.com/en/docs/twitter-for-websites/cards
+- **Spec:** https://developer.twitter.com/en/docs/twitter-for-weboutput/sites/cards
 - **Validator:** https://cards-dev.twitter.com/validator
 
 ### Schema.org NewsArticle
@@ -599,7 +599,7 @@ NEWSAPI_KEY=...                   # Para descarga de noticias
 ### Dependencias Python
 
 ```bash
-# Ya incluidas en requirements.txt
+# Ya incluidas en core/requirements.txt
 requests
 python-dotenv
 Pillow  # Para imágenes OG
@@ -630,7 +630,7 @@ xmllint --noout test_feed.xml
 tidy -q -e test_meta_article_1.html
 
 # Verificar imágenes OG
-file public/og-images/og_article_1.png
+file output/public/og-images/og_article_1.png
 ```
 
 ---
@@ -658,7 +658,7 @@ file public/og-images/og_article_1.png
 cd /home/sebastianvernis/Proyectos/news-prototype/Politica
 
 # Generar sitio completo
-python3 scripts/master_orchestrator.py
+python3 core/scripts/master_orchestrator.py
 
 # El sitio generado incluirá automáticamente:
 # ✅ Artículos con párrafos bien formateados
@@ -675,16 +675,16 @@ python3 scripts/master_orchestrator.py
 
 ```bash
 # Verificar RSS
-cat sites/site_1/feed.xml | head -50
+cat output/sites/site_1/feed.xml | head -50
 
 # Ver categorías
-ls sites/site_1/categoria/
+ls output/sites/site_1/categoria/
 
 # Ver imágenes OG
-ls sites/site_1/og-images/
+ls output/sites/site_1/og-images/
 
 # Abrir en navegador
-python3 -m http.server 8000 --directory sites/site_1
+python3 -m http.server 8000 --directory output/sites/site_1
 ```
 
 ---

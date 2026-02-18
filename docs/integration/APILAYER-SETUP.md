@@ -41,7 +41,7 @@ APILAYER_API_KEY="AbC123xYz456DeF789..."
 ### 3️⃣ Verificar instalación
 
 ```bash
-python scripts/test/test_apilayer_whois.py
+python core/scripts/test/test_apilayer_whois.py
 ```
 
 **Output esperado:**
@@ -59,20 +59,20 @@ python scripts/test/test_apilayer_whois.py
 
 ```bash
 # Con APILayer API (recomendado)
-python scripts/master_orchestrator.py --verificar-dominios --api-whois
+python core/scripts/master_orchestrator.py --verificar-dominios --api-whois
 
 # Con whois local (si lo tienes instalado)
-python scripts/master_orchestrator.py --verificar-dominios
+python core/scripts/master_orchestrator.py --verificar-dominios
 ```
 
 ### Test rápido
 
 ```bash
 # Test con API
-python scripts/domain_verifier.py
+python core/scripts/domain_verifier.py
 
 # Test solo API (standalone)
-python scripts/domain_verifier_apilayer.py
+python core/scripts/domain_verifier_apilayer.py
 ```
 
 ---

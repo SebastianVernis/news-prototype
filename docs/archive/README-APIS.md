@@ -63,7 +63,7 @@ bash run_all_apis.sh
 source venv/bin/activate
 
 # NewsAPI.org
-python3 newsapi.py --size 20
+python3 core/scripts/api/newsapi.py --size 20
 
 # APITube.io
 python3 apitube.py --size 20
@@ -79,19 +79,19 @@ python3 worldnews.py --size 20
 
 ```bash
 # Usar NewsAPI.org (default)
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 
 # Usar APITube.io
-python3 main.py --api apitube --articles 5 --variations 40
+python3 core/main.py --api apitube --articles 5 --variations 40
 
 # Usar Newsdata.io
-python3 main.py --api newsdata --articles 5 --variations 40
+python3 core/main.py --api newsdata --articles 5 --variations 40
 
 # Usar WorldNewsAPI
-python3 main.py --api worldnews --articles 5 --variations 40
+python3 core/main.py --api worldnews --articles 5 --variations 40
 
 # Modo prueba
-python3 main.py --api newsapi --test
+python3 core/main.py --api newsapi --test
 ```
 
 ---
@@ -117,7 +117,7 @@ news-prototype/
 ### NewsAPI.org (`newsapi.py`)
 
 ```bash
-python3 newsapi.py --query "política México" --language es --size 20
+python3 core/scripts/api/newsapi.py --query "política México" --language es --size 20
 ```
 
 **Parámetros:**
@@ -215,19 +215,19 @@ Para usar el sistema completo (descarga + parafraseado + generación de imágene
 
 ```bash
 # NewsAPI.org
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 
 # APITube.io
-python3 main.py --api apitube --articles 5 --variations 40
+python3 core/main.py --api apitube --articles 5 --variations 40
 
 # Newsdata.io
-python3 main.py --api newsdata --articles 5 --variations 40
+python3 core/main.py --api newsdata --articles 5 --variations 40
 
 # WorldNewsAPI
-python3 main.py --api worldnews --articles 5 --variations 40
+python3 core/main.py --api worldnews --articles 5 --variations 40
 
 # Modo prueba (2 artículos, 5 variaciones)
-python3 main.py --api newsapi --test
+python3 core/main.py --api newsapi --test
 ```
 
 **Salidas:**
@@ -324,7 +324,7 @@ Ajusta los parámetros de búsqueda:
 
 ```bash
 # Ampliar búsqueda
-python3 newsapi.py --query "México" --size 50
+python3 core/scripts/api/newsapi.py --query "México" --size 50
 
 # Cambiar categoría
 python3 apitube.py --category business
@@ -352,7 +352,7 @@ bash run_all_apis.sh
 
 ```bash
 # NewsAPI
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 
 # Resultado: 5 artículos × 40 variaciones = 200 artículos con imágenes
 ```
@@ -361,7 +361,7 @@ python3 main.py --api newsapi --articles 5 --variations 40
 
 ```bash
 # Descargar de todas
-python3 newsapi.py --size 10
+python3 core/scripts/api/newsapi.py --size 10
 python3 apitube.py --size 10
 python3 newsdata.py --size 10
 python3 worldnews.py --size 10

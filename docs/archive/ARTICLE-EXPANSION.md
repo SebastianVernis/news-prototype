@@ -10,16 +10,16 @@ Aunque actualmente solo descargamos y parafraseamos información, este sistema p
 
 ```bash
 # Modo normal (parafraseado rápido)
-python3 main.py
+python3 core/main.py
 
 # Modo expansión de artículos completos
-python3 main.py --expand
+python3 core/main.py --expand
 
 # Modo prueba con expansión (2 artículos, 3 variaciones)
-python3 main.py --test --expand
+python3 core/main.py --test --expand
 
 # Script independiente para probar
-python3 scripts/article-expander.py
+python3 core/scripts/article-expander.py
 ```
 
 ## 📊 Diferencias Entre Modos
@@ -101,7 +101,7 @@ system = NewsAutomationSystem(
 ### Parámetros del Expansor
 
 ```python
-# En scripts/article-expander.py
+# En core/scripts/article-expander.py
 expander = ArticleExpander()
 
 # Expandir un solo artículo
@@ -122,12 +122,12 @@ variations = expander.expand_with_variations(
 
 ### Con Modo Normal
 ```
-data/noticias_paraphrased_YYYYMMDD_HHMM.json
+content/data/noticias_paraphrased_YYYYMMDD_HHMM.json
 ```
 
 ### Con Modo Expansión
 ```
-data/noticias_expanded_YYYYMMDD_HHMM.json
+content/data/noticias_expanded_YYYYMMDD_HHMM.json
 ```
 
 ### Formato de Artículo Expandido
@@ -169,10 +169,10 @@ data/noticias_expanded_YYYYMMDD_HHMM.json
 
 ```bash
 # Modo expansión: 3-5 variaciones (más tiempo, mejor calidad)
-python3 main.py --expand --variations 3
+python3 core/main.py --expand --variations 3
 
 # Modo normal: 40 variaciones (rápido, mucha cantidad)
-python3 main.py --variations 40
+python3 core/main.py --variations 40
 ```
 
 ## ⚙️ Integración con Templates
@@ -191,7 +191,7 @@ Los sitios HTML generados automáticamente mostrarán:
 </div>
 ```
 
-Actualiza `scripts/generate-sites.py` para usar `full_text` completo en página de artículo.
+Actualiza `core/scripts/generate-sites.py` para usar `full_text` completo en página de artículo.
 
 ## 🔍 Validación de Contenido
 
@@ -219,15 +219,15 @@ El expansor garantiza:
 
 ```bash
 # Probar expansor directamente
-cd scripts
+cd core/scripts
 python3 article-expander.py
 
 # Probar con artículo específico
-python3 article-expander.py ../data/noticias_newsapi_*.json
+python3 article-expander.py ../content/data/noticias_newsapi_*.json
 
 # Probar integración completa en modo test
 cd ..
-python3 main.py --test --expand --variations 2
+python3 core/main.py --test --expand --variations 2
 ```
 
 ## 🚨 Limitaciones
@@ -262,7 +262,7 @@ graph TD
 
 ## 📚 Referencias
 
-- Código fuente: `scripts/article-expander.py`
+- Código fuente: `core/scripts/article-expander.py`
 - Integración: `main.py` (líneas 15-24, 67-87, 182-247)
 - Documentación API: `docs/README-APIS.md`
 

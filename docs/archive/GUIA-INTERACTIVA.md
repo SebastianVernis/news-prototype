@@ -9,8 +9,8 @@ Sistema interactivo para crear sitios de noticias de forma intuitiva.
 ### Modo Interactivo (Recomendado)
 
 ```bash
-cd scripts
-python3 generate-sites.py
+cd core/scripts
+python3 core/scripts/generate-sites.py
 ```
 
 El sistema te guiará paso a paso:
@@ -77,9 +77,9 @@ Una vez confirmado, el proceso:
 ```
 🎉 ¡Completado!
 ============================================================
-📁 5 sitios generados en '../sites/'
+📁 5 sitios generados en '../output/sites/'
 👀 Abre site1.html hasta site5.html para ver los resultados
-📦 Metadatos guardados en '../data/sites_metadata/'
+📦 Metadatos guardados en '../content/data/sites_metadata/'
 ```
 
 ---
@@ -92,13 +92,13 @@ Para automatización o scripts:
 
 ```bash
 # Generar 10 sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # Generar 5 sitios con verificación de dominios
-python3 generate-sites.py --cantidad 5 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 5 --verificar-dominios --no-interactivo
 
 # Usar metadatos existentes
-python3 generate-sites.py --cantidad 10 --metadata-file ../data/sites_metadata/sites_metadata_20260108.json
+python3 core/scripts/generate-sites.py --cantidad 10 --metadata-file ../content/data/sites_metadata/sites_metadata_20260108.json
 ```
 
 ### Parámetros Disponibles
@@ -107,7 +107,7 @@ python3 generate-sites.py --cantidad 10 --metadata-file ../data/sites_metadata/s
 |-----------|-------------|---------|
 | `--cantidad N` | Número de sitios (1-100) | `--cantidad 20` |
 | `--verificar-dominios` | Verificar con whois | `--verificar-dominios` |
-| `--metadata-file PATH` | Usar metadatos específicos | `--metadata-file ../data/sites_metadata/archivo.json` |
+| `--metadata-file PATH` | Usar metadatos específicos | `--metadata-file ../content/data/sites_metadata/archivo.json` |
 | `--generar-metadata` | Forzar generación de metadatos | `--generar-metadata` |
 | `--no-interactivo` | Desactivar modo interactivo | `--no-interactivo` |
 
@@ -115,13 +115,13 @@ python3 generate-sites.py --cantidad 10 --metadata-file ../data/sites_metadata/s
 
 ```bash
 # Generar 50 sitios sin verificación (rápido)
-python3 generate-sites.py --cantidad 50 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 50 --no-interactivo
 
 # Generar 10 sitios con verificación whois (lento pero preciso)
-python3 generate-sites.py --cantidad 10 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --verificar-dominios --no-interactivo
 
 # Reutilizar metadatos existentes para 20 sitios
-python3 generate-sites.py --cantidad 20 --metadata-file ../data/sites_metadata/sites_metadata_20260108_161003.json
+python3 core/scripts/generate-sites.py --cantidad 20 --metadata-file ../content/data/sites_metadata/sites_metadata_20260108_161003.json
 ```
 
 ---
@@ -131,8 +131,8 @@ python3 generate-sites.py --cantidad 20 --metadata-file ../data/sites_metadata/s
 ### Caso 1: Desarrollo Rápido (3-5 sitios)
 
 ```bash
-cd scripts
-python3 generate-sites.py
+cd core/scripts
+python3 core/scripts/generate-sites.py
 
 # Responder:
 # Cantidad: 3
@@ -146,8 +146,8 @@ python3 generate-sites.py
 ### Caso 2: Producción Completa (40+ sitios)
 
 ```bash
-cd scripts
-python3 generate-sites.py
+cd core/scripts
+python3 core/scripts/generate-sites.py
 
 # Responder:
 # Cantidad: 40
@@ -161,13 +161,13 @@ python3 generate-sites.py
 ### Caso 3: Verificación Real de Dominios
 
 ```bash
-cd scripts
+cd core/scripts
 
 # Verificar que whois esté instalado
 which whois
 
 # Generar sitios
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 
 # Responder:
 # Cantidad: 10
@@ -181,8 +181,8 @@ python3 generate-sites.py
 ### Caso 4: Reutilizar Nombres Generados
 
 ```bash
-cd scripts
-python3 generate-sites.py
+cd core/scripts
+python3 core/scripts/generate-sites.py
 
 # Responder:
 # Cantidad: 20
@@ -199,8 +199,8 @@ python3 generate-sites.py
 
 ```bash
 # En pipeline de CI/CD
-cd scripts
-python3 generate-sites.py \
+cd core/scripts
+python3 core/scripts/generate-sites.py \
   --cantidad 25 \
   --no-interactivo \
   --generar-metadata
@@ -215,16 +215,16 @@ python3 generate-sites.py \
 
 ```
 news-prototype/
-├── sites/
+├── output/sites/
 │   ├── site1.html          # CCM Journal
 │   ├── site2.html          # Azteca100Report
 │   ├── site3.html          # El Pulso Digital
 │   └── ...
-├── data/
+├── content/data/
 │   └── sites_metadata/
 │       ├── sites_metadata_20260108_161644.json  # Metadatos completos
 │       └── builder_site_20260108_161644_1234.json  # Para site-builder
-└── templates/
+└── content/templates/
     └── css/
         ├── template1.css   # 40 estilos CSS únicos
         └── ...
@@ -237,7 +237,7 @@ news-prototype/
 <html lang="es">
 <head>
     <title>CCM Journal - Noticias de Última Hora</title>
-    <link rel="stylesheet" href="../templates/css/template1.css">
+    <link rel="stylesheet" href="../content/templates/css/template1.css">
 </head>
 <body>
     <header>
@@ -276,7 +276,7 @@ news-prototype/
 
 ### Cambiar Templates CSS por Defecto
 
-Edita `scripts/generate-sites.py`:
+Edita `core/scripts/generate-sites.py`:
 
 ```python
 NUM_TEMPLATES = 40  # Cambiar a tu número de templates
@@ -285,7 +285,7 @@ MAX_TEMPLATES = 100  # Máximo soportado
 
 ### Agregar Más Estilos de Nombres
 
-Edita `scripts/site_name_generator.py` y agrega en los diccionarios:
+Edita `core/scripts/site_name_generator.py` y agrega en los diccionarios:
 
 ```python
 self.prefijos_clasicos = ["El", "La", "Periódico", ...]
@@ -294,7 +294,7 @@ self.nucleos = ["Diario", "Prensa", "Noticias", ...]
 
 ### Personalizar Categorías
 
-Edita `scripts/site_pre_creation.py`:
+Edita `core/scripts/site_pre_creation.py`:
 
 ```python
 def generar_categorias_noticias(self):
@@ -348,7 +348,7 @@ sudo dnf install whois
 
 **Absolutamente**. Los HTML son estáticos:
 - Edita el HTML directamente
-- Modifica CSS en `templates/css/`
+- Modifica CSS en `content/templates/css/`
 - Personaliza metadatos en JSON
 
 ### ¿Cómo reutilizo metadatos?
@@ -397,21 +397,21 @@ sudo apt-get install whois
 
 **Solución**: Verifica que exista:
 ```bash
-ls ../data/noticias_final_*.json
+ls ../content/data/noticias_final_*.json
 ```
 
 ### Los sitios no tienen CSS
 
 **Solución**: Verifica rutas:
 ```bash
-ls ../templates/css/template*.css
+ls ../content/templates/css/template*.css
 ```
 
 ### Modo interactivo no funciona en CI/CD
 
 **Solución**: Usa modo no-interactivo:
 ```bash
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 ---
@@ -421,7 +421,7 @@ python3 generate-sites.py --cantidad 10 --no-interactivo
 ### Desarrollo Local
 ```bash
 # Pocas iteraciones, pruebas rápidas
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 # Cantidad: 3-5
 # Verificar: No
 ```
@@ -429,19 +429,19 @@ python3 generate-sites.py
 ### Testing
 ```bash
 # Batch mediano para QA
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 ### Producción
 ```bash
 # Batch completo con verificación
-python3 generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
 ```
 
 ### CI/CD
 ```bash
 # Automatización completa
-python3 generate-sites.py --cantidad 25 --no-interactivo --generar-metadata
+python3 core/scripts/generate-sites.py --cantidad 25 --no-interactivo --generar-metadata
 ```
 
 ---
@@ -450,15 +450,15 @@ python3 generate-sites.py --cantidad 25 --no-interactivo --generar-metadata
 
 - **Documentación completa**: `docs/SITE-PRE-CREATION.md`
 - **README rápido**: `README-SITE-PRE-CREATION.md`
-- **Scripts de ejemplo**: `scripts/test-interactive.sh`
+- **Scripts de ejemplo**: `core/scripts/test-interactive.sh`
 
 ---
 
 ## 🎉 ¡Comienza Ahora!
 
 ```bash
-cd scripts
-python3 generate-sites.py
+cd core/scripts
+python3 core/scripts/generate-sites.py
 ```
 
 **¡Disfruta creando sitios de noticias únicos! 🚀**

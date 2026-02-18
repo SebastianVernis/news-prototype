@@ -11,15 +11,15 @@
 Politica/
 │
 ├── 📜 Raíz (4 archivos + scripts principales)
-├── 📁 scripts/ (27 scripts Python)
+├── 📁 core/scripts/ (27 scripts Python)
 ├── 📁 docs/ (26 documentos organizados)
 ├── 📁 assets/ (CSS, fuentes, iconos SVG)
-├── 📁 backend/ (API Flask)
-├── 📁 frontend/ (HTML + src)
-├── 📁 data/ (noticias JSON)
-├── 📁 generated_sites/ (sitios generados)
-├── 📁 public/ (recursos públicos)
-└── 📁 templates/ (templates CSS)
+├── 📁 apps/backend/ (API Flask)
+├── 📁 apps/frontend/ (HTML + src)
+├── 📁 content/data/ (noticias JSON)
+├── 📁 output/generated_sites/ (sitios generados)
+├── 📁 output/public/ (recursos públicos)
+└── 📁 content/templates/ (templates CSS)
 ```
 
 ---
@@ -38,27 +38,27 @@ REORGANIZACION-PLAN.md      # Plan de reorganización
 ```
 main.py                     # Orquestador legacy
 news.py                     # Módulo de noticias
-menu.py                     # Menú interactivo (ACTUALIZADO)
-menu.sh                     # Menú bash
+core/menu.py                     # Menú interactivo (ACTUALIZADO)
+core/menu.sh                     # Menú bash
 ```
 
 ### Configuración
 ```
-package.json                # Dependencias Node.js
-requirements.txt            # Dependencias Python
-render.yaml                 # Config Render.com
-vite.config.js              # Config Vite
+apps/frontend/package.json  # Dependencias Node.js
+core/requirements.txt        # Dependencias Python
+infra/render.yaml            # Config Render.com
+apps/frontend/vite.config.js # Config Vite
 .gitignore, .renderignore   # Ignorar archivos
 ```
 
 ---
 
-## 📁 scripts/ (27 archivos)
+## 📁 core/scripts/ (27 archivos)
 
 ### Flujo Principal
 ```
 master_orchestrator.py      # ⭐ Orquestador completo (ACTUALIZADO)
-menu.py                     # Menú interactivo
+core/menu.py                     # Menú interactivo
 ```
 
 ### Generadores de Diseño (Sprint 1)
@@ -196,25 +196,25 @@ assets/
 
 ## 📁 Otras Carpetas
 
-### backend/
+### apps/backend/
 ```
 app.py                       # Flask API
-requirements.txt             # Deps backend
+apps/backend/requirements.txt # Deps backend
 ```
 
-### frontend/
+### apps/frontend/
 ```
 index.html                   # HTML principal
 src/                         # Fuentes frontend
 ```
 
-### data/
+### content/data/
 ```
 noticias.txt                 # Datos de prueba
 noticias_*.json              # Noticias descargadas
 ```
 
-### generated_sites/
+### output/generated_sites/
 ```
 site_1/                      # Sitio generado 1
 site_2/                      # Sitio generado 2
@@ -223,14 +223,14 @@ site_N/                      # Sitio N
 test_logos/                  # Logos de prueba
 ```
 
-### public/
+### output/public/
 ```
 images/                      # Imágenes públicas
-sites/                       # Sitios de referencia
-templates/                   # Templates base
+output/sites/                       # Sitios de referencia
+content/templates/                   # Templates base
 ```
 
-### templates/
+### content/templates/
 ```
 css/                         # Templates CSS generados
 ```
@@ -246,7 +246,7 @@ cat README.md
 cat QUICK-COMMANDS.md
 
 # Generar sitio
-python3 menu.py  # Opción 1 → 1
+python3 core/menu.py  # Opción 1 → 1
 ```
 
 ### Para Desarrolladores
@@ -333,8 +333,8 @@ grep -r "NewsAPI" docs/integration/
 - **Quick start**: [docs/QUICKSTART.md](docs/QUICKSTART.md)
 
 ### Código
-- **Master orchestrator**: [scripts/master_orchestrator.py](scripts/master_orchestrator.py)
-- **Logo SVG**: [scripts/logo_generator_svg.py](scripts/logo_generator_svg.py)
+- **Master orchestrator**: [core/scripts/master_orchestrator.py](core/scripts/master_orchestrator.py)
+- **Logo SVG**: [core/scripts/logo_generator_svg.py](core/scripts/logo_generator_svg.py)
 - **Variables CSS**: [assets/css/variables-base.css](assets/css/variables-base.css)
 
 ---

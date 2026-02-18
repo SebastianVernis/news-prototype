@@ -129,7 +129,7 @@ BLACKBOX_MODEL_FREE="blackboxai/x-ai/grok-code-fast-1:free"
 
 ### Generar 1 Sitio Completo (100 artículos)
 ```bash
-python3 scripts/master_orchestrator.py
+python3 core/scripts/master_orchestrator.py
 ```
 - 20 destacados + 80 placeholders
 - Sistema paralelo
@@ -137,7 +137,7 @@ python3 scripts/master_orchestrator.py
 
 ### Generar 4 Sitios (20 artículos cada uno)
 ```bash
-python3 scripts/generar_4_sitios_completos.py
+python3 core/scripts/generar_4_sitios_completos.py
 ```
 - 3 destacados + 17 placeholders por sitio
 - Layouts diferentes
@@ -145,7 +145,7 @@ python3 scripts/generar_4_sitios_completos.py
 
 ### Test de 2 por Categoría
 ```bash
-python3 scripts/test/test_2_articulos_por_categoria.py
+python3 core/scripts/test/test_2_articulos_por_categoria.py
 ```
 - 14 artículos distribuidos
 - Validación rápida

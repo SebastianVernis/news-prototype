@@ -34,7 +34,7 @@
 - ✅ Añadido link a `docs/README.md`
 - ✅ Versión actualizada a 2.1
 
-#### menu.py
+#### core/menu.py
 - ✅ Reorganizado menú de documentación (10 opciones)
 - ✅ Agregadas nuevas opciones:
   - MENU-PRINCIPAL.md (opción 3)
@@ -99,7 +99,7 @@ docs/
 
 ### Desde el Menú Interactivo
 ```bash
-./menu.py
+./core/menu.py
 # → 3 (Documentación)
 ```
 
@@ -162,7 +162,7 @@ ls -1 docs/*.md
 ls -1 docs/archive/deprecated-2026-01-16/
 
 # Probar menú
-./menu.py
+./core/menu.py
 # → 3 → 10 (Ver índice docs técnicos)
 ```
 

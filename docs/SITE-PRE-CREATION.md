@@ -92,7 +92,7 @@ sudo dnf install whois
 
 ### Instalar Módulos
 
-Los módulos están en `scripts/`:
+Los módulos están en `core/scripts/`:
 - `site_name_generator.py`
 - `domain_verifier.py`
 - `site_pre_creation.py`
@@ -106,7 +106,7 @@ No requieren dependencias adicionales más allá de las del proyecto principal.
 ### Generar Nombres de Sitios
 
 ```bash
-cd scripts
+cd core/scripts
 python3 site_name_generator.py
 ```
 
@@ -132,7 +132,7 @@ python3 site_name_generator.py
 ### Verificar Dominios
 
 ```bash
-cd scripts
+cd core/scripts
 python3 domain_verifier.py
 ```
 
@@ -152,13 +152,13 @@ Verificando 2/2: ejemplo-no-existe-xyz123456789.com... ✅ DISPONIBLE
 ### Generar Metadatos Completos
 
 ```bash
-cd scripts
+cd core/scripts
 
 # Generar 5 sitios sin verificar dominios
-python3 site_pre_creation.py --cantidad 5
+python3 core/scripts/site_pre_creation.py --cantidad 5
 
 # Generar 5 sitios verificando dominios
-python3 site_pre_creation.py --cantidad 5 --verificar-dominios
+python3 core/scripts/site_pre_creation.py --cantidad 5 --verificar-dominios
 ```
 
 **Salida:**
@@ -177,14 +177,14 @@ python3 site_pre_creation.py --cantidad 5 --verificar-dominios
    Disponible: ✅
 ...
 
-💾 Metadatos guardados en: ../data/sites_metadata/sites_metadata_20260108_1430.json
+💾 Metadatos guardados en: ../content/data/sites_metadata/sites_metadata_20260108_1430.json
 
 📊 Resumen:
    Total de sitios: 5
    Dominios verificados: 5
    Dominios disponibles: 4
 
-📦 Ejemplo para site-builder: ../data/sites_metadata/builder_site_20260108_1430_1234.json
+📦 Ejemplo para site-builder: ../content/data/sites_metadata/builder_site_20260108_1430_1234.json
 
 ✅ ¡Proceso completado!
 ```
@@ -198,16 +198,16 @@ python3 site_pre_creation.py --cantidad 5 --verificar-dominios
 El generador de sitios ahora soporta metadatos:
 
 ```bash
-cd scripts
+cd core/scripts
 
 # Generar metadatos y crear sitios HTML
-python3 generate-sites.py --generar-metadata
+python3 core/scripts/generate-sites.py --generar-metadata
 
 # Generar metadatos con verificación de dominios
-python3 generate-sites.py --generar-metadata --verificar-dominios
+python3 core/scripts/generate-sites.py --generar-metadata --verificar-dominios
 
 # Usar archivo de metadatos específico
-python3 generate-sites.py --metadata-file ../data/sites_metadata/sites_metadata_20260108_1430.json
+python3 core/scripts/generate-sites.py --metadata-file ../content/data/sites_metadata/sites_metadata_20260108_1430.json
 ```
 
 ### Uso Programático
@@ -216,7 +216,7 @@ python3 generate-sites.py --metadata-file ../data/sites_metadata/sites_metadata_
 from site_pre_creation import SitePreCreation
 
 # Crear protocolo
-protocolo = SitePreCreation(output_dir="../data/sites_metadata")
+protocolo = SitePreCreation(output_dir="../content/data/sites_metadata")
 
 # Generar un sitio
 metadata = protocolo.crear_metadata_sitio(
@@ -453,13 +453,13 @@ create_site(
 ### Ejemplo 1: Flujo Completo con Verificación
 
 ```bash
-cd scripts
+cd core/scripts
 
 # 1. Generar metadatos con verificación de dominios
-python3 site_pre_creation.py --cantidad 10 --verificar-dominios
+python3 core/scripts/site_pre_creation.py --cantidad 10 --verificar-dominios
 
 # 2. Generar sitios HTML usando los metadatos
-python3 generate-sites.py --metadata-file ../data/sites_metadata/sites_metadata_TIMESTAMP.json
+python3 core/scripts/generate-sites.py --metadata-file ../content/data/sites_metadata/sites_metadata_TIMESTAMP.json
 
 # 3. Ver resultados
 cd ../sites
@@ -469,22 +469,22 @@ ls -la
 ### Ejemplo 2: Generación Rápida sin Verificación
 
 ```bash
-cd scripts
+cd core/scripts
 
 # Todo en un comando
-python3 generate-sites.py --generar-metadata
+python3 core/scripts/generate-sites.py --generar-metadata
 ```
 
 ### Ejemplo 3: Solo Metadatos para Uso Posterior
 
 ```bash
-cd scripts
+cd core/scripts
 
 # Generar 50 metadatos de sitios
-python3 site_pre_creation.py --cantidad 50 --output ../data/sites_pool
+python3 core/scripts/site_pre_creation.py --cantidad 50 --output ../content/data/sites_pool
 
 # Usar más tarde
-python3 generate-sites.py --metadata-file ../data/sites_pool/sites_metadata_*.json
+python3 core/scripts/generate-sites.py --metadata-file ../content/data/sites_pool/sites_metadata_*.json
 ```
 
 ### Ejemplo 4: Personalización Avanzada
@@ -644,6 +644,6 @@ MIT License - Parte del proyecto news-prototype
 
 ```bash
 # Inicio rápido
-cd scripts
-python3 site_pre_creation.py --cantidad 10
+cd core/scripts
+python3 core/scripts/site_pre_creation.py --cantidad 10
 ```

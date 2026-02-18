@@ -4,13 +4,13 @@
 
 ```bash
 # Generar 1 sitio completo (2-3 minutos)
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # Con verificación de dominios (más lento)
-python scripts/master_orchestrator.py --verificar-dominios
+python core/scripts/master_orchestrator.py --verificar-dominios
 
 # Usar cache de noticias
-python scripts/master_orchestrator.py --usar-cache
+python core/scripts/master_orchestrator.py --usar-cache
 ```
 
 ---
@@ -24,7 +24,7 @@ INPUT:
 └── Categoría: "tecnología"
 
 OUTPUT:
-generated_sites/site_1/
+output/generated_sites/site_1/
 ├── index.html (1)
 ├── article_1.html ... article_20.html (20)
 ├── terminos.html, privacidad.html, faqs.html, acerca.html (4)
@@ -172,7 +172,7 @@ NEWS_API_KEY=your_newsapi_key_here  # Opcional con --usar-cache
 ### Antes de generar:
 - [ ] `.env` configurado con API keys
 - [ ] Python 3.8+ instalado
-- [ ] Dependencias instaladas: `pip install -r requirements.txt`
+- [ ] Dependencias instaladas: `pip install -r core/requirements.txt`
 
 ### Archivos generados:
 - [ ] 1 index.html
@@ -183,7 +183,7 @@ NEWS_API_KEY=your_newsapi_key_here  # Opcional con --usar-cache
 - [ ] 20 images/news_N.jpg
 
 ### Verificación visual:
-- [ ] Abrir `generated_sites/site_1/index.html` en navegador
+- [ ] Abrir `output/generated_sites/site_1/index.html` en navegador
 - [ ] Verificar grid de noticias
 - [ ] Clic en artículo → verificar sidebar
 - [ ] Verificar páginas legales en footer

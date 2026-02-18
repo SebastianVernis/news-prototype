@@ -38,22 +38,22 @@ Automatizar completamente la creación de sitios de noticias profesionales:
                ▼
 ┌─────────────────────────────────────┐
 │  Descarga de Noticias               │
-│  scripts/api/newsapi.py             │
-│  scripts/api/newsdata.py            │
-│  scripts/api/worldnews.py           │
+│  core/scripts/api/newsapi.py             │
+│  core/scripts/api/newsdata.py            │
+│  core/scripts/api/worldnews.py           │
 └──────────────┬──────────────────────┘
                │
                ▼
 ┌─────────────────────────────────────┐
 │  Noticias Originales JSON           │
-│  data/noticias_[api]_[fecha].json   │
+│  content/data/noticias_[api]_[fecha].json   │
 └─────────────────────────────────────┘
 ```
 
 **Comando:**
 ```bash
-cd scripts
-python3 main.py --api newsapi --articles 5
+cd core/scripts
+python3 core/main.py --api newsapi --articles 5
 ```
 
 **Resultado:**
@@ -73,7 +73,7 @@ python3 main.py --api newsapi --articles 5
                ▼
 ┌─────────────────────────────────────┐
 │  Parafraseo con Blackbox AI         │
-│  scripts/paraphrase.py              │
+│  core/scripts/paraphrase.py              │
 │                                     │
 │  • Genera 40 variaciones/noticia   │
 │  • Mantiene contexto y datos       │
@@ -83,7 +83,7 @@ python3 main.py --api newsapi --articles 5
                ▼
 ┌─────────────────────────────────────┐
 │  Noticias Parafraseadas JSON        │
-│  data/noticias_paraphrased_[fecha]  │
+│  content/data/noticias_paraphrased_[fecha]  │
 │                                     │
 │  5 originales × 40 variaciones      │
 │  = 200 noticias únicas              │
@@ -92,7 +92,7 @@ python3 main.py --api newsapi --articles 5
 
 **Comando:**
 ```bash
-cd scripts
+cd core/scripts
 python3 paraphrase.py
 ```
 
@@ -113,7 +113,7 @@ python3 paraphrase.py
                ▼
 ┌─────────────────────────────────────┐
 │  Generación de Imágenes AI          │
-│  scripts/generate-images-ai.py      │
+│  core/scripts/generate-images-ai.py      │
 │                                     │
 │  • Modelo: Flux Schnell             │
 │  • Prompts basados en título        │
@@ -124,13 +124,13 @@ python3 paraphrase.py
 ┌─────────────────────────────────────┐
 │  Imágenes PNG + JSON Actualizado    │
 │  images/news/article_[id]_[var].jpg │
-│  data/noticias_final_[fecha].json   │
+│  content/data/noticias_final_[fecha].json   │
 └─────────────────────────────────────┘
 ```
 
 **Comando:**
 ```bash
-cd scripts
+cd core/scripts
 python3 generate-images-ai.py
 ```
 
@@ -146,7 +146,7 @@ python3 generate-images-ai.py
 ```
 ┌─────────────────────────────────────┐
 │  Protocolo de Pre-Creación          │
-│  scripts/site_pre_creation.py       │
+│  core/scripts/site_pre_creation.py       │
 └──────────────┬──────────────────────┘
                │
                ▼
@@ -164,15 +164,15 @@ python3 generate-images-ai.py
                ▼
 ┌─────────────────────────────────────┐
 │  Metadatos JSON por Sitio           │
-│  data/sites_metadata/               │
+│  content/data/sites_metadata/               │
 │    sites_metadata_[fecha].json      │
 └─────────────────────────────────────┘
 ```
 
 **Comando:**
 ```bash
-cd scripts
-python3 site_pre_creation.py --cantidad 10 --verificar-dominios
+cd core/scripts
+python3 core/scripts/site_pre_creation.py --cantidad 10 --verificar-dominios
 ```
 
 **Estructura de Metadatos:**
@@ -209,7 +209,7 @@ python3 site_pre_creation.py --cantidad 10 --verificar-dominios
                ▼
 ┌─────────────────────────────────────┐
 │  Generador de Sitios                │
-│  scripts/generate-sites.py          │
+│  core/scripts/generate-sites.py          │
 │                                     │
 │  ┌───────────────────────────────┐ │
 │  │ Layout Generator              │ │
@@ -223,17 +223,17 @@ python3 site_pre_creation.py --cantidad 10 --verificar-dominios
                ▼
 ┌─────────────────────────────────────┐
 │  Sitios HTML Generados              │
-│  sites/site1.html                   │
-│  sites/site2.html                   │
+│  output/sites/site1.html                   │
+│  output/sites/site2.html                   │
 │  ...                                │
-│  sites/site[N].html                 │
+│  output/sites/site[N].html                 │
 └─────────────────────────────────────┘
 ```
 
 **Comando Principal:**
 ```bash
-cd scripts
-python3 generate-sites.py
+cd core/scripts
+python3 core/scripts/generate-sites.py
 ```
 
 **Modo Interactivo:**
@@ -245,13 +245,13 @@ python3 generate-sites.py
 **Modo CLI (No Interactivo):**
 ```bash
 # Generar 10 sitios rápido
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # Generar 40 sitios con verificación
-python3 generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 40 --verificar-dominios --no-interactivo
 
 # Usar metadatos específicos
-python3 generate-sites.py --cantidad 20 --metadata-file ../data/sites_metadata/sites_metadata_20260108.json
+python3 core/scripts/generate-sites.py --cantidad 20 --metadata-file ../content/data/sites_metadata/sites_metadata_20260108.json
 ```
 
 ---
@@ -380,38 +380,38 @@ python3 generate-sites.py --cantidad 20 --metadata-file ../data/sites_metadata/s
 
 ```bash
 # Paso 1: Descargar noticias
-cd scripts
-python3 main.py --api newsapi --articles 5
+cd core/scripts
+python3 core/main.py --api newsapi --articles 5
 
 # Paso 2: Parafrasear (ya incluido en main.py)
 # Paso 3: Generar imágenes (ya incluido en main.py)
 
 # Paso 4: Generar sitios (modo interactivo)
-python3 generate-sites.py
+python3 core/scripts/generate-sites.py
 ```
 
 ### **2. Generación Rápida de Sitios**
 
 ```bash
-cd scripts
+cd core/scripts
 ./run.sh  # Modo interactivo
 
 # O modo no-interactivo
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 ### **3. Generación Masiva (Producción)**
 
 ```bash
-cd scripts
-python3 generate-sites.py --cantidad 100 --no-interactivo
+cd core/scripts
+python3 core/scripts/generate-sites.py --cantidad 100 --no-interactivo
 ```
 
 ### **4. Con Verificación de Dominios**
 
 ```bash
-cd scripts
-python3 generate-sites.py --cantidad 20 --verificar-dominios --no-interactivo
+cd core/scripts
+python3 core/scripts/generate-sites.py --cantidad 20 --verificar-dominios --no-interactivo
 ```
 
 ---
@@ -450,7 +450,7 @@ python3 generate-sites.py --cantidad 20 --verificar-dominios --no-interactivo
 
 ```
 news-prototype/
-├── scripts/
+├── core/scripts/
 │   ├── generate-sites.py         # ⭐ Generador principal
 │   ├── layout_generator.py       # Layouts dinámicos (AMPLIADO)
 │   ├── site_pre_creation.py      # Pre-creación de sitios
@@ -459,12 +459,12 @@ news-prototype/
 │   ├── generate-images-ai.py     # Generación de imágenes
 │   └── api/                      # Scripts de APIs
 │
-├── data/
+├── content/data/
 │   ├── noticias_final_[fecha].json      # Noticias finales
 │   └── sites_metadata/                  # Metadatos de sitios
 │       └── sites_metadata_[fecha].json
 │
-├── sites/                        # ⭐ Sitios HTML generados
+├── output/sites/                        # ⭐ Sitios HTML generados
 │   ├── site1.html
 │   ├── site2.html
 │   └── ...
@@ -472,7 +472,7 @@ news-prototype/
 ├── images/
 │   └── news/                     # Imágenes generadas
 │
-└── templates/
+└── content/templates/
     └── css/                      # 40+ templates CSS
 ```
 
@@ -501,8 +501,8 @@ news-prototype/
 ### **Prueba Realizada**
 
 ```bash
-cd scripts
-python3 generate-sites.py --cantidad 10 --no-interactivo
+cd core/scripts
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 **Resultado:**

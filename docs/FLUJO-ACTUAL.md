@@ -90,7 +90,7 @@ def generar_metadata_logo():
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Opción 1: Usando script individual de API
-python3 api/newsapi.py --size 5
+python3 core/scripts/api/newsapi.py --size 5
 
 # Luego parafrasear
 python3 paraphrase.py
@@ -99,7 +99,7 @@ python3 paraphrase.py
 python3 generate-images-ai.py
 
 # Finalmente generar sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 ### **O usando el script de múltiples APIs:**
@@ -108,7 +108,7 @@ cd /home/sebastianvernis/news-prototype/scripts
 ./run_all_apis.sh test  # Descarga de 4 APIs
 python3 paraphrase.py
 python3 generate-images-ai.py
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 ```
 
 ---
@@ -195,7 +195,7 @@ python3 generate-sites.py --cantidad 10 --no-interactivo
 cd /home/sebastianvernis/news-prototype/scripts
 
 # 2. Descargar noticias (una API)
-python3 api/newsapi.py --size 5
+python3 core/scripts/api/newsapi.py --size 5
 
 # 3. Parafrasear
 python3 paraphrase.py
@@ -204,7 +204,7 @@ python3 paraphrase.py
 python3 generate-images-ai.py
 
 # 5. Generar sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # Resultado: 10 sitios HTML completos (sin logos de imagen)
 ```

@@ -7,7 +7,7 @@
 source venv/bin/activate
 
 # 2. Ejecutar flujo completo de prueba (2 artículos, 5 variaciones)
-python3 main.py --api newsapi --test
+python3 core/main.py --api newsapi --test
 
 # Resultado: 10 artículos con imágenes en ~3 minutos
 ```
@@ -20,7 +20,7 @@ python3 main.py --api newsapi --test
 
 ```bash
 # NewsAPI - 20 artículos
-python3 newsapi.py --size 20
+python3 core/scripts/api/newsapi.py --size 20
 
 # WorldNews - 20 artículos
 python3 worldnews.py --size 20
@@ -35,10 +35,10 @@ bash run_all_apis.sh test
 
 ```bash
 # Modo test: 2 artículos, 5 variaciones = 10 posts
-python3 main.py --api newsapi --test
+python3 core/main.py --api newsapi --test
 
 # Modo normal: 5 artículos, 40 variaciones = 200 posts
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 ```
 
 **Salida:**
@@ -63,7 +63,7 @@ bash run_all_apis.sh
 ### Para Redes Sociales (10 posts únicos)
 
 ```bash
-python3 main.py --api worldnews --articles 2 --variations 5
+python3 core/main.py --api worldnews --articles 2 --variations 5
 ```
 
 **Tiempo:** ~3 minutos  
@@ -72,7 +72,7 @@ python3 main.py --api worldnews --articles 2 --variations 5
 ### Para Blog (50 artículos variados)
 
 ```bash
-python3 main.py --api newsapi --articles 5 --variations 10
+python3 core/main.py --api newsapi --articles 5 --variations 10
 ```
 
 **Tiempo:** ~8 minutos  
@@ -81,7 +81,7 @@ python3 main.py --api newsapi --articles 5 --variations 10
 ### Para Campaña Masiva (200 posts)
 
 ```bash
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 ```
 
 **Tiempo:** ~45 minutos  
@@ -138,7 +138,7 @@ echo 'NEWSAPI_KEY="tu_api_key"' >> .env
 ```bash
 # Reinstala dependencias
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r core/requirements.txt
 ```
 
 ### Error: "Blackbox API 400"
@@ -174,7 +174,7 @@ python3 list_blackbox_models.py
 
 ```bash
 # El comando que usarás el 90% del tiempo
-python3 main.py --api newsapi --articles 5 --variations 40
+python3 core/main.py --api newsapi --articles 5 --variations 40
 ```
 
 **¿Por qué?**

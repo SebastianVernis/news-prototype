@@ -40,7 +40,7 @@ cd /home/sebastianvernis/news-prototype/scripts
 cd /home/sebastianvernis/news-prototype/scripts
 
 # NewsAPI (recomendado)
-python3 api/newsapi.py --size 5
+python3 core/scripts/api/newsapi.py --size 5
 
 # O usar otras APIs
 python3 api/newsdata.py --size 5
@@ -110,13 +110,13 @@ python3 generate-images-ai.py
 cd /home/sebastianvernis/news-prototype/scripts
 
 # Generar 10 sitios
-python3 generate-sites.py --cantidad 10 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 10 --no-interactivo
 
 # O más sitios
-python3 generate-sites.py --cantidad 40 --no-interactivo
+python3 core/scripts/generate-sites.py --cantidad 40 --no-interactivo
 ```
 
-**Output:** `../sites/site1.html` hasta `site10.html`
+**Output:** `../output/sites/site1.html` hasta `site10.html`
 
 ---
 
@@ -152,7 +152,7 @@ cat noticias_paraphrased.json | jq length
 ls -1 ../images/news/*.jpg | wc -l
 
 # Ver sitios generados
-ls -lh ../sites/*.html
+ls -lh ../output/sites/*.html
 ```
 
 ---
@@ -166,7 +166,7 @@ ls -lh ../sites/*.html
 ```bash
 # Descargar noticias primero
 cd /home/sebastianvernis/news-prototype/scripts
-python3 api/newsapi.py --size 5
+python3 core/scripts/api/newsapi.py --size 5
 ```
 
 ### **Error: BLACKBOX_API_KEY no encontrada**
@@ -185,10 +185,10 @@ NEWSAPI_KEY=tu_key_aqui
 
 | Paso | Archivo | Ubicación | Cantidad |
 |------|---------|-----------|----------|
-| 1. Descarga | `newsapi_*.json` | `scripts/` | 5 noticias |
-| 2. Parafraseo | `noticias_paraphrased.json` | `scripts/` | 200 artículos |
+| 1. Descarga | `newsapi_*.json` | `core/scripts/` | 5 noticias |
+| 2. Parafraseo | `noticias_paraphrased.json` | `core/scripts/` | 200 artículos |
 | 3. Imágenes | `article_*.jpg` | `images/news/` | 200 imágenes |
-| 4. Sitios | `site*.html` | `sites/` | 10 sitios |
+| 4. Sitios | `site*.html` | `output/sites/` | 10 sitios |
 
 ---
 

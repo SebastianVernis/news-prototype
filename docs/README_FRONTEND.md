@@ -22,11 +22,12 @@ Interfaz web moderna para gestionar la creación y administración de sitios de 
 ## 📦 Instalación
 
 ```bash
-# Instalar dependencias
+# Instalar dependencias frontend
+cd apps/frontend
 npm install
 
 # Instalar backend
-npm run backend:install
+pip install -r apps/backend/requirements.txt
 ```
 
 ## 🚀 Uso
@@ -35,10 +36,11 @@ npm run backend:install
 
 ```bash
 # Terminal 1: Iniciar frontend
+cd apps/frontend
 npm run dev
 
 # Terminal 2: Iniciar backend
-npm run backend
+python3 apps/backend/app.py
 ```
 
 La aplicación estará disponible en:
@@ -49,6 +51,7 @@ La aplicación estará disponible en:
 
 ```bash
 # Construir para producción
+cd apps/frontend
 npm run build
 
 # Vista previa de producción
@@ -58,7 +61,7 @@ npm run preview
 ## 📁 Estructura del Proyecto
 
 ```
-frontend/
+apps/frontend/
 ├── src/
 │   ├── components/          # Componentes reutilizables
 │   │   └── Header.jsx       # Navegación principal
@@ -75,7 +78,7 @@ frontend/
 ├── index.html              # HTML base
 └── .env.example            # Variables de entorno
 
-backend/
+apps/backend/
 ├── app.py                  # Servidor Flask
 └── requirements.txt        # Dependencias Python
 ```
@@ -150,7 +153,7 @@ VITE_API_URL=http://localhost:5000/api
 
 ### Colores
 
-Los colores se definen en `frontend/src/index.css`:
+Los colores se definen en `apps/frontend/src/index.css`:
 
 ```css
 :root {
@@ -179,7 +182,7 @@ Cada componente tiene su propio archivo CSS para facilitar la personalización:
 
 1. Verifica que el backend esté corriendo en el puerto 5000
 2. Revisa la configuración de `VITE_API_URL` en `.env`
-3. Verifica CORS en `backend/app.py`
+3. Verifica CORS en `apps/backend/app.py`
 
 ### Error al generar sitios
 

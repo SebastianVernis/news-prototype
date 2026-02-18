@@ -9,33 +9,33 @@
 ### Archivos Actualizados (6)
 
 #### Scripts Principales
-1. **`scripts/master_orchestrator.py`** ⭐
+1. **`core/scripts/master_orchestrator.py`** ⭐
    - Cambiado `prefer_ai=False` (NewsAPI primero)
    - Actualizado logging de imágenes
    - Pasa objeto `article` completo al generador
 
-2. **`scripts/generate-interactive.py`**
+2. **`core/scripts/generate-interactive.py`**
    - Actualizado mensaje de generación
    - Refleja nueva estrategia NewsAPI → fallbacks
 
 #### Generadores
-3. **`scripts/generate-images-newsapi.py`** (NUEVO)
+3. **`core/scripts/generate-images-newsapi.py`** (NUEVO)
    - Descarga imágenes originales de NewsAPI
    - Fallback a Picsum con seed del título
    - 100% compatible con flujo existente
 
-4. **`scripts/generate-images-unified.py`** ⭐
+4. **`core/scripts/generate-images-unified.py`** ⭐
    - Nueva estrategia: NewsAPI → IA → Unsplash
    - `prefer_ai=False` por defecto
    - Método `generate_image()` acepta parámetro `article`
 
 #### Tests
-5. **`scripts/test/test_newsapi_images.py`** (NUEVO)
+5. **`core/scripts/test/test_newsapi_images.py`** (NUEVO)
    - Test completo del generador NewsAPI
    - Verifica descarga de imágenes reales
    - Verifica fallback a Picsum
 
-6. **`scripts/test/test_image_fallback.py`**
+6. **`core/scripts/test/test_image_fallback.py`**
    - Actualizado para nueva estrategia
    - Verifica NewsAPI → IA → Unsplash → Picsum
    - Incluye imágenes reales de NewsAPI en test
@@ -59,10 +59,10 @@ PRIORIDAD 4: Picsum (placeholder con seed)
 ### Master Orchestrator
 
 ```python
-# scripts/master_orchestrator.py:98
+# core/scripts/master_orchestrator.py:98
 self.image_generator = UnifiedImageGenerator(prefer_ai=False)
 
-# scripts/master_orchestrator.py:291
+# core/scripts/master_orchestrator.py:291
 image_path = self.image_generator.generate_image(
     prompt, 
     article_id, 
@@ -74,7 +74,7 @@ image_path = self.image_generator.generate_image(
 ### Unified Generator
 
 ```python
-# scripts/generate-images-unified.py:46
+# core/scripts/generate-images-unified.py:46
 def __init__(self, output_dir='generated_images', prefer_ai: bool = False):
     # prefer_ai=False → NewsAPI primero (recomendado)
     self.newsapi_generator = NewsAPIImageGenerator(output_dir)
@@ -92,7 +92,7 @@ def __init__(self, output_dir='generated_images', prefer_ai: bool = False):
 ### Test 1: NewsAPI Images (Nuevo)
 
 ```bash
-$ python scripts/test/test_newsapi_images.py
+$ python core/scripts/test/test_newsapi_images.py
 
 ✅ Módulo NewsAPIImageGenerator importado
 ✅ NewsAPIImageGenerator creado
@@ -106,7 +106,7 @@ $ python scripts/test/test_newsapi_images.py
 ### Test 2: Image Fallback (Actualizado)
 
 ```bash
-$ python scripts/test/test_image_fallback.py
+$ python core/scripts/test/test_image_fallback.py
 
 ✅ UnifiedImageGenerator creado
 📊 Estrategia: NewsAPI → IA → Unsplash
@@ -156,10 +156,10 @@ $ python -c "from master_orchestrator import MasterOrchestrator; ..."
 
 ```bash
 # Genera sitios completos con imágenes de NewsAPI
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # O con el menú interactivo
-./menu.py
+./core/menu.py
 # → 1 (Generación) → 1 (Generar rápido)
 ```
 
@@ -167,23 +167,23 @@ python scripts/master_orchestrator.py
 
 ```bash
 # NewsAPI directo
-python scripts/generate-images-newsapi.py
+python core/scripts/generate-images-newsapi.py
 
 # Unified con fallbacks
-python scripts/generate-images-unified.py
+python core/scripts/generate-images-unified.py
 ```
 
 ### Tests
 
 ```bash
 # Test específico de NewsAPI
-python scripts/test/test_newsapi_images.py
+python core/scripts/test/test_newsapi_images.py
 
 # Test de fallback múltiple
-python scripts/test/test_image_fallback.py
+python core/scripts/test/test_image_fallback.py
 
 # Test end-to-end reducido
-python scripts/test/test_flujo_completo.py
+python core/scripts/test/test_flujo_completo.py
 ```
 
 ---
@@ -192,7 +192,7 @@ python scripts/test/test_flujo_completo.py
 
 ### Nuevos
 ```
-scripts/
+core/scripts/
 ├── generate-images-newsapi.py        ⭐ Generador NewsAPI (nuevo)
 └── test/
     └── test_newsapi_images.py        ⭐ Test NewsAPI (nuevo)
@@ -200,7 +200,7 @@ scripts/
 
 ### Modificados
 ```
-scripts/
+core/scripts/
 ├── master_orchestrator.py            ✏️ prefer_ai=False, pasa article
 ├── generate-interactive.py           ✏️ Mensajes actualizados
 ├── generate-images-unified.py        ✏️ NewsAPI primero, article param
@@ -210,7 +210,7 @@ scripts/
 
 ### Sin Cambios (Compatibilidad)
 ```
-scripts/
+core/scripts/
 ├── generate-images-ai.py             📄 IA standalone
 ├── generate-images-unsplash.py       📄 Unsplash standalone
 └── generate-images.py                📄 Legacy
@@ -269,11 +269,11 @@ python -c "from scripts.generate_images_unified import UnifiedImageGenerator; pr
 python -c "from scripts.master_orchestrator import MasterOrchestrator; o = MasterOrchestrator(); print(f'prefer_ai: {o.image_generator.prefer_ai}')"
 
 # 3. Ejecutar tests
-python scripts/test/test_newsapi_images.py
-python scripts/test/test_image_fallback.py
+python core/scripts/test/test_newsapi_images.py
+python core/scripts/test/test_image_fallback.py
 
 # 4. Test end-to-end
-python scripts/master_orchestrator.py --usar-cache
+python core/scripts/master_orchestrator.py --usar-cache
 ```
 
 ---
@@ -332,19 +332,19 @@ python scripts/master_orchestrator.py --usar-cache
 
 ```bash
 # Generación completa (20 noticias, 1 sitio)
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # Generación rápida con cache
-python scripts/master_orchestrator.py --usar-cache
+python core/scripts/master_orchestrator.py --usar-cache
 
 # Modo interactivo
-./menu.py
+./core/menu.py
 
 # Ver sitios generados
-ls -lh generated_sites/site_1/images/
+ls -lh output/generated_sites/site_1/images/
 
 # Servir sitio local
-cd generated_sites/site_1 && python -m http.server 8001
+cd output/generated_sites/site_1 && python -m http.server 8001
 ```
 
 ---

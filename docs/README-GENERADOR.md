@@ -31,20 +31,20 @@ echo "BLACKBOX_API_KEY=tu_api_key" > .env
 echo "NEWS_API_KEY=tu_api_key" >> .env
 
 # 2. Instalar dependencias
-pip install -r requirements.txt
+pip install -r core/requirements.txt
 
 # 3. Generar sitio
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 ```
 
-¡Listo! Tu sitio está en `generated_sites/site_1/`
+¡Listo! Tu sitio está en `output/generated_sites/site_1/`
 
 ---
 
 ## 📊 Output
 
 ```
-generated_sites/site_1/
+output/generated_sites/site_1/
 ├── 📄 index.html              ← Página principal (12 noticias)
 ├── 📄 article_1.html          ← Artículo completo (800 palabras)
 ├── 📄 article_2.html          
@@ -122,35 +122,35 @@ TOTAL: ~2-3 minutos
 
 ### Usando Menú Interactivo (RECOMENDADO)
 ```bash
-./menu.sh
+./core/menu.sh
 # → Seleccionar opción del menú
 ```
 
 ### CLI Directo
 ```bash
 # Básico (sin verificar dominios)
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # Con verificación de dominios (requiere whois)
-python scripts/master_orchestrator.py --verificar-dominios
+python core/scripts/master_orchestrator.py --verificar-dominios
 
 # Usar noticias en cache
-python scripts/master_orchestrator.py --usar-cache
+python core/scripts/master_orchestrator.py --usar-cache
 
 # Directorio personalizado
-python scripts/master_orchestrator.py --output-dir /path/to/output
+python core/scripts/master_orchestrator.py --output-dir /path/to/output
 ```
 
 ### Servir Sitios
 ```bash
 # Desde el menú (recomendado)
-./menu.sh → 1 → 6 → Seleccionar modo
+./core/menu.sh → 1 → 6 → Seleccionar modo
 
 # CLI directo
-python scripts/serve_sites.py              # Servir site_1 en puerto 8000
-python scripts/serve_sites.py --site site_2 --port 8002
-python scripts/serve_sites.py --all       # Servir todos
-python scripts/serve_sites.py --list      # Listar sitios
+python core/scripts/serve_sites.py              # Servir site_1 en puerto 8000
+python core/scripts/serve_sites.py --site site_2 --port 8002
+python core/scripts/serve_sites.py --all       # Servir todos
+python core/scripts/serve_sites.py --list      # Listar sitios
 ```
 
 ---
@@ -247,7 +247,7 @@ sudo apt-get install whois
 brew install whois
 
 # O ejecutar sin verificar
-python scripts/master_orchestrator.py  # Sin --verificar-dominios
+python core/scripts/master_orchestrator.py  # Sin --verificar-dominios
 ```
 
 ### Imágenes no se generan
@@ -261,16 +261,16 @@ python scripts/master_orchestrator.py  # Sin --verificar-dominios
 
 ```
 Tecnología/
-├── scripts/                    # 16 módulos Python
+├── core/scripts/                    # 16 módulos Python
 │   ├── master_orchestrator.py # Orquestador principal
 │   ├── paraphrase.py          # 8 estilos de parafraseo
 │   ├── article-expander.py    # Expansión a 800 palabras
 │   ├── generate-images-ai.py  # Imágenes con Flux Schnell
 │   ├── template_combiner.py   # 6,000 combinaciones CSS
 │   └── ...
-├── data/                       # Noticias y metadata
-├── templates/css/              # 6,000 templates CSS
-├── generated_sites/            # Sitios generados
+├── content/data/                       # Noticias y metadata
+├── content/templates/css/              # 6,000 templates CSS
+├── output/generated_sites/            # Sitios generados
 └── docs/                       # Documentación
 ```
 
@@ -337,22 +337,22 @@ MIT License - Proyecto educativo de código abierto
 git clone <repo>
 cd Tecnología
 echo "BLACKBOX_API_KEY=xxx" > .env
-pip install -r requirements.txt
+pip install -r core/requirements.txt
 
 # 2. Generar sitio
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # 3. Ver resultado (OPCIÓN A: Menú)
-./menu.sh
+./core/menu.sh
 # → 1 (Generación) → 6 (Servir) → 1 (Último)
 # Abrir: http://localhost:8000
 
 # O (OPCIÓN B: CLI directo)
-python scripts/serve_sites.py
+python core/scripts/serve_sites.py
 # Abrir: http://localhost:8000
 
 # O (OPCIÓN C: Manual)
-cd generated_sites/site_1
+cd output/generated_sites/site_1
 python -m http.server 8000
 ```
 

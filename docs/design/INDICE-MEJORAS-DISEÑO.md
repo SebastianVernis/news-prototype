@@ -158,16 +158,16 @@ Análisis profundo de ejemplo.html (Radio M).
 ## 🛠️ Archivos a Modificar
 
 ### Alta Prioridad
-- [ ] `scripts/logo_generator_svg.py` - CREAR
-- [ ] `scripts/palette_generator.py` - ACTUALIZAR
-- [ ] `scripts/typography_generator.py` - ACTUALIZAR
+- [ ] `core/scripts/logo_generator_svg.py` - CREAR
+- [ ] `core/scripts/palette_generator.py` - ACTUALIZAR
+- [ ] `core/scripts/typography_generator.py` - ACTUALIZAR
 - [ ] `assets/css/variables-base.css` - CREAR
-- [ ] `scripts/master_orchestrator.py` - Integrar logos SVG
+- [ ] `core/scripts/master_orchestrator.py` - Integrar logos SVG
 
 ### Media Prioridad
-- [ ] `scripts/header_generator.py` - Mejorar
-- [ ] `scripts/layout_generator.py` - Cards y grid
-- [ ] `scripts/template_combiner.py` - Incluir variables-base.css
+- [ ] `core/scripts/header_generator.py` - Mejorar
+- [ ] `core/scripts/layout_generator.py` - Cards y grid
+- [ ] `core/scripts/template_combiner.py` - Incluir variables-base.css
 
 ### Baja Prioridad
 - [ ] Breaking news component

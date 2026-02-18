@@ -9,7 +9,7 @@
 ## 🎯 Objetivos Completados
 
 ### 1. ✅ Sistema de Logos SVG sin IA
-**Archivo creado**: `scripts/logo_generator_svg.py`
+**Archivo creado**: `core/scripts/logo_generator_svg.py`
 
 **Características**:
 - 5 estilos de logos: badge, icon_text, typographic, geometric, stacked
@@ -27,7 +27,7 @@
 ---
 
 ### 2. ✅ Paletas de Colores Profesionales
-**Archivo actualizado**: `scripts/color_palette_generator.py`
+**Archivo actualizado**: `core/scripts/color_palette_generator.py`
 
 **Paletas verificadas agregadas** (primeras 4):
 1. **Milenio Rojo** (#B10B1F) - Extraída de sitio real
@@ -43,7 +43,7 @@
 ---
 
 ### 3. ✅ Tipografías de Sitios Reales
-**Archivo actualizado**: `scripts/font_family_generator.py`
+**Archivo actualizado**: `core/scripts/font_family_generator.py`
 
 **Combinaciones verificadas agregadas** (primeras 4):
 1. **Radio M Style** - Bebas Neue + Poppins
@@ -79,7 +79,7 @@
 ---
 
 ### 5. ✅ Headers Mejorados
-**Archivo actualizado**: `scripts/header_generator.py`
+**Archivo actualizado**: `core/scripts/header_generator.py`
 
 **Mejoras implementadas**:
 - ✅ Sticky header con transición suave
@@ -97,8 +97,8 @@
 
 ### 6. ✅ Cards Profesionales
 **Archivos actualizados**:
-- `scripts/layout_generator.py` (HTML cards)
-- `scripts/layout_css_generator.py` (CSS cards)
+- `core/scripts/layout_generator.py` (HTML cards)
+- `core/scripts/layout_css_generator.py` (CSS cards)
 
 **Estructura nueva**:
 ```html
@@ -133,7 +133,7 @@
 ---
 
 ### 7. ✅ Layouts Profesionales Prioritarios
-**Archivo actualizado**: `scripts/layout_css_generator.py`
+**Archivo actualizado**: `core/scripts/layout_css_generator.py`
 
 **Nuevos layouts** (primeros 2):
 1. **radio_m_professional** (1070px, sticky header 65px, 3 cols)
@@ -147,7 +147,7 @@
 ---
 
 ### 8. ✅ Integración al Flujo Principal
-**Archivo actualizado**: `scripts/master_orchestrator.py`
+**Archivo actualizado**: `core/scripts/master_orchestrator.py`
 
 **Cambios**:
 - Import de `LogoGeneratorSVG`
@@ -179,7 +179,7 @@ Politica/assets/
 ---
 
 ### 10. ✅ Menú Actualizado
-**Archivo actualizado**: `menu.py`
+**Archivo actualizado**: `core/menu.py`
 
 **Nuevas opciones**:
 - **Documentación**: 3 nuevos documentos (TODO, ANALISIS x2)
@@ -192,14 +192,14 @@ Politica/assets/
 ## 📊 Resultados
 
 ### Archivos Modificados: 8
-1. ✅ `scripts/logo_generator_svg.py` (NUEVO - 265 líneas)
-2. ✅ `scripts/color_palette_generator.py` (4 paletas profesionales first)
-3. ✅ `scripts/font_family_generator.py` (4 tipografías verificadas first)
-4. ✅ `scripts/header_generator.py` (+120 líneas CSS offcanvas/sticky)
-5. ✅ `scripts/layout_generator.py` (cards profesionales HTML)
-6. ✅ `scripts/layout_css_generator.py` (estilo "professional", 2 layouts nuevos)
-7. ✅ `scripts/master_orchestrator.py` (integración LogoGeneratorSVG)
-8. ✅ `menu.py` (opciones nuevas + estadísticas actualizadas)
+1. ✅ `core/scripts/logo_generator_svg.py` (NUEVO - 265 líneas)
+2. ✅ `core/scripts/color_palette_generator.py` (4 paletas profesionales first)
+3. ✅ `core/scripts/font_family_generator.py` (4 tipografías verificadas first)
+4. ✅ `core/scripts/header_generator.py` (+120 líneas CSS offcanvas/sticky)
+5. ✅ `core/scripts/layout_generator.py` (cards profesionales HTML)
+6. ✅ `core/scripts/layout_css_generator.py` (estilo "professional", 2 layouts nuevos)
+7. ✅ `core/scripts/master_orchestrator.py` (integración LogoGeneratorSVG)
+8. ✅ `core/menu.py` (opciones nuevas + estadísticas actualizadas)
 
 ### Archivos Creados: 14
 - ✅ `assets/css/variables-base.css`
@@ -288,7 +288,7 @@ Politica/assets/
 - ✅ INDICE-MEJORAS-DISEÑO.md - Índice maestro
 
 ### Documentos Actualizados
-- ✅ menu.py - Opciones nuevas para Sprint 1
+- ✅ core/menu.py - Opciones nuevas para Sprint 1
 - ✅ RESUMEN-CAMBIOS-REALIZADOS.md - Ya documentaba fixes previos
 
 ---
@@ -315,31 +315,31 @@ Politica/assets/
 ### Probar Logos SVG
 ```bash
 cd Politica
-python3 scripts/logo_generator_svg.py
+python3 core/scripts/logo_generator_svg.py
 # Genera 4 logos de prueba en test_logos/
 ```
 
 ### Ver Paletas Profesionales
 ```bash
-python3 scripts/color_palette_generator.py
+python3 core/scripts/color_palette_generator.py
 # Lista 20 paletas con colores hex
 ```
 
 ### Ver Tipografías
 ```bash
-python3 scripts/font_family_generator.py
+python3 core/scripts/font_family_generator.py
 # Lista 15 combinaciones con Google Fonts URLs
 ```
 
 ### Generar Sitio con Mejoras
 ```bash
-python3 scripts/master_orchestrator.py
+python3 core/scripts/master_orchestrator.py
 # Ahora usa logos SVG + paletas profesionales
 ```
 
 ### Menú Interactivo
 ```bash
-python3 menu.py
+python3 core/menu.py
 # Opción 4 → 7: Probar logos SVG
 # Opción 4 → 8: Ver paletas profesionales
 # Opción 3 → 8: Leer TODO-MEJORAS-DISEÑO

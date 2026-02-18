@@ -89,7 +89,7 @@ nano .env
 
 ```bash
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r core/requirements.txt
 ```
 
 ### ❌ Error: "Permission denied"
@@ -143,7 +143,7 @@ echo "Imágenes: $(ls images/news/*.jpg 2>/dev/null | wc -l)"
 
 ```bash
 source venv/bin/activate
-python3 main.py --articles 10 --variations 20
+python3 core/main.py --articles 10 --variations 20
 ```
 
 ### Solo descargar noticias (sin IA):

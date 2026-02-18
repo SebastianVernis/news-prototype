@@ -24,11 +24,11 @@ graph TD
 ```
 
 **Módulos:**
-- `scripts/api/newsapi.py`
+- `core/scripts/api/newsapi.py`
 - Función: `fetch_newsapi(query='tecnología', language='es', page_size=20)`
 
 **Salida:**
-- `data/noticias_newsapi_YYYYMMDD_HHMMSS.json`
+- `content/data/noticias_newsapi_YYYYMMDD_HHMMSS.json`
 
 ---
 
@@ -54,9 +54,9 @@ graph TD
 ```
 
 **Módulos:**
-- `scripts/paraphrase.py` → `NewsParaphraser`
-- `scripts/article-expander.py` → `ArticleExpander`
-- `scripts/legal_pages_generator.py` → `generar_autor_aleatorio()`
+- `core/scripts/paraphrase.py` → `NewsParaphraser`
+- `core/scripts/article-expander.py` → `ArticleExpander`
+- `core/scripts/legal_pages_generator.py` → `generar_autor_aleatorio()`
 
 **Estilos de parafraseo (8 disponibles):**
 1. Profesional
@@ -79,7 +79,7 @@ graph TD
 8. Testimonios y voces
 
 **Salida:**
-- `data/noticias_paraphrased_YYYYMMDD_HHMMSS.json`
+- `content/data/noticias_paraphrased_YYYYMMDD_HHMMSS.json`
 
 ---
 
@@ -97,7 +97,7 @@ graph TD
 ```
 
 **Módulos:**
-- `scripts/generate-images-ai.py` → `AIImageGenerator`
+- `core/scripts/generate-images-ai.py` → `AIImageGenerator`
 - Modelo: `flux-schnell` (Blackbox AI)
 
 **Prompt pattern:**
@@ -111,7 +111,7 @@ No text, no watermarks
 ```
 
 **Salida:**
-- `generated_sites/site_1/images/news_1.jpg` hasta `news_20.jpg`
+- `output/generated_sites/site_1/images/news_1.jpg` hasta `news_20.jpg`
 
 ---
 
@@ -133,9 +133,9 @@ graph TD
 ```
 
 **Módulos:**
-- `scripts/site_pre_creation.py` → `SitePreCreation`
-- `scripts/site_name_generator.py` → `SiteNameGenerator`
-- `scripts/domain_verifier.py` → `DomainVerifier`
+- `core/scripts/site_pre_creation.py` → `SitePreCreation`
+- `core/scripts/site_name_generator.py` → `SiteNameGenerator`
+- `core/scripts/domain_verifier.py` → `DomainVerifier`
 
 **Estilos de nombres (12 disponibles):**
 1. profesional
@@ -166,7 +166,7 @@ graph TD
 ```
 
 **Salida:**
-- `data/sites_metadata/sites_metadata_YYYYMMDD_HHMMSS.json`
+- `content/data/sites_metadata/sites_metadata_YYYYMMDD_HHMMSS.json`
 
 ---
 
@@ -195,7 +195,7 @@ Vector style, flat design, high contrast
 ```
 
 **Salida:**
-- `generated_sites/site_1/logo.jpg`
+- `output/generated_sites/site_1/logo.jpg`
 
 ---
 
@@ -225,10 +225,10 @@ graph TD
 ```
 
 **Módulos:**
-- `scripts/template_combiner.py` → `TemplateCombiner`
-- `scripts/color_palette_generator.py` → 20 paletas
-- `scripts/font_family_generator.py` → 15 combinaciones
-- `scripts/layout_css_generator.py` → 20 layouts estructurales
+- `core/scripts/template_combiner.py` → `TemplateCombiner`
+- `core/scripts/color_palette_generator.py` → 20 paletas
+- `core/scripts/font_family_generator.py` → 15 combinaciones
+- `core/scripts/layout_css_generator.py` → 20 layouts estructurales
 
 **Combinaciones posibles:**
 ```
@@ -249,7 +249,7 @@ graph TD
 5. **Common Components** - Header, nav, footer, cards, sidebar, article pages, legal pages
 
 **Salida:**
-- `templates/css/template1.css`
+- `content/templates/css/template1.css`
 
 ---
 
@@ -294,10 +294,10 @@ graph TD
 ```
 
 **Módulos:**
-- `scripts/layout_generator.py` → `LayoutGenerator`, `HTMLLayoutBuilder`
-- `scripts/header_generator.py` → `HeaderGenerator`
-- `scripts/footer_generator.py` → `FooterGenerator`
-- `scripts/legal_pages_generator.py` → `LegalPagesGenerator`
+- `core/scripts/layout_generator.py` → `LayoutGenerator`, `HTMLLayoutBuilder`
+- `core/scripts/header_generator.py` → `HeaderGenerator`
+- `core/scripts/footer_generator.py` → `FooterGenerator`
+- `core/scripts/legal_pages_generator.py` → `LegalPagesGenerator`
 
 **Configuración de Layout (generada aleatoriamente):**
 ```python
@@ -504,22 +504,22 @@ graph TD
 - `acerca.html` - Acerca de Nosotros (misión, valores, equipo)
 
 **Salida:**
-- `generated_sites/site_1/index.html`
-- `generated_sites/site_1/article_1.html` hasta `article_20.html`
-- `generated_sites/site_1/terminos.html`
-- `generated_sites/site_1/privacidad.html`
-- `generated_sites/site_1/faqs.html`
-- `generated_sites/site_1/acerca.html`
-- `generated_sites/site_1/style.css` (copiado desde templates)
-- `generated_sites/site_1/logo.jpg`
-- `generated_sites/site_1/images/news_1.jpg` hasta `news_20.jpg`
+- `output/generated_sites/site_1/index.html`
+- `output/generated_sites/site_1/article_1.html` hasta `article_20.html`
+- `output/generated_sites/site_1/terminos.html`
+- `output/generated_sites/site_1/privacidad.html`
+- `output/generated_sites/site_1/faqs.html`
+- `output/generated_sites/site_1/acerca.html`
+- `output/generated_sites/site_1/style.css` (copiado desde templates)
+- `output/generated_sites/site_1/logo.jpg`
+- `output/generated_sites/site_1/images/news_1.jpg` hasta `news_20.jpg`
 
 ---
 
 ## 📁 ESTRUCTURA FINAL DEL SITIO GENERADO
 
 ```
-generated_sites/
+output/generated_sites/
 └── site_1/
     ├── index.html              # Página principal con 12 noticias
     ├── article_1.html          # Artículo 1 completo (800 palabras)
@@ -603,13 +603,13 @@ Total combinaciones únicas de sitios: ~16.5 millones
 
 ```bash
 # Generar 1 sitio sin verificar dominios (rápido)
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # Generar 1 sitio verificando dominios (lento)
-python scripts/master_orchestrator.py --verificar-dominios
+python core/scripts/master_orchestrator.py --verificar-dominios
 
 # Usar noticias en cache (no descargar nuevas)
-python scripts/master_orchestrator.py --usar-cache
+python core/scripts/master_orchestrator.py --usar-cache
 ```
 
 ### **Parámetros disponibles**

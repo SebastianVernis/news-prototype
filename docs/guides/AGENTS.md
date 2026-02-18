@@ -60,7 +60,7 @@ FASE 7: HTML
 
 ### Componentes Clave
 
-#### 📁 `/scripts/`
+#### 📁 `/core/scripts/`
 - **master_orchestrator.py**: Orquestador principal del flujo
 - **article-expander.py**: Expande noticias cortas a artículos completos
 - **layout_generator.py**: Genera layouts HTML y configuraciones
@@ -72,12 +72,12 @@ FASE 7: HTML
 - **layout_css_generator.py**: 20 layouts estructurales
 - **generate-images-ai.py**: Genera imágenes con IA
 
-#### 📁 `/data/`
+#### 📁 `/content/data/`
 - **noticias_newsapi_*.json**: Noticias originales de NewsAPI
 - **noticias_paraphrased_*.json**: Noticias parafraseadas
 - **sites_metadata/**: Metadata de sitios generados
 
-#### 📁 `/generated_sites/`
+#### 📁 `/output/generated_sites/`
 - **site_N/**: Carpeta por sitio con index.html, style.css, imágenes, artículos
 
 ---
@@ -88,7 +88,7 @@ FASE 7: HTML
 1. **NO editar archivos sin leerlos primero** - Siempre usar `view` antes de `edit`
 2. **NO cambiar la estructura de datos** sin actualizar todos los consumidores
 3. **NO modificar variables CSS** sin verificar su uso en componentes
-4. **NO eliminar archivos de data/** sin confirmación explícita
+4. **NO eliminar archivos de content/data/** sin confirmación explícita
 5. **NO hacer commits** a menos que se solicite explícitamente
 6. **NO agregar comentarios innecesarios** en el código
 
@@ -108,9 +108,9 @@ FASE 7: HTML
 
 ```bash
 # Ejecutar menú principal
-./menu.sh
+./core/menu.sh
 # o
-python menu.py
+python core/menu.py
 ```
 
 **Features:**
@@ -127,7 +127,7 @@ python menu.py
 
 ### Menú Interactivo (Recomendado)
 ```bash
-./menu.sh                           # Menú principal
+./core/menu.sh                           # Menú principal
 # → 1 (Generación) → 1 (Rápido)    # Generar sitio
 # → 2 (Tests) → 1 (Módulos)        # Verificar módulos
 # → 3 (Docs) → 4 (Diagrama)        # Ver documentación
@@ -138,42 +138,42 @@ python menu.py
 #### Generar Sitios
 ```bash
 # Flujo completo (modo rápido)
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # Con verificación de dominios
-python scripts/master_orchestrator.py --verificar-dominios
+python core/scripts/master_orchestrator.py --verificar-dominios
 
 # Usar cache de noticias
-python scripts/master_orchestrator.py --usar-cache
+python core/scripts/master_orchestrator.py --usar-cache
 
 # Directorio personalizado
-python scripts/master_orchestrator.py --output-dir /custom/path
+python core/scripts/master_orchestrator.py --output-dir /custom/path
 ```
 
 #### Tests
 ```bash
 # Verificar 16 módulos
-python scripts/test/test_modulos_completo.py
+python core/scripts/test/test_modulos_completo.py
 
 # Test flujo completo (2 artículos)
-python scripts/test/test_flujo_completo.py
+python core/scripts/test/test_flujo_completo.py
 
 # Test Blackbox API
-python scripts/test/test_blackbox.py
+python core/scripts/test/test_blackbox.py
 ```
 
 #### Servir Sitio Local
 ```bash
-cd generated_sites/site_1
+cd output/generated_sites/site_1
 python -m http.server 8001
 # Abrir: http://localhost:8001
 ```
 
 #### Limpiar
 ```bash
-# Desde el menú: ./menu.sh → 4 → 1
+# Desde el menú: ./core/menu.sh → 4 → 1
 # O manual:
-rm -rf generated_sites generated_sites_test test_output_modules
+rm -rf output/generated_sites output/generated_sites_test test_output_modules
 ```
 
 ---
@@ -321,8 +321,8 @@ Después de editar:
 ## 📚 Referencias Útiles
 
 ### Context7 Libraries Consultadas
-- `/websites/css-tricks_almanac` - CSS Grid y Flexbox
-- `/websites/v3_tailwindcss` - Sistema de diseño moderno
+- `/weboutput/sites/css-tricks_almanac` - CSS Grid y Flexbox
+- `/weboutput/sites/v3_tailwindcss` - Sistema de diseño moderno
 - Benchmark Score: 85.9 (Tailwind v3)
 
 ### Documentación Interna
@@ -463,9 +463,9 @@ Las páginas legales están enlazadas automáticamente en la sección "Legal" de
 - **Testing**: Verificado funcionamiento con Unsplash API + Picsum fallback
 
 ### 2026-01-15 - 15:40
-- **Menú interactivo unificado**: `menu.py` con 4 secciones principales
+- **Menú interactivo unificado**: `core/menu.py` con 4 secciones principales
 - **Servidor HTTP integrado**: Servir sitios directamente desde el menú (4 modos)
-- **Script auxiliar**: `scripts/serve_sites.py` para CLI directo
+- **Script auxiliar**: `core/scripts/serve_sites.py` para CLI directo
 - **Documentación actualizada**: MENU-PRINCIPAL.md, ORGANIZACION-FINAL.md
 - **30 opciones en menú**: Generación (6), Tests (6), Docs (8), Utilidades (6), Servidor (4)
 
@@ -504,8 +504,8 @@ Las páginas legales están enlazadas automáticamente en la sección "Legal" de
 ## 🔗 Referencias
 
 - **Diagrama completo:** `DIAGRAMA-FLUJO-COMPLETO.md` - Flujo detallado con todos los módulos, estadísticas y ejemplos
-- **Context7 Libraries:** `/websites/css-tricks_almanac`, `/websites/v3_tailwindcss`
-- **Test files:** `scripts/test/test_*.py`
+- **Context7 Libraries:** `/weboutput/sites/css-tricks_almanac`, `/weboutput/sites/v3_tailwindcss`
+- **Test files:** `core/scripts/test/test_*.py`
 
 ---
 

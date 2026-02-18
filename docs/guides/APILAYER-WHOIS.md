@@ -49,10 +49,10 @@ APILAYER_API_KEY="AbC123xYz456..."
 
 ```bash
 # Test completo de integración
-python scripts/test/test_apilayer_whois.py
+python core/scripts/test/test_apilayer_whois.py
 
 # Test rápido con script dedicado
-python scripts/domain_verifier_apilayer.py
+python core/scripts/domain_verifier_apilayer.py
 ```
 
 ## 📚 Uso
@@ -61,13 +61,13 @@ python scripts/domain_verifier_apilayer.py
 
 ```bash
 # Con APILayer WHOIS API (recomendado)
-python scripts/master_orchestrator.py --verificar-dominios --api-whois
+python core/scripts/master_orchestrator.py --verificar-dominios --api-whois
 
 # Con whois local (método original)
-python scripts/master_orchestrator.py --verificar-dominios
+python core/scripts/master_orchestrator.py --verificar-dominios
 
 # Sin verificación (más rápido)
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 ```
 
 ### Python - Código
@@ -181,7 +181,7 @@ except Exception:
 
 ### Test completo
 ```bash
-python scripts/test/test_apilayer_whois.py
+python core/scripts/test/test_apilayer_whois.py
 ```
 
 **Output esperado:**
@@ -218,17 +218,17 @@ python scripts/test/test_apilayer_whois.py
 
 ### Test específico de API
 ```bash
-python scripts/domain_verifier_apilayer.py
+python core/scripts/domain_verifier_apilayer.py
 ```
 
 ### Test de domain_verifier unificado
 ```bash
 # Con API key configurada → usa API
-python scripts/domain_verifier.py
+python core/scripts/domain_verifier.py
 
 # Sin API key → usa whois local
 unset APILAYER_API_KEY
-python scripts/domain_verifier.py
+python core/scripts/domain_verifier.py
 ```
 
 ## 📖 Referencia de API
@@ -317,13 +317,13 @@ ping -c 3 api.apilayer.com
 which whois
 
 # Ver logs detallados
-python scripts/domain_verifier.py -vv
+python core/scripts/domain_verifier.py -vv
 ```
 
 ## 📝 Archivos involucrados
 
 ```
-scripts/
+core/scripts/
 ├── domain_verifier.py              # Verificador unificado (soporta ambos)
 ├── domain_verifier_apilayer.py     # Solo API (standalone)
 ├── master_orchestrator.py          # CLI con --api-whois flag
@@ -354,7 +354,7 @@ print(f\"Estado: {r['estado']}, Registrado: {r['registrado']}\")"
 
 ### Ejemplo 2: Generar sitio con verificación API
 ```bash
-python scripts/master_orchestrator.py \
+python core/scripts/master_orchestrator.py \
   --verificar-dominios \
   --api-whois \
   --output-dir ./sitios_verificados

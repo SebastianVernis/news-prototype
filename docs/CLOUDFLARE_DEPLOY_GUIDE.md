@@ -21,25 +21,25 @@ Ejecuta estos comandos uno por uno para subir cada sitio. Cloudflare te dará un
 ### Sitio 1: Política Nacional (Layout 1)
 ```bash
 # Nombre del proyecto: politica-mx-site1
-wrangler pages deploy sites/site_1 --project-name politica-mx-site1 --branch main
+wrangler pages deploy output/sites/site_1 --project-name politica-mx-site1 --branch main
 ```
 
 ### Sitio 2: Economía y Análisis (Layout 2 - Sidebar)
 ```bash
 # Nombre del proyecto: politica-mx-site2
-wrangler pages deploy sites/site_2 --project-name politica-mx-site2 --branch main
+wrangler pages deploy output/sites/site_2 --project-name politica-mx-site2 --branch main
 ```
 
 ### Sitio 3: Internacional y Seguridad (Layout 3)
 ```bash
 # Nombre del proyecto: politica-mx-site3
-wrangler pages deploy sites/site_3 --project-name politica-mx-site3 --branch main
+wrangler pages deploy output/sites/site_3 --project-name politica-mx-site3 --branch main
 ```
 
 ### Sitio 4: Elecciones (Layout 4 - Sidebar Derecha)
 ```bash
 # Nombre del proyecto: politica-mx-site4
-wrangler pages deploy sites/site_4 --project-name politica-mx-site4 --branch main
+wrangler pages deploy output/sites/site_4 --project-name politica-mx-site4 --branch main
 ```
 
 ## 3. Verificar Despliegue

@@ -3,7 +3,7 @@
 > Test completo de integración de los 16 módulos del generador de sitios
 
 **Fecha:** 2026-01-15 15:10  
-**Test:** `scripts/test/test_modulos_completo.py`  
+**Test:** `core/scripts/test/test_modulos_completo.py`  
 **Estado:** ✅ TODOS LOS MÓDULOS VERIFICADOS CORRECTAMENTE
 
 ---
@@ -164,7 +164,7 @@ master_orchestrator.py
 ## 🧪 Cómo Ejecutar el Test
 
 ```bash
-cd scripts/test
+cd core/scripts/test
 python test_modulos_completo.py
 ```
 
@@ -205,7 +205,7 @@ El sistema de generación de sitios está correctamente estructurado con:
 
 ## 🔗 Referencias
 
-- **Test completo:** `scripts/test/test_modulos_completo.py`
+- **Test completo:** `core/scripts/test/test_modulos_completo.py`
 - **Flujo documentado:** `DIAGRAMA-FLUJO-COMPLETO.md`
 - **Guía de desarrollo:** `AGENTS.md`
 - **Arquitectura:** `README-GENERADOR.md`

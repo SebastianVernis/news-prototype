@@ -8,10 +8,10 @@
 
 ```bash
 # Desde la raíz del proyecto
-./menu.sh
+./core/menu.sh
 
 # O directamente con Python
-python menu.py
+python core/menu.py
 ```
 
 ---
@@ -22,16 +22,16 @@ python menu.py
 
 ```
 1) 🚀 Generar sitio completo (20 noticias, modo rápido)
-   → python scripts/master_orchestrator.py
+   → python core/scripts/master_orchestrator.py
    → Tiempo: 2-3 minutos
-   → Output: generated_sites/site_1/
+   → Output: output/generated_sites/site_1/
 
 2) 🔍 Generar sitio con verificación de dominios
-   → python scripts/master_orchestrator.py --verificar-dominios
+   → python core/scripts/master_orchestrator.py --verificar-dominios
    → Tiempo: 3-5 minutos (incluye WHOIS)
 
 3) 💾 Generar usando cache de noticias
-   → python scripts/master_orchestrator.py --usar-cache
+   → python core/scripts/master_orchestrator.py --usar-cache
    → Tiempo: 1-2 minutos (sin descargar noticias)
 
 4) ⚙️  Generar con opciones personalizadas
@@ -53,25 +53,25 @@ python menu.py
 
 ```
 1) ✅ Test de integración de módulos
-   → python scripts/test/test_modulos_completo.py
+   → python core/scripts/test/test_modulos_completo.py
    → Verifica los 16 módulos del sistema
    → Tiempo: ~5 segundos
 
 2) 🚀 Test de flujo completo
-   → python scripts/test/test_flujo_completo.py
+   → python core/scripts/test/test_flujo_completo.py
    → Test end-to-end con 2 artículos
    → Tiempo: 30-60 segundos
 
 3) 🤖 Test de Blackbox API
-   → python scripts/test/test_blackbox.py
+   → python core/scripts/test/test_blackbox.py
    → Verifica conexión con Blackbox AI
 
 4) 📝 Test de parafraseo rápido
-   → python scripts/test/test_paraphrase_quick.py
+   → python core/scripts/test/test_paraphrase_quick.py
    → Test del sistema de parafraseo
 
 5) 🔗 Test de integración general
-   → python scripts/test/test_integration.py
+   → python core/scripts/test/test_integration.py
    → Test de integración de componentes
 
 6) 📊 Ver resultados del último test
@@ -117,7 +117,7 @@ python menu.py
 
 ```
 1) 🧹 Limpiar archivos generados
-   → Elimina generated_sites/, generated_sites_test/, test_output_modules/
+   → Elimina output/generated_sites/, output/generated_sites_test/, test_output_modules/
    → Requiere confirmación
 
 2) 📊 Ver estadísticas del sistema
@@ -128,13 +128,13 @@ python menu.py
    → Muestra claves enmascaradas
 
 4) 📁 Abrir directorio de sitios generados
-   → Lista sitios en generated_sites/
+   → Lista sitios en output/generated_sites/
 
 5) 💾 Ver archivos de datos
-   → Lista archivos JSON en data/
+   → Lista archivos JSON en content/data/
 
 6) 🎨 Ver templates CSS disponibles
-   → Lista templates en templates/css/
+   → Lista templates en content/templates/css/
 ```
 
 ---
@@ -184,11 +184,11 @@ brew install bat          # macOS
 ### Ejemplo 1: Generar y visualizar un sitio
 
 ```bash
-./menu.sh
+./core/menu.sh
 # Seleccionar: 1 (Generación de Sitios)
 # Seleccionar: 1 (Generar sitio completo)
 # Esperar 2-3 minutos
-# ✅ Sitio en generated_sites/site_1/
+# ✅ Sitio en output/generated_sites/site_1/
 
 # Visualizar en navegador
 # Seleccionar: 6 (Servir sitios)
@@ -200,7 +200,7 @@ brew install bat          # macOS
 ### Ejemplo 2: Verificar que todo funciona
 
 ```bash
-./menu.sh
+./core/menu.sh
 # Seleccionar: 2 (Tests y Verificación)
 # Seleccionar: 1 (Test de integración de módulos)
 # Ver resultado: ✅ 16/16 módulos verificados
@@ -209,7 +209,7 @@ brew install bat          # macOS
 ### Ejemplo 3: Leer documentación
 
 ```bash
-./menu.sh
+./core/menu.sh
 # Seleccionar: 3 (Documentación)
 # Seleccionar: 3 (RESUMEN-FLUJO)
 # Leer con less/bat (q para salir)
@@ -218,7 +218,7 @@ brew install bat          # macOS
 ### Ejemplo 4: Verificar configuración
 
 ```bash
-./menu.sh
+./core/menu.sh
 # Seleccionar: 4 (Utilidades)
 # Seleccionar: 3 (Verificar API keys)
 # Ver estado de las claves
@@ -227,7 +227,7 @@ brew install bat          # macOS
 ### Ejemplo 5: Servir un sitio específico
 
 ```bash
-./menu.sh
+./core/menu.sh
 # Seleccionar: 1 (Generación de Sitios)
 # Seleccionar: 6 (Servir sitios)
 # Seleccionar: 2 (Seleccionar sitio específico)
@@ -240,7 +240,7 @@ brew install bat          # macOS
 ### Ejemplo 6: Servir múltiples sitios simultáneamente
 
 ```bash
-./menu.sh
+./core/menu.sh
 # Seleccionar: 1 (Generación de Sitios)
 # Seleccionar: 6 (Servir sitios)
 # Seleccionar: 3 (Servir todos los sitios)
@@ -256,7 +256,7 @@ brew install bat          # macOS
 ### Primera vez:
 
 ```
-1. ./menu.sh
+1. ./core/menu.sh
 2. → 4 (Utilidades) → 3 (Verificar API keys)
 3. Si falta alguna: Configurar .env
 4. → 2 (Tests) → 1 (Test de módulos)
@@ -271,7 +271,7 @@ brew install bat          # macOS
 
 ```
 1. Editar código
-2. ./menu.sh → 2 (Tests) → 1 (Verificar módulos)
+2. ./core/menu.sh → 2 (Tests) → 1 (Verificar módulos)
 3. Si ✅: → 2 (Tests) → 2 (Test flujo completo)
 4. Si ✅: → 1 (Generación) → 3 (Usar cache)
 5. → 1 (Generación) → 6 (Servir) → 1 (Último sitio)
@@ -283,7 +283,7 @@ brew install bat          # macOS
 
 ```
 # CLI directo (sin menú)
-python scripts/master_orchestrator.py --usar-cache
+python core/scripts/master_orchestrator.py --usar-cache
 ```
 
 ---
@@ -293,10 +293,10 @@ python scripts/master_orchestrator.py --usar-cache
 ### El menú no inicia:
 ```bash
 # Verificar permisos
-chmod +x menu.sh menu.py
+chmod +x core/menu.sh core/menu.py
 
 # Ejecutar directamente
-python3 menu.py
+python3 core/menu.py
 ```
 
 ### Colores no se ven bien:
@@ -317,7 +317,7 @@ El menú ejecuta scripts desde la raíz del proyecto, por lo que los paths son c
 ```bash
 Puerto: 8000
 URL: http://localhost:8000
-Comando equivalente: cd generated_sites/site_1 && python -m http.server 8000
+Comando equivalente: cd output/generated_sites/site_1 && python -m http.server 8000
 ```
 
 ### Modo 2: Servir Sitio Específico
@@ -399,10 +399,10 @@ MENÚ PRINCIPAL
 
 ## 🔗 Referencias
 
-- **Código fuente:** `menu.py`
-- **Launcher:** `menu.sh`
+- **Código fuente:** `core/menu.py`
+- **Launcher:** `core/menu.sh`
 - **Documentación completa:** `INDEX-DOCUMENTACION.md`
-- **Tests:** `scripts/test/`
+- **Tests:** `core/scripts/test/`
 
 ---
 

@@ -10,11 +10,13 @@
 source ~/Soluciones_Digitales/bin/activate
 
 # Instalar dependencias
-pip install -r backend/requirements.txt
+pip install -r core/requirements.txt
+pip install -r apps/backend/requirements.txt
 ```
 
 #### Frontend (Node.js)
 ```bash
+cd apps/frontend
 npm install
 ```
 
@@ -35,11 +37,12 @@ BLACKBOX_API_KEY=tu_clave_aqui
 
 #### Terminal 1 - Backend
 ```bash
-npm run backend
+python3 apps/backend/app.py
 ```
 
 #### Terminal 2 - Frontend
 ```bash
+cd apps/frontend
 npm run dev
 ```
 
@@ -74,27 +77,27 @@ La aplicación se abrirá automáticamente en `http://localhost:3000`
 
 ```
 news-prototype/
-├── backend/           # API Flask
-├── frontend/          # Aplicación React
-├── scripts/           # Scripts de generación
-├── sites/             # Sitios HTML generados
-├── data/              # Metadatos y datos
-└── templates/         # Templates CSS
+├── apps/backend/           # API Flask
+├── apps/frontend/          # Aplicación React
+├── core/scripts/           # Scripts de generación
+├── output/sites/             # Sitios HTML generados
+├── content/data/              # Metadatos y datos
+└── content/templates/         # Templates CSS
 ```
 
 ## 🔧 Comandos Útiles
 
 ```bash
 # Desarrollo
-npm run dev              # Iniciar frontend
-npm run backend          # Iniciar backend
+cd apps/frontend && npm run dev  # Iniciar frontend
+python3 apps/backend/app.py      # Iniciar backend
 
 # Producción
 npm run build            # Build frontend
 npm run preview          # Preview build
 
 # Backend
-npm run backend:install  # Instalar deps Python
+pip install -r apps/backend/requirements.txt  # Instalar deps Python
 ```
 
 ## 💡 Tips
@@ -102,7 +105,7 @@ npm run backend:install  # Instalar deps Python
 1. **Primera vez**: Genera 5 sitios para probar
 2. **Verificación de dominios**: Solo usa esto cuando realmente necesites verificar disponibilidad (es lento)
 3. **API Keys**: Configura las claves en Settings para obtener noticias reales
-4. **Metadatos**: Los archivos de metadatos se guardan automáticamente en `data/sites_metadata/`
+4. **Metadatos**: Los archivos de metadatos se guardan automáticamente en `content/data/sites_metadata/`
 
 ## 🐛 Solución de Problemas
 
@@ -110,18 +113,18 @@ npm run backend:install  # Instalar deps Python
 ```bash
 # Asegúrate de estar en el venv correcto
 source ~/Soluciones_Digitales/bin/activate
-pip install -r backend/requirements.txt
+pip install -r apps/backend/requirements.txt
 ```
 
 ### Error: CORS
 El frontend tiene configurado un proxy. Si ves errores CORS:
 - Verifica que el backend esté corriendo en puerto 5000
-- Revisa `vite.config.js` para el proxy
+- Revisa `apps/frontend/vite.config.js` para el proxy
 
 ### Puerto ocupado
 ```bash
-# Cambiar puerto del backend en backend/app.py (línea final)
-# Cambiar puerto del frontend en vite.config.js
+# Cambiar puerto del backend en apps/backend/app.py (línea final)
+# Cambiar puerto del frontend en apps/frontend/vite.config.js
 ```
 
 ## 📝 Próximos Pasos
@@ -129,4 +132,4 @@ El frontend tiene configurado un proxy. Si ves errores CORS:
 1. Configura tus API keys en Settings
 2. Genera tus primeros sitios
 3. Explora los diferentes layouts generados
-4. Personaliza los templates CSS en `templates/`
+4. Personaliza los templates CSS en `content/templates/`

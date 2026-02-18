@@ -75,15 +75,15 @@ Sistema completo de logos SVG sin IA.
 
 ### Implementar Logos
 1. Lee: NOTA-LOGOS-SVG.md
-2. Código: `scripts/logo_generator_svg.py` (ya implementado ✅)
+2. Código: `core/scripts/logo_generator_svg.py` (ya implementado ✅)
 
 ### Mejorar Colores
 1. Lee: ANALISIS-DISEÑO-REFERENCIA.md → Paletas
-2. Código: `scripts/color_palette_generator.py` (ya actualizado ✅)
+2. Código: `core/scripts/color_palette_generator.py` (ya actualizado ✅)
 
 ### Mejorar Tipografía
 1. Lee: ANALISIS-EJEMPLO-HTML.md → Tipografía
-2. Código: `scripts/font_family_generator.py` (ya actualizado ✅)
+2. Código: `core/scripts/font_family_generator.py` (ya actualizado ✅)
 
 ### Crear Variables CSS
 1. Lee: TODO-MEJORAS-DISEÑO.md → Sección 4
@@ -91,11 +91,11 @@ Sistema completo de logos SVG sin IA.
 
 ### Mejorar Headers
 1. Lee: TODO-MEJORAS-DISEÑO.md → Sección 5
-2. Código: `scripts/header_generator.py` (ya mejorado ✅)
+2. Código: `core/scripts/header_generator.py` (ya mejorado ✅)
 
 ### Mejorar Cards
 1. Lee: TODO-MEJORAS-DISEÑO.md → Sección 6
-2. Código: `scripts/layout_generator.py` (ya actualizado ✅)
+2. Código: `core/scripts/layout_generator.py` (ya actualizado ✅)
 
 ---
 

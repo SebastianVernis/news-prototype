@@ -47,14 +47,14 @@ La imagen ya está en la noticia de NewsAPI, solo hay que descargarla.
 
 ### Nuevo Módulo Creado
 
-**`scripts/generate-images-newsapi.py`**
+**`core/scripts/generate-images-newsapi.py`**
 - Descarga imágenes originales de NewsAPI
 - Fallback a Picsum si no hay imagen
 - Compatible con todo el sistema existente
 
 ### Actualizado
 
-**`scripts/generate-images-unified.py`**
+**`core/scripts/generate-images-unified.py`**
 - Nueva estrategia: NewsAPI → IA → Unsplash
 - NewsAPI como prioridad #1
 - IA opcional (solo si `prefer_ai=True`)
@@ -64,7 +64,7 @@ La imagen ya está en la noticia de NewsAPI, solo hay que descargarla.
 ## 📊 Test Validado
 
 ```bash
-$ python scripts/generate-images-newsapi.py
+$ python core/scripts/generate-images-newsapi.py
 
 📸 Descargando imágenes originales para 2 artículos
    Fuente: NewsAPI (imágenes reales de noticias)
@@ -82,11 +82,11 @@ $ python scripts/generate-images-newsapi.py
 ### Verificación de Imágenes
 
 ```bash
-$ file generated_images/article_*_1.jpg
+$ file output/generated_images/article_*_1.jpg
 article_article_1_1.jpg: JPEG image data, 1200x600, components 3
 article_article_2_2.jpg: JPEG image data, 1200x600, components 3
 
-$ ls -lh generated_images/article_article_*.jpg
+$ ls -lh output/generated_images/article_article_*.jpg
 -rw-r--r-- 156K ene 16 04:50 article_article_1_1.jpg
 -rw-r--r--  89K ene 16 04:50 article_article_2_2.jpg
 ```
@@ -103,7 +103,7 @@ $ ls -lh generated_images/article_article_*.jpg
 
 ```bash
 # Genera sitios completos con imágenes de NewsAPI
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 ```
 
 El sistema ya usa automáticamente las imágenes de NewsAPI.
@@ -112,10 +112,10 @@ El sistema ya usa automáticamente las imágenes de NewsAPI.
 
 ```bash
 # Descargar imágenes originales
-python scripts/generate-images-newsapi.py
+python core/scripts/generate-images-newsapi.py
 
 # O con unified generator
-python scripts/generate-images-unified.py
+python core/scripts/generate-images-unified.py
 ```
 
 ### Desde Python
@@ -156,7 +156,7 @@ https://www.abc.es/deportes/multimedia/laporta-elecciones.jpg
 ```json
 {
   "title": "Esto es todo lo que la nueva Siri...",
-  "ai_image_path": "generated_images/article_1_1.jpg",
+  "ai_image_path": "output/generated_images/article_1_1.jpg",
   "image_source": "newsapi_original",
   "original_image_url": "https://ipadizate.com/hero/2025/11/siri-icono-ios-18.jpg"
 }
@@ -191,17 +191,17 @@ https://www.abc.es/deportes/multimedia/laporta-elecciones.jpg
 ## 📁 Archivos del Sistema
 
 ### Nuevos
-- ✅ `scripts/generate-images-newsapi.py` - Generador NewsAPI
+- ✅ `core/scripts/generate-images-newsapi.py` - Generador NewsAPI
 - ✅ `docs/IMAGENES-NEWSAPI-FIX.md` - Documentación técnica
 - ✅ `SOLUCION-IMAGENES-FINAL.md` - Este documento
 
 ### Actualizados
-- ✅ `scripts/generate-images-unified.py` - Estrategia NewsAPI primero
+- ✅ `core/scripts/generate-images-unified.py` - Estrategia NewsAPI primero
 
 ### Sin Cambios (Compatibilidad)
-- 📄 `scripts/generate-images-ai.py` - IA standalone
-- 📄 `scripts/generate-images-unsplash.py` - Unsplash standalone
-- 📄 `scripts/master_orchestrator.py` - Usa UnifiedImageGenerator
+- 📄 `core/scripts/generate-images-ai.py` - IA standalone
+- 📄 `core/scripts/generate-images-unsplash.py` - Unsplash standalone
+- 📄 `core/scripts/master_orchestrator.py` - Usa UnifiedImageGenerator
 
 ---
 
@@ -272,16 +272,16 @@ El sistema ya está operativo con imágenes de NewsAPI.
 
 ```bash
 # Generar sitio completo con imágenes NewsAPI
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 
 # Solo descargar imágenes
-python scripts/generate-images-newsapi.py
+python core/scripts/generate-images-newsapi.py
 
 # Ver imágenes descargadas
-ls -lh generated_images/
+ls -lh output/generated_images/
 
 # Test rápido
-python scripts/generate-images-newsapi.py
+python core/scripts/generate-images-newsapi.py
 ```
 
 ---

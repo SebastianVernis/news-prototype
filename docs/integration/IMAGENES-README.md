@@ -9,20 +9,20 @@ Sistema resiliente con fallback automático: **IA → Unsplash → Picsum**
 ### Opción 1: Flujo Completo (Recomendado)
 ```bash
 cd /home/sebastianvernis/news-prototype/Tecnología
-python scripts/master_orchestrator.py
+python core/scripts/master_orchestrator.py
 ```
 El sistema detecta automáticamente la mejor opción y genera imágenes.
 
 ### Opción 2: Solo Imágenes
 ```bash
 # Generador unificado (intenta IA, fallback a Unsplash)
-python scripts/generate-images-unified.py
+python core/scripts/generate-images-unified.py
 
 # Solo Unsplash (sin intentar IA)
-python scripts/generate-images-unsplash.py
+python core/scripts/generate-images-unsplash.py
 
 # Solo IA (fallará si no disponible)
-python scripts/generate-images-ai.py
+python core/scripts/generate-images-ai.py
 ```
 
 ### Opción 3: Validar Sistema
@@ -31,7 +31,7 @@ python scripts/generate-images-ai.py
 ./validate-system.sh
 
 # Test completo
-python scripts/test/test_image_fallback.py
+python core/scripts/test/test_image_fallback.py
 ```
 
 ---
@@ -200,7 +200,7 @@ image_path = self.image_generator.generate_image(prompt, article_id, idx)
 
 ### Test Completo
 ```bash
-python scripts/test/test_image_fallback.py
+python core/scripts/test/test_image_fallback.py
 ```
 
 **Verifica**:

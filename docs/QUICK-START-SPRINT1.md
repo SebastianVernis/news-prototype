@@ -9,7 +9,7 @@ Guía rápida para usar las mejoras del Sprint 1.
 ### 1. Logos SVG Profesionales
 ```bash
 # Generar logos de prueba
-python3 scripts/logo_generator_svg.py
+python3 core/scripts/logo_generator_svg.py
 
 # Ver resultados en
 ls -l test_logos/test_*/logo.svg
@@ -18,13 +18,13 @@ ls -l test_logos/test_*/logo.svg
 ### 2. Paletas Profesionales
 ```bash
 # Ver 20 paletas (4 verificadas primero)
-python3 scripts/color_palette_generator.py
+python3 core/scripts/color_palette_generator.py
 ```
 
 ### 3. Tipografías Verificadas
 ```bash
 # Ver 15 combinaciones (Radio M, Milenio primero)
-python3 scripts/font_family_generator.py
+python3 core/scripts/font_family_generator.py
 ```
 
 ### 4. Variables CSS
@@ -38,7 +38,7 @@ cat assets/css/variables-base.css
 ## 🎮 Menú Interactivo Actualizado
 
 ```bash
-python3 menu.py
+python3 core/menu.py
 ```
 
 ### Nuevas Opciones
@@ -56,13 +56,13 @@ python3 menu.py
 
 ```bash
 # Opción 1: Menú interactivo
-python3 menu.py
+python3 core/menu.py
 # → 1 (Generación)
 # → 1 (Generar rápido)
 
 # Opción 2: Directo
-cd scripts
-python3 master_orchestrator.py
+cd core/scripts
+python3 core/scripts/master_orchestrator.py
 ```
 
 **Mejoras incluidas automáticamente**:
@@ -104,20 +104,20 @@ cat README.md  # Índice completo de documentación
 
 ### Logos SVG
 ```bash
-python3 scripts/logo_generator_svg.py
+python3 core/scripts/logo_generator_svg.py
 # Genera 4 logos en test_logos/
 ```
 
 ### Paletas
 ```bash
-python3 scripts/color_palette_generator.py
+python3 core/scripts/color_palette_generator.py
 # Lista 20 paletas con colores
-# Genera CSS en templates/css/palettes/
+# Genera CSS en content/templates/css/palettes/
 ```
 
 ### Ver Sitio Generado
 ```bash
-cd generated_sites/site_1
+cd output/generated_sites/site_1
 python3 -m http.server 8000
 # Abrir: http://localhost:8000
 ```

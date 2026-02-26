@@ -391,14 +391,19 @@ app.get('/stats/dashboard', async (c) => {
     const totalPub = await c.env.DB.prepare("SELECT COUNT(*) as count FROM ARTICULOS_PARAFRASEADOS").first();
     const totalCMS = await c.env.DB.prepare("SELECT COUNT(*) as count FROM ARTICULOS_CMS WHERE ESTADO = 'BORRADOR'").first();
     const totalRev = await c.env.DB.prepare("SELECT COUNT(*) as count FROM REVISION_CONTENIDO WHERE ESTADO = 'PENDIENTE'").first();
-    const totalFB  = await c.env.DB.prepare("SELECT COUNT(*) as count FROM ARTICULOS_CMS WHERE FB_PUBLICADO = 1").first();
+    
+    // Sumar publicaciones de FB de ambas tablas (CMS + Parafraseados)
+    const fbCMS = await c.env.DB.prepare("SELECT COUNT(*) as count FROM ARTICULOS_CMS WHERE FB_PUBLICADO = 1").first();
+    const fbPara = await c.env.DB.prepare("SELECT COUNT(*) as count FROM ARTICULOS_PARAFRASEADOS WHERE FB_PUBLICADO = 1").first();
+    const totalFB = (fbCMS ? fbCMS.count : 0) + (fbPara ? fbPara.count : 0);
+
     const totalSites = await c.env.DB.prepare("SELECT COUNT(*) as count FROM SITIOS").first();
 
     return c.json({
       articles: totalPub ? totalPub.count : 0,
       drafts: totalCMS ? totalCMS.count : 0,
       pending: totalRev ? totalRev.count : 0,
-      facebook: totalFB ? totalFB.count : 0,
+      facebook: totalFB,
       sites: totalSites ? totalSites.count : 0
     });
   } catch (e) {
@@ -1654,10 +1659,20 @@ async function processFB(env) {
 }
 
 async function publishToFB(env, article, type) {
+  // Mapeo inteligente de propiedades según el origen (CMS vs PARA)
   const targetSites = article.SITIOS_DESTINO || article.SITIO_DESTINO;
   const title = article.TITULO || article.TITULO_PARAFRASEADO;
+  const slug = article.SLUG || article.slug; // Algunos registros PARA pueden tenerlo en minúsculas
   
-  if (!targetSites) return { error: "No target sites" };
+  if (!targetSites) {
+    console.log(`[FB] No hay sitios destino para artículo ${article.ID}`);
+    return { error: "No target sites" };
+  }
+  
+  if (!slug) {
+    console.error(`[FB] ERROR: Artículo ${article.ID} no tiene SLUG. No se puede publicar.`);
+    return { error: "Missing slug" };
+  }
   
   let slugs = [];
   try {
@@ -1673,17 +1688,19 @@ async function publishToFB(env, article, type) {
   const report = [];
   let successCount = 0;
   
-  for (const slug of slugs) {
+  for (const siteSlug of slugs) {
     try {
-      const site = await env.DB.prepare("SELECT * FROM SITIOS WHERE SLUG = ? AND FACEBOOK_ACTIVO = 1").bind(slug).first();
-      if (!site) { report.push({ slug, error: "Site not found or inactive" }); continue; }
-      if (!site.FACEBOOK_PAGE_ID || !site.FACEBOOK_TOKEN_SECRET) { report.push({ slug, error: "Missing config" }); continue; }
+      const site = await env.DB.prepare("SELECT * FROM SITIOS WHERE SLUG = ? AND FACEBOOK_ACTIVO = 1").bind(siteSlug).first();
+      if (!site) { report.push({ slug: siteSlug, error: "Site not found or inactive" }); continue; }
+      if (!site.FACEBOOK_PAGE_ID || !site.FACEBOOK_TOKEN_SECRET) { report.push({ slug: siteSlug, error: "Missing config" }); continue; }
       
       const token = env[site.FACEBOOK_TOKEN_SECRET];
-      if (!token) { report.push({ slug, error: "Missing secret token" }); continue; }
+      if (!token) { report.push({ slug: siteSlug, error: "Missing secret token" }); continue; }
       
-      const domain = site.DOMINIO || `${slug}.pages.dev`;
-      const url = `https://${domain}/articulo/?slug=${article.SLUG}`;
+      const domain = site.DOMINIO || `${siteSlug}.pages.dev`;
+      const url = `https://${domain}/articulo/?slug=${slug}`;
+      
+      console.log(`[FB] Publicando en ${siteSlug}: ${title.substring(0, 30)}...`);
       
       const formData = new URLSearchParams();
       formData.append('message', title);
@@ -1697,13 +1714,13 @@ async function publishToFB(env, article, type) {
       
       const result = await response.json();
       if (response.ok) {
-        report.push({ slug, success: true, id: result.id });
+        report.push({ slug: siteSlug, success: true, id: result.id });
         successCount++;
       } else {
-        report.push({ slug, success: false, error: result });
+        report.push({ slug: siteSlug, success: false, error: result });
       }
     } catch (e) {
-      report.push({ slug, success: false, error: e.message });
+      report.push({ slug: siteSlug, success: false, error: e.message });
     }
   }
   
@@ -1791,13 +1808,24 @@ async function runRSSDirectIngest(env, force = false) {
               continue; 
             }
             
-            if (content.length < 300) {
-              console.log(`[Ingest] Item skip: Content too short (${content.length} chars).`);
-              continue;
-            }
-  
-                      // AI Proofread
-                      console.log(`[Ingest] Running AI Proofread for: ${title.substring(0, 30)}...`);
+                        if (content.length < 300) {
+                          console.log(`[Ingest] Item skip: Content too short (${content.length} chars).`);
+                          continue;
+                        }
+            
+                                    // Clean common editorial signatures and footers
+                                    content = content
+                                      .replace(/© Comunicación e Información S.A. de C.V.[\s\S]*?Revista Proceso - Todos los derechos reservados - 202\d/gi, '')
+                                      .replace(/Revista Proceso - Todos los derechos reservados - 202\d/gi, '')
+                                      .replace(/Fresas #13, Col. Del Valle, C. P. 03100[\s\S]*?Ciudad de México/gi, '')
+                                      .replace(/© EDICIONES EL PAÍS[\s\S]*?Suscríbete/gi, '')
+                                      .replace(/Suscríbete para seguir leyendo/gi, '')
+                                      .replace(/Aristegui Noticias - Todos los derechos reservados/gi, '')
+                                      .replace(/© 202\d Aristegui Noticias/gi, '')
+                                      .replace(/Derechos Reservados © 202\d[\s\S]*?Grupo Reforma/gi, '')
+                                      .replace(/Prohibida su reproducción total o parcial/gi, '')
+                                      .trim();              
+                      // AI Proofread                      console.log(`[Ingest] Running AI Proofread for: ${title.substring(0, 30)}...`);
                       try {
                         const aiTitle = await proofreadTextAI(title, "título", env);
                         const aiContent = await proofreadTextAI(content, "contenido", env);
@@ -1970,357 +1998,22 @@ async function updateTickerData(env) {
   const oil = await fetchYahoo('CL=F');
   if (oil) financials.push({simbolo: "PETROLEO", nombre: "Petróleo WTI", valor: oil.price.toFixed(2), cambio: (oil.pct >= 0 ? '+' : '') + oil.pct.toFixed(2) + '%', tendencia: oil.pct >= 0 ? 'up' : 'down'});
 
-  for (const f of financials) {
-    try {
-      await env.DB.prepare(`INSERT INTO TICKER_FINANCIALS (SIMBOLO, NOMBRE, valor, CAMBIO, TENDENCIA, UNIDAD, FECHA_ACTUALIZACION) VALUES (?, ?, ?, ?, ?, 'MXN', ?) ON CONFLICT(SIMBOLO) DO UPDATE SET VALOR=excluded.VALOR, CAMBIO=excluded.CAMBIO, FECHA_ACTUALIZACION=excluded.FECHA_ACTUALIZACION`)
-        .bind(f.simbolo, f.nombre, f.valor, f.cambio, f.tendencia, now).run();
-    } catch(e) {}
-  }
-}
-
-async function runMasterCron(env) {
-  const now = Date.now();
-  const status = { lastRun: new Date().toISOString(), tasks: {} };
-  
-  // 1. Ingest News
-  try {
-    const count = await runRSSDirectIngest(env);
-    status.tasks.ingest = `OK (${count} articles)`;
-  } catch(e) { status.tasks.ingest = `Error: ${e.message}`; }
-  
-  // 2. Ticker
-  try { await updateTickerData(env); status.tasks.ticker = "OK"; } catch(e) { status.tasks.ticker = "Error"; }
-  
-  // 3. Facebook (Multi-Site Intelligent Flow)
-  try {
-    const SITIOS_LIST = [
-      "radiocinconoticias", "centralmexico", "tvmexico", "cbnnoticias", 
-      "mexicoinformado", "nodoinformativo", "bitacoraurbana", 
-      "reportecentralmx", "verticenoticias", "noticiasobjetivo"
-    ];
-
-    for (const siteSlug of SITIOS_LIST) {
-      const kvKey = `last_fb_post_${siteSlug}`;
-      const lastFB = parseInt(await env.ARTICLES_KV.get(kvKey) || "0");
-      
-      if (now - lastFB >= 3 * 60 * 60 * 1000) {
-        // Buscar el artículo más reciente para ESTE sitio que sea elegible (imagen perfecta)
-        // Buscamos en ambas tablas (PARA y CMS)
-        const query = `
-          SELECT * FROM (
-            SELECT ID, TITULO_PARAFRASEADO as TITULO, SLUG, SITIO_DESTINO as SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'PARA' as TIPO 
-            FROM ARTICULOS_PARAFRASEADOS 
-            WHERE FB_PUBLICADO = 0 AND SITIO_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%'
-            UNION ALL
-            SELECT ID, TITULO, SLUG, SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'CMS' as TIPO 
-            FROM ARTICULOS_CMS 
-            WHERE FB_PUBLICADO = 0 AND ESTADO = 'PUBLICADO' AND SITIOS_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%'
-          ) 
-          ORDER BY FECHA_PUBLICACION DESC LIMIT 5
-        `;
-        
-        const possibleArticles = await env.DB.prepare(query).bind(`%${siteSlug}%`, `%${siteSlug}%`).all();
-        const results = possibleArticles.results || [];
-        
-        if (results.length > 0) {
-          // El primer resultado ya es el más reciente elegible debido al filtro NOT LIKE unsplash
-          const art = results[0];
-          await publishToFB(env, art, art.TIPO);
-          await env.ARTICLES_KV.put(kvKey, now.toString());
-          console.log(`[Cron-FB] Posted to ${siteSlug}: ${art.TITULO}`);
-          status.tasks[`fb_${siteSlug}`] = `OK (${art.ID})`;
-        } else {
-          status.tasks[`fb_${siteSlug}`] = "No eligible articles found in window";
-        }
-      } else {
-        const remaining = Math.round((3*60*60*1000 - (now - lastFB))/60000);
-        status.tasks[`fb_${siteSlug}`] = `Waiting (${remaining} mins)`;
-      }
-    }
-  } catch(e) { 
-    console.error('MasterCron FB Error:', e.message);
-    status.tasks.fb_global_error = e.message; 
-  }
-  
-  await env.ARTICLES_KV.put("cron_status", JSON.stringify(status));
-}
-
-async function extractImageFromItem(itemXml) {
-  // Try multiple patterns to extract image URL from RSS item
-  const patterns = [
-    // Media RSS (Yahoo) - most common
-    /<media:content[^>]+url=["']([^"']+)["']/i,
-    /<media:thumbnail[^>]+url=["']([^"']+)["']/i,
-    /<media:content[^>]+url=['"]([^'"]+)['"]/i,
-    // Enclosure tag
-    /<enclosure[^>]+url=["']([^"']+)["'][^>]*type=["']image\/[^"']*["']/i,
-    /<enclosure[^>]+type=["']image\/[^"']*["'][^>]*url=["']([^"']+)["']/i,
-    /<enclosure[^>]+url=['"]([^'"]+)['"][^>]*type=['"]image\/[^'']*['"]/i,
-    // IMG tag in content/description
-    /<img[^>]+src=["']([^"']+)["']/i,
-    /<img[^>]+src=['"]([^'"]+)['"]/i,
-    // Figure with img
-    /<figure[^>]*>[\s\S]*?<img[^>]+src=["']([^"']+)["']/i,
-    // Content encoded HTML - look for img in CDATA
-    /<img[^>]*src=["']([^"']+)["'][^>]*>/i,
-  ];
-
-  for (const pattern of patterns) {
-    const match = itemXml.match(pattern);
-    if (match && match[1]) {
-      const imgUrl = match[1].trim();
-      // Validate it looks like a valid image URL
-      if (imgUrl.startsWith('http') &&
-          !imgUrl.includes('placeholder') &&
-          !imgUrl.includes('blank') &&
-          !imgUrl.includes('spacer') &&
-          !imgUrl.includes('/logo.png') &&
-          !imgUrl.includes('logo_default') &&
-          imgUrl.length > 30) { // URLs muy cortas suelen ser placeholders
-        console.log('ExtractImage: Found via pattern', pattern.toString().substring(0, 50), '->', imgUrl.substring(0, 80));
-        return imgUrl;
-      }
-    }
-  }
-
-  console.log('ExtractImage: No valid image found in item XML');
-  return null;
-}
-
-async function scrapeImageFromUrl(url) {
-  try {
-    const res = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml'
-      },
-      cf: { cacheTtl: 3600 }
-    });
-
-    if (!res.ok) {
-      console.log('ScrapeImage: HTTP error', res.status, url);
-      return null;
-    }
-
-    const html = await res.text();
-
-    // Try Open Graph image first (best quality)
-    const ogMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
-                    html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
-    if (ogMatch && ogMatch[1]) {
-      const ogUrl = ogMatch[1];
-      // Validate OG image is not a placeholder
-      if (ogUrl.startsWith('http') &&
-          !ogUrl.includes('placeholder') &&
-          !ogUrl.includes('/logo.png') &&
-          !ogUrl.includes('logo_default') &&
-          !ogUrl.includes('blank') &&
-          ogUrl.length > 30) {
-        
-        // Verify the image URL is accessible with HEAD request
-        try {
-          const imgCheck = await fetch(ogUrl, { method: 'HEAD' });
-          if (!imgCheck.ok || imgCheck.status === 404) {
-            console.log('ScrapeImage: og:image not accessible (HTTP ' + imgCheck.status + ')', ogUrl);
-            return null;
-          }
-          const imgSize = imgCheck.headers.get('content-length') || '0';
-          if (parseInt(imgSize) < 5000) { // Less than 5KB, probably a placeholder
-            console.log('ScrapeImage: og:image too small (' + imgSize + ' bytes)', ogUrl);
-            return null;
-          }
-          console.log('ScrapeImage: og:image verified (' + imgSize + ' bytes)', ogUrl.substring(0, 80));
-          return ogUrl;
-        } catch (e) {
-          console.log('ScrapeImage: Error checking og:image', e.message);
-          return null;
-        }
-      }
-      console.log('ScrapeImage: og:image is placeholder, skipping');
-    }
-
-    // Try Twitter card image
-    const twitterMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
-    if (twitterMatch && twitterMatch[1]) {
-      const twUrl = twitterMatch[1];
-      if (twUrl.startsWith('http') &&
-          !twUrl.includes('placeholder') &&
-          !twUrl.includes('/logo.png') &&
-          !twUrl.includes('logo_default') &&
-          twUrl.length > 30) {
-        
-        // Verify accessibility
-        try {
-          const imgCheck = await fetch(twUrl, { method: 'HEAD' });
-          if (imgCheck.ok && imgCheck.status !== 404) {
-            console.log('ScrapeImage: twitter:image verified', twUrl.substring(0, 80));
-            return twUrl;
-          }
-        } catch (e) {}
-      }
-    }
-
-    console.log('ScrapeImage: No valid image found on page');
-    return null;
-  } catch (e) {
-    console.log('ScrapeImage: Error', e.message);
-    return null;
-  }
-}
-
-async function autoIngestNews(env, hour) {
-  try {
-    const FEEDS = [
-      "https://www.jornada.com.mx/rss/politica.xml?v=1",
-      "https://expansion.mx/rss",
-      "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada"
-    ];
-    let art = null;
-    
-    for (const f of FEEDS) {
-      try {
-        const r = await fetch(f, { 
-          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
-          cf: { cacheTtl: 300 }
-        });
-        if (!r.ok) continue;
-        
-        const x = await r.text();
-        const items = x.match(/<item>([\s\S]*?)<\/item>/g) || [];
-        
-        for (const i of items) {
-          // Extract title - try CDATA first, then plain text
-          const titleMatch = i.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || 
-                            i.match(/<title>([\s\S]*?)<\/title>/);
-          if (!titleMatch) continue;
-          
-          const title = titleMatch[1].trim();
-          
-          // Check if article already exists
-          const exist = await env.DB.prepare("SELECT ID FROM ARTICULOS_ORIGINALES WHERE TITULO = ?").bind(title).first();
-          if (!exist) {
-            // Extract link
-            const linkMatch = i.match(/<link>([\s\S]*?)<\/link>/);
-            if (!linkMatch) continue;
-            const link = linkMatch[1].trim();
-            
-            // Extract description
-            const descMatch = i.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/) || 
-                             i.match(/<description>([\s\S]*?)<\/description>/);
-            const desc = descMatch ? descMatch[1].trim().replace(/<[^>]*>/g, '') : "";
-            
-            // Extract image using enhanced extraction
-            const imgUrl = await extractImageFromItem(i);
-            
-            art = { title, link, desc, img: imgUrl };
-            console.log('AutoIngest: Found article', title.substring(0, 50), 'Image:', imgUrl);
-            break;
-          }
-        }
-      } catch (e) {
-        console.log('AutoIngest: Feed error', f, e.message);
-      }
-      if (art) break;
-    }
-    
-    if (!art) {
-      console.log('AutoIngest: No new articles found');
-      return false;
-    }
-    
-    // Mirror image to R2 - with retry logic
-    let mirImg = null;
-    if (art.img) {
-      // First, validate the image URL is valid (not a placeholder)
-      const isValidImage = art.img && 
-                           art.img.startsWith('http') && 
-                           !art.img.includes('/logo.png') && 
-                           !art.img.includes('placeholder') &&
-                           !art.img.includes('blank');
-      
-      if (isValidImage) {
-        mirImg = await mirrorImageToR2(art.img, env);
-        if (!mirImg) {
-          // Mirroring failed, keep original URL only if it's valid
-          if (art.img.startsWith('http')) {
-            mirImg = art.img;
-            console.log('AutoIngest: Mirror failed, using original URL', art.img);
-          }
-        }
-      }
-    }
-    
-    // If still no image, try scraping from article URL
-    if (!mirImg && art.link) {
-      console.log('AutoIngest: Scraping image from article URL:', art.link);
-      const scrapedImg = await scrapeImageFromUrl(art.link);
-      if (scrapedImg) {
-        mirImg = await mirrorImageToR2(scrapedImg, env);
-        // If mirror fails, use scraped URL as fallback
-        if (!mirImg && scrapedImg.startsWith('http')) {
-          mirImg = scrapedImg;
-        }
-        console.log('AutoIngest: Scraped image result:', mirImg ? 'SUCCESS' : 'FAILED');
-      }
-    }
-    
-    if (!mirImg) {
-      console.log('AutoIngest: No image available for article:', art.title.substring(0, 50));
-    }
-    
-    const id = crypto.randomUUID();
-    
-    // Insert into ARTICULOS_ORIGINALES
-    await env.DB.prepare(
-      "INSERT INTO ARTICULOS_ORIGINALES (ID, URL, TITULO, DESCRIPCION, URL_IMAGEN, FECHA, CONTENIDO, CATEGORIA, LONGITUD) VALUES (?,?,?,?,?,datetime('now'),?,'NACIONAL',?)"
-    ).bind(id, art.link, art.title, art.desc, mirImg, art.desc, art.desc.length).run();
-    
-    // Insert into REVISION_CONTENIDO for editorial review
-    await env.DB.prepare(
-      "INSERT INTO REVISION_CONTENIDO (ID_ORIGEN, TIPO_ORIGEN, TITULO_PROPUESTO, CONTENIDO_PROPUESTO, DESCRIPCION_PROPUESTA, SITIO_DESTINO, CATEGORIA, ESTADO, URL_IMAGEN, FB_REQUERIDO, ES_BREVE) VALUES (?, 'API', ?, ?, ?, 'bitacoraurbana,nodoinformativo', 'NACIONAL', 'PENDIENTE', ?, 0, 0)"
-    ).bind(id, art.title, art.desc, art.title, mirImg).run();
-    
-    console.log('AutoIngest: Successfully ingested article', id, 'Image:', mirImg);
-    return true;
-  } catch (e) { 
-    console.log('AutoIngest: Error', e.message);
-    return false; 
-  }
-}
 
 async function injectMetaTags(request, env, response) {
   const url = new URL(request.url);
   const slug = url.searchParams.get('slug');
   if (!slug || !url.pathname.includes('/articulo')) return response;
   try {
-    // Intentar obtener de ARTICULOS_PARAFRASEADOS primero
     let article = await env.DB.prepare("SELECT TITULO_PARAFRASEADO as t, DESCRIPCION_PARAFRASEADA as d, URL_IMAGEN as i FROM ARTICULOS_PARAFRASEADOS WHERE SLUG = ? LIMIT 1").bind(slug).first();
-    
-    // Si no, intentar con ARTICULOS_CMS
     if (!article) {
       article = await env.DB.prepare("SELECT TITULO as t, DESCRIPCION as d, URL_IMAGEN as i FROM ARTICULOS_CMS WHERE SLUG = ? LIMIT 1").bind(slug).first();
     }
-    
     if (!article) return response;
-    
-    // Determinar imagen para OG
-    let ogImg = `${url.origin}/logo.png`; // Default fallback
-    
+    let ogImg = `${url.origin}/logo.png`; 
     if (article.i) {
-      // Si la imagen empieza con /api/images/, es de R2 → construir URL completa
-      if (article.i.startsWith('/api/images/')) {
-        ogImg = `${url.origin}${article.i}`;
-      }
-      // Si es URL absoluta válida, usarla directamente
-      else if (article.i.startsWith('http') && 
-               !article.i.includes('/logo.png') && 
-               !article.i.includes('placeholder')) {
-        ogImg = article.i;
-      }
+      if (article.i.startsWith('/api/images/')) ogImg = `${url.origin}${article.i}`;
+      else if (article.i.startsWith('http') && !article.i.includes('/logo.png')) ogImg = article.i;
     }
-    
-    console.log('OG Image for', slug, ':', ogImg);
-    
     return new HTMLRewriter()
       .on('title', { element(el) { el.setInnerContent(article.t); } })
       .on('head', {
@@ -2328,123 +2021,13 @@ async function injectMetaTags(request, env, response) {
           el.prepend(`<meta property="og:title" content="${article.t}" /><meta property="og:description" content="${article.d}" /><meta property="og:image" content="${ogImg}" /><meta property="og:type" content="article" /><meta name="twitter:card" content="summary_large_image" />`, { html: true });
         }
       }).transform(response);
-  } catch (e) { 
-    console.log('injectMetaTags error:', e.message);
-    return response; 
-  }
+  } catch (e) { return response; }
 }
-
-// ============================================================
-// UTILS - Limpieza y mantenimiento
-// ============================================================
-
-// POST /admin/cleanup-duplicates - Elimina duplicados usando INSERT OR REPLACE
-app.post('/admin/cleanup-duplicates', async (c) => {
-  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
-  
-  try {
-    // Paso 1: Obtener artículos únicos (mejor imagen + más reciente)
-    const allArticles = await c.env.DB.prepare(`
-      SELECT ID, TITULO, URL_IMAGEN, FECHA, DESCRIPCION, CONTENIDO, CATEGORIA, LONGITUD
-      FROM ARTICULOS_ORIGINALES 
-      ORDER BY TITULO, FECHA DESC
-    `).all();
-    
-    const byTitle = new Map();
-    for (const article of (allArticles.results || [])) {
-      if (!byTitle.has(article.TITULO)) byTitle.set(article.TITULO, []);
-      byTitle.get(article.TITULO).push({
-        ...article,
-        hasValidImage: article.URL_IMAGEN && article.URL_IMAGEN !== '' && !article.URL_IMAGEN.includes('/logo.png')
-      });
-    }
-    
-    // Seleccionar mejores
-    const articlesToKeep = [];
-    let duplicatesCount = 0;
-    
-    for (const [titulo, items] of byTitle.entries()) {
-      if (items.length > 1) duplicatesCount++;
-      items.sort((a, b) => {
-        if (a.hasValidImage && !b.hasValidImage) return -1;
-        if (!a.hasValidImage && b.hasValidImage) return 1;
-        return new Date(b.fecha || 0) - new Date(a.fecha || 0);
-      });
-      articlesToKeep.push(items[0]);
-    }
-    
-    const originalCount = allArticles.results?.length || 0;
-    const newCount = articlesToKeep.length;
-    
-    if (originalCount === newCount) {
-      return c.json({ success: true, message: 'No hay duplicados', originalCount, newCount });
-    }
-    
-    // Paso 2: Crear nueva tabla SIN foreign keys
-    const backupId = Date.now();
-    await c.env.DB.prepare(`
-      CREATE TABLE ARTICULOS_ORIGINALES_NEW (
-        ID TEXT PRIMARY KEY,
-        TITULO TEXT NOT NULL,
-        URL_IMAGEN TEXT,
-        FECHA TEXT,
-        DESCRIPCION TEXT,
-        CONTENIDO TEXT,
-        CATEGORIA TEXT,
-        LONGITUD INTEGER
-      )
-    `).run();
-    
-    // Paso 3: Insertar solo los que queremos conservar
-    const insertStmt = c.env.DB.prepare(`
-      INSERT OR REPLACE INTO ARTICULOS_ORIGINALES_NEW 
-      (ID, TITULO, URL_IMAGEN, FECHA, DESCRIPCION, CONTENIDO, CATEGORIA, LONGITUD)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `);
-    
-    for (const article of articlesToKeep) {
-      await insertStmt.bind(
-        article.ID, article.TITULO, article.URL_IMAGEN, article.FECHA,
-        article.DESCRIPCION, article.CONTENIDO, article.CATEGORIA, article.LONGITUD
-      ).run();
-    }
-    
-    // Paso 4: Renombrar tablas (DROP old, rename new)
-    await c.env.DB.prepare(`ALTER TABLE ARTICULOS_ORIGINALES RENAME TO ARTICULOS_ORIGINALES_OLD`).run();
-    await c.env.DB.prepare(`ALTER TABLE ARTICULOS_ORIGINALES_NEW RENAME TO ARTICULOS_ORIGINALES`).run();
-    
-    // Paso 5: Recrear índice
-    await c.env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_art_orig_url ON ARTICULOS_ORIGINALES(URL)`).run();
-    
-    // Paso 6: Verificar
-    const remaining = await c.env.DB.prepare(`
-      SELECT COUNT(*) as count FROM (
-        SELECT TITULO FROM ARTICULOS_ORIGINALES GROUP BY TITULO HAVING COUNT(*) > 1
-      )
-    `).first();
-    
-    const finalCount = (await c.env.DB.prepare("SELECT COUNT(*) as c FROM ARTICULOS_ORIGINALES").first()).c;
-    
-    return c.json({
-      success: true,
-      message: 'Limpieza completada',
-      originalCount,
-      newCount: finalCount,
-      deleted: originalCount - finalCount,
-      duplicatesFound: duplicatesCount,
-      remainingDuplicates: remaining.count || 0,
-      oldTablePreserved: 'ARTICULOS_ORIGINALES_OLD (puedes eliminarla manualmente)'
-    });
-  } catch (e) {
-    return c.json({ error: e.message }, 500);
-  }
-});
 
 // GET /cron/status - Obtener estado del último cron
 app.get('/cron/status', async (c) => {
   const s = await c.env.ARTICLES_KV.get("cron_status"); 
   const data = s ? JSON.parse(s) : { lastRun: "Never" };
-  
   if (data.lastRun !== "Never") {
     const lastTs = new Date(data.lastRun).getTime();
     const nextTs = lastTs + (30 * 60 * 1000);
@@ -2455,7 +2038,6 @@ app.get('/cron/status', async (c) => {
   return c.json(data);
 });
 
-// GET /cron/manual - Disparar cron manualmente y devolver estado
 app.get('/cron/manual', async (c) => {
   await runMasterCron(c.env);
   const s = await c.env.ARTICLES_KV.get("cron_status");

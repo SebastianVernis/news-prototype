@@ -45,9 +45,6 @@ const Auth = {
             const data = await response.json();
             
             if (data.token && data.user) {
-                // Limpiar cualquier dato de sesión anterior
-                localStorage.removeItem('CMS_ADMIN_TOKEN');
-                
                 // Guardar sesión y token
                 localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
                     user: data.user,
@@ -160,9 +157,6 @@ function forceLoginCheck() {
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    // Limpiar token viejo del CMS
-    localStorage.removeItem('CMS_ADMIN_TOKEN');
-    
     // Configurar el router modificado
     setupAuthRouter();
     

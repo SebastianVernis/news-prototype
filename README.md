@@ -25,6 +25,10 @@ El proyecto se basa en una arquitectura de **Worker Unificado** que gestiona tan
   - **Monitor de Sistema:** Seguimiento en tiempo real de crons, tokens de Facebook e historial de publicaciones.
   - Ingesta manual forzada para diagnóstico.
 
+## 📚 Documentación
+
+Para una guía detallada sobre el funcionamiento del sistema, consulta nuestro **[Índice Documental](./docs/INDEX.md)**.
+
 ## 🛠️ Estructura del Proyecto
 
 ```

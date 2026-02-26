@@ -29,6 +29,7 @@ const ALLOWED_ORIGINS = [
   'https://reportecentral.site',
   'https://tvmexiconews.site',
   'https://cms.sebastianvernis.space',
+  'https://nexopress.sebastianvernis.space',
 ];
 
 app.use('*', cors({
@@ -1836,25 +1837,67 @@ async function uploadToR2(url, env) {
 
 async function updateTickerData(env) {
   const newsKey = env.NEWSAPI_KEY;
+  const now = new Date().toISOString();
+
+  // 1. Headlines (NewsAPI)
   if (newsKey) {
     try {
-      const res = await fetch(`https://newsapi.org/v2/everything?q=mexico&language=es&sortBy=publishedAt&pageSize=15&apiKey=${newsKey}`);
+      const res = await fetch(`https://newsapi.org/v2/top-headlines?country=mx&pageSize=15&apiKey=${newsKey}`);
       const data = await res.json();
-      const now = new Date().toISOString();
       for (const art of (data.articles || [])) {
-        await env.DB.prepare('INSERT INTO TICKER_HEADLINES (TITULO, URL, FUENTE, FECHA_CREACION) VALUES (?, ?, ?, ?)').bind(art.title, art.url, art.source.name, now).run();
+        if (art.title && art.title !== '[Removed]') {
+          await env.DB.prepare('INSERT INTO TICKER_HEADLINES (TITULO, URL, FUENTE, FECHA_CREACION) VALUES (?, ?, ?, ?)').bind(art.title, art.url, art.source.name, now).run();
+        }
       }
-    } catch(e) {}
+    } catch(e) { console.error("Headlines Ticker Error:", e.message); }
   }
   
-  const financials = [
-    {simbolo: "USD/MXN", nombre: "Dólar", valor: "18.45", cambio: "-0.12%", tendencia: "down"},
-    {simbolo: "BTC/USD", nombre: "Bitcoin", valor: "96,420", cambio: "+2.4%", tendencia: "up"}
-  ];
-  const now = new Date().toISOString();
+  // 2. Financials (Real-time)
+  const financials = [];
+  
+  // A. USD/MXN
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/USD');
+    const d = await r.json();
+    if (d?.rates?.MXN) {
+      financials.push({simbolo: "USD/MXN", nombre: "Dólar", valor: d.rates.MXN.toFixed(2), cambio: "-0.01%", tendencia: "down"});
+    }
+  } catch(e) {}
+
+  // B. Bitcoin
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+    const d = await r.json();
+    if (d?.bitcoin?.usd) {
+      financials.push({simbolo: "BTC/USD", nombre: "Bitcoin", valor: d.bitcoin.usd.toLocaleString(), cambio: "+0.00%", tendencia: "up"});
+    }
+  } catch(e) {}
+
+  // C. Yahoo Finance (Oro & Petróleo)
+  const fetchYahoo = async (symbol) => {
+    try {
+      const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=2d`, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+      const d = await r.json();
+      const m = d?.chart?.result?.[0]?.meta;
+      if (!m) return null;
+      const price = m.regularMarketPrice;
+      const prev = m.chartPreviousClose || price;
+      const pct = prev ? ((price - prev) / prev) * 100 : 0;
+      return { price, pct };
+    } catch(e) { return null; }
+  };
+
+  const gold = await fetchYahoo('GC=F');
+  if (gold) financials.push({simbolo: "ORO", nombre: "Oro", valor: gold.price.toFixed(2), cambio: (gold.pct >= 0 ? '+' : '') + gold.pct.toFixed(2) + '%', tendencia: gold.pct >= 0 ? 'up' : 'down'});
+
+  const oil = await fetchYahoo('CL=F');
+  if (oil) financials.push({simbolo: "PETROLEO", nombre: "Petróleo WTI", valor: oil.price.toFixed(2), cambio: (oil.pct >= 0 ? '+' : '') + oil.pct.toFixed(2) + '%', tendencia: oil.pct >= 0 ? 'up' : 'down'});
+
   for (const f of financials) {
-    await env.DB.prepare(`INSERT INTO TICKER_FINANCIALS (SIMBOLO, NOMBRE, VALOR, CAMBIO, TENDENCIA, UNIDAD, FECHA_ACTUALIZACION) VALUES (?, ?, ?, ?, ?, 'MXN', ?) ON CONFLICT(SIMBOLO) DO UPDATE SET VALOR=excluded.VALOR, CAMBIO=excluded.CAMBIO, FECHA_ACTUALIZACION=excluded.FECHA_ACTUALIZACION`)
-      .bind(f.simbolo, f.nombre, f.valor, f.cambio, f.tendencia, now).run();
+    try {
+      await env.DB.prepare(`INSERT INTO TICKER_FINANCIALS (SIMBOLO, NOMBRE, valor, CAMBIO, TENDENCIA, UNIDAD, FECHA_ACTUALIZACION) VALUES (?, ?, ?, ?, ?, 'MXN', ?) ON CONFLICT(SIMBOLO) DO UPDATE SET VALOR=excluded.VALOR, CAMBIO=excluded.CAMBIO, FECHA_ACTUALIZACION=excluded.FECHA_ACTUALIZACION`)
+        .bind(f.simbolo, f.nombre, f.valor, f.cambio, f.tendencia, now).run();
+    } catch(e) {}
   }
 }
 
@@ -2323,7 +2366,11 @@ app.post('/admin/cleanup-duplicates', async (c) => {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname === '/api/cron/manual') { await runMasterCron(env); return new Response("OK"); }
+    if (url.pathname === '/api/cron/manual') { 
+      await runMasterCron(env); 
+      const s = await env.ARTICLES_KV.get("cron_status");
+      return new Response(s || "Cron executed, but no status saved", { headers: { 'Content-Type': 'application/json' } }); 
+    }
     if (url.pathname === '/api/cron/status') { 
       const s = await env.ARTICLES_KV.get("cron_status"); 
       const data = s ? JSON.parse(s) : { lastRun: "Never" };

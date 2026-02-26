@@ -1,14 +1,34 @@
-# Docs Index
+# Índice Documental - NexoPress
 
-- `README.md`: Main project overview.
-- `README_DEPLOY.md`: Deployment details for Cloudflare Pages/Workers.
-- `DOCUMENTACION.md`: Technical documentation in Spanish.
-- `legal/TEXTOS_LEGALES.md`: Full Terms & Privacy texts for sharing with clients.
-- `STATUS.md`: Operational summary of recent changes and how to run the flow.
-- `SUMMARY.md` and `*_SUMMARY.md`: High-level summaries and status snapshots.
-- `SISTEMA_*.md`, `IMPLEMENTACION_*.md`, `RESUMEN_*.md`: Detailed system and implementation notes.
-- `DESPLEGUE_10_SITIOS_CONFIRMACION.md`: Deployment confirmation checklist for 10 sites.
-- `ACTUALIZACION_COMPLETA.md`: Update log.
-- `README_FINAL.md`, `README_INTERACTIVE.md`: Alternate guides.
+Bienvenido a la documentación oficial del sistema **NexoPress**. Aquí encontrarás las guías necesarias para operar, mantener y escalar la red de 10 sitios de noticias.
 
-All paths are repo-relative; replace `/ruta/al/repositorio` with your local path when needed.
+## 📌 Documentación Principal
+
+1.  **[Monitor del Sistema](./SYSTEM_MONITOR.md)**
+    *   Guía de diagnóstico de crons, ingesta y Facebook.
+    *   Cómo interpretar el dashboard de monitoreo.
+
+2.  **[Referencia de API](./API_REFERENCE.md)**
+    *   Listado completo de endpoints del Worker Unificado.
+    *   Formatos de petición y autenticación.
+
+3.  **[Gestión de Usuarios y Seguridad](./PASSWORD_RESET_SYSTEM.md)**
+    *   Cómo crear administradores y recuperar contraseñas.
+    *   Uso de tokens de seguridad.
+
+4.  **[Arquitectura de Rutas](./ROUTE_DOCUMENTATION.md)**
+    *   Cómo funcionan las URLs en los sitios Pages y el Worker.
+    *   Configuración de `_routes.json`.
+
+## 🛠️ Guías de Operación
+
+- **Ingesta de Noticias:** La ingesta es automática cada 30 min. Para forzarla, usa el botón en el dashboard o el endpoint `POST /api/cron/ingest`.
+- **Publicación en Facebook:** Se requiere un "Page Access Token" por sitio. Consulta el Monitor para ver el estado de los tokens.
+- **Backups:** Los scripts de mantenimiento antiguos y backups SQL se encuentran en `backups/archive/`.
+
+## 📁 Archivo Histórico
+La documentación de las fases de desarrollo anteriores se ha movido a:
+- `docs/archive/`
+
+---
+*NexoPress - Plataforma de alto rendimiento para el ecosistema Cloudflare.*

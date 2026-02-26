@@ -14,6 +14,8 @@
   <link href="style.css" rel="stylesheet"/>
   <link href="style-custom.css" rel="stylesheet"/>
   <link rel="alternate" type="application/rss+xml" title="Bitácora Urbana RSS" href="/rss.xml"/>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FFD700">
  </head>
  <body>
   <div id="site-preloader"></div>
@@ -40,6 +42,7 @@
    </div>
   </main>
   <div id="site-footer"></div>
+  <script src="pwa-manager.js"></script>
   <script src="script.js"></script>
   <script src="components.js"></script>
     <script>
@@ -53,11 +56,17 @@
             const data = await res.json();
             articles = data.articles || [];
         }catch(e){ 
-            console.log('Using sample articles for testing');
-            articles = sampleArticles;
+            console.log('API Offline, intentando recuperar de respaldo local...');
+            if (window.PWAManager) {
+                articles = await PWAManager.getLocalArticles();
+            }
+            if(!articles?.length) {
+                console.log('No hay respaldo local, usando artículos de muestra');
+                articles = typeof sampleArticles !== 'undefined' ? sampleArticles : [];
+            }
         }
         
-        if(!articles?.length) articles = sampleArticles;
+        if(!articles?.length) articles = typeof sampleArticles !== 'undefined' ? sampleArticles : [];
         
         const featured = articles.slice(0,5); // Solo 5 artículos
         window.featuredArticles = featured; // Store globally for rotation

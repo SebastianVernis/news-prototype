@@ -5,16 +5,35 @@ const API_CONFIG = {
         : 'https://cms-api.sebastianvernis.space/api',
     r2DevUrl: 'https://pub-42bf42f47f554f9791e810e7d0f209d4.r2.dev',
     r2PublicUrl: 'https://uploads.sebastianvernis.space',
-    storageKey: 'CMS_ADMIN_TOKEN'
+    storageKey: 'CMS_AUTH_TOKEN',
+    legacyKey: 'CMS_ADMIN_TOKEN'
 };
 
 function getToken() {
-    // En localhost, leer token desde URL param ?token=... y guardarlo
+    // 1. Prioridad: Token de sesión del login moderno
+    let token = localStorage.getItem(API_CONFIG.storageKey);
+    
+    // 2. Fallback: Token administrativo manual (el que pide el modal)
+    if (!token) {
+        token = localStorage.getItem(API_CONFIG.legacyKey);
+    }
+
+    // 3. Contingencia: Parámetro URL (desarrollo)
     const urlToken = new URLSearchParams(window.location.search).get('token');
-    if (urlToken) { localStorage.setItem(API_CONFIG.storageKey, urlToken.trim()); }
-    return (localStorage.getItem(API_CONFIG.storageKey) || '').trim();
+    if (urlToken) { 
+        token = urlToken.trim();
+        localStorage.setItem(API_CONFIG.legacyKey, token); 
+    }
+
+    return (token || '').trim();
 }
-function setToken(t) { if (t) localStorage.setItem(API_CONFIG.storageKey, t.trim()); }
+function setToken(t) { 
+    if (t) {
+        // Guardamos en ambas para máxima compatibilidad entre módulos
+        localStorage.setItem(API_CONFIG.storageKey, t.trim()); 
+        localStorage.setItem(API_CONFIG.legacyKey, t.trim());
+    }
+}
 
 // Modal de autenticación (reemplaza prompt() bloqueante)
 function showAuthModal(onSubmit) {

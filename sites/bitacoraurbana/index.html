@@ -37,7 +37,7 @@
 
         <section class="news-section">
             <h2 style="text-align:center;margin-bottom:30px;font-size:2em;color:var(--text-color, #004D40);">Más Noticias</h2>
-            <div id="news-container" class="news-grid news-grid-3"></div>
+            <div id="news-container" class="news-grid"></div>
         </section>
    </div>
   </main>
@@ -55,7 +55,7 @@
             if(!res.ok) throw new Error('Network');
             const data = await res.json();
             articles = data.articles || [];
-        }catch(e){ 
+        }catch(e){
             console.log('API Offline, intentando recuperar de respaldo local...');
             if (window.PWAManager) {
                 articles = await PWAManager.getLocalArticles();
@@ -65,89 +65,89 @@
                 articles = typeof sampleArticles !== 'undefined' ? sampleArticles : [];
             }
         }
-        
+
         if(!articles?.length) articles = typeof sampleArticles !== 'undefined' ? sampleArticles : [];
-        
+
         const featured = articles.slice(0,5); // Solo 5 artículos
         window.featuredArticles = featured; // Store globally for rotation
         const latest = articles.slice(5,8);
         const news = articles.slice(8);
-        
+
         const fContainer = document.getElementById('featured-container');
         if(fContainer){
             // Create static 5-article grid: 2 left, 1 hero (2 rows), 2 right
             fContainer.innerHTML = '';
             fContainer.className = 'featured-grid';
-            
+
             // Create 5 static cards with fixed positions
             const positions = ['left1', 'left2', 'hero', 'right1', 'right2'];
             positions.forEach((pos, index) => {
                 const card = createStaticCard(featured[index] || featured[0], pos);
                 fContainer.appendChild(card);
             });
-            
+
             // Start hero content rotation
             startHeroContentRotation();
         }
-        
+
         const latestContainer = document.getElementById('latest-container');
-        if(latestContainer){ 
-            latestContainer.innerHTML = ''; 
-            latest.forEach(a => latestContainer.appendChild(renderLatestCard(a))); 
+        if(latestContainer){
+            latestContainer.innerHTML = '';
+            latest.forEach(a => latestContainer.appendChild(renderLatestCard(a)));
         }
-        
+
         const newsContainer = document.getElementById('news-container');
-        if(newsContainer){ 
-            newsContainer.innerHTML = ''; 
-            news.forEach(a => newsContainer.appendChild(renderNewsCard(a))); 
+        if(newsContainer){
+            newsContainer.innerHTML = '';
+            news.forEach(a => newsContainer.appendChild(renderNewsCard(a)));
         }
     })();
 
     let currentHeroIndex = 2; // Start with article at index 2 in hero
     let rotationInterval;
-    
+
     function startHeroContentRotation() {
         // Update hero content every 5 seconds
         rotationInterval = setInterval(() => {
             // Move current hero article to the position it came from
             const oldHeroIndex = currentHeroIndex;
             currentHeroIndex = (currentHeroIndex + 1) % 5;
-            
+
             // Update the content of the hero and the lateral position
             updateHeroAndLateralContent(window.featuredArticles, oldHeroIndex, currentHeroIndex);
         }, 5000);
     }
-    
+
     function updateHeroAndLateralContent(featured, oldHeroIndex, newHeroIndex) {
         // Get all cards
         const heroCard = document.querySelector('.featured-card[data-position="hero"]');
         const lateralCards = document.querySelectorAll('.featured-card:not([data-position="hero"])');
-        
+
         // Find which lateral position should show the old hero article
         // The old hero goes to the position of the new hero
         const positions = ['left1', 'left2', 'hero', 'right1', 'right2'];
         const oldHeroPos = positions[oldHeroIndex];
         const newHeroPos = positions[newHeroIndex];
-        
+
         // Update hero content with new article
         updateCardContent(heroCard, featured[newHeroIndex]);
-        
+
         // Update the lateral position that now shows the old hero article
         const lateralCard = document.querySelector(`.featured-card[data-position="${newHeroPos}"]`);
         if (lateralCard && newHeroPos !== 'hero') {
             updateCardContent(lateralCard, featured[oldHeroIndex]);
         }
     }
-    
+
     function updateCardContent(card, article) {
         if (!card || !article) return;
-        
+
         const img = card.querySelector('.rotating-img-wrapper img');
         const titleLink = card.querySelector('.rotating-title a');
         const excerpt = card.querySelector('.rotating-excerpt');
         const badge = card.querySelector('.category-badge');
         const meta = card.querySelector('.rotating-meta');
-        
+
         if (img) {
             img.src = article.imageUrl || 'assets/images/article_placeholder.jpg';
             img.alt = article.title || '';
@@ -168,12 +168,12 @@
     }
 
     function createLinkArticle(a){ const link = document.createElement('a'); link.href = 'articulo/index.html?slug='+(a.slug||''); link.title = a.title||''; return link; }
-    
+
     function createStaticCard(a, position) {
         const article = document.createElement('article');
         article.className = 'rotating-card featured-card';
         article.dataset.position = position;
-        
+
         // Image on top
         const imgWrapper = document.createElement('div');
         imgWrapper.className = 'rotating-img-wrapper';
@@ -184,53 +184,53 @@
         img.alt = a.title || '';
         link.appendChild(img);
         imgWrapper.appendChild(link);
-        
+
         // Content below
         const content = document.createElement('div');
         content.className = 'rotating-content';
-        
+
         const badge = document.createElement('span');
         badge.className = 'category-badge ' + (a.category ? 'cat-' + a.category.toLowerCase() : '');
         badge.textContent = a.category || 'Destacado';
-        
+
         const h3 = document.createElement('h3');
         h3.className = 'rotating-title';
         const titleLink = createLinkArticle(a);
         titleLink.textContent = a.title || '';
         h3.appendChild(titleLink);
-        
+
         const p = document.createElement('p');
         p.className = 'rotating-excerpt';
         p.textContent = a.excerpt || '';
-        
+
         const meta = document.createElement('div');
         meta.className = 'rotating-meta';
         const authorText = 'Redacción ' + (a.category || 'General');
         meta.innerHTML = '<span class="author"><i class="far fa-user"></i> ' + authorText + '</span> <span class="date"><i class="far fa-calendar"></i> ' + (a.publishedAt ? new Date(a.publishedAt).toLocaleDateString("es-MX") : "") + '</span>';
-        
+
         content.appendChild(badge);
         content.appendChild(h3);
         content.appendChild(p);
         content.appendChild(meta);
-        
+
         article.appendChild(imgWrapper);
         article.appendChild(content);
-        
+
         // Click to make this the hero (only for lateral cards)
         if (position !== 'hero') {
             article.addEventListener('click', () => {
                 // Find the index of this position
                 const positions = ['left1', 'left2', 'hero', 'right1', 'right2'];
                 const clickedIndex = positions.indexOf(position);
-                
+
                 // Update content: current hero goes to this position, clicked becomes hero
                 const heroCard = document.querySelector('.featured-card[data-position="hero"]');
                 const clickedCard = article;
-                
+
                 // Get current articles from hero
                 const heroImg = heroCard.querySelector('.rotating-img-wrapper img');
                 const clickedImg = clickedCard.querySelector('.rotating-img-wrapper img');
-                
+
                 // Swap content between hero and clicked card
                 const tempSrc = heroImg.src;
                 const tempAlt = heroImg.alt;
@@ -238,7 +238,7 @@
                 const tempExcerpt = heroCard.querySelector('.rotating-excerpt').textContent;
                 const tempCategory = heroCard.querySelector('.category-badge').textContent;
                 const tempSlug = heroCard.querySelector('.rotating-title a').href;
-                
+
                 // Update hero with clicked content
                 updateCardContent(heroCard, {
                     imageUrl: clickedImg.src,
@@ -248,7 +248,7 @@
                     slug: clickedCard.querySelector('.rotating-title a').href.split('slug=')[1] || '',
                     publishedAt: new Date().toISOString()
                 });
-                
+
                 // Update clicked card with old hero content
                 updateCardContent(clickedCard, {
                     imageUrl: tempSrc,
@@ -258,7 +258,7 @@
                     slug: tempSlug.split('slug=')[1] || '',
                     publishedAt: new Date().toISOString()
                 });
-                
+
                 // Reset timer
                 clearInterval(rotationInterval);
                 currentHeroIndex = clickedIndex;
@@ -269,7 +269,7 @@
                 }, 5000);
             });
         }
-        
+
         return article;
     }
     function renderLatestCard(a){

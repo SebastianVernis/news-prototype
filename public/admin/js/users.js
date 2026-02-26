@@ -21,18 +21,7 @@ const UsersModule = (function () {
         const tbody = document.getElementById('users-tbody');
 
         try {
-            const token = getAuthToken();
-            const res = await fetch(`${API_BASE}/auth/users`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (!res.ok) {
-                throw new Error('No autorizado o error al cargar usuarios');
-            }
-
-            const users = await res.json();
+            const users = await apiFetch('/auth/users');
 
             loading.style.display = 'none';
             tableWrap.style.display = 'block';
@@ -108,21 +97,10 @@ const UsersModule = (function () {
         footer.style.display = 'none';
 
         try {
-            const token = getAuthToken();
-            const res = await fetch(`${API_BASE}/auth/generate-password-token`, {
+            const data = await apiFetch('/auth/generate-password-token', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
                 body: JSON.stringify({ username })
             });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.error || `Error ${res.status}`);
-            }
 
             loading.style.display = 'none';
             success.style.display = 'block';

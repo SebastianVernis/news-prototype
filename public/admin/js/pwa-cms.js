@@ -57,7 +57,7 @@ const CMSPWA = {
             if (articles && articles.articles) await this.saveToLocal('articles', articles.articles);
 
             // Sincronizar Mesa de Revisión
-            const revision = await apiFetch('/revision');
+            const revision = await apiFetch('/revision/pending');
             if (revision) await this.saveToLocal('revision', revision);
 
             const now = new Date();

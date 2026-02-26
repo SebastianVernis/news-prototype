@@ -47,11 +47,37 @@ app.use('*', cors({
 // ============================================================
 // AUTH HELPER
 // ============================================================
-const checkAuth = (c) => {
-  const token = (c.req.header('Authorization') || '').replace('Bearer ', '').trim();
+const checkAuth = async (c) => {
+  const authHeader = c.req.header('Authorization') || '';
+  const token = authHeader.replace('Bearer ', '').trim();
   const adminToken = c.env.ADMIN_TOKEN;
-  if (adminToken && token !== adminToken) return false;
-  return true;
+  
+  if (!token) return false;
+
+  // 1. Validar contra ADMIN_TOKEN maestro
+  if (adminToken && token === adminToken) {
+    return true;
+  }
+  
+  // 2. Validar contra Sesiones en KV
+  if (c.env.ARTICLES_KV) {
+    try {
+      const sessionData = await c.env.ARTICLES_KV.get(`session_${token}`);
+      if (sessionData) {
+        return true;
+      }
+    } catch (kvErr) {
+      console.error(`[Auth] Error accediendo a KV: ${kvErr.message}`);
+    }
+  }
+  
+  // 3. Fallback de emergencia (si no hay secreto configurado)
+  if (!adminToken) {
+    return true;
+  }
+
+  console.warn(`[Auth] 401 - Token no reconocido: ${token.substring(0, 10)}...`);
+  return false;
 };
 
 // Función para verificar contraseña con hash simple (SHA-256 simulado)
@@ -72,7 +98,7 @@ const verifyPassword = async (password, storedHash) => {
 
 // ── Crear nuevo usuario (solo admin) ────────────────────────────────────────
 app.post('/auth/users', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const { username, email, role } = await c.req.json();
     if (!username) return c.json({ error: 'Nombre de usuario requerido' }, 400);
@@ -95,7 +121,7 @@ app.post('/auth/users', async (c) => {
 
 // ── Listar usuarios (solo admin) ─────────────────────────────────────────────
 app.get('/auth/users', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const res = await c.env.DB.prepare(
       'SELECT ID, NOMBRE, EMAIL, ROL, ACTIVO FROM USUARIOS ORDER BY NOMBRE'
@@ -110,7 +136,7 @@ app.get('/auth/users', async (c) => {
 // Requiere el ADMIN_TOKEN en Authorization header
 // Genera un token único que expira en 24 horas
 app.post('/auth/generate-password-token', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Token de administrador inválido' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Token de administrador inválido' }, 401);
   try {
     const { username } = await c.req.json();
     if (!username) {
@@ -293,10 +319,10 @@ app.post('/auth/login', async (c) => {
       return c.json({ error: 'Usuario y contraseña requeridos' }, 400);
     }
     
-    // Buscar usuario en la base de datos
+    // Buscar usuario en la base de datos (por nombre o email)
     const user = await c.env.DB.prepare(
-      'SELECT * FROM USUARIOS WHERE NOMBRE = ? AND ACTIVO = 1'
-    ).bind(username).first();
+      'SELECT * FROM USUARIOS WHERE (NOMBRE = ? OR EMAIL = ?) AND ACTIVO = 1'
+    ).bind(username, username).first();
     
     if (!user) {
       return c.json({ error: 'Usuario o contraseña incorrectos' }, 401);
@@ -328,8 +354,15 @@ app.post('/auth/login', async (c) => {
     // Generar token simple
     const token = crypto.randomUUID();
     
-    // Guardar token en la base de datos (opcional para sesiones)
-    // Por ahora retornamos el token directamente
+    // Guardar token en KV para persistencia de sesión (24 horas)
+    if (c.env.ARTICLES_KV) {
+      await c.env.ARTICLES_KV.put(`session_${token}`, JSON.stringify({
+        userId: user.ID,
+        name: user.NOMBRE,
+        role: user.ROL,
+        loginTime: new Date().toISOString()
+      }), { expirationTtl: 86400 }); // 24 horas
+    }
     
     return c.json({
       success: true,
@@ -353,7 +386,7 @@ app.post('/auth/login', async (c) => {
 
 // GET /api/stats/dashboard - Estadísticas reales para el admin
 app.get('/stats/dashboard', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const totalPub = await c.env.DB.prepare("SELECT COUNT(*) as count FROM ARTICULOS_PARAFRASEADOS").first();
     const totalCMS = await c.env.DB.prepare("SELECT COUNT(*) as count FROM ARTICULOS_CMS WHERE ESTADO = 'BORRADOR'").first();
@@ -416,7 +449,7 @@ app.get('/articles/id/:id', async (c) => {
 
 // PUT /api/articles/:id - actualizar artículo publicado
 app.put('/articles/:id', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   
   const id = c.req.param('id');
   try {
@@ -512,7 +545,7 @@ app.put('/articles/:id', async (c) => {
 
 // POST /api/articles - crear nuevo artículo publicado
 app.post('/articles', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   
   try {
     const article = await c.req.json();
@@ -942,7 +975,7 @@ app.get('/ticker/headlines', async (c) => {
 
 // POST /api/ticker/financials — upsert datos financieros (solo cron/admin)
 app.post('/ticker/financials', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const items = await c.req.json(); // Array de { simbolo, nombre, valor, cambio, tendencia, unidad }
     if (!Array.isArray(items)) return c.json({ error: 'Se requiere array' }, 400);
@@ -973,7 +1006,7 @@ app.post('/ticker/financials', async (c) => {
 
 // POST /api/ticker/headlines — insertar titulares (solo cron/admin)
 app.post('/ticker/headlines', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const items = await c.req.json(); // Array de { titulo, url, fuente }
     if (!Array.isArray(items)) return c.json({ error: 'Se requiere array' }, 400);
@@ -1012,7 +1045,7 @@ app.get('/categories', async (c) => {
 });
 
 app.post('/categories', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const { nombre } = await c.req.json();
     if (!nombre) return c.json({ error: 'Nombre requerido' }, 400);
@@ -1037,7 +1070,7 @@ app.get('/cms/articles', async (c) => {
 });
 
 app.post('/cms/articles', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const body = await c.req.json();
     const { id, titulo, contenido, descripcion, categoria, url_imagen, destacado, estado } = body;
@@ -1075,7 +1108,7 @@ app.post('/cms/articles', async (c) => {
 
 // Generar variaciones parafraseadas → Mesa de Revisión
 app.post('/cms/generate-variations', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const { id, sitios } = await c.req.json();
     if (!id || !Array.isArray(sitios) || sitios.length === 0) {
@@ -1106,7 +1139,7 @@ app.post('/cms/generate-variations', async (c) => {
 
 // Publicar directamente desde CMS → ARTICULOS_PARAFRASEADOS
 app.post('/cms/publish', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const { id, sitios, fb_requerido } = await c.req.json();
     if (!id || !Array.isArray(sitios) || sitios.length === 0) {
@@ -1160,7 +1193,7 @@ app.get('/revision/pending', async (c) => {
 });
 
 app.put('/revision/:id', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const id = c.req.param('id');
     const { titulo, descripcion, contenido, url_imagen } = await c.req.json();
@@ -1198,7 +1231,7 @@ app.get('/articles/timeline', async (c) => {
 });
 
 app.post('/revision/approve/:id', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const id = c.req.param('id');
 
@@ -1302,7 +1335,7 @@ app.get('/sites', async (c) => {
 });
 
 app.post('/sites', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const body = await c.req.json();
     const { id, nombre, dominio, tagline, activo } = body;
@@ -1357,7 +1390,7 @@ app.get('/sites/menus/:id', async (c) => {
 // DELETE ARTICLE
 // ============================================================
 app.delete('/articles/:id', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   const id = c.req.param('id');
   try {
     // 1. Eliminar métricas primero (debido a FOREIGN KEY)
@@ -1507,7 +1540,7 @@ app.get('/rss', async (c) => {
 
 // --- FACEBOOK & CRON ---
 app.get('/facebook/debug-tokens', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: '401' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
   try {
     const sites = await c.env.DB.prepare("SELECT SLUG, FACEBOOK_TOKEN_SECRET, FACEBOOK_PAGE_ID FROM SITIOS").all();
     const report = (sites.results || []).map(s => ({
@@ -1523,7 +1556,7 @@ app.get('/facebook/debug-tokens', async (c) => {
 });
 
 app.post('/articles/publish-fb/:id', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: '401' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
   const id = c.req.param('id');
   
   // Marcar como requerido para el proceso de fondo
@@ -1597,9 +1630,10 @@ app.get('/facebook/monitor', async (c) => {
 
 // Ruta para forzar ingesta manual (diagnóstico)
 app.post('/cron/ingest', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: '401' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
+  const force = c.req.query('force') === 'true';
   try {
-    const count = await runRSSDirectIngest(c.env);
+    const count = await runRSSDirectIngest(c.env, force);
     return c.json({ success: true, count, message: `Ingesta completada: ${count} artículos.` });
   } catch (e) {
     return c.json({ success: false, error: e.message }, 500);
@@ -1625,7 +1659,17 @@ async function publishToFB(env, article, type) {
   
   if (!targetSites) return { error: "No target sites" };
   
-  const slugs = targetSites.split(",").map(s => s.trim());
+  let slugs = [];
+  try {
+    if (targetSites.startsWith('[')) {
+      slugs = JSON.parse(targetSites);
+    } else {
+      slugs = targetSites.split(",").map(s => s.trim());
+    }
+  } catch (e) {
+    slugs = targetSites.split(",").map(s => s.trim());
+  }
+  
   const report = [];
   let successCount = 0;
   
@@ -1674,13 +1718,15 @@ async function publishToFB(env, article, type) {
 // AUTOMATION & CRON (PORTED FROM PYTHON FLOW)
 // ============================================================
 
-async function runRSSDirectIngest(env) {
-  console.log('Cron: Starting RSS Ingest...');
+async function runRSSDirectIngest(env, force = false) {
+  console.log(`Cron: Starting RSS Ingest (Force: ${force})...`);
   const FEEDS = [
     "https://elpais.com/rss/mexico/portada.xml",
     "https://www.proceso.com.mx/rss/feed.html?id=12",
     "https://aristeguinoticias.com/feed/",
     "https://www.animalpolitico.com/feed/",
+    "https://www.eluniversal.com.mx/rss.xml",
+    "https://rss.reforma.com/libre/online/mexico.xml"
   ];
   
   const SITIOS_LIST = [
@@ -1690,113 +1736,134 @@ async function runRSSDirectIngest(env) {
   ];
 
   let published = 0;
-  for (const feedUrl of FEEDS) {
-    if (published >= 5) break; // Limit per run to avoid timeouts
-    try {
-      const res = await fetch(feedUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-            const xml = await res.text();
-            // Support both <item> (RSS) and <entry> (Atom)
-            const items = xml.match(/<(item|entry)>([\s\S]*?)<\/\1>/g) || [];
-            console.log(`Feed ${feedUrl}: Found ${items.length} items.`);
+      for (const feedUrl of FEEDS) {
+        if (published >= 10) break; 
+        try {
+          console.log(`[Ingest] Fetching feed: ${feedUrl}`);
+          const res = await fetch(feedUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+          const xml = await res.text();
+          const items = xml.match(/<(item|entry)>([\s\S]*?)<\/\1>/g) || [];
+          console.log(`[Ingest] Feed ${feedUrl} returned ${items.length} items.`);
+          
+          for (const item of items) {
+            if (published >= 10) break;
             
-            for (const item of items) {
-              if (published >= 5) break;
-              
-              // Match title and link for both RSS and Atom
-              const titleMatch = item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || 
-                                item.match(/<title>([\s\S]*?)<\/title>/);
-              const linkMatch = item.match(/<link>([\s\S]*?)<\/link>/) || 
-                               item.match(/<link[^>]+href=["']([^"']+)["']/);
-              
-              if (!titleMatch || !linkMatch) {
-                console.log("Item skip: No title/link match");
+            const titleMatch = item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || 
+                              item.match(/<title>([\s\S]*?)<\/title>/);
+            const linkMatch = item.match(/<link>([\s\S]*?)<\/link>/) || 
+                             item.match(/<link[^>]+href=["']([^"']+)["']/);
+            
+            if (!titleMatch || !linkMatch) {
+              console.log("[Ingest] Item skip: No title/link match found in XML.");
+              continue;
+            }
+            
+            const title = titleMatch[1].trim();
+            let link = linkMatch[1].trim();
+            
+            // 1. Check if URL exists (Global)
+            if (!force) {
+              const urlExists = await env.DB.prepare("SELECT ID FROM ARTICULOS_PARAFRASEADOS WHERE SOURCE_URL = ?").bind(link).first();
+              if (urlExists) {
+                console.log(`[Ingest] Item skip: Already exists in DB (${link})`);
                 continue;
               }
-              
-              const title = titleMatch[1].trim();
-              // Handle Atom link which might be in the href attribute or simple text
-              let link = linkMatch[1].trim();
-              if (linkMatch[0].includes('href=')) {
-                 // It was an Atom-style link, we already have the URL in linkMatch[1]
-              }
-        
-        // 1. Check if URL exists (Global)
-        const urlExists = await env.DB.prepare("SELECT ID FROM ARTICULOS_PARAFRASEADOS WHERE SOURCE_URL = ?").bind(link).first();
-        if (urlExists) {
-          console.log(`Item skip: Already exists (${link.substring(0, 30)}...)`);
-          continue;
-        }
-
-        // Scrape Image
-        let imageUrl = await getOGImage(link);
-        if (!imageUrl) {
-          console.log(`Cron: No OG Image for ${link}, using fallback.`);
-          imageUrl = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop"; // Placeholder de noticias
-        }
-
-        console.log(`Cron: Processing literal article: ${title}`);
-        
-        // Extract content (simplified)
-        let content = "";
-        try {
-          const pageRes = await fetch(link, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-          const html = await pageRes.text();
-          const pMatches = html.match(/<p>([\s\S]*?)<\/p>/g) || [];
-          content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 40).join('\n\n');
-        } catch(e) { continue; }
-        
-        if (content.length < 300) continue;
-
-        // Clean & Proofread
-        let cleanTitle = title.includes(':') && title.split(':')[0].length < 30 ? title.split(':').slice(1).join(':').trim() : title;
-        let cleanContent = content.replace(/Revista Proceso\s*[-–—]\s*Todos los derechos reservados\s*[-–—]\s*202\d/gi, '');
-        
-        // AI Proofread
-        const aiTitle = await proofreadTextAI(cleanTitle, "título", env);
-        const aiContent = await proofreadTextAI(cleanContent, "contenido", env);
-        const aiDesc = aiContent.substring(0, 200);
-
-        // Select Site
-        const site = SITIOS_LIST[Math.floor(Math.random() * SITIOS_LIST.length)];
-
-        // 2. Check if title or description exists FOR THIS SPECIFIC SITE
-        const duplicateOnSite = await env.DB.prepare(`
-          SELECT ID FROM ARTICULOS_PARAFRASEADOS 
-          WHERE (TITULO_PARAFRASEADO = ? OR DESCRIPCION_PARAFRASEADA = ?) 
-          AND SITIO_DESTINO LIKE ?
-        `).bind(aiTitle, aiDesc, `%${site}%`).first();
-        
-        if (duplicateOnSite) {
-          console.log(`Cron: Duplicate title/desc found for site ${site}, skipping.`);
-          continue;
-        }
-
-        // Upload image to R2
-        const finalImg = await uploadToR2(imageUrl, env);
-        if (!finalImg) continue;
-
-        const now = new Date().toISOString();
-        const paraId = crypto.randomUUID();
-        const slug = slugify(aiTitle);
-
-        await env.DB.prepare(`
-          INSERT INTO ARTICULOS_PARAFRASEADOS
-            (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA, CATEGORIA, AUTOR, FECHA_PUBLICACION, SITIO_DESTINO, DESTACADO, VISTAS, ESTADO, URL_IMAGEN, SOURCE_URL)
-          VALUES (?, ?, ?, ?, ?, 'NACIONAL', ?, ?, ?, 1, 0, 'PUBLICADO', ?, ?)
-        `).bind(paraId, aiTitle, slug, aiContent, aiDesc, `Redacción ${site}`, now, site, finalImg, link).run();
-        
-        published++;
-      }
-    } catch(e) { console.error(`Feed error ${feedUrl}:`, e.message); }
-  }
-  return published;
+            }
+  
+            // Scrape Image
+            let imageUrl = await getOGImage(link);
+            if (!imageUrl) {
+              console.log(`[Ingest] No OG Image for ${link}, using fallback.`);
+              imageUrl = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop";
+            }
+  
+            // Extract content
+            console.log(`[Ingest] Scraping content from: ${link}`);
+            let content = "";
+            try {
+              const pageRes = await fetch(link, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+              const html = await pageRes.text();
+              const pMatches = html.match(/<p>([\s\S]*?)<\/p>/g) || [];
+              content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 40).join('\n\n');
+              console.log(`[Ingest] Scraped ${content.length} characters.`);
+            } catch(e) { 
+              console.error(`[Ingest] Error scraping ${link}:`, e.message);
+              continue; 
+            }
+            
+            if (content.length < 300) {
+              console.log(`[Ingest] Item skip: Content too short (${content.length} chars).`);
+              continue;
+            }
+  
+                      // AI Proofread
+                      console.log(`[Ingest] Running AI Proofread for: ${title.substring(0, 30)}...`);
+                      try {
+                        const aiTitle = await proofreadTextAI(title, "título", env);
+                        const aiContent = await proofreadTextAI(content, "contenido", env);
+                        
+                        if (!aiTitle || !aiContent) {
+                          console.error(`[Ingest] AI Proofread returned empty results for ${link}`);
+                          continue;
+                        }
+                        
+                        console.log(`[Ingest] AI Proofread completed successfully.`);
+                        const aiDesc = aiContent.substring(0, 200);
+            
+            // Select 3 Sites (Enhanced Round-Robin for more coverage)
+            let lastIdx = parseInt(await env.ARTICLES_KV.get('last_ingested_site_index') || "-1");
+            const assignedSites = [];
+            for (let i = 0; i < 3; i++) {
+              lastIdx = (lastIdx + 1) % SITIOS_LIST.length;
+              assignedSites.push(SITIOS_LIST[lastIdx]);
+            }
+            // Formato simple: sitio1,sitio2,sitio3
+            const sitesString = assignedSites.join(',');
+            await env.ARTICLES_KV.put('last_ingested_site_index', lastIdx.toString());
+            
+            console.log(`[Ingest] Block Assignment: ${sitesString}`);            
+                        // Upload image to R2
+                        const finalImg = await uploadToR2(imageUrl, env);
+                        if (!finalImg) {
+                          console.log(`[Ingest] Error: Failed to upload image to R2.`);
+                          continue;
+                        }
+            
+                        const now = new Date().toISOString();
+                        const paraId = crypto.randomUUID();
+                        const slug = slugify(aiTitle);
+            
+                                  await env.DB.prepare(`
+                                    INSERT INTO ARTICULOS_PARAFRASEADOS
+                                      (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA, CATEGORIA, AUTOR, FECHA_PUBLICACION, SITIO_DESTINO, DESTACADO, VISTAS, ESTADO, URL_IMAGEN, SOURCE_URL)
+                                    VALUES (?, ?, ?, ?, ?, 'NACIONAL', ?, ?, ?, 1, 0, 'PUBLICADO', ?, ?)
+                                  `).bind(paraId, aiTitle, slug, aiContent, aiDesc, `Redacción NexoPress`, now, sitesString, finalImg, link).run();                        
+                        console.log(`[Ingest] SUCCESS: Article ${paraId} published.`);
+                        published++;
+                      } catch (aiErr) {
+                        console.error(`[Ingest] AI Critical Error:`, aiErr.message);
+                        continue;
+                      }
+                    }
+                  } catch(e) { console.error(`[Ingest] Feed error ${feedUrl}:`, e.message); }
+                }  return published;
 }
 
 async function proofreadTextAI(text, role, env) {
   const token = env.OPENROUTER_API_KEY;
-  if (!token) return text;
+  if (!token || !text) return text;
   
-  const prompt = `Actúa como un corrector de estilo. Corrige ORTOGRAFÍA, PUNTUACIÓN y GRAMÁTICA en este ${role} en español. REGLAS: 1. No cambies estilo ni significado. 2. NO resumas ni trunques. 3. Elimina firmas editoriales (ej. Revista Proceso). Devuelve SOLO el texto corregido.\n\nTEXTO:\n${text}`;
+  const prompt = `Actúa como un corrector de estilo profesional para un diario de noticias. 
+  Tu tarea es corregir ORTOGRAFÍA y GRAMÁTICA del siguiente ${role}.
+  
+  REGLAS CRÍTICAS:
+  1. Mantén el 100% del significado original.
+  2. NO resumas, NO trunques y NO añadas comentarios.
+  3. Si es un título, debe ser impactante pero COMPLETO.
+  4. Devuelve ÚNICAMENTE el texto corregido, sin comillas ni preámbulos.
+  
+  TEXTO A CORREGIR:
+  ${text}`;
   
   try {
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -1809,8 +1876,18 @@ async function proofreadTextAI(text, role, env) {
       })
     });
     const data = await res.json();
-    return data.choices[0].message.content.trim() || text;
-  } catch(e) { return text; }
+    const result = data.choices?.[0]?.message?.content?.trim();
+    
+    // Validación de seguridad: Si el resultado es demasiado corto respecto al original, usar original
+    if (!result || result.length < (text.length * 0.5)) {
+      console.log(`[IA] Warning: Response too short for ${role}, using original.`);
+      return text;
+    }
+    return result;
+  } catch(e) { 
+    console.error(`[IA] Error in proofread:`, e.message);
+    return text; 
+  }
 }
 
 async function getOGImage(url) {
@@ -2263,7 +2340,7 @@ async function injectMetaTags(request, env, response) {
 
 // POST /admin/cleanup-duplicates - Elimina duplicados usando INSERT OR REPLACE
 app.post('/admin/cleanup-duplicates', async (c) => {
-  if (!checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
+  if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   
   try {
     // Paso 1: Obtener artículos únicos (mejor imagen + más reciente)
@@ -2363,29 +2440,31 @@ app.post('/admin/cleanup-duplicates', async (c) => {
   }
 });
 
+// GET /cron/status - Obtener estado del último cron
+app.get('/cron/status', async (c) => {
+  const s = await c.env.ARTICLES_KV.get("cron_status"); 
+  const data = s ? JSON.parse(s) : { lastRun: "Never" };
+  
+  if (data.lastRun !== "Never") {
+    const lastTs = new Date(data.lastRun).getTime();
+    const nextTs = lastTs + (30 * 60 * 1000);
+    const diff = Math.max(0, nextTs - Date.now());
+    data.nextRunInMinutes = Math.floor(diff / 60000);
+    data.nextRunInSeconds = Math.floor((diff % 60000) / 1000);
+  }
+  return c.json(data);
+});
+
+// GET /cron/manual - Disparar cron manualmente y devolver estado
+app.get('/cron/manual', async (c) => {
+  await runMasterCron(c.env);
+  const s = await c.env.ARTICLES_KV.get("cron_status");
+  return c.json(s ? JSON.parse(s) : { message: "Cron executed" });
+});
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname === '/api/cron/manual') { 
-      await runMasterCron(env); 
-      const s = await env.ARTICLES_KV.get("cron_status");
-      return new Response(s || "Cron executed, but no status saved", { headers: { 'Content-Type': 'application/json' } }); 
-    }
-    if (url.pathname === '/api/cron/status') { 
-      const s = await env.ARTICLES_KV.get("cron_status"); 
-      const data = s ? JSON.parse(s) : { lastRun: "Never" };
-      
-      // Calcular tiempo para la siguiente (intervalo 30 min)
-      if (data.lastRun !== "Never") {
-        const lastTs = new Date(data.lastRun).getTime();
-        const nextTs = lastTs + (30 * 60 * 1000);
-        const diff = Math.max(0, nextTs - Date.now());
-        data.nextRunInMinutes = Math.floor(diff / 60000);
-        data.nextRunInSeconds = Math.floor((diff % 60000) / 1000);
-      }
-      
-      return new Response(JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } }); 
-    }
     if (url.pathname.startsWith('/api')) return app.fetch(request, env, ctx);
     const originalRes = await fetch(request);
     return injectMetaTags(request, env, originalRes);

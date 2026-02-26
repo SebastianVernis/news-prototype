@@ -41,18 +41,18 @@
 <header class="header">
     <div class="container header-container">
         <div class="logo-section">
-            <a href="${base}index.html" style="display:block;line-height:0;">
+            <a href="/" style="display:block;line-height:0;">
                 <img src="${base}logo-header.png" alt="Bitácora Urbana" class="site-logo">
             </a>
         </div>
         <nav class="main-nav">
-            <a href="${base}index.html"                    class="nav-link${cls(isHome)}">Inicio</a>
-            <a href="${base}categoria/nacional.html"       class="nav-link${cls(isNacional)}">Nacional</a>
-            <a href="${base}categoria/politica.html"       class="nav-link${cls(isPolitica)}">Política</a>
-            <a href="${base}categoria/economia.html"       class="nav-link${cls(isEconomia)}">Economía</a>
-            <a href="${base}categoria/deportes.html"       class="nav-link${cls(isDeportes)}">Deportes</a>
-            <a href="${base}categoria/cultura.html"        class="nav-link${cls(isCultura)}">Cultura</a>
-            <a href="${base}categoria/tecnologia.html"     class="nav-link${cls(isTecnologia)}">Tecnología</a>
+            <a href="/"                    class="nav-link${cls(isHome)}">Inicio</a>
+            <a href="/categoria/nacional.html"       class="nav-link${cls(isNacional)}">Nacional</a>
+            <a href="/categoria/politica.html"       class="nav-link${cls(isPolitica)}">Política</a>
+            <a href="/categoria/economia.html"       class="nav-link${cls(isEconomia)}">Economía</a>
+            <a href="/categoria/deportes.html"       class="nav-link${cls(isDeportes)}">Deportes</a>
+            <a href="/categoria/cultura.html"        class="nav-link${cls(isCultura)}">Cultura</a>
+            <a href="/categoria/tecnologia.html"     class="nav-link${cls(isTecnologia)}">Tecnología</a>
         </nav>
     </div>
 </header>`;
@@ -103,21 +103,21 @@ font-family:'Noto Sans',Arial,sans-serif;font-size:0.74rem;white-space:nowrap;}
             <div class="footer-column">
                 <h4 style="margin-bottom:8px;font-size:0.85rem;">Secciones</h4>
                 <ul class="footer-links" style="display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;">
-                    <li><a href="${base}categoria/nacional.html">Nacional</a></li>
-                    <li><a href="${base}categoria/politica.html">Política</a></li>
-                    <li><a href="${base}categoria/economia.html">Economía</a></li>
-                    <li><a href="${base}categoria/deportes.html">Deportes</a></li>
-                    <li><a href="${base}categoria/cultura.html">Cultura</a></li>
-                    <li><a href="${base}categoria/tecnologia.html">Tecnología</a></li>
+                    <li><a href="/categoria/nacional.html">Nacional</a></li>
+                    <li><a href="/categoria/politica.html">Política</a></li>
+                    <li><a href="/categoria/economia.html">Economía</a></li>
+                    <li><a href="/categoria/deportes.html">Deportes</a></li>
+                    <li><a href="/categoria/cultura.html">Cultura</a></li>
+                    <li><a href="/categoria/tecnologia.html">Tecnología</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4 style="margin-bottom:8px;font-size:0.85rem;">Información</h4>
                 <ul class="footer-links">
-                    <li><a href="${base}acerca-de.html">Acerca de</a></li>
-                    <li><a href="${base}contacto.html">Contacto</a></li>
-                    <li><a href="${base}privacidad.html">Privacidad</a></li>
-                    <li><a href="${base}terminos.html">Términos</a></li>
+                    <li><a href="/acerca-de.html">Acerca de</a></li>
+                    <li><a href="/contacto.html">Contacto</a></li>
+                    <li><a href="/privacidad.html">Privacidad</a></li>
+                    <li><a href="/terminos.html">Términos</a></li>
                 </ul>
             </div>
         </div>

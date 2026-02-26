@@ -1,0 +1,9 @@
+# Proxy /api/* al worker de noticias
+# Fallback para cuando el sitio corre en *.pages.dev
+# En dominios propios, las Workers Routes en src/wrangler.toml manejan esto automaticamente.
+
+/api/* https://news-api.sebastianvernis.workers.dev/api/:splat 200
+
+# RSS Feed — para Buffer y lectores RSS
+/rss.xml  /api/rss/centralmexico  200
+/feed.xml /api/rss/centralmexico  200

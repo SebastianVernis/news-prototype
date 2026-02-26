@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>TV México - Noticias y Entretenimiento</title>
+    <meta content="Noticias y entretenimiento. La televisión digital de México." name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="style-custom.css" rel="stylesheet"/>
+    <link rel="alternate" type="application/rss+xml" title="TV México RSS" href="/rss.xml"/>
+</head>
+<body>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main class="main-content">
+    <!-- Cinematic hero: full-width, sin container -->
+    <section class="featured-section">
+        <div id="featured-container">
+            <div style="text-align:center;padding:80px;color:#5E2B37;">Cargando noticias...</div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Grid 3 columnas -->
+        <section class="news-section" id="news-section">
+            <h2 class="section-title">Más Noticias</h2>
+            <div id="news-container" class="card-grid"></div>
+        </section>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    const API = 'https://news-api.sebastianvernis.workers.dev/api/articles?site=tvmexico&limit=20';
+
+    async function loadArticles() {
+        try {
+            const res = await fetch(API);
+            if (!res.ok) throw new Error('Network error');
+            const {articles} = await res.json();
+            if (!articles?.length) {
+                document.getElementById('featured-container').innerHTML =
+                    '<div style="text-align:center;padding:80px;color:#5E2B37;">No hay noticias disponibles.</div>';
+                return;
+            }
+            renderCinematic(articles.slice(0, 4));
+            renderGrid(articles.slice(4));
+        } catch(e) {
+            console.error('Error:', e);
+            document.getElementById('featured-container').innerHTML =
+                '<div style="text-align:center;padding:80px;color:#C2185B;">Error al cargar noticias.</div>';
+        }
+    }
+
+    function renderCinematic(articles) {
+        const container = document.getElementById('featured-container');
+        if (!container || !articles.length) return;
+
+        const hero = articles[0];
+        const secs = articles.slice(1, 4);
+
+        const secsHtml = secs.map(a => `
+            <div class="secondary-card">
+                <div class="sec-img">
+                    <a href="articulo/index.html?slug=${enc(a.slug)}">
+                        <img src="${a.imageUrl || 'logo.png'}" alt="${esc(a.title)}" loading="lazy">
+                    </a>
+                </div>
+                <div class="sec-content">
+                    <span class="category-badge cat-${esc((a.category||'general').toLowerCase())}">${esc(a.category||'General')}</span>
+                    <h3><a href="articulo/index.html?slug=${enc(a.slug)}">${esc(a.title)}</a></h3>
+                    <div class="card-meta">
+                        <span><i class="far fa-calendar"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                    </div>
+                </div>
+            </div>`).join('');
+
+        container.innerHTML = `
+            <article class="cinematic-hero">
+                <a href="articulo/index.html?slug=${enc(hero.slug)}">
+                    <img src="${hero.imageUrl || 'logo.png'}" alt="${esc(hero.title)}" loading="lazy">
+                </a>
+                <div class="cinematic-overlay">
+                    <span class="hero-category">${esc(hero.category||'General')}</span>
+                    <h1><a href="articulo/index.html?slug=${enc(hero.slug)}">${esc(hero.title)}</a></h1>
+                    <p class="hero-excerpt">${esc(hero.excerpt||'')}</p>
+                    <div class="hero-meta">
+                        <span><i class="far fa-user"></i> ${esc(hero.author||'Redacción')}</span>
+                        <span><i class="far fa-calendar"></i> ${hero.publishedAt ? new Date(hero.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                    </div>
+                </div>
+            </article>
+            ${secs.length ? `<div class="container"><div class="secondary-row">${secsHtml}</div></div>` : ''}`;
+    }
+
+    function renderGrid(articles) {
+        const container = document.getElementById('news-container');
+        const section   = document.getElementById('news-section');
+        if (!container) return;
+        if (!articles.length) { if (section) section.style.display = 'none'; return; }
+
+        container.innerHTML = articles.map(a => `
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <a href="articulo/index.html?slug=${enc(a.slug)}">
+                        <img src="${a.imageUrl || 'logo.png'}" alt="${esc(a.title)}" loading="lazy">
+                    </a>
+                </div>
+                <div class="card-content">
+                    <span class="card-category-badge cat-${esc((a.category||'general').toLowerCase())}">${esc(a.category||'General')}</span>
+                    <h3 class="card-title"><a href="articulo/index.html?slug=${enc(a.slug)}">${esc(a.title)}</a></h3>
+                    <p class="card-excerpt">${esc(a.excerpt||'')}</p>
+                    <div class="card-footer">
+                        <span class="card-author"><i class="far fa-user"></i> ${esc(a.author||'Redacción')}</span>
+                        <span class="card-date"><i class="far fa-calendar"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                    </div>
+                </div>
+            </article>`).join('');
+    }
+
+    function esc(t) {
+        if (!t) return '';
+        return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function enc(t) { return encodeURIComponent(t || ''); }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadArticles);
+    } else { loadArticles(); }
+})();
+</script>
+
+</body>
+</html>

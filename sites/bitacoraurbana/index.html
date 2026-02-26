@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Bitácora Urbana - Crónicas de la ciudad
+  </title>
+  <meta content="Crónicas de la ciudad. Noticias de México y el mundo." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&amp;family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+  <link href="style-custom.css" rel="stylesheet"/>
+  <link rel="alternate" type="application/rss+xml" title="Bitácora Urbana RSS" href="/rss.xml"/>
+ </head>
+ <body>
+  <div id="site-preloader"></div>
+  <div id="site-header"></div>
+  <main class="main-content">
+        <!-- Dynamic content placeholders -->
+        <section class="featured-section">
+            <div id="featured-container" class="featured-grid" aria-live="polite" data-api="https://news-api.sebastianvernis.workers.dev/api/articles?site=bitacoraurbana&limit=12">
+                <!-- Featured articles will be injected here by JS -->
+            </div>
+        </section>
+
+        <section id="latest-section" style="background:var(--background-color, #E0F2F1);padding:40px 20px;margin:20px 0;">
+            <div style="max-width:1200px;margin:0 auto;">
+                <h2 style="text-align:center;margin-bottom:30px;font-size:2em;color:var(--text-color, #004D40);">Últimas Noticias</h2>
+                <div id="latest-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,3fr));gap:20px;"></div>
+            </div>
+        </section>
+
+        <section class="news-section">
+            <h2 style="text-align:center;margin-bottom:30px;font-size:2em;color:var(--text-color, #004D40);">Más Noticias</h2>
+            <div id="news-container" class="news-grid news-grid-3"></div>
+        </section>
+   </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="script.js"></script>
+  <script src="components.js"></script>
+    <script>
+
+    (async function(){
+        const apiUrl = document.querySelector('#featured-container')?.dataset.api || '/api/articles?limit=12';
+        let articles = [];
+        try{
+            const res = await fetch(apiUrl);
+            if(!res.ok) throw new Error('Network');
+            const data = await res.json();
+            articles = data.articles || [];
+        }catch(e){ 
+            console.log('Using sample articles for testing');
+            articles = sampleArticles;
+        }
+        
+        if(!articles?.length) articles = sampleArticles;
+        
+        const featured = articles.slice(0,5); // Solo 5 artículos
+        window.featuredArticles = featured; // Store globally for rotation
+        const latest = articles.slice(5,8);
+        const news = articles.slice(8);
+        
+        const fContainer = document.getElementById('featured-container');
+        if(fContainer){
+            // Create static 5-article grid: 2 left, 1 hero (2 rows), 2 right
+            fContainer.innerHTML = '';
+            fContainer.className = 'featured-grid';
+            
+            // Create 5 static cards with fixed positions
+            const positions = ['left1', 'left2', 'hero', 'right1', 'right2'];
+            positions.forEach((pos, index) => {
+                const card = createStaticCard(featured[index] || featured[0], pos);
+                fContainer.appendChild(card);
+            });
+            
+            // Start hero content rotation
+            startHeroContentRotation();
+        }
+        
+        const latestContainer = document.getElementById('latest-container');
+        if(latestContainer){ 
+            latestContainer.innerHTML = ''; 
+            latest.forEach(a => latestContainer.appendChild(renderLatestCard(a))); 
+        }
+        
+        const newsContainer = document.getElementById('news-container');
+        if(newsContainer){ 
+            newsContainer.innerHTML = ''; 
+            news.forEach(a => newsContainer.appendChild(renderNewsCard(a))); 
+        }
+    })();
+
+    let currentHeroIndex = 2; // Start with article at index 2 in hero
+    let rotationInterval;
+    
+    function startHeroContentRotation() {
+        // Update hero content every 5 seconds
+        rotationInterval = setInterval(() => {
+            // Move current hero article to the position it came from
+            const oldHeroIndex = currentHeroIndex;
+            currentHeroIndex = (currentHeroIndex + 1) % 5;
+            
+            // Update the content of the hero and the lateral position
+            updateHeroAndLateralContent(window.featuredArticles, oldHeroIndex, currentHeroIndex);
+        }, 5000);
+    }
+    
+    function updateHeroAndLateralContent(featured, oldHeroIndex, newHeroIndex) {
+        // Get all cards
+        const heroCard = document.querySelector('.featured-card[data-position="hero"]');
+        const lateralCards = document.querySelectorAll('.featured-card:not([data-position="hero"])');
+        
+        // Find which lateral position should show the old hero article
+        // The old hero goes to the position of the new hero
+        const positions = ['left1', 'left2', 'hero', 'right1', 'right2'];
+        const oldHeroPos = positions[oldHeroIndex];
+        const newHeroPos = positions[newHeroIndex];
+        
+        // Update hero content with new article
+        updateCardContent(heroCard, featured[newHeroIndex]);
+        
+        // Update the lateral position that now shows the old hero article
+        const lateralCard = document.querySelector(`.featured-card[data-position="${newHeroPos}"]`);
+        if (lateralCard && newHeroPos !== 'hero') {
+            updateCardContent(lateralCard, featured[oldHeroIndex]);
+        }
+    }
+    
+    function updateCardContent(card, article) {
+        if (!card || !article) return;
+        
+        const img = card.querySelector('.rotating-img-wrapper img');
+        const titleLink = card.querySelector('.rotating-title a');
+        const excerpt = card.querySelector('.rotating-excerpt');
+        const badge = card.querySelector('.category-badge');
+        const meta = card.querySelector('.rotating-meta');
+        
+        if (img) {
+            img.src = article.imageUrl || 'assets/images/article_placeholder.jpg';
+            img.alt = article.title || '';
+        }
+        if (titleLink) {
+            titleLink.href = 'articulo/index.html?slug=' + (article.slug || '');
+            titleLink.textContent = article.title || '';
+        }
+        if (excerpt) excerpt.textContent = article.excerpt || '';
+        if (badge) {
+            badge.className = 'category-badge ' + (article.category ? 'cat-' + article.category.toLowerCase() : '');
+            badge.textContent = article.category || 'Destacado';
+        }
+        if (meta) {
+            const authorText = 'Redacción ' + (article.category || 'General');
+            meta.innerHTML = '<span class="author"><i class="far fa-user"></i> ' + authorText + '</span> <span class="date"><i class="far fa-calendar"></i> ' + (article.publishedAt ? new Date(article.publishedAt).toLocaleDateString("es-MX") : "") + '</span>';
+        }
+    }
+
+    function createLinkArticle(a){ const link = document.createElement('a'); link.href = 'articulo/index.html?slug='+(a.slug||''); link.title = a.title||''; return link; }
+    
+    function createStaticCard(a, position) {
+        const article = document.createElement('article');
+        article.className = 'rotating-card featured-card';
+        article.dataset.position = position;
+        
+        // Image on top
+        const imgWrapper = document.createElement('div');
+        imgWrapper.className = 'rotating-img-wrapper';
+        const link = createLinkArticle(a);
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.src = a.imageUrl || 'assets/images/article_placeholder.jpg';
+        img.alt = a.title || '';
+        link.appendChild(img);
+        imgWrapper.appendChild(link);
+        
+        // Content below
+        const content = document.createElement('div');
+        content.className = 'rotating-content';
+        
+        const badge = document.createElement('span');
+        badge.className = 'category-badge ' + (a.category ? 'cat-' + a.category.toLowerCase() : '');
+        badge.textContent = a.category || 'Destacado';
+        
+        const h3 = document.createElement('h3');
+        h3.className = 'rotating-title';
+        const titleLink = createLinkArticle(a);
+        titleLink.textContent = a.title || '';
+        h3.appendChild(titleLink);
+        
+        const p = document.createElement('p');
+        p.className = 'rotating-excerpt';
+        p.textContent = a.excerpt || '';
+        
+        const meta = document.createElement('div');
+        meta.className = 'rotating-meta';
+        const authorText = 'Redacción ' + (a.category || 'General');
+        meta.innerHTML = '<span class="author"><i class="far fa-user"></i> ' + authorText + '</span> <span class="date"><i class="far fa-calendar"></i> ' + (a.publishedAt ? new Date(a.publishedAt).toLocaleDateString("es-MX") : "") + '</span>';
+        
+        content.appendChild(badge);
+        content.appendChild(h3);
+        content.appendChild(p);
+        content.appendChild(meta);
+        
+        article.appendChild(imgWrapper);
+        article.appendChild(content);
+        
+        // Click to make this the hero (only for lateral cards)
+        if (position !== 'hero') {
+            article.addEventListener('click', () => {
+                // Find the index of this position
+                const positions = ['left1', 'left2', 'hero', 'right1', 'right2'];
+                const clickedIndex = positions.indexOf(position);
+                
+                // Update content: current hero goes to this position, clicked becomes hero
+                const heroCard = document.querySelector('.featured-card[data-position="hero"]');
+                const clickedCard = article;
+                
+                // Get current articles from hero
+                const heroImg = heroCard.querySelector('.rotating-img-wrapper img');
+                const clickedImg = clickedCard.querySelector('.rotating-img-wrapper img');
+                
+                // Swap content between hero and clicked card
+                const tempSrc = heroImg.src;
+                const tempAlt = heroImg.alt;
+                const tempTitle = heroCard.querySelector('.rotating-title a').textContent;
+                const tempExcerpt = heroCard.querySelector('.rotating-excerpt').textContent;
+                const tempCategory = heroCard.querySelector('.category-badge').textContent;
+                const tempSlug = heroCard.querySelector('.rotating-title a').href;
+                
+                // Update hero with clicked content
+                updateCardContent(heroCard, {
+                    imageUrl: clickedImg.src,
+                    title: clickedCard.querySelector('.rotating-title a').textContent,
+                    excerpt: clickedCard.querySelector('.rotating-excerpt').textContent,
+                    category: clickedCard.querySelector('.category-badge').textContent,
+                    slug: clickedCard.querySelector('.rotating-title a').href.split('slug=')[1] || '',
+                    publishedAt: new Date().toISOString()
+                });
+                
+                // Update clicked card with old hero content
+                updateCardContent(clickedCard, {
+                    imageUrl: tempSrc,
+                    title: tempTitle,
+                    excerpt: tempExcerpt,
+                    category: tempCategory,
+                    slug: tempSlug.split('slug=')[1] || '',
+                    publishedAt: new Date().toISOString()
+                });
+                
+                // Reset timer
+                clearInterval(rotationInterval);
+                currentHeroIndex = clickedIndex;
+                rotationInterval = setInterval(() => {
+                    const oldHeroIndex = currentHeroIndex;
+                    currentHeroIndex = (currentHeroIndex + 1) % 5;
+                    updateHeroAndLateralContent(window.featuredArticles, oldHeroIndex, currentHeroIndex);
+                }, 5000);
+            });
+        }
+        
+        return article;
+    }
+    function renderLatestCard(a){
+        const el = document.createElement('article'); el.style.background='var(--card-bg, #FFFFFF)'; el.style.borderRadius='8px'; el.style.overflow='hidden'; el.style.boxShadow='0 2px 10px rgba(0,0,0,0.1)';
+        const link = createLinkArticle(a); const img = document.createElement('img'); img.src = a.imageUrl || 'assets/images/article_placeholder.jpg'||'assets/images/article_placeholder.jpg'; img.style.width='100%'; img.style.height='200px'; img.style.objectFit='cover'; link.appendChild(img); el.appendChild(link);
+        const div = document.createElement('div'); div.style.padding='20px'; const h3 = document.createElement('h3'); h3.style.margin='0 0 10px 0'; h3.style.fontSize='1.2em'; const titleLink = createLinkArticle(a); titleLink.textContent = a.title||''; h3.appendChild(titleLink);
+        const p = document.createElement('p'); p.style.color='#666'; p.style.lineHeight='1.6'; p.textContent = a.excerpt||''; div.appendChild(h3); div.appendChild(p); el.appendChild(div); return el;
+    }
+    function renderNewsCard(a){
+        const article = document.createElement('article'); article.className='news-card';
+        const imgWrap = document.createElement('div'); imgWrap.className='card-image-wrapper'; const link = createLinkArticle(a);
+        const img = document.createElement('img'); img.loading='lazy'; img.src = a.imageUrl || 'assets/images/article_placeholder.jpg'||'assets/images/article_placeholder.jpg'; img.alt = a.title||''; link.appendChild(img); imgWrap.appendChild(link);
+        const badge = document.createElement('span'); badge.className='card-category-badge '+(a.category?'cat-'+a.category.toLowerCase():''); badge.textContent = a.category||''; imgWrap.appendChild(badge);
+        const content = document.createElement('div'); content.className='card-content'; const h3 = document.createElement('h3'); h3.className='card-title'; const titleLink = createLinkArticle(a); titleLink.textContent = a.title||''; h3.appendChild(titleLink);
+        const p = document.createElement('p'); p.className='card-excerpt'; p.textContent = a.excerpt||''; const footer = document.createElement('div'); footer.className='card-footer'; const author = document.createElement('span'); author.className='card-author'; author.textContent = 'Por Redacción '+(a.category||'General'); const date = document.createElement('span'); date.className='card-date'; date.textContent = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString("es-MX") : ""; footer.appendChild(author); footer.appendChild(date);
+        content.appendChild(h3); content.appendChild(p); content.appendChild(footer); article.appendChild(imgWrap); article.appendChild(content); return article;
+    }
+    </script>
+ </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>México Informado - Periodismo con Perspectiva</title>
+    <meta content="Noticias de México y el mundo con análisis profundo y periodismo verificado." name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="style-custom.css" rel="stylesheet"/>
+    <link rel="alternate" type="application/rss+xml" title="México Informado RSS" href="/rss.xml"/>
+</head>
+<body>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main class="main-content">
+    <div class="container">
+        <!-- Editorial strip: 1 grande + 2 laterales -->
+        <section class="featured-section">
+            <div id="featured-container">
+                <div style="text-align:center;padding:60px;color:#9D865F;">Cargando noticias...</div>
+            </div>
+        </section>
+
+        <!-- Grid 4 columnas -->
+        <section class="news-section" id="news-section">
+            <h2 class="section-title">Más Noticias</h2>
+            <div id="news-container" class="card-grid"></div>
+        </section>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    const API = 'https://news-api.sebastianvernis.workers.dev/api/articles?site=mexicoinformado&limit=20';
+
+    async function loadArticles() {
+        try {
+            const res = await fetch(API);
+            if (!res.ok) throw new Error('Network error');
+            const {articles} = await res.json();
+            if (!articles?.length) {
+                document.getElementById('featured-container').innerHTML =
+                    '<div style="text-align:center;padding:60px;color:#9D865F;">No hay noticias disponibles.</div>';
+                return;
+            }
+            renderEditorialStrip(articles.slice(0, 3));
+            renderGrid(articles.slice(3));
+        } catch(e) {
+            console.error('Error:', e);
+            document.getElementById('featured-container').innerHTML =
+                '<div style="text-align:center;padding:60px;color:#9C2E3C;">Error al cargar noticias.</div>';
+        }
+    }
+
+    function renderEditorialStrip(articles) {
+        const container = document.getElementById('featured-container');
+        if (!container || !articles.length) return;
+
+        const hero = articles[0];
+        const sides = articles.slice(1, 3);
+
+        const sidesHtml = sides.map(a => `
+            <article class="editorial-side-card">
+                <a href="articulo/index.html?slug=${enc(a.slug)}">
+                    <img src="${a.imageUrl || 'logo.png'}" alt="${esc(a.title)}" loading="lazy">
+                </a>
+                <div class="editorial-side-content">
+                    <span class="category-badge cat-${esc((a.category||'general').toLowerCase())}">${esc(a.category||'General')}</span>
+                    <h3><a href="articulo/index.html?slug=${enc(a.slug)}">${esc(a.title)}</a></h3>
+                    <div class="card-meta">
+                        <span><i class="far fa-user"></i> ${esc(a.author||'Redacción')}</span>
+                        <span><i class="far fa-calendar"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                    </div>
+                </div>
+            </article>`).join('');
+
+        container.innerHTML = `
+            <div class="editorial-strip">
+                <article class="editorial-main">
+                    <a href="articulo/index.html?slug=${enc(hero.slug)}">
+                        <img src="${hero.imageUrl || 'logo.png'}" alt="${esc(hero.title)}" loading="lazy">
+                    </a>
+                    <div class="editorial-main-overlay">
+                        <span class="category-badge cat-${esc((hero.category||'general').toLowerCase())}">${esc(hero.category||'General')}</span>
+                        <h2 class="hero-title"><a href="articulo/index.html?slug=${enc(hero.slug)}">${esc(hero.title)}</a></h2>
+                        <p class="hero-excerpt">${esc(hero.excerpt||'')}</p>
+                        <div class="hero-meta">
+                            <span><i class="far fa-user"></i> ${esc(hero.author||'Redacción')}</span>
+                            <span><i class="far fa-calendar"></i> ${hero.publishedAt ? new Date(hero.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                        </div>
+                    </div>
+                </article>
+                <div class="editorial-sidebar">${sidesHtml}</div>
+            </div>`;
+    }
+
+    function renderGrid(articles) {
+        const container = document.getElementById('news-container');
+        const section   = document.getElementById('news-section');
+        if (!container) return;
+        if (!articles.length) { if (section) section.style.display = 'none'; return; }
+
+        container.innerHTML = articles.map(a => `
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <a href="articulo/index.html?slug=${enc(a.slug)}">
+                        <img src="${a.imageUrl || 'logo.png'}" alt="${esc(a.title)}" loading="lazy">
+                    </a>
+                </div>
+                <div class="card-content">
+                    <span class="card-category-badge cat-${esc((a.category||'general').toLowerCase())}">${esc(a.category||'General')}</span>
+                    <h3 class="card-title"><a href="articulo/index.html?slug=${enc(a.slug)}">${esc(a.title)}</a></h3>
+                    <p class="card-excerpt">${esc(a.excerpt||'')}</p>
+                    <div class="card-footer">
+                        <span class="card-author"><i class="far fa-user"></i> ${esc(a.author||'Redacción')}</span>
+                        <span class="card-date"><i class="far fa-calendar"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                    </div>
+                </div>
+            </article>`).join('');
+    }
+
+    function esc(t) {
+        if (!t) return '';
+        return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function enc(t) { return encodeURIComponent(t || ''); }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadArticles);
+    } else { loadArticles(); }
+})();
+</script>
+
+</body>
+</html>

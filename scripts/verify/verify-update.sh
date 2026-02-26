@@ -1,0 +1,55 @@
+#!/bin/bash
+
+echo "🔍 Verificación del Despliegue Actualizado - Sitio Web de Noticias"
+echo "==============================================================="
+
+echo ""
+echo "1. Verificando sitio web principal..."
+echo "   URL: https://noticias-hoy.pages.dev"
+curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" "https://noticias-hoy.pages.dev" || echo "❌ Error al acceder al sitio web"
+
+echo ""
+echo "2. Verificando páginas de categorías..."
+echo "   URL: https://noticias-hoy.pages.dev/categoria/nacional"
+curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" "https://noticias-hoy.pages.dev/categoria/nacional" || echo "❌ Error al acceder a categoría nacional"
+
+echo ""
+echo "3. Verificando páginas legales..."
+echo "   URL: https://noticias-hoy.pages.dev/acerca-de"
+curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" "https://noticias-hoy.pages.dev/acerca-de" || echo "❌ Error al acceder a acerca de"
+
+echo ""
+echo "4. Verificando API Worker..."
+echo "   URL: https://news-api.sebastianvernis.workers.dev"
+curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" "https://news-api.sebastianvernis.workers.dev" || echo "❌ Error al acceder al API"
+
+echo ""
+echo "5. Verificando Cron Worker..."
+echo "   URL: https://news-cron.sebastianvernis.workers.dev"
+curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" "https://news-cron.sebastianvernis.workers.dev" || echo "❌ Error al acceder al Cron"
+
+echo ""
+echo "6. Verificando archivos importantes en el sitio..."
+echo "   - index.html: $(if curl -s -o /dev/null -w "%{http_code}" "https://noticias-hoy.pages.dev/index.html" | grep -q '200'; then echo "✅ OK"; else echo "❌ Falta"; fi)"
+echo "   - sitemap.xml: $(if curl -s -o /dev/null -w "%{http_code}" "https://noticias-hoy.pages.dev/sitemap.xml" | grep -q '200'; then echo "✅ OK"; else echo "❌ Falta"; fi)"
+echo "   - robots.txt: $(if curl -s -o /dev/null -w "%{http_code}" "https://noticias-hoy.pages.dev/robots.txt" | grep -q '200'; then echo "✅ OK"; else echo "❌ Falta"; fi)"
+
+echo ""
+echo "7. Recursos desplegados:"
+echo "   - Sitio web: https://noticias-hoy.pages.dev"
+echo "   - Categorías: https://noticias-hoy.pages.dev/categoria/[nombre]"
+echo "   - Páginas legales: https://noticias-hoy.pages.dev/[pagina]"
+echo "   - API: https://news-api.sebastianvernis.workers.dev"
+echo "   - Cron: https://news-cron.sebastianvernis.workers.dev"
+
+echo ""
+echo "✅ ¡Despliegue actualizado completado exitosamente!"
+echo ""
+echo "Ahora deberías poder ver:"
+echo "1. Contenido real en la página principal"
+echo "2. Páginas de categorías funcionales"
+echo "3. Páginas legales completas"
+echo "4. Sistema de navegación completo"
+echo "5. Sidebar con categorías y artículos populares"
+echo ""
+echo "Visita: https://noticias-hoy.pages.dev para ver los cambios"

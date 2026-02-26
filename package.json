@@ -1,0 +1,35 @@
+{
+  "name": "news-website-cloudflare",
+  "version": "1.0.0",
+  "description": "News website deployed on Cloudflare Pages with Workers backend",
+  "main": "index.js",
+  "scripts": {
+    "clean": "pkill -f wrangler || true",
+    "dev": "wrangler pages dev ./public --port 8888 --proxy 8781",
+    "worker": "wrangler dev src/index.js --port 8781",
+    "start": "npm run worker & npm run dev",
+    "deploy": "wrangler pages deploy ./public",
+    "build": "echo 'Building static assets...'",
+    "preview": "wrangler pages dev ./public --live-reload",
+    "test": "node --test"
+  },
+  "keywords": [
+    "news",
+    "website",
+    "cloudflare",
+    "pages",
+    "workers",
+    "frontend"
+  ],
+  "author": "News Website Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230419.0",
+    "typescript": "^5.0.4",
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "@openai/codex": "^0.104.0",
+    "hono": "^4.0.0"
+  }
+}

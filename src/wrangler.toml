@@ -1,0 +1,34 @@
+name = "news-api"
+main = "index.js"
+compatibility_date = "2023-12-01"
+workers_dev = true
+
+# Custom Domain
+routes = [
+	{ pattern = "cms-api.sebastianvernis.space/*", zone_name = "sebastianvernis.space" }
+]
+
+
+
+# ── Base de datos D1 (compartida entre los 10 sitios) ────────
+[[d1_databases]]
+binding = "DB"
+database_name = "news_db"
+database_id = "039ec6ab-8f14-4e79-8f02-021df67a6c18"
+
+# ── KV Namespace (caché de artículos) ────────────────────────
+[[kv_namespaces]]
+binding = "ARTICLES_KV"
+id = "fbf21fb75f5647a8966858d199b44e0b"
+preview_id = "fbf21fb75f5647a8966858d199b44e0b"
+
+# ── R2 Bucket (almacenamiento de imágenes) ──────────────────
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "cms-news"
+
+[triggers]
+crons = ["*/30 * * * *"]
+
+[build]
+command = "npm install"

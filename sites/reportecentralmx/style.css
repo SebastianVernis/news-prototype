@@ -1,0 +1,41 @@
+/* ========================================
+   Reporte Central MX - Base (reset + variables)
+   Paleta: Carbon Black, Graphite, Burnt Rose, Alabaster Grey
+   NOTE: Todo el tema visual está en style-custom.css
+   ======================================== */
+
+:root {
+    /* Paleta Reporte Central MX */
+    --rcm-carbon:    #202020; /* Carbon Black — header */
+    --rcm-graphite:  #2E2E2E; /* Graphite */
+    --rcm-rose:      #9B3D3F; /* Burnt Rose — acento */
+    --rcm-alabaster: #E0E4E3; /* Alabaster Grey — fondo */
+    --rcm-granite:   #918C8C; /* Rosy Granite — texto muted */
+    --rcm-white:     #FFFFFF;
+    --rcm-text:      #1A1A1A;
+    --rcm-text-muted:#6B6B6B;
+
+    --font-primary:   'Playfair Display', Georgia, serif;
+    --font-secondary: 'Noto Sans', sans-serif;
+
+    --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+    --space-lg: 1.5rem;  --space-xl: 2rem;   --space-2xl: 3rem;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.14);
+
+    --radius-sm: 3px; --radius-md: 6px; --radius-lg: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-secondary); background: #F2F3F3; color: var(--rcm-text); line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+@media (max-width: 768px) {
+    .container { padding: 0 var(--space-md); }
+}
+/* NOTE: Todo el tema visual está en style-custom.css */

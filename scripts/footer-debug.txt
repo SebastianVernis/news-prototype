@@ -1,0 +1,5 @@
+ <h4 style="margin-bottom:8px;font-size:0.85rem;">Secciones</h4>
+                <ul class="footer-links" style="display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;">
+                    <li><a href="${base}categoria/nacional.html">Nacional</a></li>
+                    <li><a href="${base}categoria/politica.html">Política</a></li>
+                    <li><a href="${base}categoria/economia.

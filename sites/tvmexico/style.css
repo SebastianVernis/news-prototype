@@ -1,0 +1,41 @@
+/* ========================================
+   TV México - Base (reset + variables)
+   Paleta: Coffee Bean, Wine Plum, Mauve Shadow, Dusty Lavender, Pale Blush
+   NOTE: Todo el tema visual está en style-custom.css
+   ======================================== */
+
+:root {
+    /* Paleta TV México */
+    --tvm-coffee:    #20131A; /* Coffee Bean — fondo oscuro */
+    --tvm-wine:      #5E2B37; /* Wine Plum — acento */
+    --tvm-mauve:     #44333E; /* Mauve Shadow */
+    --tvm-lavender:  #8C7A85; /* Dusty Lavender — texto muted */
+    --tvm-blush:     #F0E8EC; /* Pale Blush — fondo claro */
+    --tvm-white:     #FFFFFF;
+    --tvm-text:      #F0E8EC;
+    --tvm-text-muted:#8C7A85;
+
+    --font-primary:   'Playfair Display', serif;
+    --font-secondary: 'Noto Sans', sans-serif;
+
+    --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+    --space-lg: 1.5rem;  --space-xl: 2rem;   --space-2xl: 3rem;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-secondary); background: #160E13; color: var(--tvm-text); line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+@media (max-width: 768px) {
+    .container { padding: 0 var(--space-md); }
+}
+/* NOTE: Todo el tema visual está en style-custom.css */

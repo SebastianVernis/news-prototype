@@ -1,0 +1,17 @@
+# Configuración de cabeceras para asegurar tipos MIME correctos
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+
+/admin/css/*.css
+  Content-Type: text/css
+
+/admin/js/*.js
+  Content-Type: application/javascript
+
+/*.js
+  Content-Type: application/javascript
+
+/*.css
+  Content-Type: text/css

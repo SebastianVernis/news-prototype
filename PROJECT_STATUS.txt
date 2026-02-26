@@ -1,0 +1,49 @@
+PROYECTO: NexoPress News Network (Cloudflare)
+ESTADO ACTUAL: [FINALIZADO / OPERATIVO]
+FECHA: 26 de Febrero, 2026
+
+============================================================
+HITOS ALCANZADOS
+============================================================
+
+1. [API UNIFICADA]
+   - src/index.js consolidado como Worker único para API y Cron.
+   - Rutas de monitoreo y diagnóstico añadidas (/api/facebook/monitor, /api/cron/status).
+   - Solucionados errores 500 por funciones faltantes (processFB).
+
+2. [FLUJO FACEBOOK]
+   - Publicación automática cada 3 horas por cada uno de los 10 sitios.
+   - Filtro de "Imagen Perfecta": Solo publica en FB si el artículo tiene imagen original.
+   - Soporte para Page Access Tokens permanentes (Never Expire).
+   - Reporte detallado de éxito/error en cada publicación inmediata.
+
+3. [INGESTA DE NOTICIAS]
+   - Soporte dual para RSS y Atom (El País, Proceso, Aristegui, etc.).
+   - Corrección de estilo por IA via OpenRouter (Gemini 2.0 Flash) funcional.
+   - Sistema de imagen de respaldo (fallback) para mantener la web actualizada.
+
+4. [DASHBOARD / MONITOR]
+   - Nueva vista "Monitor Sistema" en el panel de administración.
+   - Diagnóstico en vivo de tokens de Facebook.
+   - Botón de ingesta manual forzada para pruebas.
+   - Historial unificado de envíos a redes sociales.
+
+============================================================
+CONFIGURACIÓN DE PRODUCCIÓN
+============================================================
+
+- Worker: news-api (cms-api.sebastianvernis.space)
+- DB: news_db (Cloudflare D1)
+- KV: fbf21fb75f5647a8966858d199b44e0b (ARTICLES_KV)
+- Cron: Ejecución cada 30 minutos (*/30 * * * *).
+
+============================================================
+NOTAS DE MANTENIMIENTO
+============================================================
+
+- Los tokens de Facebook están configurados como Cloudflare Secrets (FB_TOKEN_[SITIO]).
+- El archive de scripts obsoletos se encuentra en: backups/archive/
+- La clave de OpenRouter está actualizada y verificada.
+
+SISTEMA ESTABLE Y AUTOMATIZADO.
+============================================================

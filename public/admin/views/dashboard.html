@@ -1,0 +1,40 @@
+<div class="header">
+    <h2><i class="fas fa-chart-line"></i> Dashboard de la Red</h2>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+    <div class="card" style="border-bottom: 4px solid var(--primary-color);">
+        <div style="color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-newspaper"></i> Artículos Públicos</div>
+        <div id="stat-total-articles" style="font-size: 2.2rem; font-weight: 800; color: var(--text-primary); margin-top: 5px;">0</div>
+    </div>
+    <div class="card" style="border-bottom: 4px solid #ffc107;">
+        <div style="color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-tasks"></i> Pendientes Revisión</div>
+        <div id="stat-pending-revision" style="font-size: 2.2rem; font-weight: 800; color: var(--text-primary); margin-top: 5px;">0</div>
+    </div>
+    <div class="card" style="border-bottom: 4px solid #1877F2;">
+        <div style="color: var(--text-secondary); font-size: 0.9rem;"><i class="fab fa-facebook"></i> Posts en Facebook</div>
+        <div id="stat-total-facebook" style="font-size: 2.2rem; font-weight: 800; color: var(--text-primary); margin-top: 5px;">0</div>
+    </div>
+    <div class="card" style="border-bottom: 4px solid #28a745;">
+        <div style="color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-globe"></i> Sitios en Red</div>
+        <div id="stat-total-sites" style="font-size: 2.2rem; font-weight: 800; color: var(--text-primary); margin-top: 5px;">0</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="header" style="border-bottom: none; margin-bottom: 0; padding: 1.5rem;">
+        <h3 style="font-size: 1.1rem;"><i class="fas fa-history"></i> Actividad Reciente</h3>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Sitio</th>
+                <th>Fecha/Hora Publicación</th>
+            </tr>
+        </thead>
+        <tbody id="recent-articles-table">
+            <tr><td colspan="3" style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Cargando actividad...</td></tr>
+        </tbody>
+    </table>
+</div>

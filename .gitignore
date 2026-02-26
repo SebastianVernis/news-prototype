@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+.npm/
+
+# Cloudflare & Build
+.wrangler/
+.crush/
+dist/
+build/
+.dev.vars
+
+# Environment & Secrets
+.env
+.env.local
+
+# Project Data & Backups (Local only)
+data/
+backups/archive/
+*.sql
+*.log
+*.csv
+*.json
+!package.json
+!package-lock.json
+!meta.json
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Temporary / OS
+tmp/
+temp/

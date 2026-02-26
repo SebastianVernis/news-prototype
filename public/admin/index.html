@@ -1,0 +1,1232 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>NexoPress CMS</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link rel="stylesheet" href="css/admin.css" />
+        <!-- Theme aplicado antes del primer paint para evitar FOUC -->
+        <script>
+            (function () {
+                var t = localStorage.getItem("NEXOPRESS_THEME");
+                if (!t)
+                    t = window.matchMedia("(prefers-color-scheme: dark)")
+                        .matches
+                        ? "dark"
+                        : "light";
+                if (t === "dark")
+                    document.documentElement.classList.add("dark-mode");
+            })();
+        </script>
+    </head>
+    <body>
+        <!-- Barra superior móvil -->
+        <div class="mobile-topbar" id="mobile-topbar" style="display: none">
+            <button
+                class="hamburger-btn"
+                id="hamburger-btn"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="topbar-title">
+                <img
+                    src="assets/logo.png"
+                    alt="NexoPress"
+                    style="
+                        height: 32px;
+                        width: auto;
+                        object-fit: contain;
+                        filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.5));
+                    "
+                    onerror="
+                        this.style.display = 'none';
+                        this.nextElementSibling.style.display = 'inline';
+                    "
+                />
+                <span
+                    style="
+                        display: none;
+                        font-weight: 800;
+                        background: linear-gradient(135deg, #67e8f9, #0891b2);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    "
+                    >NexoPress</span
+                >
+            </span>
+        </div>
+
+        <!-- Overlay oscuro para sidebar en móvil -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <div class="admin-container" id="admin-container" style="display: none">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="logo">
+                    <!-- Ícono solo visible en modo colapsado -->
+                    <i
+                        class="fas fa-bolt logo-icon-only"
+                        style="
+                            display: none;
+                            font-size: 1.3rem;
+                            color: #06b6d4;
+                            filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.5));
+                        "
+                    ></i>
+                    <!-- Logo completo -->
+                    <img
+                        src="assets/logo.png"
+                        alt="NexoPress"
+                        class="logo-full"
+                        style="
+                            max-width: 150px;
+                            height: 40px;
+                            object-fit: contain;
+                            filter: drop-shadow(
+                                0 0 8px rgba(6, 182, 212, 0.45)
+                            );
+                        "
+                        onerror="
+                            this.style.display = 'none';
+                            this.nextElementSibling.style.display = 'flex';
+                        "
+                    />
+                    <h1
+                        class="logo-full"
+                        style="
+                            display: none;
+                            font-size: 1.3rem;
+                            align-items: center;
+                            gap: 0.5rem;
+                        "
+                    >
+                        <i class="fas fa-bolt" style="color: #06b6d4"></i>
+                        NexoPress
+                    </h1>
+                    <!-- Botón colapso -->
+                    <button
+                        class="sidebar-collapse-btn"
+                        id="sidebar-collapse-btn"
+                        aria-label="Colapsar sidebar"
+                        title="Colapsar menú"
+                    >
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+
+                <ul class="nav-menu" id="nav-menu">
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('dashboard')"
+                            class="nav-link"
+                            data-view="dashboard"
+                            data-tooltip="Dashboard"
+                            ><i class="fas fa-home"></i
+                            ><span>Dashboard</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('cms')"
+                            class="nav-link"
+                            data-view="cms"
+                            data-tooltip="Redacción"
+                            ><i class="fas fa-pen-nib"></i
+                            ><span>Redacción Interna</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('revision')"
+                            class="nav-link"
+                            data-view="revision"
+                            data-tooltip="Revisión"
+                            ><i class="fas fa-tasks"></i
+                            ><span>Mesa de Revisión</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('articles')"
+                            class="nav-link"
+                            data-view="articles"
+                            data-tooltip="Artículos"
+                            ><i class="fas fa-newspaper"></i
+                            ><span>Artículos</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('featured')"
+                            class="nav-link"
+                            data-view="featured"
+                            data-tooltip="Destacados"
+                            ><i class="fas fa-star"></i
+                            ><span>Destacados</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('monitor')"
+                            class="nav-link"
+                            data-view="monitor"
+                            data-tooltip="Monitor"
+                            ><i class="fas fa-microchip"></i
+                            ><span>Monitor Sistema</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('facebook')"
+                            class="nav-link"
+                            data-view="facebook"
+                            data-tooltip="Facebook"
+                            ><i class="fab fa-facebook"></i
+                            ><span>Monitor Facebook</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('categories')"
+                            class="nav-link"
+                            data-view="categories"
+                            data-tooltip="Categorías"
+                            ><i class="fas fa-tags"></i
+                            ><span>Categorías</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('sites')"
+                            class="nav-link"
+                            data-view="sites"
+                            data-tooltip="Sitios"
+                            ><i class="fas fa-globe"></i><span>Sitios</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('users')"
+                            class="nav-link"
+                            data-view="users"
+                            data-tooltip="Usuarios"
+                            ><i class="fas fa-users"></i
+                            ><span>Usuarios</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('privacidad')"
+                            class="nav-link"
+                            data-view="privacidad"
+                            data-tooltip="Privacidad"
+                            ><i class="fas fa-shield-alt"></i
+                            ><span>Privacidad</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('terminos')"
+                            class="nav-link"
+                            data-view="terminos"
+                            data-tooltip="Términos"
+                            ><i class="fas fa-file-contract"></i
+                            ><span>Términos</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            onclick="goToView('borrado')"
+                            class="nav-link"
+                            data-view="borrado"
+                            data-tooltip="Borrado"
+                            ><i class="fas fa-user-minus"></i
+                            ><span>Borrado de Datos</span></a
+                        >
+                    </li>
+                </ul>
+
+                <!-- Botón Dark / Light Mode -->
+                <button
+                    class="theme-toggle-btn"
+                    data-theme-toggle
+                    aria-label="Activar modo oscuro"
+                    title="Cambiar modo"
+                >
+                    <i class="fas fa-moon"></i>
+                    <span class="theme-label">Modo oscuro</span>
+                </button>
+
+                <!-- User Info Section -->
+                <div
+                    class="user-info-section"
+                    id="user-info-section"
+                    style="display: none"
+                >
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar">?</div>
+                        <div class="user-details">
+                            <div class="user-name" id="user-name">Usuario</div>
+                            <div class="user-role" id="user-role">Editor</div>
+                        </div>
+                    </div>
+                    <button class="btn-logout" onclick="doLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Toast container (se mueve al body por JS pero lo pre-declaramos aquí) -->
+            <div id="toast-container"></div>
+
+            <!-- Contenido Dinámico -->
+            <main class="main-content" id="main-content">
+                <div
+                    style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                    "
+                >
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                </div>
+            </main>
+
+            <!-- EDITOR UNIVERSAL DE ARTÍCULOS (PANTALLA COMPLETA) -->
+            <div
+                id="universal-editor-view"
+                style="
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.85);
+                    z-index: 9999;
+                    overflow-y: auto;
+                "
+            >
+                <div class="editor-wrapper">
+                    <div class="editor-card">
+                        <!-- Header -->
+                        <div class="editor-header">
+                            <div>
+                                <h2
+                                    id="universal-editor-title"
+                                    class="editor-header-title"
+                                >
+                                    Editor de Artículo
+                                </h2>
+                                <p
+                                    id="editor-subtitle"
+                                    class="editor-header-subtitle"
+                                >
+                                    Completa la información del artículo
+                                </p>
+                            </div>
+                            <button
+                                class="btn-close-editor"
+                                onclick="closeUniversalEditor()"
+                            >
+                                <i class="fas fa-times"></i> <span>Cerrar</span>
+                            </button>
+                        </div>
+
+                        <!-- Cuerpo -->
+                        <div class="editor-body">
+                            <form id="universal-article-form">
+                                <input type="hidden" id="uni-id" />
+                                <input type="hidden" id="uni-mode" />
+
+                                <!-- Sección 1: Información Principal -->
+                                <div class="editor-section">
+                                    <h3 class="editor-section-title">
+                                        <i class="fas fa-heading"></i>
+                                        Información Principal
+                                    </h3>
+
+                                    <div style="margin-bottom: 1.5rem">
+                                        <label class="editor-label">
+                                            <i
+                                                class="fas fa-pen-fancy editor-label-icon"
+                                            ></i
+                                            >Título del Artículo *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="editor-input editor-input--title"
+                                            id="uni-title"
+                                            required
+                                            placeholder="Título del artículo..."
+                                        />
+                                    </div>
+
+                                    <div
+                                        style="
+                                            display: grid;
+                                            grid-template-columns: 2fr 1fr;
+                                            gap: 1.5rem;
+                                            margin-bottom: 1.5rem;
+                                        "
+                                    >
+                                        <div>
+                                            <label class="editor-label">
+                                                <i
+                                                    class="fas fa-link editor-label-icon"
+                                                ></i
+                                                >Slug (URL) *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="editor-input editor-input--mono"
+                                                id="uni-slug"
+                                                placeholder="titulo-del-articulo"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label class="editor-label">
+                                                <i
+                                                    class="fas fa-user-edit editor-label-icon"
+                                                ></i
+                                                >Autor
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="editor-input"
+                                                id="uni-author"
+                                                placeholder="Editorial"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        style="
+                                            display: grid;
+                                            grid-template-columns: 1fr 1fr;
+                                            gap: 1.5rem;
+                                        "
+                                    >
+                                        <div>
+                                            <label class="editor-label">
+                                                <i
+                                                    class="fas fa-folder editor-label-icon"
+                                                ></i
+                                                >Categoría *
+                                            </label>
+                                            <select
+                                                class="editor-input editor-input--select"
+                                                id="uni-category"
+                                                required
+                                            >
+                                                <option value="POLITICA">
+                                                    Política
+                                                </option>
+                                                <option value="NACIONAL">
+                                                    Nacional
+                                                </option>
+                                                <option value="INTERNACIONAL">
+                                                    Internacional
+                                                </option>
+                                                <option value="ECONOMIA">
+                                                    Economía
+                                                </option>
+                                                <option value="DEPORTES">
+                                                    Deportes
+                                                </option>
+                                                <option value="TECNOLOGIA">
+                                                    Tecnología
+                                                </option>
+                                                <option value="ENTRETENIMIENTO">
+                                                    Entretenimiento
+                                                </option>
+                                                <option value="SALUD">
+                                                    Salud
+                                                </option>
+                                                <option value="CIENCIA">
+                                                    Ciencia
+                                                </option>
+                                                <option value="CULTURA">
+                                                    Cultura
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="editor-label">
+                                                <i
+                                                    class="fas fa-star editor-label-icon"
+                                                ></i
+                                                >Destacado
+                                            </label>
+                                            <select
+                                                class="editor-input editor-input--select"
+                                                id="uni-featured"
+                                            >
+                                                <option value="0">No</option>
+                                                <option value="1">Sí</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 2: Descripción e Imagen -->
+                                <div class="editor-section">
+                                    <h3 class="editor-section-title">
+                                        <i class="fas fa-image"></i> Descripción
+                                        y Multimedia
+                                    </h3>
+
+                                    <div style="margin-bottom: 1.5rem">
+                                        <label class="editor-label">
+                                            <i
+                                                class="fas fa-align-left editor-label-icon"
+                                            ></i
+                                            >Descripción Corta (SEO) *
+                                        </label>
+                                        <textarea
+                                            class="editor-input"
+                                            id="uni-excerpt"
+                                            rows="3"
+                                            placeholder="Breve descripción para SEO y redes sociales (140-160 caracteres recomendados)..."
+                                            style="resize: vertical"
+                                        ></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label class="editor-label">
+                                            <i
+                                                class="fas fa-upload editor-label-icon"
+                                            ></i
+                                            >Imagen del Artículo
+                                        </label>
+                                        <div class="editor-upload-row">
+                                            <input
+                                                type="text"
+                                                class="editor-input editor-input--mono"
+                                                id="uni-image"
+                                                placeholder="https://ejemplo.com/imagen.jpg"
+                                                style="flex: 1"
+                                            />
+                                            <button
+                                                type="button"
+                                                class="btn-upload-image"
+                                                onclick="
+                                                    document
+                                                        .getElementById(
+                                                            'uni-upload-input',
+                                                        )
+                                                        .click()
+                                                "
+                                            >
+                                                <i
+                                                    class="fas fa-cloud-upload-alt"
+                                                ></i>
+                                                Subir Imagen
+                                            </button>
+                                            <input
+                                                type="file"
+                                                id="uni-upload-input"
+                                                style="display: none"
+                                                accept="image/*"
+                                                onchange="
+                                                    uploadUniversalImage(this)
+                                                "
+                                            />
+                                        </div>
+                                        <div
+                                            id="uni-image-preview"
+                                            class="editor-preview-box"
+                                        >
+                                            <img
+                                                id="uni-preview-img"
+                                                src=""
+                                                alt="Vista previa"
+                                            />
+                                            <p class="editor-preview-caption">
+                                                Vista previa de la imagen
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 3: Sitios y Contenido -->
+                                <div class="editor-section">
+                                    <h3 class="editor-section-title">
+                                        <i class="fas fa-globe"></i> Sitios y
+                                        Contenido
+                                    </h3>
+
+                                    <div
+                                        style="
+                                            display: grid;
+                                            grid-template-columns: 1fr 160px;
+                                            gap: 1.5rem;
+                                            margin-bottom: 2rem;
+                                        "
+                                    >
+                                        <div>
+                                            <label class="editor-label">
+                                                <i
+                                                    class="fas fa-sitemap editor-label-icon"
+                                                ></i
+                                                >Sitios de Destino
+                                            </label>
+                                            <div
+                                                class="editor-box editor-box--scroll"
+                                            >
+                                                <div class="editor-box-header">
+                                                    <span class="editor-hint"
+                                                        >Selecciona los sitios
+                                                        donde publicar</span
+                                                    >
+                                                    <button
+                                                        type="button"
+                                                        class="btn-select-all"
+                                                        onclick="
+                                                            toggleAllSites()
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="fas fa-check-square"
+                                                        ></i>
+                                                        Todos
+                                                    </button>
+                                                </div>
+                                                <div
+                                                    id="uni-sites-container"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="editor-label">
+                                                <i
+                                                    class="fab fa-facebook editor-label-icon"
+                                                ></i
+                                                >Facebook
+                                            </label>
+                                            <div
+                                                id="uni-fb-section"
+                                                class="editor-fb-box"
+                                                style="display: none"
+                                            >
+                                                <label class="editor-fb-label">
+                                                    <input
+                                                        type="checkbox"
+                                                        id="uni-publish-fb"
+                                                        style="
+                                                            width: 18px;
+                                                            height: 18px;
+                                                            cursor: pointer;
+                                                        "
+                                                    />
+                                                    Publicar en Facebook
+                                                </label>
+                                            </div>
+                                            <div
+                                                id="uni-fb-placeholder"
+                                                class="editor-fb-placeholder"
+                                            >
+                                                <i
+                                                    class="fas fa-info-circle"
+                                                ></i>
+                                                Solo visible al publicar
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Editor de Contenido -->
+                                    <div>
+                                        <label
+                                            class="editor-label"
+                                            style="margin-bottom: 0.75rem"
+                                        >
+                                            <i
+                                                class="fas fa-file-alt editor-label-icon"
+                                            ></i
+                                            >Contenido (HTML) *
+                                        </label>
+                                        <div class="editor-toolbar-wrap">
+                                            <div class="editor-toolbar">
+                                                <button
+                                                    type="button"
+                                                    onclick="insertTag('h1')"
+                                                    title="Título 1"
+                                                >
+                                                    H1
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="insertTag('h2')"
+                                                    title="Título 2"
+                                                >
+                                                    H2
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="insertTag('h3')"
+                                                    title="Título 3"
+                                                >
+                                                    H3
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="insertTag('p')"
+                                                    title="Párrafo"
+                                                >
+                                                    P
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="
+                                                        insertTag('strong')
+                                                    "
+                                                    title="Negrita"
+                                                >
+                                                    <i class="fas fa-bold"></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="insertTag('em')"
+                                                    title="Cursiva"
+                                                >
+                                                    <i
+                                                        class="fas fa-italic"
+                                                    ></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="insertTag('ul')"
+                                                    title="Lista"
+                                                >
+                                                    <i
+                                                        class="fas fa-list-ul"
+                                                    ></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="insertTag('ol')"
+                                                    title="Lista ordenada"
+                                                >
+                                                    <i
+                                                        class="fas fa-list-ol"
+                                                    ></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="
+                                                        insertTag(
+                                                            'a href=&quot;&quot;',
+                                                        )
+                                                    "
+                                                    title="Enlace"
+                                                >
+                                                    <i class="fas fa-link"></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onclick="autoParagraph()"
+                                                    title="Auto-formatear"
+                                                >
+                                                    <i class="fas fa-magic"></i>
+                                                    Auto-P
+                                                </button>
+                                            </div>
+                                            <textarea
+                                                class="editor-input editor-input--content"
+                                                id="uni-content"
+                                                rows="20"
+                                                required
+                                                placeholder="Escribe o pega el contenido HTML aquí..."
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Botones de Acción -->
+                                <div
+                                    class="editor-actions"
+                                    id="uni-actions-container"
+                                >
+                                    <!-- Los botones se generan dinámicamente -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="login-screen" class="login-container" style="display: none">
+            <!-- Partículas decorativas -->
+            <div class="login-particles" aria-hidden="true">
+                <span></span><span></span><span></span> <span></span
+                ><span></span><span></span>
+            </div>
+
+            <div class="login-box">
+                <!-- Logo -->
+                <div class="login-logo">
+                    <img
+                        src="assets/logo.png"
+                        alt="NexoPress"
+                        class="login-logo-img"
+                        onerror="
+                            this.style.display = 'none';
+                            this.nextElementSibling.style.display = 'flex';
+                        "
+                    />
+                    <div class="login-logo-fallback" style="display: none">
+                        <i class="fas fa-bolt logo-icon"></i>
+                        <h1>NexoPress</h1>
+                    </div>
+                    <p class="login-subtitle">Panel de Administración</p>
+                </div>
+
+                <!-- Separador -->
+                <div class="login-divider">
+                    <span>Acceso seguro</span>
+                </div>
+
+                <!-- Error -->
+                <div id="login-error" class="login-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="login-error-text"></span>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="username">
+                            <i
+                                class="fas fa-user"
+                                style="margin-right: 5px; color: #06b6d4"
+                            ></i
+                            >Usuario
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input
+                                type="text"
+                                id="username"
+                                class="form-control"
+                                placeholder="Tu nombre de usuario"
+                                required
+                                autofocus
+                                autocomplete="username"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">
+                            <i
+                                class="fas fa-lock"
+                                style="margin-right: 5px; color: #06b6d4"
+                            ></i
+                            >Contraseña
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-control"
+                                placeholder="Tu contraseña"
+                                required
+                                autocomplete="current-password"
+                            />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login" id="login-btn">
+                        <span id="login-btn-text">
+                            <i
+                                class="fas fa-sign-in-alt"
+                                style="margin-right: 6px"
+                            ></i
+                            >Iniciar Sesión
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Footer del login -->
+                <p
+                    style="
+                        text-align: center;
+                        margin-top: 1.5rem;
+                        font-size: 0.78rem;
+                        color: rgba(148, 163, 184, 0.5);
+                        letter-spacing: 0.3px;
+                    "
+                >
+                    © 2025 NexoPress · Todos los derechos reservados
+                </p>
+            </div>
+        </div>
+
+        <!-- Scripts Base -->
+        <script>
+            // Configure the base URL for the admin API.
+            window.ADMIN_API_BASE_URL =
+                "https://cms-api.sebastianvernis.space/api";
+        </script>
+        <script src="js/api.js"></script>
+        <script src="js/auth.js"></script>
+        <script src="js/router.js"></script>
+        <script src="js/editor.js"></script>
+
+        <!-- Controladores de Vistas -->
+        <script src="js/dashboard.js"></script>
+        <script src="js/cms.js"></script>
+        <script src="js/revision.js"></script>
+        <script src="js/facebook.js"></script>
+        <script src="js/monitor.js"></script>
+        <script src="js/featured.js"></script>
+        <script src="js/sites.js"></script>
+        <script src="js/categories.js"></script>
+        <script src="js/articles.js"></script>
+        <script src="js/users.js"></script>
+        <script src="js/theme.js"></script>
+        <script src="js/animations.js"></script>
+
+        <script>
+            // Función global para navegación
+            function goToView(view) {
+                Router.navigate(view);
+            }
+
+            // ── Sidebar colapso (desktop) ──────────────────────────────
+            (function () {
+                const STORAGE_KEY = "NEXOPRESS_SIDEBAR";
+                const html = document.documentElement;
+                const btn = document.getElementById("sidebar-collapse-btn");
+
+                function isCollapsed() {
+                    return html.classList.contains("sidebar-collapsed");
+                }
+
+                function applyLogoState(collapsed) {
+                    const logoFull = document.querySelectorAll(".logo-full");
+                    const logoIcon = document.querySelector(".logo-icon-only");
+                    if (collapsed) {
+                        logoFull.forEach((el) => {
+                            el.style.opacity = "0";
+                            el.style.width = "0";
+                            el.style.overflow = "hidden";
+                        });
+                        if (logoIcon) logoIcon.style.display = "flex";
+                    } else {
+                        logoFull.forEach((el) => {
+                            el.style.opacity = "";
+                            el.style.width = "";
+                            el.style.overflow = "";
+                        });
+                        if (logoIcon) logoIcon.style.display = "none";
+                    }
+                }
+
+                function setCollapsed(collapsed) {
+                    html.classList.toggle("sidebar-collapsed", collapsed);
+                    html.classList.toggle("sidebar-expanded", !collapsed);
+                    localStorage.setItem(
+                        STORAGE_KEY,
+                        collapsed ? "collapsed" : "expanded",
+                    );
+                    applyLogoState(collapsed);
+                    if (btn) {
+                        btn.setAttribute(
+                            "aria-label",
+                            collapsed ? "Expandir sidebar" : "Colapsar sidebar",
+                        );
+                        btn.setAttribute(
+                            "title",
+                            collapsed ? "Expandir menú" : "Colapsar menú",
+                        );
+                    }
+                }
+
+                function toggle() {
+                    setCollapsed(!isCollapsed());
+                }
+
+                // Restaurar preferencia guardada
+                (function restoreState() {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    // Default: expandido en ≥1024px, colapsado en tablet
+                    const defaultCollapsed =
+                        window.innerWidth < 1024 && window.innerWidth > 768;
+                    const shouldCollapse = saved
+                        ? saved === "collapsed"
+                        : defaultCollapsed;
+                    setCollapsed(shouldCollapse);
+                })();
+
+                if (btn) btn.addEventListener("click", toggle);
+
+                // Actualizar al redimensionar
+                window.addEventListener("resize", function () {
+                    if (window.innerWidth <= 768) {
+                        // Móvil: el drawer maneja todo, no tocar collapsed
+                        html.classList.remove(
+                            "sidebar-collapsed",
+                            "sidebar-expanded",
+                        );
+                    }
+                });
+            })();
+
+            // ── Sidebar móvil: toggle ──────────────────────────────────
+            (function () {
+                const hamburger = document.getElementById("hamburger-btn");
+                const sidebar = document.getElementById("sidebar");
+                const overlay = document.getElementById("sidebar-overlay");
+                const topbar = document.getElementById("mobile-topbar");
+
+                function isMobile() {
+                    return window.innerWidth <= 768;
+                }
+
+                function openSidebar() {
+                    sidebar.classList.add("sidebar-open");
+                    overlay.classList.add("active");
+                    hamburger.setAttribute("aria-expanded", "true");
+                    hamburger.innerHTML = '<i class="fas fa-times"></i>';
+                    document.body.style.overflow = "hidden";
+                }
+
+                function closeSidebar() {
+                    sidebar.classList.remove("sidebar-open");
+                    overlay.classList.remove("active");
+                    hamburger.setAttribute("aria-expanded", "false");
+                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                    document.body.style.overflow = "";
+                }
+
+                function syncTopbar() {
+                    if (isMobile()) {
+                        topbar.style.display = "flex";
+                        hamburger.style.display = "flex";
+                    } else {
+                        topbar.style.display = "none";
+                        hamburger.style.display = "none";
+                        closeSidebar();
+                    }
+                }
+
+                if (hamburger) {
+                    hamburger.addEventListener("click", function () {
+                        if (sidebar.classList.contains("sidebar-open")) {
+                            closeSidebar();
+                        } else {
+                            openSidebar();
+                        }
+                    });
+                }
+
+                if (overlay) {
+                    overlay.addEventListener("click", closeSidebar);
+                }
+
+                // Cerrar sidebar al navegar en móvil
+                document.querySelectorAll(".nav-link").forEach(function (link) {
+                    link.addEventListener("click", function () {
+                        if (isMobile()) closeSidebar();
+                    });
+                });
+
+                // También cerrar al usar goToView()
+                const _origGoToView = window.goToView;
+                window.goToView = function (view) {
+                    if (isMobile()) closeSidebar();
+                    if (typeof _origGoToView === "function")
+                        _origGoToView(view);
+                };
+
+                window.addEventListener("resize", syncTopbar);
+                syncTopbar();
+            })();
+
+            // Función global para logout
+            function doLogout() {
+                // Limpiar todo el localStorage
+                localStorage.removeItem("CMS_USER_SESSION");
+                localStorage.removeItem("CMS_AUTH_TOKEN");
+                localStorage.removeItem("CMS_ADMIN_TOKEN");
+
+                // Mostrar login
+                showLoginScreen();
+            }
+
+            // Mostrar pantalla de login
+            function showLoginScreen() {
+                document.getElementById("admin-container").style.display =
+                    "none";
+                document.getElementById("login-screen").style.display = "flex";
+            }
+
+            // Mostrar admin
+            function showAdminScreen() {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("admin-container").style.display =
+                    "flex";
+            }
+
+            // Actualizar UI de usuario
+            function updateUserUI() {
+                const userSection =
+                    document.getElementById("user-info-section");
+                const userAvatar = document.getElementById("user-avatar");
+                const userName = document.getElementById("user-name");
+                const userRole = document.getElementById("user-role");
+
+                const session = localStorage.getItem("CMS_USER_SESSION");
+                if (session) {
+                    try {
+                        const data = JSON.parse(session);
+                        if (data.user && userSection) {
+                            userSection.style.display = "block";
+                            if (userAvatar)
+                                userAvatar.textContent = data.user.name
+                                    ? data.user.name.charAt(0).toUpperCase()
+                                    : "U";
+                            if (userName)
+                                userName.textContent =
+                                    data.user.name || "Usuario";
+                            if (userRole)
+                                userRole.textContent =
+                                    data.user.role || "Editor";
+                        }
+                    } catch (e) {
+                        userSection.style.display = "none";
+                    }
+                } else {
+                    if (userSection) userSection.style.display = "none";
+                }
+            }
+
+            // Inicialización
+            document.addEventListener("DOMContentLoaded", async () => {
+                console.log("Inicializando CMS...");
+
+                // Limpiar datos antigos
+                localStorage.removeItem("CMS_ADMIN_TOKEN");
+
+                // Verificar si hay sesión activa
+                const session = localStorage.getItem("CMS_USER_SESSION");
+                const token = localStorage.getItem("CMS_AUTH_TOKEN");
+
+                if (session && token) {
+                    // Hay sesión, mostrar admin
+                    showAdminScreen();
+                    updateUserUI();
+                    await Router.init();
+
+                    // Cargar vista según hash o dashboard
+                    const currentView =
+                        window.location.hash.replace("#", "") || "dashboard";
+                    Router.navigate(currentView, false);
+                } else {
+                    // No hay sesión, mostrar login
+                    showLoginScreen();
+                }
+
+                // Configurar formulario de login
+                document
+                    .getElementById("login-form")
+                    .addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const username = document
+                            .getElementById("username")
+                            .value.trim();
+                        const password =
+                            document.getElementById("password").value;
+                        const errorDiv = document.getElementById("login-error");
+                        const errorText =
+                            document.getElementById("login-error-text");
+                        const loginBtn = document.getElementById("login-btn");
+                        const loginBtnText =
+                            document.getElementById("login-btn-text");
+
+                        if (!username || !password) {
+                            if (errorText)
+                                errorText.textContent =
+                                    "Por favor ingresa usuario y contraseña";
+                            errorDiv.style.display = "flex";
+                            return;
+                        }
+
+                        // Mostrar loading
+                        loginBtn.disabled = true;
+                        loginBtnText.innerHTML =
+                            '<i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>Verificando...';
+                        errorDiv.style.display = "none";
+
+                        try {
+                            // Llamar al endpoint de login
+                            const response = await fetch(
+                                `${window.ADMIN_API_BASE_URL}/auth/login`,
+                                {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        username,
+                                        password,
+                                    }),
+                                },
+                            );
+
+                            const data = await response.json();
+
+                            if (response.ok && data.token && data.user) {
+                                // Guardar sesión
+                                localStorage.setItem(
+                                    "CMS_USER_SESSION",
+                                    JSON.stringify({
+                                        user: data.user,
+                                        loginTime: new Date().toISOString(),
+                                    }),
+                                );
+                                localStorage.setItem(
+                                    "CMS_AUTH_TOKEN",
+                                    data.token,
+                                );
+
+                                // Mostrar admin
+                                showAdminScreen();
+                                updateUserUI();
+
+                                // Inicializar router y cargar dashboard
+                                await Router.init();
+                                Router.navigate("dashboard");
+                            } else {
+                                throw new Error(
+                                    data.error || "Error al iniciar sesión",
+                                );
+                            }
+                        } catch (e) {
+                            if (errorText)
+                                errorText.textContent =
+                                    e.message ||
+                                    "Error al iniciar sesión. Verifica tus credenciales.";
+                            errorDiv.style.display = "flex";
+                        } finally {
+                            loginBtn.disabled = false;
+                            loginBtnText.innerHTML =
+                                '<i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Iniciar Sesión';
+                        }
+                    });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Crear base de datos D1"
+echo "====================="
+echo ""
+echo "1. Ve a https://dash.cloudflare.com/"
+echo "2. Selecciona tu cuenta"
+echo "3. Ve a 'Workers & Pages' -> 'D1'"
+echo "4. Haz clic en 'Create database'"
+echo "5. En 'Database name', escribe: news_db"
+echo "6. Haz clic en 'Create'"
+echo ""
+echo "Guarda el ID de la base de datos que se generará para usarlo más adelante."
+echo ""
+echo "Una vez completado, continúa con el siguiente paso."

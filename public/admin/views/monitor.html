@@ -1,0 +1,114 @@
+<div class="header">
+    <h2><i class="fas fa-microchip"></i> Monitoreo del Sistema</h2>
+    <p class="monitor-meta" style="margin-top: 0.25rem; font-size: 0.9rem">
+        Estado de las tareas automáticas, ingesta y configuración de tokens.
+    </p>
+</div>
+
+<div
+    class="dashboard-grid"
+    style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    "
+>
+    <!-- Estado de Cron -->
+    <div class="card" style="border-top: 4px solid var(--primary-color)">
+        <div
+            style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+            "
+        >
+            <h3 style="margin: 0">
+                <i class="fas fa-clock"></i> Último Cron Automático
+            </h3>
+            <span id="cron-last-run" class="monitor-meta">Cargando...</span>
+        </div>
+        <div
+            id="cron-tasks-list"
+            style="display: flex; flex-direction: column; gap: 0.25rem"
+        >
+            <p class="monitor-empty">Obteniendo estado del servidor...</p>
+        </div>
+        <div class="monitor-card-footer">
+            <button
+                class="btn btn-primary"
+                onclick="triggerManualIngest()"
+                id="btn-manual-ingest"
+                style="width: 100%"
+            >
+                <i class="fas fa-sync-alt"></i> Forzar Ingesta Manual (RSS/Atom)
+            </button>
+        </div>
+    </div>
+
+    <!-- Diagnóstico de Tokens -->
+    <div class="card" style="border-top: 4px solid #3b82f6">
+        <div
+            style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+            "
+        >
+            <h3 style="margin: 0">
+                <i class="fab fa-facebook-f"></i> Diagnóstico de Tokens
+            </h3>
+            <button class="btn btn-outline btn-sm" onclick="checkFBTokens()">
+                <i class="fas fa-redo"></i>
+            </button>
+        </div>
+        <div
+            id="token-status-list"
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem"
+        >
+            <p class="monitor-empty" style="grid-column: 1 / -1">
+                Diagnosticando...
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Historial de publicaciones Facebook -->
+<div class="card" style="border-top: 4px solid #10b981">
+    <div
+        style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        "
+    >
+        <h3 style="margin: 0">
+            <i class="fas fa-history"></i> Historial de Publicaciones Facebook
+        </h3>
+        <button class="btn btn-outline btn-sm" onclick="loadFBMonitorHistory()">
+            <i class="fas fa-sync-alt"></i> Actualizar
+        </button>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Artículo</th>
+                    <th>Sitios</th>
+                    <th>Estado</th>
+                    <th>Fecha Intento</th>
+                </tr>
+            </thead>
+            <tbody id="monitor-fb-table-body">
+                <tr>
+                    <td colspan="4" class="monitor-empty">
+                        Cargando historial...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

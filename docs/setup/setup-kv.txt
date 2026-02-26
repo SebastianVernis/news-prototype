@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Crear namespace KV"
+echo "================="
+echo ""
+echo "1. Ve a https://dash.cloudflare.com/"
+echo "2. Selecciona tu cuenta"
+echo "3. Ve a 'Workers & Pages' -> 'KV'"
+echo "4. Haz clic en 'Create a namespace'"
+echo "5. En 'Namespace name', escribe: ARTICLES_KV"
+echo "6. Haz clic en 'Add namespace'"
+echo ""
+echo "Guarda el ID del namespace que se generará para usarlo más adelante."
+echo ""
+echo "Una vez completado, continúa con el siguiente paso."

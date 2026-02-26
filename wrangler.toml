@@ -1,0 +1,20 @@
+# ============================================================
+# NOTA: Este archivo es solo referencia del proyecto.
+# El worker real (API) se despliega desde src/wrangler.toml
+# Los sitios en sites/ se despliegan como Cloudflare Pages
+# independientes, cada uno con su propio proyecto.
+# ============================================================
+
+name = "news-api"
+pages_build_output_dir = "public"
+compatibility_date = "2023-12-01"
+
+# Variables de entorno del worker
+[vars]
+ENVIRONMENT = "production"
+
+# Base de datos D1 (compartida entre todos los sitios)
+[[d1_databases]]
+binding = "DB"
+database_name = "news_db"
+database_id = "039ec6ab-8f14-4e79-8f02-021df67a6c18"

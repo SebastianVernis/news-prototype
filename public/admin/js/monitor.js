@@ -112,7 +112,7 @@ async function loadFBMonitorHistory() {
                     <div class="monitor-article-title">${a.TITULO}</div>
                 </td>
                 <td class="monitor-article-sites">${a.SITIOS_DESTINO || "-"}</td>
-                <td>
+                <td style="white-space: nowrap; width: 120px;">
                     ${
                       a.FB_PUBLICADO === 1
                         ? '<span class="monitor-badge monitor-badge--published"><i class="fas fa-check"></i> Publicado</span>'

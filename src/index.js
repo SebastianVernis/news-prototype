@@ -1998,6 +1998,13 @@ async function updateTickerData(env) {
   const oil = await fetchYahoo('CL=F');
   if (oil) financials.push({simbolo: "PETROLEO", nombre: "Petróleo WTI", valor: oil.price.toFixed(2), cambio: (oil.pct >= 0 ? '+' : '') + oil.pct.toFixed(2) + '%', tendencia: oil.pct >= 0 ? 'up' : 'down'});
 
+  for (const f of financials) {
+    try {
+      await env.DB.prepare(`INSERT INTO TICKER_FINANCIALS (SIMBOLO, NOMBRE, valor, CAMBIO, TENDENCIA, UNIDAD, FECHA_ACTUALIZACION) VALUES (?, ?, ?, ?, ?, 'MXN', ?) ON CONFLICT(SIMBOLO) DO UPDATE SET VALOR=excluded.VALOR, CAMBIO=excluded.CAMBIO, FECHA_ACTUALIZACION=excluded.FECHA_ACTUALIZACION`)
+        .bind(f.simbolo, f.nombre, f.valor, f.cambio, f.tendencia, now).run();
+    } catch(e) {}
+  }
+}
 
 async function injectMetaTags(request, env, response) {
   const url = new URL(request.url);

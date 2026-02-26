@@ -94,11 +94,28 @@ async function apiFetch(path, options = {}) {
         const response = await fetch(url, { ...options, headers });
 
         if (response.status === 401 || response.status === 403) {
-            return new Promise((resolve, reject) => {
-                showAuthModal((newToken) => {
-                    apiFetch(path, options).then(resolve).catch(reject);
+            console.warn('[API] Sesión expirada o no autorizada (401/403)');
+            
+            // Si el error viene de un intento de LOGIN, no redirigir (evitar loop)
+            if (path.includes('/auth/login')) {
+                throw new Error('Credenciales incorrectas');
+            }
+
+            // Si hay un token manual guardado (legacy), intentar mostrar el modal una vez
+            const hasLegacyToken = !!localStorage.getItem(API_CONFIG.legacyKey);
+            if (hasLegacyToken && !window.location.hash.includes('login')) {
+                return new Promise((resolve, reject) => {
+                    showAuthModal((newToken) => {
+                        apiFetch(path, options).then(resolve).catch(reject);
+                    });
                 });
-            });
+            }
+
+            // Comportamiento estándar: Redirigir a login
+            if (!window.location.hash.includes('login')) {
+                window.location.hash = 'login';
+            }
+            throw new Error('Sesión expirada');
         }
 
         if (!response.ok) {

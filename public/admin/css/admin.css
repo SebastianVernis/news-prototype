@@ -104,16 +104,7 @@ body {
 
 /* ─── Overlay oscuro detrás del sidebar en móvil ─── */
 .sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 150;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-.sidebar-overlay.active {
-    opacity: 1;
+    display: none !important; /* Desactivado por petición de usuario */
 }
 
 /* ─── Barra superior móvil (branding + hamburguesa) ─── */
@@ -130,7 +121,7 @@ body {
     align-items: center;
     padding: 0 1rem;
     gap: 0.75rem;
-    z-index: 200;
+    z-index: 300; /* Subir z-index para estar sobre el sidebar si es necesario */
 }
 .mobile-topbar .topbar-title {
     display: flex;
@@ -489,8 +480,9 @@ body {
     min-width: 0;
     margin-left: var(--sidebar-width);
     background: var(--bg-light);
-    transition:
+    transition: 
         margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
         background-color 0.3s ease;
 }
 .header {
@@ -2066,11 +2058,13 @@ td:nth-child(3) {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 4px 10px;
+    padding: 2px 8px;
     border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: 0.65rem;
+    font-weight: 800;
     white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
     transition:
         background-color 0.3s ease,
         color 0.3s ease;
@@ -2202,7 +2196,7 @@ td:nth-child(3) {
         width: var(--sidebar-collapsed-width);
     }
     html:not(.sidebar-expanded):not(.sidebar-collapsed) .main-content {
-        margin-left: var(--sidebar-collapsed-width);
+        margin-left: var(--sidebar-collapsed-width) !important;
     }
 }
 
@@ -2210,19 +2204,39 @@ td:nth-child(3) {
    RESPONSIVE — Móvil  (max-width: 768px)
 ════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-    /* En móvil el sidebar vuelve a ser el drawer (override del fixed de desktop) */
+    /* En móvil el sidebar ahora empuja el contenido */
     .sidebar-collapsed .sidebar,
     .sidebar-expanded .sidebar,
     .sidebar {
         width: var(--sidebar-width) !important;
         transform: translateX(-100%);
-        transition:
-            transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-            background-color 0.3s ease !important;
+        z-index: 200;
     }
+    
+    /* Cuando está abierto, se muestra */
     .sidebar.sidebar-open {
         transform: translateX(0) !important;
     }
+
+    /* El contenido principal ya no tiene margen izquierdo fijo en móvil */
+    .main-content,
+    .sidebar-collapsed .main-content {
+        margin-left: 0 !important;
+        width: 100%;
+        padding-top: calc(var(--topbar-height) + 1rem);
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    }
+
+    /* Si el sidebar está abierto, empujamos el contenido a la derecha */
+    body.sidebar-is-open .main-content {
+        transform: translateX(var(--sidebar-width));
+    }
+    
+    /* Evitar scroll horizontal durante el empuje */
+    body.sidebar-is-open {
+        overflow-x: hidden;
+    }
+
     /* Deshacer colapso en móvil — texto siempre visible */
     .sidebar-collapsed .nav-link > span {
         opacity: 1 !important;

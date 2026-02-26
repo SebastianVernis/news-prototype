@@ -58,7 +58,10 @@ const CMSPWA = {
 
             // Sincronizar Mesa de Revisión
             const revision = await apiFetch('/revision/pending');
-            if (revision) await this.saveToLocal('revision', revision);
+            if (revision) {
+                await this.saveToLocal('revision', revision);
+                this.updateRevisionVisibility(revision.length);
+            }
 
             const now = new Date();
             localStorage.setItem('CMS_LAST_SYNC', now.toISOString());
@@ -91,6 +94,13 @@ const CMSPWA = {
             const time = new Date(lastSync).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             indicator.innerHTML = `<i class="fas fa-cloud-download-alt"></i> Backup: ${time}`;
             indicator.title = 'Respaldo local actualizado (Modo App)';
+        }
+    },
+
+    updateRevisionVisibility(count) {
+        const navItem = document.getElementById('nav-revision');
+        if (navItem) {
+            navItem.style.display = count > 0 ? 'block' : 'none';
         }
     },
 

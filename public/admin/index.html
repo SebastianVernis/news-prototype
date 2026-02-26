@@ -136,6 +136,16 @@
                     </li>
                     <li class="nav-item">
                         <a
+                            onclick="goToView('content-explorer')"
+                            class="nav-link"
+                            data-view="content-explorer"
+                            data-tooltip="Explorador"
+                            ><i class="fas fa-newspaper"></i
+                            ><span>Explorador Live</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
                             onclick="goToView('cms')"
                             class="nav-link"
                             data-view="cms"
@@ -144,7 +154,7 @@
                             ><span>Redacción Interna</span></a
                         >
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="nav-revision" style="display: none;">
                         <a
                             onclick="goToView('revision')"
                             class="nav-link"
@@ -887,6 +897,7 @@
 
         <!-- Controladores de Vistas -->
         <script src="js/dashboard.js"></script>
+        <script src="js/content-explorer.js"></script>
         <script src="js/cms.js"></script>
         <script src="js/revision.js"></script>
         <script src="js/facebook.js"></script>
@@ -999,18 +1010,16 @@
 
                 function openSidebar() {
                     sidebar.classList.add("sidebar-open");
-                    overlay.classList.add("active");
+                    document.body.classList.add("sidebar-is-open");
                     hamburger.setAttribute("aria-expanded", "true");
                     hamburger.innerHTML = '<i class="fas fa-times"></i>';
-                    document.body.style.overflow = "hidden";
                 }
 
                 function closeSidebar() {
                     sidebar.classList.remove("sidebar-open");
-                    overlay.classList.remove("active");
+                    document.body.classList.remove("sidebar-is-open");
                     hamburger.setAttribute("aria-expanded", "false");
                     hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                    document.body.style.overflow = "";
                 }
 
                 function syncTopbar() {

@@ -91,6 +91,9 @@ const Router = {
         case "dashboard":
           if (window.initDashboard) initDashboard();
           break;
+        case "content-explorer":
+          if (window.initContentExplorer) initContentExplorer();
+          break;
         case "cms":
           if (window.initCMS) initCMS();
           break;

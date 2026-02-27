@@ -480,7 +480,7 @@ body {
     min-width: 0;
     margin-left: var(--sidebar-width);
     background: var(--bg-light);
-    transition: 
+    transition:
         margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1),
         transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
         background-color 0.3s ease;
@@ -644,7 +644,6 @@ tbody tr:hover td {
 td:nth-child(3) {
     max-width: 250px;
     white-space: normal !important;
-    word-break: break-word;
     font-size: 0.85rem;
     line-height: 1.3;
 }
@@ -2072,10 +2071,12 @@ td:nth-child(3) {
 .monitor-badge--published {
     background: #dcfce7;
     color: #166534;
+    border-radius: 3rem;
 }
 .monitor-badge--pending {
     background: #fff7ed;
     color: #9a3412;
+    border-radius: 3rem;
 }
 
 /* Celda de artículo en la tabla */
@@ -2131,10 +2132,12 @@ td:nth-child(3) {
 .dark-mode .badge-ok {
     background: rgba(16, 185, 129, 0.25);
     color: #34d399;
+    border-radius: 3rem;
 }
 .dark-mode .badge-err {
     background: rgba(239, 68, 68, 0.25);
     color: #f87171;
+    border-radius: 3rem;
 }
 .dark-mode .token-item {
     background: #020617;
@@ -2143,10 +2146,12 @@ td:nth-child(3) {
 .dark-mode .monitor-badge--published {
     background: rgba(16, 185, 129, 0.18);
     color: #6ee7b7;
+    border-radius: 3rem;
 }
 .dark-mode .monitor-badge--pending {
     background: rgba(249, 115, 22, 0.18);
     color: #fdba74;
+    border-radius: 3rem;
 }
 
 /* ── Línea decorativa bajo el logo en sidebar ── */
@@ -2212,7 +2217,7 @@ td:nth-child(3) {
         transform: translateX(-100%);
         z-index: 200;
     }
-    
+
     /* Cuando está abierto, se muestra */
     .sidebar.sidebar-open {
         transform: translateX(0) !important;
@@ -2224,14 +2229,16 @@ td:nth-child(3) {
         margin-left: 0 !important;
         width: 100%;
         padding-top: calc(var(--topbar-height) + 1rem);
-        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+        transition:
+            transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+            padding 0.3s ease;
     }
 
     /* Si el sidebar está abierto, empujamos el contenido a la derecha */
     body.sidebar-is-open .main-content {
         transform: translateX(var(--sidebar-width));
     }
-    
+
     /* Evitar scroll horizontal durante el empuje */
     body.sidebar-is-open {
         overflow-x: hidden;

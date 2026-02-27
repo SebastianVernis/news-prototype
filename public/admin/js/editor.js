@@ -157,6 +157,18 @@ function closeUniversalEditor() {
 }
 
 // Ayudantes de Edición HTML
+function insertAtCursor(textToInsert) {
+    const textarea = document.getElementById('uni-content');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    
+    textarea.value = text.substring(0, start) + textToInsert + text.substring(end);
+    textarea.focus();
+    // Reposicionar cursor al final del texto insertado
+    textarea.selectionStart = textarea.selectionEnd = start + textToInsert.length;
+}
+
 function insertTag(tag) {
     const textarea = document.getElementById('uni-content');
     const start = textarea.selectionStart;
@@ -170,6 +182,71 @@ function insertTag(tag) {
     // Reposicionar cursor
     textarea.selectionStart = start + tag.length + 2;
     textarea.selectionEnd = textarea.selectionStart + selected.length;
+}
+
+function insertLink() {
+    const url = prompt("Introduce la URL del enlace (ej: https://google.com):");
+    if (!url) return;
+    
+    const textarea = document.getElementById('uni-content');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selected = text.substring(start, end);
+    
+    const replacement = `<a href="${url}" target="_blank" rel="noopener">${selected || 'Enlace'}</a>`;
+    textarea.value = text.substring(0, start) + replacement + text.substring(end);
+    textarea.focus();
+}
+
+function insertImage() {
+    const url = prompt("Introduce la URL de la imagen:");
+    if (!url) return;
+    const alt = prompt("Introduce el texto alternativo (opcional):") || "";
+    const html = `\n<div class="article-intext-image" style="margin:25px 0; text-align:center;">
+    <img src="${url}" alt="${alt}" style="width:100%; max-width:800px; height:auto; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.15); display:block; margin:0 auto;">
+    ${alt ? `<p style="font-size:0.85rem; color:#666; margin-top:10px; font-style:italic;">${alt}</p>` : ''}
+</div>\n`;
+    insertAtCursor(html);
+}
+
+function insertYouTube() {
+    const url = prompt("Introduce la URL de YouTube o el ID del video:");
+    if (!url) return;
+    
+    let id = url;
+    if (url.includes('v=')) {
+        id = url.split('v=')[1].split('&')[0];
+    } else if (url.includes('youtu.be/')) {
+        id = url.split('youtu.be/')[1].split('?')[0];
+    } else if (url.includes('embed/')) {
+        id = url.split('embed/')[1].split('?')[0];
+    }
+    
+    const html = `\n<div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:25px 0; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+    <iframe src="https://www.youtube.com/embed/${id}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>\n`;
+    insertAtCursor(html);
+}
+
+function insertTwitter() {
+    const url = prompt("Introduce la URL del Tweet:");
+    if (!url) return;
+    const html = `\n<div class="twitter-embed" style="display:flex; justify-content:center; margin:25px 0;">
+    <blockquote class="twitter-tweet" data-lang="es" data-theme="light"><a href="${url}"></a></blockquote>
+</div>\n`;
+    insertAtCursor(html);
+}
+
+function insertInstagram() {
+    const url = prompt("Introduce la URL de Instagram:");
+    if (!url) return;
+    // Limpiar URL si tiene query params
+    const cleanUrl = url.split('?')[0];
+    const html = `\n<div class="instagram-embed" style="display:flex; justify-content:center; margin:25px 0;">
+    <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${cleanUrl}" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"></blockquote>
+</div>\n`;
+    insertAtCursor(html);
 }
 
 function autoParagraph() {

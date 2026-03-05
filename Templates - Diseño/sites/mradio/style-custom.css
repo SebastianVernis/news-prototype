@@ -1,0 +1,262 @@
+/* MRadio - Original Theme CSS */
+:root {
+            /* Paleta Neumórfica Estricta */
+            --bg-neu: #E0E5EC; /* Gris azulado muy suave */
+            --text-main: #4A5568;
+            --text-light: #A0AEC0;
+            --accent-soft: #3182CE;
+            
+            /* Sombras clave para el efecto (Luz superior izquierda, sombra inferior derecha) */
+            --shadow-outset: 9px 9px 16px rgba(163, 177, 198, 0.6), 
+                            -9px -9px 16px rgba(255, 255, 255, 0.7);
+            
+            --shadow-inset: inset 6px 6px 10px rgba(163, 177, 198, 0.6), 
+                           inset -6px -6px 10px rgba(255, 255, 255, 0.7);
+                           
+            --radius-large: 20px;
+            --radius-pill: 50px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-neu);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* HEADER (Sin Logo) */
+        header {
+            padding: 30px 0;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav {
+            background-color: var(--bg-neu);
+            box-shadow: var(--shadow-outset);
+            border-radius: var(--radius-pill);
+            padding: 10px 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 15px;
+            border-radius: var(--radius-pill);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Efecto de botón presionado al hacer hover */
+        nav a:hover, nav a.active {
+            color: var(--accent-soft);
+            box-shadow: var(--shadow-inset);
+        }
+
+        /* TOP SECTION: HERO NEUMÓRFICO */
+        .hero-section {
+            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: end;
+        }
+
+        .neu-card {
+            background-color: var(--bg-neu);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-outset);
+            padding: 40px;
+        }
+
+        .neu-card.sunken {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .category-neu {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-soft);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #2D3748;
+        }
+
+        .hero-content p {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-neu {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--accent-soft);
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: var(--radius-pill);
+            box-shadow: var(--shadow-outset);
+            transition: box-shadow 0.2s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-neu:active {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .neu-img-wrapper {
+            display: contents;
+            padding: 15px;
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-outset);
+        }
+
+        .neu-img {
+            width: 100%;
+            height: 350px;
+            border-radius: calc(var(--radius-large) - 5px);
+            background-color: #CBD5E0; /* Placeholder: Foto neutral / Macro de hardware */
+            box-shadow: var(--shadow-inset);
+            object-fit: cover;
+        }
+
+        /* MID SECTION: BARRA DE BÚSQUEDA / FILTRO */
+        .search-bar-neu {
+            margin-bottom: 60px;
+            padding: 20px 40px;
+            border-radius: var(--radius-pill);
+            box-shadow: var(--shadow-inset);
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* GRID SECTION: TARJETAS EXTRUIDAS */
+        .neu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .grid-card {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .grid-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            background-color: #CBD5E0;
+            box-shadow: var(--shadow-inset);
+            margin-bottom: 25px;
+        }
+
+        .grid-card h2 {
+            font-size: 1.4rem;
+            color: #2D3748;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .grid-card p {
+            color: var(--text-main);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: inline-flex;
+            gap: 30px;
+            padding: 20px 50px;
+            border-radius: var(--radius-pill);
+            box-shadow: var(--shadow-outset);
+        }
+
+        .footer-content a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer-content a:hover {
+            color: var(--accent-soft);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+            }
+            .neu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .neu-grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                border-radius: var(--radius-large);
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+        }

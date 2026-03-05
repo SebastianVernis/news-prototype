@@ -26,10 +26,12 @@ async function loadRevisionTable() {
                     hour: '2-digit',
                     minute: '2-digit'
                 }) : '-'}</td>
-                <td class="actions">
-                    <button class="btn btn-primary" onclick="openRevisionEditorUnified('${rev.ID}')">
-                        <i class="fas fa-eye"></i> Revisar
-                    </button>
+                <td class="col-actions">
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="openRevisionEditorUnified('${rev.ID}')" title="Revisar">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `).join('');

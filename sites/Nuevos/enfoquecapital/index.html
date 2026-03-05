@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnfoqueCapital - Noticias en Tiempo Real</title>
+    <meta name="description" content="EnfoqueCapital - Noticias digitales en tiempo real.">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="style-custom.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="EnfoqueCapital RSS" href="/rss.xml">
+</head>
+<body>
+
+<div id="site-preloader"></div>
+
+<div class="split-layout">
+
+    <aside class="left-pane">
+        <div id="site-header"></div>
+
+        <div class="hero-content">
+            <span class="category-label">Entrevista Exclusiva</span>
+            <h1 class="serif">El Arquitecto del Silencio</h1>
+            <div class="portrait-img"></div>
+            <p>Una conversación íntima sobre la eliminación del ruido visual en las metrópolis modernas y por qué el minimalismo estructural se ha convertido en el nuevo lujo inalcanzable.</p>
+        </div>
+    </aside>
+
+    <main class="right-pane">
+
+        <article class="article-card">
+            <div class="square-img"></div>
+            <span class="category-label" style="color: var(--text-muted);">Estilo de Vida</span>
+            <h2 class="serif">La caída de la logomanía y el retorno a lo básico</h2>
+            <p>Las casas de diseño abandonan los estampados saturados en favor de cortes limpios y materiales sostenibles, marcando el fin de una era de ostentación.</p>
+            <a href="#" class="read-more">Leer Artículo</a>
+        </article>
+
+        <article class="article-card">
+            <div class="square-img"></div>
+            <span class="category-label" style="color: var(--text-muted);">Cultura</span>
+            <h2 class="serif">Galerías en el desierto: El nuevo epicentro del arte</h2>
+            <p>Lejos de los distritos urbanos tradicionales, coleccionistas y curadores están transformando naves industriales abandonadas en espacios de exhibición masiva.</p>
+            <a href="#" class="read-more">Leer Artículo</a>
+        </article>
+
+        <article class="article-card">
+            <div class="square-img"></div>
+            <span class="category-label" style="color: var(--text-muted);">Gastronomía</span>
+            <h2 class="serif">El fin de la alta cocina molecular</h2>
+            <p>Un regreso a los ingredientes crudos y técnicas de fuego abierto domina las nuevas aperturas de restaurantes con estrellas Michelin.</p>
+            <a href="#" class="read-more">Leer Artículo</a>
+        </article>
+
+        <div id="site-footer"></div>
+    </main>
+
+</div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    var API = "https://news-api.sebastianvernis.workers.dev/api/articles?site=enfoquecapital&limit=20";
+    function esc(t){if(!t)return"";return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+    function enc(t){return encodeURIComponent(t||"");}
+
+    async function load(){
+        try{
+            var r=await fetch(API);if(!r.ok)throw new Error("err");
+            var d=await r.json();var arts=d.articles;
+            if(!arts||!arts.length)return;
+            populate(arts);
+        }catch(e){console.error("Error:",e);}
+    }
+
+    function populate(arts){
+        var ai=0;
+
+        // Handle left-pane hero explicitly
+        var hero=document.querySelector(".hero-content");
+        if(hero&&arts[0]){
+            var a=arts[0];
+            var link="articulo/index.html?slug="+enc(a.slug);
+            var h1=hero.querySelector("h1");
+            if(h1)h1.innerHTML='<a href="'+link+'" style="color:inherit;text-decoration:none;">'+esc(a.title)+'</a>';
+            var hp=hero.querySelector("p");
+            if(hp&&a.excerpt)hp.textContent=a.excerpt;
+            var cat=hero.querySelector(".category-label");
+            if(cat&&a.category)cat.textContent=a.category;
+            var img=hero.querySelector(".portrait-img");
+            if(img&&a.imageUrl){
+                img.style.backgroundImage="url("+a.imageUrl+")";
+                img.style.backgroundSize="cover";
+                img.style.backgroundPosition="center";
+            }
+            ai=1;
+        }
+
+        // Handle right-pane article cards
+        var cards=document.querySelectorAll(".right-pane .article-card");
+        cards.forEach(function(el){
+            if(ai>=arts.length)return;
+            var a=arts[ai];
+            var link="articulo/index.html?slug="+enc(a.slug);
+
+            var heading=el.querySelector("h2");
+            if(heading)heading.innerHTML='<a href="'+link+'" style="color:inherit;text-decoration:none;">'+esc(a.title)+'</a>';
+
+            var para=el.querySelector("p");
+            if(para&&a.excerpt)para.textContent=a.excerpt;
+
+            var tag=el.querySelector(".category-label");
+            if(tag&&a.category)tag.textContent=a.category;
+
+            var imgDiv=el.querySelector(".square-img");
+            if(imgDiv&&a.imageUrl){
+                imgDiv.style.backgroundImage="url("+a.imageUrl+")";
+                imgDiv.style.backgroundSize="cover";
+                imgDiv.style.backgroundPosition="center";
+            }
+
+            var rm=el.querySelector("a.read-more");
+            if(rm)rm.href=link;
+
+            ai++;
+        });
+    }
+
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",load);
+    else load();
+})();
+</script>
+
+</body>
+</html>

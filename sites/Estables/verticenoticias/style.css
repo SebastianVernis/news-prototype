@@ -1,0 +1,41 @@
+/* ========================================
+   Vértice Noticias - Base (reset + variables)
+   Paleta: Prussian Blue, Pacific Blue, Smoky Rose, Pale Cyan, Off-White
+   NOTE: Todo el tema visual está en style-custom.css
+   ======================================== */
+
+:root {
+    /* Paleta Vértice Noticias */
+    --vn-prussian:  #042548; /* Prussian Blue — fondo/header */
+    --vn-pacific:   #4FB0C6; /* Pacific Blue — acento principal */
+    --vn-rose:      #7F505B; /* Smoky Rose — acento secundario */
+    --vn-cyan:      #C8E8EF; /* Pale Cyan — acento claro */
+    --vn-offwhite:  #F5FAFB; /* Off-White — fondo body */
+    --vn-white:     #FFFFFF;
+    --vn-text:      #0D1F2D;
+    --vn-text-muted:#5A7A8A;
+
+    --font-primary:   'Playfair Display', serif;
+    --font-secondary: 'Noto Sans', sans-serif;
+
+    --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+    --space-lg: 1.5rem;  --space-xl: 2rem;   --space-2xl: 3rem;
+
+    --shadow-sm: 0 1px 3px rgba(4,37,72,0.07);
+    --shadow-md: 0 4px 12px rgba(4,37,72,0.12);
+    --shadow-lg: 0 10px 30px rgba(4,37,72,0.18);
+
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-secondary); background: var(--vn-offwhite); color: var(--vn-text); line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+@media (max-width: 768px) {
+    .container { padding: 0 var(--space-md); }
+}
+/* NOTE: Todo el tema visual está en style-custom.css */

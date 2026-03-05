@@ -66,8 +66,10 @@ async function checkFBTokens() {
             <div class="token-item">
                 <span class="token-item-slug">${t.slug}</span>
                 ${
-                  t.has_token
-                    ? '<i class="fas fa-check-circle token-ok" title="Token OK"></i>'
+                  t.is_valid
+                    ? '<i class="fas fa-check-circle token-ok" title="Token Válido"></i>'
+                    : t.has_token
+                    ? `<i class="fas fa-exclamation-circle token-warn" title="Error de validación: ${t.fb_error || 'Token expirado'}"></i>`
                     : '<i class="fas fa-times-circle token-err" title="Falta Token"></i>'
                 }
             </div>

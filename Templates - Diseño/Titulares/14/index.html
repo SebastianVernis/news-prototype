@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - Timeline Feed</title>
+    <style>
+        :root {
+            --bg-feed: #F0F2F5; /* Gris claro tipo red social */
+            --card-bg: #FFFFFF;
+            --text-dark: #1C1E21;
+            --text-muted: #65676B;
+            --accent-electric: #005FFF; /* Azul eléctrico */
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-feed);
+            color: var(--text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER (Sin Logo) */
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 10px 0;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-electric);
+            border-bottom-color: var(--accent-electric);
+        }
+
+        /* TIMELINE CONTAINER */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        /* La línea central vertical */
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: rgba(0, 95, 255, 0.2);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* TIMELINE ITEMS */
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 20px 40px;
+            z-index: 10;
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        /* BADGE DE TIEMPO (Círculos en el centro) */
+        .time-badge {
+            position: absolute;
+            top: 40px;
+            background-color: var(--accent-electric);
+            color: #FFF;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 0 0 4px var(--bg-feed);
+            z-index: 20;
+        }
+
+        .timeline-item.left .time-badge {
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+
+        .timeline-item.right .time-badge {
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        /* CONTENIDO DE LA TARJETA (Feed Card) */
+        .timeline-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* CONGRUENCIA MULTIMEDIA: Imagen Cuadrada */
+        .timeline-img {
+            width: 100%;
+            aspect-ratio: 1/1; /* Formato cuadrado tipo Instagram */
+            background-color: #E4E6EB;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .category-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-electric);
+            border-radius: 50%;
+        }
+
+        .category-name {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--accent-electric);
+            text-transform: uppercase;
+        }
+
+        .timeline-content h2 {
+            font-size: 1.3rem;
+            line-height: 1.3;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .post-actions {
+            border-top: 1px solid #E4E6EB;
+            padding-top: 15px;
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .action-btn {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .action-btn:hover {
+            color: var(--accent-electric);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            /* Transformar a un layout de una sola columna */
+            .timeline-container::after {
+                left: 30px; /* Mover la línea a la izquierda */
+            }
+            .timeline-item {
+                width: 100%;
+                padding: 20px 0 20px 70px; /* Espacio para la línea y el badge a la izquierda */
+            }
+            .timeline-item.left, .timeline-item.right {
+                left: 0;
+            }
+            .timeline-item.left .time-badge, .timeline-item.right .time-badge {
+                left: 30px;
+                right: auto;
+                transform: translate(-50%, -50%); /* Centrar el badge sobre la nueva línea izquierda */
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Minuto a Minuto</a></li>
+                <li><a href="#">Reportes Ciudadanos</a></li>
+                <li><a href="#">Tráfico y Clima</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="timeline-container">
+        
+        <article class="timeline-item left">
+            <div class="time-badge">AHORA</div>
+            <div class="timeline-content">
+                <div class="post-header">
+                    <div class="category-dot"></div>
+                    <span class="category-name">Última Hora</span>
+                </div>
+                <h2>Cierre vial en la avenida principal por manifestaciones</h2>
+                <div class="timeline-img">
+                    </div>
+                <p>Cientos de personas se congregan en el centro financiero. Se recomienda tomar rutas alternas hacia el sur de la ciudad.</p>
+                <div class="post-actions">
+                    <span class="action-btn">Comentar (12)</span>
+                    <span class="action-btn">Compartir</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="timeline-item right">
+            <div class="time-badge">HACE 15 MIN</div>
+            <div class="timeline-content">
+                <div class="post-header">
+                    <div class="category-dot" style="background-color: #FF9900;"></div>
+                    <span class="category-name" style="color: #FF9900;">Economía Local</span>
+                </div>
+                <h2>Mercados cierran con ligera alza tras anuncios del banco central</h2>
+                <p>La estabilización de las tasas de interés calma la volatilidad que se experimentó a primera hora de la mañana. Los comerciantes locales reportan normalidad.</p>
+                <div class="post-actions">
+                    <span class="action-btn">Comentar (3)</span>
+                    <span class="action-btn">Compartir</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="timeline-item left">
+            <div class="time-badge">HACE 42 MIN</div>
+            <div class="timeline-content">
+                <div class="post-header">
+                    <div class="category-dot" style="background-color: #00C851;"></div>
+                    <span class="category-name" style="color: #00C851;">Deportes</span>
+                </div>
+                <h2>El equipo de la ciudad aterriza de cara al clásico regional</h2>
+                <div class="timeline-img">
+                    </div>
+                <p>Los jugadores fueron recibidos por una multitud en el aeropuerto. El capitán afirma que están listos para romper la mala racha de visitante.</p>
+                <div class="post-actions">
+                    <span class="action-btn">Comentar (45)</span>
+                    <span class="action-btn">Compartir</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="timeline-item right">
+            <div class="time-badge">HACE 1 HORA</div>
+            <div class="timeline-content">
+                <div class="post-header">
+                    <div class="category-dot" style="background-color: #FF4444;"></div>
+                    <span class="category-name" style="color: #FF4444;">Seguridad</span>
+                </div>
+                <h2>Bomberos controlan el conato de incendio en la zona industrial</h2>
+                <p>Las autoridades confirman que no hay heridos y el perímetro ha sido asegurado. Se investigan las causas que iniciaron el fuego en el almacén B.</p>
+                <div class="post-actions">
+                    <span class="action-btn">Comentar (8)</span>
+                    <span class="action-btn">Compartir</span>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://sebastianvernis.space" target="_blank">sebastianvernis.space</a> | 
+            <a href="https://github.com/sebastianvernis" target="_blank">GitHub.com/sebastianvernis</a>
+        </div>
+        <div style="margin-top: 15px;">
+            Fin del Feed. Cargando actualizaciones en segundo plano...
+        </div>
+    </footer>
+
+</body>
+</html>

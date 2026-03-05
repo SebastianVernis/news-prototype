@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nacional - PulsoDiario</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="../style-custom.css" rel="stylesheet">
+<style>
+.cat-page{max-width:1200px;margin:40px auto;padding:0 24px;font-family:sans-serif;}
+.cat-page h1{font-size:2rem;margin-bottom:30px;}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
+.cat-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:transform 0.2s;}
+.cat-card:hover{transform:translateY(-4px);}
+.cat-card img{width:100%;height:200px;object-fit:cover;}
+.cat-card-body{padding:16px;}
+.cat-card-body h3{font-size:1.1rem;margin-bottom:8px;}
+.cat-card-body h3 a{color:inherit;text-decoration:none;}
+.cat-card-body p{color:#666;font-size:0.9rem;}
+</style>
+</head><body>
+<div id="site-preloader"></div><div id="site-header"></div>
+<main class="cat-page">
+<h1>Nacional</h1>
+<div id="cat-grid" class="cat-grid"><p>Cargando...</p></div>
+</main>
+<div id="site-footer"></div>
+<script src="../components.js"></script>
+<script>
+(function(){
+    fetch("https://news-api.sebastianvernis.workers.dev/api/articles?site=pulsodiario&category=nacional&limit=20")
+    .then(function(r){return r.json();})
+    .then(function(d){
+        var arts=d.articles;
+        if(!arts||!arts.length){document.getElementById("cat-grid").innerHTML="<p>No hay noticias en esta categoría.</p>";return;}
+        document.getElementById("cat-grid").innerHTML=arts.map(function(a){
+            return '<article class="cat-card">'+
+                (a.imageUrl?'<img src="'+a.imageUrl+'" alt="" loading="lazy">':"")+
+                '<div class="cat-card-body">'+
+                '<h3><a href="../articulo/index.html?slug='+encodeURIComponent(a.slug)+'">'+
+                (a.title||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+
+                '</a></h3>'+
+                '<p>'+(a.excerpt||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</p>'+
+                '</div></article>';
+        }).join("");
+    }).catch(function(e){console.error(e);});
+})();
+</script>
+</body></html>

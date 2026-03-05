@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>CBN Noticias - Noticias con credibilidad</title>
+    <meta content="Noticias con credibilidad. Noticias de México y el mundo." name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="style-custom.css" rel="stylesheet"/>
+    <link rel="alternate" type="application/rss+xml" title="CBN Noticias RSS" href="/rss.xml"/>
+</head>
+<body>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main class="main-content">
+    <div class="container">
+        <!-- Sección destacada - carga dinámica -->
+        <section class="featured-section">
+            <div id="featured-container" data-api="https://news-api.sebastianvernis.workers.dev/api/articles?site=cbnnoticias&limit=20">
+                <div style="text-align:center;padding:40px;color:#5A7A8A;">Cargando noticias...</div>
+            </div>
+        </section>
+
+        <!-- Sección de noticias adicionales -->
+        <section class="news-section" id="news-section">
+            <h2 class="section-title">Más Noticias</h2>
+            <div id="news-container" class="card-grid"></div>
+        </section>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    const apiUrl = 'https://news-api.sebastianvernis.workers.dev/api/articles?site=cbnnoticias&limit=20';
+
+    async function loadArticles() {
+        try {
+            const res = await fetch(apiUrl);
+            if (!res.ok) throw new Error('Network error');
+            const {articles} = await res.json();
+            if (!articles?.length) {
+                document.getElementById('featured-container').innerHTML = '<div style="text-align:center;padding:40px;color:#5A7A8A;">No hay noticias disponibles.</div>';
+                return;
+            }
+            renderFeatured(articles.slice(0, 4));
+            renderNews(articles.slice(4));
+        } catch (e) {
+            console.error('Error loading articles:', e);
+            document.getElementById('featured-container').innerHTML = '<div style="text-align:center;padding:40px;color:#5A7A8A;">Error al cargar noticias.</div>';
+        }
+    }
+
+    function renderFeatured(articles) {
+        const container = document.getElementById('featured-container');
+        if (!container || !articles.length) return;
+
+        const hero = articles[0];
+        const heroHtml = `
+            <div class="hero-horizontal">
+                <a href="articulo/index.html?slug=${encodeURIComponent(hero.slug || '')}">
+                    <img src="${hero.imageUrl || 'logo.png'}" alt="${escHtml(hero.title || '')}" loading="lazy">
+                </a>
+                <div class="hero-overlay">
+                    <span class="card-category-badge cat-${escHtml((hero.category || 'general').toLowerCase())}">${escHtml(hero.category || 'General')}</span>
+                    <h2 class="hero-title">
+                        <a href="articulo/index.html?slug=${encodeURIComponent(hero.slug || '')}">${escHtml(hero.title || '')}</a>
+                    </h2>
+                    <p class="hero-excerpt">${escHtml(hero.excerpt || '')}</p>
+                    <div class="hero-meta">
+                        <span><i class="far fa-user"></i> ${escHtml(hero.author || 'Redacción')}</span>
+                        <span><i class="far fa-calendar"></i> ${hero.publishedAt ? new Date(hero.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                    </div>
+                </div>
+            </div>`;
+
+        let listHtml = '<div class="horizontal-list">';
+        for (let i = 1; i < articles.length; i++) {
+            const a = articles[i];
+            listHtml += `
+                <article class="article-card">
+                    <a href="articulo/index.html?slug=${encodeURIComponent(a.slug || '')}">
+                        <img src="${a.imageUrl || 'logo.png'}" alt="${escHtml(a.title || '')}" loading="lazy">
+                    </a>
+                    <div class="horizontal-card-content">
+                        <span class="card-category-badge cat-${escHtml((a.category || 'general').toLowerCase())}">${escHtml(a.category || 'General')}</span>
+                        <h3><a href="articulo/index.html?slug=${encodeURIComponent(a.slug || '')}">${escHtml(a.title || '')}</a></h3>
+                        <p>${escHtml(a.excerpt || '')}</p>
+                        <div class="card-meta">
+                            <span><i class="far fa-clock"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                            <span><i class="far fa-user"></i> ${escHtml(a.author || 'Redacción')}</span>
+                        </div>
+                    </div>
+                </article>`;
+        }
+        listHtml += '</div>';
+        container.innerHTML = heroHtml + listHtml;
+    }
+
+    function renderNews(articles) {
+        const container = document.getElementById('news-container');
+        const section   = document.getElementById('news-section');
+        if (!container) return;
+        if (!articles.length) { if (section) section.style.display = 'none'; return; }
+
+        let html = '';
+        for (const a of articles) {
+            html += `
+                <article class="article-card" style="flex-direction:column;">
+                    <a href="articulo/index.html?slug=${encodeURIComponent(a.slug || '')}">
+                        <img src="${a.imageUrl || 'logo.png'}" alt="${escHtml(a.title || '')}" loading="lazy" style="width:100%;height:200px;object-fit:cover;">
+                    </a>
+                    <div class="horizontal-card-content">
+                        <span class="card-category-badge cat-${escHtml((a.category || 'general').toLowerCase())}">${escHtml(a.category || 'General')}</span>
+                        <h3><a href="articulo/index.html?slug=${encodeURIComponent(a.slug || '')}">${escHtml(a.title || '')}</a></h3>
+                        <p>${escHtml(a.excerpt || '')}</p>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                        </div>
+                    </div>
+                </article>`;
+        }
+        container.innerHTML = html;
+    }
+
+    function escHtml(text) {
+        if (!text) return '';
+        return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadArticles);
+    } else {
+        loadArticles();
+    }
+})();
+</script>
+
+</body>
+</html>

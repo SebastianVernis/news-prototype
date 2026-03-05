@@ -1,0 +1,23 @@
+module.exports = {
+    SITES: [
+        { num: 1,  slug: 'puntoclave',        name: 'PuntoClave' },
+        { num: 2,  slug: 'diarioexpress',      name: 'DiarioExpress' },
+        { num: 3,  slug: 'enfoquedirecto',     name: 'EnfoqueDirecto' },
+        { num: 4,  slug: 'noticiashorizonte',  name: 'NoticiasHorizonte' },
+        { num: 5,  slug: 'mexico360noticias',  name: 'México360Noticias' },
+        { num: 6,  slug: 'capitalpress',       name: 'CapitalPress' },
+        { num: 7,  slug: 'boominformativo',    name: 'BoomInformativo' },
+        { num: 8,  slug: 'puntonoticias',      name: 'PuntoNoticias' },
+        { num: 9,  slug: 'reportediario',      name: 'ReporteDiario' },
+        { num: 10, slug: 'pulsodiario',        name: 'PulsoDiario' },
+        { num: 11, slug: 'radarinformativo',   name: 'RadarInformativo' },
+        { num: 12, slug: 'formulacdmx',        name: 'FormulaCDMX' },
+        { num: 13, slug: 'enfoquecapital',     name: 'EnfoqueCapital' },
+        { num: 14, slug: 'mexicantimes',       name: 'MexicanTimes' },
+        { num: 15, slug: 'elpulsomexicano',    name: 'ElPulsoMexicano' },
+        { num: 16, slug: 'mradio',             name: 'MRadio' },
+        { num: 17, slug: 'televisionabc',      name: 'TelevisiónABC' },
+    ],
+    API_BASE: 'https://news-api.sebastianvernis.workers.dev',
+    CATS: ['nacional','politica','economia','deportes','cultura','tecnologia'],
+};

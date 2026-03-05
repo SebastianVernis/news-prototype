@@ -1,0 +1,289 @@
+/* ReporteDiario - Original Theme CSS */
+:root {
+            --bg-paper: #FCFAF8; /* Tono hueso muy sutil */
+            --text-ink: #111111;
+            --text-gray: #444444;
+            --accent-burgundy: #800020; /* Rojo oscuro clásico */
+            --border-ink: 1px solid #111111;
+            --border-thick: 4px solid #111111;
+            --border-light: 1px solid #CCCCCC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, 'Georgia', serif;
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* HEADER ESTILO PERIÓDICO (Sin Logo) */
+        header {
+            border-bottom: var(--border-thick);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: var(--border-light);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-ink);
+            padding-bottom: 3px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--accent-burgundy);
+            border-color: var(--accent-burgundy);
+        }
+
+        /* HERO SECTION CON FOTOGRAFÍA */
+        .broadsheet-hero {
+            margin-bottom: 30px;
+        }
+
+        .hero-headline {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .hero-headline h1 {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            line-height: 1.1;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-headline h2 {
+            font-size: 1.1rem;
+            font-weight: normal;
+            font-style: italic;
+            color: var(--text-gray);
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .broadsheet-img {
+            width: 100%;
+            height: 240px;
+            background-color: #DDDDDD;
+            object-fit: cover;
+            border: var(--border-ink);
+            margin-bottom: 10px;
+            filter: contrast(110%) saturate(80%);
+        }
+
+        /* COLUMNAS DE TEXTO PERIODÍSTICO */
+        .newspaper-columns {
+            column-count: 3;
+            column-gap: 40px;
+            column-rule: var(--border-light);
+            text-align: justify;
+            margin-top: 10px;
+            max-height: 280px;
+            overflow: hidden;
+        }
+
+        .newspaper-columns p {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            break-inside: avoid;
+        }
+
+        .newspaper-columns p:first-of-type::first-letter {
+            font-size: 3.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 8px;
+            margin-top: 3px;
+            color: var(--accent-burgundy);
+            font-weight: bold;
+        }
+
+        .author-credit {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* SECCIÓN INFERIOR: TARJETAS CLÁSICAS */
+        .section-divider {
+            border-top: var(--border-thick);
+            border-bottom: var(--border-ink);
+            padding: 15px 0;
+            margin: 60px 0 40px 0;
+            text-align: center;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .classic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .classic-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background-color: #DDDDDD;
+            border: var(--border-light);
+            margin-bottom: 15px;
+        }
+
+        .category-tag {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: var(--accent-burgundy);
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .classic-card h3 {
+            font-size: 1.6rem;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .classic-card p {
+            font-size: 1.05rem;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--text-ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-ink);
+            align-self: flex-start;
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .read-more:hover {
+            color: var(--accent-burgundy);
+            border-color: var(--accent-burgundy);
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: var(--border-thick);
+            padding: 40px 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: var(--text-ink);
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 25px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-burgundy);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .newspaper-columns {
+                column-count: 2;
+                column-gap: 30px;
+            }
+            .classic-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .broadsheet-img {
+                height: 260px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .newspaper-columns {
+                column-count: 1;
+            }
+            .classic-grid {
+                grid-template-columns: 1fr;
+            }
+            .broadsheet-img {
+                height: 200px;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }

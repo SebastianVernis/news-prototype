@@ -1,0 +1,174 @@
+/* ========================================
+   Radio Cinco Noticias - JavaScript
+   ======================================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Hide preloader
+    const preloader = document.getElementById('preloader');
+    setTimeout(() => {
+        preloader.classList.add('hidden');
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 500);
+    }, 1000);
+
+    // Search functionality
+    const searchToggle = document.querySelector('.search-toggle');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchClose = document.getElementById('searchClose');
+    const searchInput = document.getElementById('searchInput');
+
+    if (searchToggle) {
+        searchToggle.addEventListener('click', () => {
+            searchOverlay.classList.add('active');
+            setTimeout(() => searchInput.focus(), 300);
+        });
+    }
+
+    if (searchClose) {
+        searchClose.addEventListener('click', () => {
+            searchOverlay.classList.remove('active');
+            searchInput.value = '';
+        });
+    }
+
+    if (searchOverlay) {
+        searchOverlay.addEventListener('click', (e) => {
+            if (e.target === searchOverlay) {
+                searchOverlay.classList.remove('active');
+                searchInput.value = '';
+            }
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    alert('Búsqueda: ' + query);
+                    // window.location.href = 'busqueda.html?q=' + encodeURIComponent(query);
+                }
+            }
+        });
+    }
+
+    // Article cards click handlers
+    const articleCards = document.querySelectorAll('[data-article]');
+    articleCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const articleId = this.getAttribute('data-article');
+            // Navigate to article page
+            if (articleId === 'hero') {
+                window.location.href = 'articulo/informe-especial-tecnologia.html';
+            } else {
+                // Handle other articles
+                console.log('Article clicked:', articleId);
+            }
+        });
+    });
+
+    // News cards click handlers
+    const newsCards = document.querySelectorAll('.news-card');
+    newsCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const title = this.querySelector('.card-title a');
+            if (title) {
+                // In production, this would navigate to the actual article
+                console.log('Navigating to:', title.getAttribute('href'));
+            }
+        });
+    });
+
+    // Add hover effects to cards
+    const cards = document.querySelectorAll('.card-mini, .news-card, .card-hero');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.zIndex = '10';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.zIndex = '1';
+        });
+    });
+
+    // Active navigation link
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+
+    // Lazy loading for images (enhancement)
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    img.classList.add('loaded');
+                    observer.unobserve(img);
+                }
+            });
+        });
+
+        images.forEach(img => imageObserver.observe(img));
+    }
+
+    // Sticky header shadow on scroll
+    const header = document.querySelector('.header');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > 100) {
+            header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)';
+        } else {
+            header.style.boxShadow = '0 4px 6px rgba(0,0,0,0.4)';
+        }
+        
+        lastScroll = currentScroll;
+    });
+
+    // Animation on scroll for news cards
+    const newsCardsAnimated = document.querySelectorAll('.news-card');
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+                cardObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    newsCardsAnimated.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        cardObserver.observe(card);
+    });
+
+    console.log('Radio Cinco Noticias - Site loaded successfully');
+});
+
+// Service Worker registration for PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registered:', registration.scope);
+            })
+            .catch(error => {
+                console.log('SW registration failed:', error);
+            });
+    });
+}

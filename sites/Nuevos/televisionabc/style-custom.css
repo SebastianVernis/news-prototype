@@ -1,0 +1,306 @@
+/* TelevisiónABC - Original Theme CSS */
+:root {
+            --bg-pure: #FFFFFF;
+            --bg-alt: #F8F9FA;
+            --text-main: #111111;
+            --text-muted: #555555;
+            --brand-navy: #001F3F; /* Azul marino profundo */
+            --accent-gold: #D4AF37; /* Oro viejo */
+            --border-fin: 1px solid #E0E0E0;
+            --border-thick: 3px solid var(--brand-navy);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif; /* Serif tradicional para lectura financiera */
+            background-color: var(--bg-pure);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .sans-font {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* MARKET TICKER */
+        .market-ticker {
+            background-color: var(--brand-navy);
+            color: #FFFFFF;
+            padding: 8px 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .ticker-item span {
+            color: #4CAF50; /* Verde positivo por defecto */
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .ticker-item.down span {
+            color: #F44336; /* Rojo negativo */
+        }
+
+        /* HEADER PREMIUM (Sin Logo) */
+        header {
+            padding: 15px 0 10px 0;
+            border-bottom: var(--border-thick);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .date-stamp {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* TOP SECTION: HERO FINANCIAL */
+        .hero-fin {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+            border-bottom: var(--border-fin);
+            padding-bottom: 20px;
+        }
+
+        .hero-fin h1 {
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-fin p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .fin-img {
+            width: 100%;
+            height: 220px;
+            background-color: var(--bg-alt);
+            border: var(--border-fin);
+            margin-bottom: 12px;
+            filter: grayscale(80%) contrast(110%);
+        }
+        .author-line {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            border-top: var(--border-fin);
+            padding-top: 15px;
+        }
+
+        .author-line strong {
+            color: var(--brand-navy);
+        }
+
+        /* OPINIÓN LATERAL */
+        .opinion-sidebar {
+            border-left: var(--border-fin);
+            padding-left: 40px;
+        }
+
+        .section-label {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .opinion-card {
+            margin-bottom: 30px;
+        }
+
+        .opinion-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .opinion-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* GRID SECTION: EL EFECTO PAYWALL */
+        .paywall-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .paywall-card {
+            position: relative;
+            overflow: hidden; /* Vital para que el gradiente no se salga */
+            max-height: 450px; /* Limita la altura visible */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .paywall-card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .paywall-card p {
+            margin-bottom: 15px;
+        }
+
+        .mini-img {
+            width: 100%;
+            height: 180px;
+            background-color: var(--bg-alt);
+            margin-bottom: 20px;
+        }
+
+        /* La magia del difuminado hacia blanco */
+        .fade-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px; /* Altura del difuminado */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 80%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 10px;
+        }
+
+        .btn-subscribe {
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 2px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+
+        .btn-subscribe:hover {
+            background-color: var(--brand-navy);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--brand-navy);
+            color: #FFFFFF;
+            padding: 60px 0;
+            text-align: center;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-fin {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .opinion-sidebar {
+                border-left: none;
+                border-top: var(--border-fin);
+                padding-left: 0;
+                padding-top: 40px;
+            }
+            .paywall-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .paywall-grid {
+                grid-template-columns: 1fr;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .market-ticker {
+                display: none; /* Ocultar ticker en móviles pequeños para ahorrar espacio */
+            }
+            .hero-fin h1 {
+                font-size: 1.5rem;
+            }
+            .fin-img {
+                height: 180px;
+            }
+        }

@@ -109,6 +109,9 @@ const Router = {
         case "articles":
           if (window.initArticles) initArticles();
           break;
+        case "editor":
+          if (window.initEditor) initEditor();
+          break;
         case "facebook":
           if (window.initFacebook) initFacebook();
           break;

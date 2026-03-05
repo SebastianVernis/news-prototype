@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReporteDiario - Noticias en Tiempo Real</title>
+    <meta name="description" content="ReporteDiario - Noticias digitales en tiempo real.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="style-custom.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="ReporteDiario RSS" href="/rss.xml">
+</head>
+<body>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main class="container">
+        
+        <section class="broadsheet-hero">
+            <div class="hero-headline">
+                <h1>EL TRATADO COMERCIAL ENFRENTA SU PRUEBA MÁS DURA EN EL PARLAMENTO</h1>
+                <h2>La coalición gobernante lucha por mantener los votos necesarios ante la presión de los sindicatos agrarios y las crecientes manifestaciones en la capital.</h2>
+            </div>
+            
+            <div class="broadsheet-img">
+                </div>
+
+            <div class="newspaper-columns">
+                <p>Las tensiones alcanzaron un punto crítico la madrugada del martes cuando los líderes de la oposición anunciaron su retiro formal de la mesa de diálogo. Esta decisión deja a la administración actual sin el margen de maniobra necesario para aprobar el paquete de reformas arancelarias sin tener que recurrir a concesiones de último minuto que podrían alterar significativamente la economía local.</p>
+                <p>Fuentes cercanas al comité de redacción han filtrado a este diario que los artículos más polémicos giran en torno a la importación de derivados agrícolas, un sector que históricamente ha sido protegido por las políticas de subsidio del estado. "Si abrimos las puertas a la competencia internacional bajo estos términos, desmantelaremos la producción rural en menos de tres ciclos de cosecha", advirtió el portavoz del gremio agricultor durante su intervención matutina.</p>
+                <p>Mientras tanto, los mercados financieros han reaccionado con cautela. La moneda nacional experimentó una ligera depreciación en las primeras horas de la jornada bursátil, reflejando el nerviosismo de los inversores extranjeros ante un posible estancamiento legislativo. Se espera que el presidente emita un mensaje a la nación a las 20:00 horas para delinear el plan de contingencia del ejecutivo.</p>
+            </div>
+        </section>
+
+        <div class="section-divider">
+            Análisis y Cobertura Continua
+        </div>
+
+        <section class="classic-grid">
+            <article class="classic-card">
+                <div class="card-img"></div>
+                <span class="category-tag">Economía Doméstica</span>
+                <h3>El impacto del alza de combustibles en la canasta básica</h3>
+                <p>Estudios preliminares indican que el costo de transporte logístico ya se está trasladando a los consumidores en los mercados mayoristas de la ciudad.</p>
+                <a href="#" class="read-more">Leer reportaje</a>
+            </article>
+
+            <article class="classic-card">
+                <div class="card-img"></div>
+                <span class="category-tag">Diplomacia</span>
+                <h3>Embajador es llamado a consultas tras declaraciones polémicas</h3>
+                <p>El ministerio de relaciones exteriores busca enfriar las tensiones bilaterales generadas por los comentarios filtrados sobre la crisis migratoria.</p>
+                <a href="#" class="read-more">Leer reportaje</a>
+            </article>
+
+            <article class="classic-card">
+                <div class="card-img"></div>
+                <span class="category-tag">Infraestructura</span>
+                <h3>Retrasos indefinidos en la expansión del tren interurbano</h3>
+                <p>Auditorías recientes revelan fallas estructurales en dos de los viaductos principales, obligando a replantear el presupuesto asignado para el próximo año fiscal.</p>
+                <a href="#" class="read-more">Leer reportaje</a>
+            </article>
+        </section>
+
+    </main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    var API = "https://news-api.sebastianvernis.workers.dev/api/articles?site=reportediario&limit=20";
+    function esc(t){if(!t)return"";return String(t).replace(/&/g,"\&amp;").replace(/</g,"\&lt;").replace(/>/g,"\&gt;");}
+    function enc(t){return encodeURIComponent(t||"");}
+
+    async function load(){
+        try{
+            var r=await fetch(API);if(!r.ok)throw new Error("err");
+            var d=await r.json();var arts=d.articles;
+            if(!arts||!arts.length)return;
+            populate(arts);
+        }catch(e){console.error("Error:",e);}
+    }
+
+    function populate(arts){
+        var main=document.querySelector("main");if(!main)return;
+        var ai=0;
+
+        // First, populate the hero image explicitly
+        var heroImg=main.querySelector(".broadsheet-img");
+        if(heroImg&&arts[0]&&arts[0].imageUrl){
+            heroImg.style.backgroundImage="url("+arts[0].imageUrl+")";
+            heroImg.style.backgroundSize="cover";
+            heroImg.style.backgroundPosition="center";
+        }
+
+        // Find all article-like containers in the original layout
+        var containers=main.querySelectorAll(
+            "article, .hero, .hero-content, .hero-text, .hero-text-box, .hero-headline,"
+            +".z-content, .focus-section, .side-item, .side-article, .grid-item,"
+            +".scroll-content, .video-card, .minimal-card, .gallery-card, .classic-card,"
+            +".card, .card-body, .brief-card, .tech-card, .grid-card, .scroll-card,"
+            +".hero-card > .hero-content, .hero-section .hero-content"
+        );
+
+        // Deduplicate: skip children if parent is already in list
+        var seen=new Set();
+        var unique=[];
+        containers.forEach(function(el){
+            // Skip if a parent is already in our list
+            var dominated=false;
+            seen.forEach(function(s){
+                if(s.contains(el)&&s!==el)dominated=true;
+            });
+            if(!dominated){unique.push(el);seen.add(el);}
+        });
+
+        unique.forEach(function(el){
+            if(ai>=arts.length)return;
+            var a=arts[ai];
+            var link="articulo/index.html?slug="+enc(a.slug);
+
+            // Populate heading
+            var heading=el.querySelector("h1,h2,h3,h4");
+            if(heading){
+                heading.innerHTML='<a href="'+link+'" style="color:inherit;text-decoration:none;">'+esc(a.title)+'</a>';
+            }
+
+            // Populate excerpt
+            var para=el.querySelector("p:not(.author-meta):not(.img-caption)");
+            if(para&&a.excerpt)para.textContent=a.excerpt;
+
+            // Populate category tag
+            var tag=el.querySelector(".tag,.tag-pill,.category-tag,.category,.category-label,.category-pill,.hero-tag,.card-meta");
+            if(tag&&a.category)tag.textContent=a.category;
+
+            // Populate image placeholder (background-image on div)
+            var imgDiv=el.querySelector("div[class*=img],div[class*=image],div[class*=thumb],div[class*=placeholder]");
+            if(imgDiv&&a.imageUrl){
+                imgDiv.style.backgroundImage="url("+a.imageUrl+")";
+                imgDiv.style.backgroundSize="cover";
+                imgDiv.style.backgroundPosition="center";
+            }
+
+            // Fix read-more links
+            var rm=el.querySelector("a.read-more,a.read-link,a.btn-outline,a.read-btn,a[href='#']");
+            if(rm)rm.href=link;
+
+            ai++;
+        });
+
+        // Populate numbered lists (Swiss Design, etc.)
+        var listItems=main.querySelectorAll(".numbered-list li,.trending-list li");
+        listItems.forEach(function(el,i){
+            if(!arts[i])return;
+            var span=el.querySelector("span");
+            if(span)span.textContent=arts[i].title;
+            else el.textContent=arts[i].title;
+        });
+
+        // Populate marquee/ticker
+        var marquee=main.querySelector(".marquee,marquee");
+        if(marquee)marquee.textContent=arts.slice(0,5).map(function(a){return"+++ "+a.title.toUpperCase();}).join(" ");
+
+        // Populate newspaper columns with full article body from hero article
+        var cols=main.querySelector(".newspaper-columns");
+        if(cols&&arts[0]){
+            var paras=cols.querySelectorAll("p");
+            // Use full body content if available, otherwise use excerpt repeated
+            var fullText=arts[0].body||arts[0].content||arts[0].excerpt;
+            if(fullText){
+                // Split text into 3 columns roughly equally
+                var chunkSize=Math.ceil(fullText.length/3);
+                paras.forEach(function(p,i){
+                    var start=i*chunkSize;
+                    var end=start+chunkSize;
+                    if(start<fullText.length){
+                        p.textContent=fullText.substring(start,Math.min(end,fullText.length));
+                    }
+                });
+            }
+        }
+    }
+
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",load);
+    else load();
+})();
+</script>
+
+</body>
+</html>

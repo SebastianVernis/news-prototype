@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - Tech Dark Mode Standard</title>
+    <style>
+        :root {
+            --bg-base: #121212;
+            --bg-surface: #1E1E1E;
+            --bg-surface-hover: #2A2A2A;
+            --text-primary: #F3F4F6;
+            --text-secondary: #9CA3AF;
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --border-subtle: 1px solid #2D3748;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* HEADER (Sin Logo) */
+        header {
+            background-color: var(--bg-surface);
+            border-bottom: var(--border-subtle);
+            padding: 20px 0;
+            margin-bottom: 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-niche {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-primary);
+        }
+
+        /* TOP SECTION: HERO TECH */
+        .hero-tech {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+            background-color: var(--bg-surface);
+            border: var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .hero-img-container {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            background-color: #2D3748; /* Placeholder oscuro para Renders 3D o UI */
+            position: relative;
+        }
+
+        .hero-content {
+            padding: 40px 40px 40px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+
+        .tag.purple {
+            background-color: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .tag.blue {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .author-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4B5563;
+        }
+
+        /* LATEST NEWS HEADER */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: var(--border-subtle);
+            padding-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .view-all {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        /* GRID SECTION */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .tech-card {
+            background-color: var(--bg-surface);
+            border: var(--border-subtle);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-4px);
+            background-color: var(--bg-surface-hover);
+        }
+
+        .tech-img {
+            width: 100%;
+            height: 180px;
+            background-color: #374151; /* Placeholder */
+            border-bottom: var(--border-subtle);
+        }
+
+        .card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .tech-card h3 {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .tech-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--bg-surface);
+            border-top: var(--border-subtle);
+            padding: 40px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero-tech {
+                grid-template-columns: 1fr;
+            }
+            .hero-img-container {
+                min-height: 300px;
+            }
+            .hero-content {
+                padding: 30px;
+            }
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="site-niche">TECH_RADAR</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Desarrollo</a></li>
+                    <li><a href="#">Ciberseguridad</a></li>
+                    <li><a href="#">Hardware</a></li>
+                    <li><a href="#">IA & Datos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="hero-tech">
+            <div class="hero-img-container">
+                </div>
+            <div class="hero-content">
+                <span class="tag purple">Inteligencia Artificial</span>
+                <h1>El nuevo compilador impulsado por redes neuronales reduce el tiempo de build en un 40%</h1>
+                <p>Las principales empresas tecnológicas comienzan a adoptar este motor de código abierto que promete optimizar los flujos de trabajo en equipos de desarrollo a gran escala.</p>
+                
+                <div class="author-meta">
+                    <div class="author-avatar"></div>
+                    <div>
+                        <strong style="color: var(--text-primary);">DevTeam Editorial</strong>
+                        <div style="font-size: 0.8rem;">Actualizado hace 2 horas</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-header">
+            <h2>Últimas Publicaciones</h2>
+            <a href="#" class="view-all">Ver archivo completo &rarr;</a>
+        </div>
+
+        <section class="tech-grid">
+            
+            <article class="tech-card">
+                <div class="tech-img"></div>
+                <div class="card-body">
+                    <span class="tag blue" style="margin-bottom: 12px;">Ciberseguridad</span>
+                    <h3>Vulnerabilidad parcheada en el protocolo de enrutamiento principal</h3>
+                    <p>Una actualización crítica de emergencia fue desplegada esta madrugada para evitar la interrupción de servidores en la nube de nivel 1.</p>
+                    <div class="author-meta" style="margin-top: auto; padding-top: 15px; border-top: var(--border-subtle);">
+                        <span style="font-size: 0.8rem;">Lectura de 4 min</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="tech-card">
+                <div class="tech-img"></div>
+                <div class="card-body">
+                    <span class="tag purple" style="margin-bottom: 12px;">Hardware</span>
+                    <h3>Análisis profundo: La nueva arquitectura de GPU para servidores</h3>
+                    <p>Ponemos a prueba el rendimiento térmico y el consumo energético de la última generación de aceleradores gráficos dedicados a Machine Learning.</p>
+                    <div class="author-meta" style="margin-top: auto; padding-top: 15px; border-top: var(--border-subtle);">
+                        <span style="font-size: 0.8rem;">Lectura de 12 min</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="tech-card">
+                <div class="tech-img"></div>
+                <div class="card-body">
+                    <span class="tag blue" style="margin-bottom: 12px;">Desarrollo</span>
+                    <h3>Frameworks reactivos: Tendencias de adopción en 2026</h3>
+                    <p>Un repaso por las herramientas de frontend que están dominando el mercado y aquellas que lentamente están quedando obsoletas en proyectos corporativos.</p>
+                    <div class="author-meta" style="margin-top: auto; padding-top: 15px; border-top: var(--border-subtle);">
+                        <span style="font-size: 0.8rem;">Lectura de 7 min</span>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div>
+                &copy; 2026 TECH_RADAR SYSTEMS.
+            </div>
+            <div class="footer-links">
+                <a href="https://sebastianvernis.space" target="_blank">sebastianvernis.space</a>
+                <a href="https://github.com/sebastianvernis" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

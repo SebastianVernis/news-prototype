@@ -43,6 +43,8 @@ app.post('/articles/publish-fb/:id', async (c) => {
   return c.json({ success: true });
 });
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 async function publishToFB(env, article, type) {
   if (!article.SITIOS_DESTINO) return;
   const slugs = article.SITIOS_DESTINO.split(",").map(s => s.trim());
@@ -51,7 +53,16 @@ async function publishToFB(env, article, type) {
     if (!site || !site.FACEBOOK_PAGE_ID || !site.FACEBOOK_TOKEN_SECRET) continue;
     const token = env[site.FACEBOOK_TOKEN_SECRET];
     const url = `https://${site.DOMINIO}/articulo/?slug=${article.SLUG}`;
-    try { await fetch(`https://graph.facebook.com/v19.0/${site.FACEBOOK_PAGE_ID}/feed`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: article.TITULO, link: url, access_token: token }) }); } catch (e) {}
+    try { 
+      await fetch(`https://graph.facebook.com/v19.0/${site.FACEBOOK_PAGE_ID}/feed`, { 
+        method: "POST", 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify({ message: article.TITULO, link: url, access_token: token }) 
+      }); 
+      
+      // Delay entre peticiones a Meta (2-5 segundos)
+      await sleep(2000 + Math.random() * 3000);
+    } catch (e) {}
   }
   const table = type === 'CMS' ? 'ARTICULOS_CMS' : 'ARTICULOS_PARAFRASEADOS';
   await env.DB.prepare(`UPDATE ${table} SET FB_PUBLICADO = 1, FB_FECHA = datetime('now') WHERE ID = ?`).bind(article.ID).run();
@@ -81,8 +92,14 @@ async function runMasterCron(env) {
 }
 
 async function autoIngestNews(env, hour) {
+  // Bitácora Urbana ahora usa el flujo principal con scraping de imágenes reales
+  // Esta función está deprecated - el ingesta se hace desde runRSSDirectIngest en index.js
   try {
-    const FEEDS = ["https://www.jornada.com.mx/rss/politica.xml?v=1","https://expansion.mx/rss","https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada"];
+    const FEEDS = [
+      "https://www.jornada.com.mx/rss/politica.xml?v=1",
+      "https://expansion.mx/rss",
+      "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada"
+    ];
     let art = null;
     for (const f of FEEDS) {
       try {
@@ -105,11 +122,26 @@ async function autoIngestNews(env, hour) {
       if (art) break;
     }
     if (!art) return false;
+    
+    // Usar el flujo principal con scraping de imagen real
     const id = crypto.randomUUID();
-    await env.DB.prepare("INSERT INTO ARTICULOS_ORIGINALES (ID, URL, TITULO, DESCRIPCION, URL_IMAGEN, FECHA, CONTENIDO, CATEGORIA, LONGITUD) VALUES (?,?,?,?,?,datetime('now'),?,'NACIONAL',?)").bind(id, art.link, art.title, art.desc, '/logo.png', art.desc, art.desc.length).run();
-    await env.DB.prepare("INSERT INTO REVISION_CONTENIDO (ID_ORIGEN, TIPO_ORIGEN, TITULO_PROPUESTO, CONTENIDO_PROPUESTO, DESCRIPCION_PROPUESTA, SITIO_DESTINO, CATEGORIA, ESTADO, URL_IMAGEN, FB_REQUERIDO, ES_BREVE) VALUES (?, 'API', ?, ?, ?, 'bitacoraurbana', 'NACIONAL', 'PENDIENTE', '/logo.png', 0, 0)").bind(id, art.title, art.desc, art.title).run();
+    const imageUrl = await getOGImageReal(art.link);
+    const finalImage = imageUrl || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop";
+    
+    await env.DB.prepare("INSERT INTO ARTICULOS_ORIGINALES (ID, URL, TITULO, DESCRIPCION, URL_IMAGEN, FECHA, CONTENIDO, CATEGORIA, LONGITUD) VALUES (?,?,?,?,?,datetime('now'),?,'NACIONAL',?)").bind(id, art.link, art.title, art.desc, finalImage, art.desc, art.desc.length).run();
+    await env.DB.prepare("INSERT INTO REVISION_CONTENIDO (ID_ORIGEN, TIPO_ORIGEN, TITULO_PROPUESTO, CONTENIDO_PROPUESTO, DESCRIPCION_PROPUESTA, SITIO_DESTINO, CATEGORIA, ESTADO, URL_IMAGEN, FB_REQUERIDO, ES_BREVE) VALUES (?, 'API', ?, ?, ?, 'bitacoraurbana', 'NACIONAL', 'PENDIENTE', ?, 0, 0)").bind(id, art.title, art.desc, art.title, finalImage).run();
     return true;
   } catch (e) { return false; }
+}
+
+async function getOGImageReal(url) {
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+    const html = await res.text();
+    const ogMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+                    html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i);
+    return ogMatch ? ogMatch[1] : null;
+  } catch(e) { return null; }
 }
 
 export default {

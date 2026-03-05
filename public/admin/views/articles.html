@@ -1,9 +1,24 @@
 <div id="articles-list-view">
     <div class="header">
         <h2>Artículos Públicos</h2>
-        <button class="btn btn-primary" onclick="showNewArticle()">
-            <i class="fas fa-plus"></i> Nuevo Artículo
-        </button>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <select id="filter-site" class="editor-input" style="width: 200px; padding: 5px 10px;" onchange="changeSiteFilter()">
+                <option value="">Todos los Sitios</option>
+                <option value="radiocinconoticias">Radio Cinco</option>
+                <option value="centralmexico">Central México</option>
+                <option value="tvmexico">TV México</option>
+                <option value="cbnnoticias">CBN Noticias</option>
+                <option value="mexicoinformado">México Informado</option>
+                <option value="nodoinformativo">Nodo Informativo</option>
+                <option value="bitacoraurbana">Bitácora Urbana</option>
+                <option value="reportecentralmx">Reporte Central</option>
+                <option value="verticenoticias">Vértice Noticias</option>
+                <option value="noticiasobjetivo">Noticias Objetivo</option>
+            </select>
+            <button class="btn btn-primary" onclick="showNewArticle()">
+                <i class="fas fa-plus"></i> Nuevo Artículo
+            </button>
+        </div>
     </div>
 
     <div class="table-container">
@@ -14,11 +29,17 @@
                     <th>Categoría</th>
                     <th>Sitio</th>
                     <th>Fecha/Hora Publicación</th>
-                    <th>Acciones</th>
+                    <th class="col-actions">Acciones</th>
                 </tr>
             </thead>
             <tbody id="articles-public-table"></tbody>
         </table>
     </div>
+
+    <!-- Paginación -->
+    <div id="articles-pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; align-items: center;">
+        <button id="prev-page" class="btn btn-outline" onclick="changePage(-1)"><i class="fas fa-chevron-left"></i> Anterior</button>
+        <span id="page-info" style="font-weight: 600; color: var(--text-secondary);">Página 1</span>
+        <button id="next-page" class="btn btn-outline" onclick="changePage(1)">Siguiente <i class="fas fa-chevron-right"></i></button>
+    </div>
 </div>
-<!-- El editor antiguo ha sido eliminado. Ahora se usa el Editor Universal en index.html -->

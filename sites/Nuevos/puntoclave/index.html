@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PuntoClave - Noticias en Tiempo Real</title>
+    <meta name="description" content="PuntoClave - Noticias digitales en tiempo real.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="style-custom.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="PuntoClave RSS" href="/rss.xml">
+</head>
+<body>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main>
+        <section class="top-section">
+            <div class="hero">
+                <div class="hero-img"></div>
+                <h1>CRISIS EN EL MERCADO GLOBAL: CAÍDA HISTÓRICA EN LA BOLSA</h1>
+                <p style="font-family: sans-serif; font-weight: bold; font-size: 1.2rem;">Los índices internacionales muestran una tendencia a la baja sin precedentes en la última década. Análisis exhaustivo de las consecuencias inmediatas.</p>
+            </div>
+            <aside class="side-news">
+                <article class="side-item">
+                    <span class="tag" style="background: var(--accent-color);">ÚLTIMA HORA</span>
+                    <h3>Acuerdo de paz firmado esta madrugada</h3>
+                </article>
+                <article class="side-item">
+                    <span class="tag">DEPORTES</span>
+                    <h3>El campeón defensor queda fuera del torneo</h3>
+                </article>
+                <article class="side-item">
+                    <span class="tag">TECNOLOGÍA</span>
+                    <h3>Nueva regulación para el desarrollo de Inteligencia Artificial</h3>
+                </article>
+            </aside>
+        </section>
+
+        <section class="mid-section">
+            <div class="marquee">
+                +++ URGENTE: DECLARACIONES DEL PRESIDENTE DESDE PALACIO +++ TRÁFICO DETENIDO EN LA CAPITAL +++ NUEVA ALERTA METEOROLÓGICA +++ 
+            </div>
+        </section>
+
+        <section class="grid-section">
+            <article class="card">
+                <div class="card-img"></div>
+                <span class="tag">OPINIÓN</span>
+                <h2>El futuro del transporte público urbano</h2>
+                <p style="font-family: sans-serif;">Una mirada a las nuevas infraestructuras que prometen descongestionar las metrópolis.</p>
+            </article>
+            <article class="card">
+                <div class="card-img"></div>
+                <span class="tag">ECONOMÍA</span>
+                <h2>Inflación alcanza nuevo tope anual</h2>
+                <p style="font-family: sans-serif;">Expertos advierten sobre el impacto directo en la canasta básica familiar.</p>
+            </article>
+            <article class="card">
+                <div class="card-img"></div>
+                <span class="tag">CULTURA</span>
+                <h2>Festival de cine independiente anuncia ganadores</h2>
+                <p style="font-family: sans-serif;">Las obras galardonadas marcan una nueva ola de directores emergentes.</p>
+            </article>
+        </section>
+    </main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    var API = "https://news-api.sebastianvernis.workers.dev/api/articles?site=puntoclave&limit=20";
+    function esc(t){if(!t)return"";return String(t).replace(/&/g,"\&amp;").replace(/</g,"\&lt;").replace(/>/g,"\&gt;");}
+    function enc(t){return encodeURIComponent(t||"");}
+
+    async function load(){
+        try{
+            var r=await fetch(API);if(!r.ok)throw new Error("err");
+            var d=await r.json();var arts=d.articles;
+            if(!arts||!arts.length)return;
+            populate(arts);
+        }catch(e){console.error("Error:",e);}
+    }
+
+    function populate(arts){
+        var main=document.querySelector("main");if(!main)return;
+        var ai=0;
+
+        // Find all article-like containers in the original layout
+        var containers=main.querySelectorAll(
+            "article, .hero, .hero-content, .hero-text, .hero-text-box, .hero-headline,"
+            +".z-content, .focus-section, .side-item, .side-article, .grid-item,"
+            +".scroll-content, .video-card, .minimal-card, .gallery-card, .classic-card,"
+            +".card, .card-body, .brief-card, .tech-card, .grid-card, .scroll-card,"
+            +".hero-card > .hero-content, .hero-section .hero-content"
+        );
+
+        // Deduplicate: skip children if parent is already in list
+        var seen=new Set();
+        var unique=[];
+        containers.forEach(function(el){
+            // Skip if a parent is already in our list
+            var dominated=false;
+            seen.forEach(function(s){
+                if(s.contains(el)&&s!==el)dominated=true;
+            });
+            if(!dominated){unique.push(el);seen.add(el);}
+        });
+
+        unique.forEach(function(el){
+            if(ai>=arts.length)return;
+            var a=arts[ai];
+            var link="articulo/index.html?slug="+enc(a.slug);
+
+            // Populate heading
+            var heading=el.querySelector("h1,h2,h3,h4");
+            if(heading){
+                heading.innerHTML='<a href="'+link+'" style="color:inherit;text-decoration:none;">'+esc(a.title)+'</a>';
+            }
+
+            // Populate excerpt
+            var para=el.querySelector("p:not(.author-meta):not(.img-caption)");
+            if(para&&a.excerpt)para.textContent=a.excerpt;
+
+            // Populate category tag
+            var tag=el.querySelector(".tag,.tag-pill,.category-tag,.category,.category-label,.category-pill,.hero-tag,.card-meta");
+            if(tag&&a.category)tag.textContent=a.category;
+
+            // Populate image placeholder (background-image on div)
+            var imgDiv=el.querySelector("div[class*=img],div[class*=image],div[class*=thumb],div[class*=placeholder]");
+            if(imgDiv&&a.imageUrl){
+                imgDiv.style.backgroundImage="url("+a.imageUrl+")";
+                imgDiv.style.backgroundSize="cover";
+                imgDiv.style.backgroundPosition="center";
+            }
+
+            // Fix read-more links
+            var rm=el.querySelector("a.read-more,a.read-link,a.btn-outline,a.read-btn,a[href='#']");
+            if(rm)rm.href=link;
+
+            ai++;
+        });
+
+        // Populate numbered lists (Swiss Design, etc.)
+        var listItems=main.querySelectorAll(".numbered-list li,.trending-list li");
+        listItems.forEach(function(el,i){
+            if(!arts[i])return;
+            var span=el.querySelector("span");
+            if(span)span.textContent=arts[i].title;
+            else el.textContent=arts[i].title;
+        });
+
+        // Populate marquee/ticker
+        var marquee=main.querySelector(".marquee,marquee");
+        if(marquee)marquee.textContent=arts.slice(0,5).map(function(a){return"+++ "+a.title.toUpperCase();}).join(" ");
+
+        // Populate newspaper columns
+        var cols=main.querySelector(".newspaper-columns");
+        if(cols&&arts[0]){
+            var credit=cols.querySelector(".author-credit");
+            if(credit&&arts[0].author)credit.textContent="Por "+arts[0].author;
+            var paras=cols.querySelectorAll("p");
+            paras.forEach(function(p,i){if(arts[i]&&arts[i].excerpt)p.textContent=arts[i].excerpt;});
+        }
+    }
+
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",load);
+    else load();
+})();
+</script>
+
+</body>
+</html>

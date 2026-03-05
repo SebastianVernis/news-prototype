@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - Split Screen Magazine</title>
+    <style>
+        :root {
+            --bg-forest: #1A3626; /* Verde bosque oscuro */
+            --bg-pure: #FFFFFF;
+            --text-light: #F4F4F4;
+            --text-dark: #121212;
+            --text-muted: #666666;
+            --accent-gold: #C5A059;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-weight: normal;
+        }
+
+        /* LAYOUT DIVIDIDO */
+        .split-layout {
+            display: flex;
+            width: 100%;
+        }
+
+        /* LADO IZQUIERDO: FIJO (STICKY) */
+        .left-pane {
+            width: 50%;
+            background-color: var(--bg-forest);
+            color: var(--text-light);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 60px;
+        }
+
+        /* LADO DERECHO: SCROLL INDEPENDIENTE */
+        .right-pane {
+            width: 50%;
+            background-color: var(--bg-pure);
+            color: var(--text-dark);
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px; /* Espaciado generoso entre artículos */
+        }
+
+        /* HEADER (Solo en el lado izquierdo, sin logo) */
+        header {
+            margin-bottom: auto; /* Empuja el contenido principal hacia abajo */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            transition: opacity 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            color: var(--accent-gold);
+        }
+
+        /* HERO CONTENT (Lado Izquierdo) */
+        .hero-content {
+            margin-bottom: 40px;
+        }
+
+        .category-label {
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .portrait-img {
+            width: 100%;
+            height: 40vh; /* Se adapta al alto de la pantalla */
+            background-color: #2A4A38; /* Placeholder oscuro */
+            object-fit: cover;
+            margin-bottom: 30px;
+            filter: contrast(110%) brightness(0.9);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(244, 244, 244, 0.8);
+        }
+
+        /* ARTÍCULOS SECUNDARIOS (Lado Derecho) */
+        .article-card {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #EAEAEA;
+            padding-bottom: 50px;
+        }
+
+        .article-card:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .square-img {
+            width: 100%;
+            aspect-ratio: 1/1; /* Formato cuadrado perfecto */
+            background-color: #E0E0E0; /* Placeholder claro */
+            margin-bottom: 25px;
+        }
+
+        .article-card h2 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .article-card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            display: inline-block;
+            border-bottom: 1px solid var(--text-dark);
+            padding-bottom: 3px;
+            align-self: flex-start;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .read-more:hover {
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        /* FOOTER (Lado Derecho) */
+        footer {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #EAEAEA;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        
+        footer a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .split-layout {
+                flex-direction: column; /* Apila los paneles en móvil */
+            }
+            .left-pane, .right-pane {
+                width: 100%;
+                height: auto;
+                position: relative; /* Quita el sticky en móvil */
+                padding: 40px 30px;
+            }
+            .portrait-img {
+                height: 300px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="split-layout">
+        
+        <aside class="left-pane">
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="#">Alta Costura</a></li>
+                        <li><a href="#">Perfiles</a></li>
+                        <li><a href="#">Arte Contemporáneo</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <div class="hero-content">
+                <span class="category-label">Entrevista Exclusiva</span>
+                <h1 class="serif">El Arquitecto del Silencio</h1>
+                <div class="portrait-img">
+                    </div>
+                <p>Una conversación íntima sobre la eliminación del ruido visual en las metrópolis modernas y por qué el minimalismo estructural se ha convertido en el nuevo lujo inalcanzable.</p>
+            </div>
+        </aside>
+
+        <main class="right-pane">
+            
+            <article class="article-card">
+                <div class="square-img">
+                    </div>
+                <span class="category-label" style="color: var(--text-muted);">Estilo de Vida</span>
+                <h2 class="serif">La caída de la logomanía y el retorno a lo básico</h2>
+                <p>Las casas de diseño abandonan los estampados saturados en favor de cortes limpios y materiales sostenibles, marcando el fin de una era de ostentación.</p>
+                <a href="#" class="read-more">Leer Artículo</a>
+            </article>
+
+            <article class="article-card">
+                <div class="square-img"></div>
+                <span class="category-label" style="color: var(--text-muted);">Cultura</span>
+                <h2 class="serif">Galerías en el desierto: El nuevo epicentro del arte</h2>
+                <p>Lejos de los distritos urbanos tradicionales, coleccionistas y curadores están transformando naves industriales abandonadas en espacios de exhibición masiva.</p>
+                <a href="#" class="read-more">Leer Artículo</a>
+            </article>
+
+            <article class="article-card">
+                <div class="square-img"></div>
+                <span class="category-label" style="color: var(--text-muted);">Gastronomía</span>
+                <h2 class="serif">El fin de la alta cocina molecular</h2>
+                <p>Un regreso a los ingredientes crudos y técnicas de fuego abierto domina las nuevas aperturas de restaurantes con estrellas Michelin.</p>
+                <a href="#" class="read-more">Leer Artículo</a>
+            </article>
+
+            <footer>
+                <div>EDICIÓN MARZO 2026</div>
+                <div>
+                    <a href="https://sebastianvernis.space" target="_blank">sebastianvernis.space</a>
+                    <a href="https://github.com/sebastianvernis" target="_blank">GitHub</a>
+                </div>
+            </footer>
+        </main>
+
+    </div>
+
+</body>
+</html>

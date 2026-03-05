@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - Swiss Design</title>
+    <style>
+        :root {
+            --bg-color: #F8F9FA;
+            --text-main: #1A1A1A;
+            --text-muted: #6C757D;
+            --accent-color: #FF4F00; /* Naranja Internacional */
+            --grid-gap: 24px;
+            --border-light: 1px solid #DEE2E6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* SISTEMA DE GRID ESTRICTO DE 12 COLUMNAS */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--grid-gap);
+        }
+
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+
+        /* HEADER (Sin Logo) */
+        header {
+            border-bottom: var(--border-light);
+            padding: 1.5rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .search-login {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        /* TOP SECTION: División Matemática 6 / 6 */
+        .hero-section {
+            margin-bottom: 4rem;
+        }
+
+        .hero-text {
+            grid-column: span 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 2rem;
+        }
+
+        .hero-tag {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 4vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            grid-column: span 7;
+            background-color: #E0E0E0; /* Placeholder: Usar foto limpia/arquitectónica */
+            min-height: 500px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        /* MID SECTION: Listas Limpias (4 / 4 / 4) */
+        .mid-section {
+            border-top: var(--border-light);
+            border-bottom: var(--border-light);
+            padding: 3rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .list-block {
+            grid-column: span 4;
+        }
+
+        .list-block h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .numbered-list {
+            list-style-type: none;
+            counter-reset: swiss-counter;
+        }
+
+        .numbered-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .numbered-list li::before {
+            counter-increment: swiss-counter;
+            content: "0" counter(swiss-counter);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* GRID SECTION: Tarjetas Estándar (4 / 4 / 4) */
+        .cards-section {
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background-color: #E0E0E0;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--text-main);
+            color: #FFFFFF;
+            padding: 4rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-right: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero-text { grid-column: span 12; padding-right: 0; margin-bottom: 2rem; }
+            .hero-image { grid-column: span 12; min-height: 400px; }
+            .list-block, .card { grid-column: span 6; }
+        }
+
+        @media (max-width: 768px) {
+            .list-block, .card { grid-column: span 12; }
+            nav ul { display: none; /* Simplificación para móvil */ }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <nav>
+                <ul>
+                    <li><a href="#">Actualidad</a></li>
+                    <li><a href="#">Economía</a></li>
+                    <li><a href="#">Innovación</a></li>
+                    <li><a href="#">Sociedad</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="search-login">BUSCAR / SUSCRIBIRSE</a>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="grid-12 hero-section">
+            <div class="hero-text">
+                <span class="hero-tag">Reportaje Especial</span>
+                <h1>Arquitectura Urbana: Rediseñando el Espacio Público</h1>
+                <p>Las metrópolis contemporáneas se enfrentan al reto de la densidad demográfica integrando soluciones sostenibles y matemáticas en su planificación estructural.</p>
+            </div>
+            <div class="hero-image"></div>
+        </section>
+
+        <section class="mid-section">
+            <div class="grid-12">
+                <div class="list-block">
+                    <h3>Lo Más Leído</h3>
+                    <ul class="numbered-list">
+                        <li>Nuevas políticas de importación industrial</li>
+                        <li>El impacto de la automatización en el sector salud</li>
+                        <li>Análisis trimestral del mercado de valores</li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <h3>Análisis</h3>
+                    <ul class="numbered-list">
+                        <li>La transición energética hacia fuentes renovables</li>
+                        <li>Sistemas educativos modulares en el siglo XXI</li>
+                        <li>Evolución de la privacidad de datos</li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <h3>Tendencias</h3>
+                    <ul class="numbered-list">
+                        <li>Diseño minimalista en interfaces de usuario</li>
+                        <li>Movilidad eléctrica en transporte pesado</li>
+                        <li>Desarrollo de materiales biodegradables</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-12 cards-section">
+            <article class="card">
+                <div class="card-img"></div>
+                <div class="card-meta">Tecnología • 14 MIN LECTURA</div>
+                <h2>Algoritmos de Predicción Climática</h2>
+                <p>Nuevos modelos matemáticos logran una precisión sin precedentes en la anticipación de fenómenos meteorológicos.</p>
+            </article>
+            
+            <article class="card">
+                <div class="card-img"></div>
+                <div class="card-meta">Finanzas • 8 MIN LECTURA</div>
+                <h2>Reestructuración de Deuda Global</h2>
+                <p>Los bancos centrales acuerdan un nuevo marco regulatorio para estabilizar las tasas de interés a largo plazo.</p>
+            </article>
+
+            <article class="card">
+                <div class="card-img"></div>
+                <div class="card-meta">Cultura • 5 MIN LECTURA</div>
+                <h2>Exposición de Arte Geométrico</h2>
+                <p>La galería nacional inaugura una retrospectiva dedicada a los pioneros del constructivismo y la abstracción pura.</p>
+            </article>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="https://sebastianvernis.space" target="_blank">sebastianvernis.space</a>
+                <a href="https://github.com/sebastianvernis" target="_blank">GitHub</a>
+                <a href="#">Privacidad</a>
+                <a href="#">Términos</a>
+            </div>
+            <div style="font-size: 0.8rem; color: #6C757D;">
+                © 2026 MEDIA GROUP. TODOS LOS DERECHOS RESERVADOS.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

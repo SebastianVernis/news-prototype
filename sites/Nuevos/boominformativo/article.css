@@ -1,0 +1,112 @@
+/* Article Page Styles - Boóm Informativo Theme */
+.article-page { padding: 2rem 0; background: var(--bg-navy); color: var(--text-light); }
+
+.article-full { 
+    max-width: 900px; 
+    margin: 0 auto; 
+    background: rgba(17, 34, 64, 0.7); 
+    border-radius: 4px; 
+    padding: 3rem; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
+    border-left: 4px solid var(--accent-pink);
+    backdrop-filter: blur(10px);
+}
+
+.article-header { margin-bottom: 2.5rem; }
+
+.breadcrumb a { color: var(--accent-cyan); text-decoration: none; font-size: 0.85rem; }
+.breadcrumb span { color: #8892B0; }
+
+.article-category-badge { 
+    display: inline-block; 
+    padding: 6px 14px; 
+    font-size: 0.7rem; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+    background: var(--accent-pink); 
+    color: var(--bg-navy); 
+    margin-bottom: 1.5rem; 
+    letter-spacing: 1px;
+}
+
+.article-title { 
+    font-family: 'Space Grotesk', sans-serif; 
+    font-size: clamp(2rem, 5vw, 3rem); 
+    font-weight: 800; 
+    line-height: 1.1; 
+    margin-bottom: 1.5rem; 
+    color: var(--text-light); 
+    text-transform: uppercase;
+}
+
+.article-meta { 
+    display: flex; 
+    align-items: center; 
+    gap: 1.5rem; 
+    font-size: 0.85rem; 
+    color: #8892B0; 
+    flex-wrap: wrap; 
+    border-bottom: 1px solid rgba(230, 241, 255, 0.1);
+    padding-bottom: 1.5rem;
+}
+
+.article-meta .author { font-weight: 700; color: var(--accent-cyan); }
+
+.article-image-wrapper { margin: 2.5rem 0; position: relative; }
+.article-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid var(--accent-pink);
+    z-index: -1;
+}
+
+.article-image { 
+    width: 100%; 
+    height: auto; 
+    display: block; 
+    border: 1px solid var(--accent-cyan);
+}
+
+.article-content { 
+    font-size: 1.15rem; 
+    line-height: 1.8; 
+    color: #CCD6F6; 
+    font-family: 'Inter', sans-serif;
+}
+
+.article-content p { margin-bottom: 1.8rem; }
+
+.article-content h2 { 
+    font-family: 'Space Grotesk', sans-serif; 
+    font-size: 1.8rem; 
+    margin-top: 3rem; 
+    margin-bottom: 1.2rem; 
+    color: var(--accent-pink); 
+    text-transform: uppercase;
+}
+
+.article-content h3 { 
+    color: var(--accent-cyan); 
+    margin-top: 2rem;
+}
+
+.article-quote { 
+    border-left: 4px solid var(--accent-cyan); 
+    padding: 1.5rem 2rem; 
+    margin: 2.5rem 0; 
+    background: rgba(0, 229, 255, 0.05);
+    font-style: italic; 
+    font-size: 1.3rem; 
+    color: var(--text-light); 
+}
+
+@media (max-width: 768px) { 
+    .article-full { padding: 1.5rem; border-left-width: 3px; } 
+    .article-title { font-size: 1.8rem; } 
+    .article-content { font-size: 1.05rem; } 
+    .article-image-wrapper::before { display: none; }
+}

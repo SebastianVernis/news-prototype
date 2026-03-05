@@ -1,0 +1,42 @@
+/* ========================================
+   Central México - Base (reset + variables)
+   Paleta: Pale Slate, Cool Steel, Blue Slate, Burnt Rose
+   NOTE: Todo el tema visual está en style-custom.css
+   ======================================== */
+
+:root {
+    /* Paleta Central México */
+    --cm-slate-light: #B6C1C6; /* Pale Slate */
+    --cm-steel:       #8897A0; /* Cool Steel */
+    --cm-steel-mid:   #A4A6A9; /* Cool Steel mid */
+    --cm-slate-dark:  #5B666C; /* Blue Slate */
+    --cm-red:         #9C2E3C; /* Burnt Rose — acento */
+    --cm-white:       #FFFFFF;
+    --cm-black:       #1A1A1A;
+    --cm-text:        #2A2A2A;
+    --cm-text-light:  #5B666C;
+
+    --font-primary:   'Playfair Display', serif;
+    --font-secondary: 'Noto Sans', sans-serif;
+
+    --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+    --space-lg: 1.5rem;  --space-xl: 2rem;   --space-2xl: 3rem;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.12);
+
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-secondary); background: #F4F5F6; color: var(--cm-text); line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+@media (max-width: 768px) {
+    .container { padding: 0 var(--space-md); }
+}
+/* NOTE: Todo el tema visual está en style-custom.css */

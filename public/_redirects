@@ -1,1 +1,2 @@
+/ /admin/ 302
 /api/* https://cms-api.sebastianvernis.space/api/:splat 200

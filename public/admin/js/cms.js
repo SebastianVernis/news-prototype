@@ -20,8 +20,10 @@ async function loadCMSArticles() {
                     hour: '2-digit', 
                     minute: '2-digit' 
                 }) : '-'}</td>
-                <td class="actions">
-                    <button class="btn btn-outline" onclick="editCMSArticleUnified('${a.ID}')"><i class="fas fa-edit"></i></button>
+                <td class="col-actions">
+                    <div class="actions">
+                        <button class="btn btn-outline" onclick="editCMSArticleUnified('${a.ID}')" title="Editar"><i class="fas fa-edit"></i></button>
+                    </div>
                 </td>
             </tr>
         `).join('');
@@ -41,7 +43,9 @@ async function editCMSArticleUnified(id) {
             excerpt: a.DESCRIPCION,
             category: a.CATEGORIA,
             imageUrl: a.URL_IMAGEN,
-            featured: a.DESTACADO === 1
+            featured: a.DESTACADO === 1,
+            site: a.SITIOS_DESTINO,
+            fbRequired: a.FB_REQUERIDO === 1
         });
     } catch (e) { alert(e.message); }
 }

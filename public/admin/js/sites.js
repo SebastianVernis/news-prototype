@@ -20,10 +20,12 @@ async function loadSitesTable() {
                 <td>${s.NOMBRE}</td>
                 <td>${s.DOMINIO}</td>
                 <td><span class="status-badge ${s.ACTIVO ? 'status-featured' : 'status-normal'}">${s.ACTIVO ? 'Activo' : 'Inactivo'}</span></td>
-                <td class="actions">
-                    <button class="btn btn-outline" onclick="editSiteById('${s.ID}')">
-                        <i class="fas fa-edit"></i>
-                    </button>
+                <td class="col-actions">
+                    <div class="actions">
+                        <button class="btn btn-outline" onclick="editSiteById('${s.ID}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `).join('');

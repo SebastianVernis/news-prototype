@@ -1,0 +1,53 @@
+/* TelevisionABC - Base (reset + variables) */
+/* Style: Premium Financial */
+
+:root {
+    --televisionabc-primary: #D4AF37;
+    --televisionabc-secondary: #333333;
+    --televisionabc-accent: #D4AF37;
+    --televisionabc-dark: #1A1A1A;
+    --televisionabc-light: #FFFFFF;
+    --televisionabc-text: #1A1A1A;
+    --televisionabc-text-light: #555555;
+
+    --bg-pure: #FFFFFF;
+    --bg-alt: #F8F9FA;
+    --text-main: #111111;
+    --text-muted: #555555;
+    --brand-navy: #001F3F;
+    --accent-gold: #D4AF37;
+    --border-fin: 1px solid #E0E0E0;
+    --border-thick: 3px solid var(--brand-navy);
+
+    --font-primary: 'Playfair Display', serif;
+    --font-secondary: 'Georgia', 'Times New Roman', serif;
+
+    --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+    --space-lg: 1.5rem;  --space-xl: 2rem;   --space-2xl: 3rem;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.15);
+
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+
+    --primary-color: #D4AF37;
+    --secondary-color: #333333;
+    --accent-color: #D4AF37;
+    --background-color: #FFFFFF;
+    --card-bg: #FFFFFF;
+    --text-color: #1A1A1A;
+    --text-muted: #555555;
+    --border-color: rgba(0,0,0,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-secondary); background: #FFFFFF; color: #1A1A1A; line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+@media (max-width: 768px) {
+    .container { padding: 0 var(--space-md); }
+}

@@ -1,0 +1,96 @@
+/* Article Page Styles - Capital Press Minimalist Theme */
+.article-page { padding: 40px 0; background: var(--bg-bone); color: var(--text-dark); }
+
+.article-full { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    background: #FFFFFF; 
+    padding: 60px; 
+    border-radius: 2px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid #EAE7E0;
+}
+
+.article-header { text-align: center; margin-bottom: 50px; }
+
+.breadcrumb a { color: var(--accent-earth); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+.breadcrumb span { color: #ccc; margin: 0 10px; }
+
+.article-category-badge { 
+    display: inline-block; 
+    padding: 0; 
+    font-size: 0.75rem; 
+    font-weight: 400; 
+    text-transform: uppercase; 
+    color: var(--accent-earth); 
+    margin-bottom: 20px; 
+    letter-spacing: 3px;
+}
+
+.article-title { 
+    font-family: 'Inter', sans-serif; 
+    font-size: clamp(2rem, 5vw, 3rem); 
+    font-weight: 300; 
+    line-height: 1.2; 
+    margin-bottom: 25px; 
+    color: var(--text-dark); 
+    letter-spacing: -1px;
+}
+
+.article-meta { 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    gap: 20px; 
+    font-size: 0.85rem; 
+    color: var(--text-light); 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-top: 1px solid #EAE7E0;
+    padding-top: 20px;
+}
+
+.article-meta .author { color: var(--text-dark); font-weight: 600; }
+
+.article-image-wrapper { margin: 40px 0; }
+.article-image { 
+    width: 100%; 
+    height: auto; 
+    border-radius: 2px;
+    filter: grayscale(20%);
+}
+
+.article-content { 
+    font-size: 1.15rem; 
+    line-height: 1.9; 
+    color: var(--text-dark); 
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+}
+
+.article-content p { margin-bottom: 25px; }
+
+.article-content h2 { 
+    font-weight: 400; 
+    font-size: 1.8rem; 
+    margin-top: 45px; 
+    margin-bottom: 20px; 
+    color: var(--text-dark); 
+}
+
+.article-quote { 
+    border-left: 2px solid var(--accent-earth); 
+    padding: 20px 40px; 
+    margin: 40px 0; 
+    font-style: italic; 
+    font-size: 1.4rem; 
+    color: var(--text-light); 
+    background: #FDFDFB;
+}
+
+@media (max-width: 768px) { 
+    .article-full { padding: 30px 20px; border: none; box-shadow: none; } 
+    .article-title { font-size: 2.2rem; } 
+    .article-content { font-size: 1.1rem; } 
+    .article-header { margin-bottom: 30px; }
+}

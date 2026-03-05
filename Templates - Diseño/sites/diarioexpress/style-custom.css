@@ -1,0 +1,244 @@
+/* DiarioExpress - Original Theme CSS */
+:root {
+            --bg-color: #F8F9FA;
+            --text-main: #1A1A1A;
+            --text-muted: #6C757D;
+            --accent-color: #FF4F00; /* Naranja Internacional */
+            --grid-gap: 24px;
+            --border-light: 1px solid #DEE2E6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* SISTEMA DE GRID ESTRICTO DE 12 COLUMNAS */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--grid-gap);
+        }
+
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+        }
+
+        /* HEADER (Sin Logo) */
+        header {
+            border-bottom: var(--border-light);
+            padding: 1.5rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .search-login {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        /* TOP SECTION: División Matemática 6 / 6 */
+        .hero-section {
+            margin-bottom: 4rem;
+        }
+
+        .hero-text {
+            grid-column: span 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 2rem;
+        }
+
+        .hero-tag {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 4vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            grid-column: span 7;
+            background-color: #E0E0E0; /* Placeholder: Usar foto limpia/arquitectónica */
+            min-height: 500px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        /* MID SECTION: Listas Limpias (4 / 4 / 4) */
+        .mid-section {
+            border-top: var(--border-light);
+            border-bottom: var(--border-light);
+            padding: 3rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .list-block {
+            grid-column: span 4;
+        }
+
+        .list-block h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .numbered-list {
+            list-style-type: none;
+            counter-reset: swiss-counter;
+        }
+
+        .numbered-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .numbered-list li::before {
+            counter-increment: swiss-counter;
+            content: "0" counter(swiss-counter);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* GRID SECTION: Tarjetas Estándar (4 / 4 / 4) */
+        .cards-section {
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background-color: #E0E0E0;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--text-main);
+            color: #FFFFFF;
+            padding: 4rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-right: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero-text { grid-column: span 12; padding-right: 0; margin-bottom: 2rem; }
+            .hero-image { grid-column: span 12; min-height: 400px; }
+            .list-block, .card { grid-column: span 6; }
+        }
+
+        @media (max-width: 768px) {
+            .list-block, .card { grid-column: span 12; }
+            nav ul { display: none; /* Simplificación para móvil */ }
+        }

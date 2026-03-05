@@ -1,0 +1,55 @@
+/* FormulaCDMX - Base (reset + variables) */
+/* Style: Frosted Glass */
+
+:root {
+    --formulacdmx-primary: #38bdf8;
+    --formulacdmx-secondary: #333333;
+    --formulacdmx-accent: #38bdf8;
+    --formulacdmx-dark: #1A1A1A;
+    --formulacdmx-light: #FFFFFF;
+    --formulacdmx-text: #1A1A1A;
+    --formulacdmx-text-light: #94a3b8;
+
+    --bg-grad-1: #0f172a;
+    --bg-grad-2: #3b0764;
+    --bg-grad-3: #1e1b4b;
+    --bg-grad-4: #020617;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-glow: #38bdf8;
+
+    --font-primary: 'Playfair Display', serif;
+    --font-secondary: 'Inter', -apple-system, sans-serif;
+
+    --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+    --space-lg: 1.5rem;  --space-xl: 2rem;   --space-2xl: 3rem;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.15);
+
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+
+    --primary-color: #38bdf8;
+    --secondary-color: #333333;
+    --accent-color: #38bdf8;
+    --background-color: #FFFFFF;
+    --card-bg: #FFFFFF;
+    --text-color: #1A1A1A;
+    --text-muted: #94a3b8;
+    --border-color: rgba(0,0,0,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-secondary); background: #FFFFFF; color: #1A1A1A; line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: all 0.3s ease; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+@media (max-width: 768px) {
+    .container { padding: 0 var(--space-md); }
+}

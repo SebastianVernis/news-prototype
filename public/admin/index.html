@@ -223,46 +223,6 @@
                             ><i class="fas fa-globe"></i><span>Sitios</span></a
                         >
                     </li>
-                    <li class="nav-item">
-                        <a
-                            onclick="goToView('users')"
-                            class="nav-link"
-                            data-view="users"
-                            data-tooltip="Usuarios"
-                            ><i class="fas fa-users"></i
-                            ><span>Usuarios</span></a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a
-                            onclick="goToView('privacidad')"
-                            class="nav-link"
-                            data-view="privacidad"
-                            data-tooltip="Privacidad"
-                            ><i class="fas fa-shield-alt"></i
-                            ><span>Privacidad</span></a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a
-                            onclick="goToView('terminos')"
-                            class="nav-link"
-                            data-view="terminos"
-                            data-tooltip="Términos"
-                            ><i class="fas fa-file-contract"></i
-                            ><span>Términos</span></a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a
-                            onclick="goToView('borrado')"
-                            class="nav-link"
-                            data-view="borrado"
-                            data-tooltip="Borrado"
-                            ><i class="fas fa-user-minus"></i
-                            ><span>Borrado de Datos</span></a
-                        >
-                    </li>
                 </ul>
 
                 <!-- Botón Dark / Light Mode -->
@@ -276,22 +236,41 @@
                     <span class="theme-label">Modo oscuro</span>
                 </button>
 
-                <!-- User Info Section -->
+                <!-- User Info Section con Submenú -->
                 <div
                     class="user-info-section"
                     id="user-info-section"
                     style="display: none"
                 >
-                    <div class="user-info">
+                    <!-- Trigger del Submenú -->
+                    <div class="user-info" onclick="toggleUserSubmenu(event)" style="cursor: pointer; position: relative;">
                         <div class="user-avatar" id="user-avatar">?</div>
                         <div class="user-details">
                             <div class="user-name" id="user-name">Usuario</div>
                             <div class="user-role" id="user-role">Editor</div>
                         </div>
+                        <i class="fas fa-chevron-up submenu-arrow" id="user-submenu-arrow"></i>
                     </div>
-                    <button class="btn-logout" onclick="doLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                    </button>
+
+                    <!-- Submenú oculto -->
+                    <div id="user-submenu" class="user-submenu">
+                        <a onclick="goToView('users')" class="submenu-link">
+                            <i class="fas fa-users"></i> Usuarios
+                        </a>
+                        <a onclick="goToView('privacidad')" class="submenu-link">
+                            <i class="fas fa-shield-alt"></i> Privacidad
+                        </a>
+                        <a onclick="goToView('terminos')" class="submenu-link">
+                            <i class="fas fa-file-contract"></i> Términos
+                        </a>
+                        <a onclick="goToView('borrado')" class="submenu-link">
+                            <i class="fas fa-user-minus"></i> Borrado de Datos
+                        </a>
+                        <div class="submenu-divider"></div>
+                        <button class="btn-logout" onclick="doLogout()">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </button>
+                    </div>
                 </div>
             </aside>
 
@@ -311,485 +290,6 @@
                     <i class="fas fa-spinner fa-spin fa-2x"></i>
                 </div>
             </main>
-
-            <!-- EDITOR UNIVERSAL DE ARTÍCULOS (PANTALLA COMPLETA) -->
-            <div
-                id="universal-editor-view"
-                style="
-                    display: none;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.85);
-                    z-index: 9999;
-                    overflow-y: auto;
-                "
-            >
-                <div class="editor-wrapper">
-                    <div class="editor-card">
-                        <!-- Header -->
-                        <div class="editor-header">
-                            <div>
-                                <h2
-                                    id="universal-editor-title"
-                                    class="editor-header-title"
-                                >
-                                    Editor de Artículo
-                                </h2>
-                                <p
-                                    id="editor-subtitle"
-                                    class="editor-header-subtitle"
-                                >
-                                    Completa la información del artículo
-                                </p>
-                            </div>
-                            <button
-                                class="btn-close-editor"
-                                onclick="closeUniversalEditor()"
-                            >
-                                <i class="fas fa-times"></i> <span>Cerrar</span>
-                            </button>
-                        </div>
-
-                        <!-- Cuerpo -->
-                        <div class="editor-body">
-                            <form id="universal-article-form">
-                                <input type="hidden" id="uni-id" />
-                                <input type="hidden" id="uni-mode" />
-
-                                <!-- Sección 1: Información Principal -->
-                                <div class="editor-section">
-                                    <h3 class="editor-section-title">
-                                        <i class="fas fa-heading"></i>
-                                        Información Principal
-                                    </h3>
-
-                                    <div style="margin-bottom: 1.5rem">
-                                        <label class="editor-label">
-                                            <i
-                                                class="fas fa-pen-fancy editor-label-icon"
-                                            ></i
-                                            >Título del Artículo *
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="editor-input editor-input--title"
-                                            id="uni-title"
-                                            required
-                                            placeholder="Título del artículo..."
-                                        />
-                                    </div>
-
-                                    <div
-                                        style="
-                                            display: grid;
-                                            grid-template-columns: 2fr 1fr;
-                                            gap: 1.5rem;
-                                            margin-bottom: 1.5rem;
-                                        "
-                                    >
-                                        <div>
-                                            <label class="editor-label">
-                                                <i
-                                                    class="fas fa-link editor-label-icon"
-                                                ></i
-                                                >Slug (URL) *
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="editor-input editor-input--mono"
-                                                id="uni-slug"
-                                                placeholder="titulo-del-articulo"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label class="editor-label">
-                                                <i
-                                                    class="fas fa-user-edit editor-label-icon"
-                                                ></i
-                                                >Autor
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="editor-input"
-                                                id="uni-author"
-                                                placeholder="Editorial"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        style="
-                                            display: grid;
-                                            grid-template-columns: 1fr 1fr;
-                                            gap: 1.5rem;
-                                        "
-                                    >
-                                        <div>
-                                            <label class="editor-label">
-                                                <i
-                                                    class="fas fa-folder editor-label-icon"
-                                                ></i
-                                                >Categoría *
-                                            </label>
-                                            <select
-                                                class="editor-input editor-input--select"
-                                                id="uni-category"
-                                                required
-                                            >
-                                                <option value="POLITICA">
-                                                    Política
-                                                </option>
-                                                <option value="NACIONAL">
-                                                    Nacional
-                                                </option>
-                                                <option value="INTERNACIONAL">
-                                                    Internacional
-                                                </option>
-                                                <option value="ECONOMIA">
-                                                    Economía
-                                                </option>
-                                                <option value="DEPORTES">
-                                                    Deportes
-                                                </option>
-                                                <option value="TECNOLOGIA">
-                                                    Tecnología
-                                                </option>
-                                                <option value="ENTRETENIMIENTO">
-                                                    Entretenimiento
-                                                </option>
-                                                <option value="SALUD">
-                                                    Salud
-                                                </option>
-                                                <option value="CIENCIA">
-                                                    Ciencia
-                                                </option>
-                                                <option value="CULTURA">
-                                                    Cultura
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label class="editor-label">
-                                                <i
-                                                    class="fas fa-star editor-label-icon"
-                                                ></i
-                                                >Destacado
-                                            </label>
-                                            <select
-                                                class="editor-input editor-input--select"
-                                                id="uni-featured"
-                                            >
-                                                <option value="0">No</option>
-                                                <option value="1">Sí</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Sección 2: Descripción e Imagen -->
-                                <div class="editor-section">
-                                    <h3 class="editor-section-title">
-                                        <i class="fas fa-image"></i> Descripción
-                                        y Multimedia
-                                    </h3>
-
-                                    <div style="margin-bottom: 1.5rem">
-                                        <label class="editor-label">
-                                            <i
-                                                class="fas fa-align-left editor-label-icon"
-                                            ></i
-                                            >Descripción Corta (SEO) *
-                                        </label>
-                                        <textarea
-                                            class="editor-input"
-                                            id="uni-excerpt"
-                                            rows="3"
-                                            placeholder="Breve descripción para SEO y redes sociales (140-160 caracteres recomendados)..."
-                                            style="resize: vertical"
-                                        ></textarea>
-                                    </div>
-
-                                    <div>
-                                        <label class="editor-label">
-                                            <i
-                                                class="fas fa-upload editor-label-icon"
-                                            ></i
-                                            >Imagen del Artículo
-                                        </label>
-                                        <div class="editor-upload-row">
-                                            <input
-                                                type="text"
-                                                class="editor-input editor-input--mono"
-                                                id="uni-image"
-                                                placeholder="https://ejemplo.com/imagen.jpg"
-                                                style="flex: 1"
-                                            />
-                                            <button
-                                                type="button"
-                                                class="btn-upload-image"
-                                                onclick="
-                                                    document
-                                                        .getElementById(
-                                                            'uni-upload-input',
-                                                        )
-                                                        .click()
-                                                "
-                                            >
-                                                <i
-                                                    class="fas fa-cloud-upload-alt"
-                                                ></i>
-                                                Subir Imagen
-                                            </button>
-                                            <input
-                                                type="file"
-                                                id="uni-upload-input"
-                                                style="display: none"
-                                                accept="image/*"
-                                                onchange="
-                                                    uploadUniversalImage(this)
-                                                "
-                                            />
-                                        </div>
-                                        <div
-                                            id="uni-image-preview"
-                                            class="editor-preview-box"
-                                        >
-                                            <img
-                                                id="uni-preview-img"
-                                                src=""
-                                                alt="Vista previa"
-                                            />
-                                            <p class="editor-preview-caption">
-                                                Vista previa de la imagen
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Sección 3: Sitios y Contenido -->
-                                <div class="editor-section">
-                                    <h3 class="editor-section-title">
-                                        <i class="fas fa-globe"></i> Sitios y
-                                        Contenido
-                                    </h3>
-
-                                    <div
-                                        style="
-                                            display: grid;
-                                            grid-template-columns: 1fr 160px;
-                                            gap: 1.5rem;
-                                            margin-bottom: 2rem;
-                                        "
-                                    >
-                                        <div>
-                                            <label class="editor-label">
-                                                <i
-                                                    class="fas fa-sitemap editor-label-icon"
-                                                ></i
-                                                >Sitios de Destino
-                                            </label>
-                                            <div
-                                                class="editor-box editor-box--scroll"
-                                            >
-                                                <div class="editor-box-header">
-                                                    <span class="editor-hint"
-                                                        >Selecciona los sitios
-                                                        donde publicar</span
-                                                    >
-                                                    <button
-                                                        type="button"
-                                                        class="btn-select-all"
-                                                        onclick="
-                                                            toggleAllSites()
-                                                        "
-                                                    >
-                                                        <i
-                                                            class="fas fa-check-square"
-                                                        ></i>
-                                                        Todos
-                                                    </button>
-                                                </div>
-                                                <div
-                                                    id="uni-sites-container"
-                                                ></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label class="editor-label">
-                                                <i
-                                                    class="fab fa-facebook editor-label-icon"
-                                                ></i
-                                                >Facebook
-                                            </label>
-                                            <div
-                                                id="uni-fb-section"
-                                                class="editor-fb-box"
-                                                style="display: none"
-                                            >
-                                                <label class="editor-fb-label">
-                                                    <input
-                                                        type="checkbox"
-                                                        id="uni-publish-fb"
-                                                        style="
-                                                            width: 18px;
-                                                            height: 18px;
-                                                            cursor: pointer;
-                                                        "
-                                                    />
-                                                    Publicar en Facebook
-                                                </label>
-                                            </div>
-                                            <div
-                                                id="uni-fb-placeholder"
-                                                class="editor-fb-placeholder"
-                                            >
-                                                <i
-                                                    class="fas fa-info-circle"
-                                                ></i>
-                                                Solo visible al publicar
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Editor de Contenido -->
-                                    <div>
-                                        <label
-                                            class="editor-label"
-                                            style="margin-bottom: 0.75rem"
-                                        >
-                                            <i
-                                                class="fas fa-file-alt editor-label-icon"
-                                            ></i
-                                            >Contenido (HTML) *
-                                        </label>
-                                        <div class="editor-toolbar-wrap">
-                                            <div class="editor-toolbar">
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('h1')"
-                                                    title="Título 1"
-                                                >
-                                                    H1
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('h2')"
-                                                    title="Título 2"
-                                                >
-                                                    H2
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('h3')"
-                                                    title="Título 3"
-                                                >
-                                                    H3
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('p')"
-                                                    title="Párrafo"
-                                                >
-                                                    P
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('strong')"
-                                                    title="Negrita"
-                                                >
-                                                    <i class="fas fa-bold"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('em')"
-                                                    title="Cursiva"
-                                                >
-                                                    <i class="fas fa-italic"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('ul')"
-                                                    title="Lista"
-                                                >
-                                                    <i class="fas fa-list-ul"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTag('ol')"
-                                                    title="Lista ordenada"
-                                                >
-                                                    <i class="fas fa-list-ol"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertLink()"
-                                                    title="Insertar Enlace"
-                                                >
-                                                    <i class="fas fa-link"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertImage()"
-                                                    title="Insertar Imagen"
-                                                >
-                                                    <i class="fas fa-image"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertYouTube()"
-                                                    title="Insertar YouTube"
-                                                >
-                                                    <i class="fab fa-youtube"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertTwitter()"
-                                                    title="Insertar Twitter"
-                                                >
-                                                    <i class="fab fa-twitter"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="insertInstagram()"
-                                                    title="Insertar Instagram"
-                                                >
-                                                    <i class="fab fa-instagram"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onclick="autoParagraph()"
-                                                    title="Auto-formatear"
-                                                >
-                                                    <i class="fas fa-magic"></i>
-                                                    Auto-P
-                                                </button>
-                                            </div>
-                                            <textarea
-                                                class="editor-input editor-input--content"
-                                                id="uni-content"
-                                                rows="20"
-                                                required
-                                                placeholder="Escribe o pega el contenido HTML aquí..."
-                                            ></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Botones de Acción -->
-                                <div
-                                    class="editor-actions"
-                                    id="uni-actions-container"
-                                >
-                                    <!-- Los botones se generan dinámicamente -->
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Login Screen -->
@@ -900,6 +400,15 @@
             </div>
         </div>
 
+        <!-- Modal de Carga Global -->
+        <div id="global-loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; flex-direction: column; justify-content: center; align-items: center; color: white;">
+            <div class="loader-content" style="text-align: center;">
+                <i class="fas fa-circle-notch fa-spin fa-3x" style="color: #06b6d4; margin-bottom: 15px;"></i>
+                <h3 id="loader-message" style="font-weight: 600; letter-spacing: 0.5px;">Procesando publicación...</h3>
+                <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 8px;">Por favor, no cierres esta ventana.</p>
+            </div>
+        </div>
+
         <!-- Scripts Base -->
         <script>
             // Configure the base URL for the admin API.
@@ -918,6 +427,7 @@
         <script src="js/revision.js"></script>
         <script src="js/facebook.js"></script>
         <script src="js/monitor.js"></script>
+        <script src="js/system-alerts.js"></script>
         <script src="js/featured.js"></script>
         <script src="js/sites.js"></script>
         <script src="js/categories.js"></script>
@@ -1074,24 +584,62 @@
                 const _origGoToView = window.goToView;
                 window.goToView = function (view) {
                     if (isMobile()) closeSidebar();
+                    // Cerrar submenú de usuario si está abierto al navegar
+                    const submenu = document.getElementById("user-submenu");
+                    if (submenu) submenu.classList.remove("open");
+                    const info = document.querySelector(".user-info");
+                    if (info) info.classList.remove("active");
+
                     if (typeof _origGoToView === "function")
                         _origGoToView(view);
                 };
 
                 window.addEventListener("resize", syncTopbar);
                 syncTopbar();
-            })();
+                })();
 
-            // Función global para logout
-            function doLogout() {
-                // Limpiar todo el localStorage
-                localStorage.removeItem("CMS_USER_SESSION");
-                localStorage.removeItem("CMS_AUTH_TOKEN");
-                localStorage.removeItem("CMS_ADMIN_TOKEN");
+                // ── Submenú de Usuario ─────────────────────────────────────
+                function toggleUserSubmenu(e) {
+                e.stopPropagation();
+                const submenu = document.getElementById("user-submenu");
+                const info = document.querySelector(".user-info");
+                if (!submenu || !info) return;
 
-                // Mostrar login
-                showLoginScreen();
-            }
+                const isOpen = submenu.classList.contains("open");
+
+                // Cerrar otros si hubiera, o simplemente toggle
+                submenu.classList.toggle("open", !isOpen);
+                info.classList.toggle("active", !isOpen);
+                }
+
+                // Cerrar submenú al hacer clic fuera
+                document.addEventListener("click", (e) => {
+                const submenu = document.getElementById("user-submenu");
+                const info = document.querySelector(".user-info");
+                if (submenu && submenu.classList.contains("open")) {
+                    if (!submenu.contains(e.target) && !info.contains(e.target)) {
+                        submenu.classList.remove("open");
+                        info.classList.remove("active");
+                    }
+                }
+                });
+
+                // Función global para logout
+        function doLogout() {
+            // Limpiar todo el localStorage
+            localStorage.removeItem("CMS_USER_SESSION");
+            localStorage.removeItem("CMS_AUTH_TOKEN");
+            localStorage.removeItem("CMS_ADMIN_TOKEN");
+
+            // Limpiar UI submenú
+            const submenu = document.getElementById("user-submenu");
+            if (submenu) submenu.classList.remove("open");
+            const info = document.querySelector(".user-info");
+            if (info) info.classList.remove("active");
+
+            // Mostrar login
+            showLoginScreen();
+        }
 
             // Mostrar pantalla de login
             function showLoginScreen() {
@@ -1156,6 +704,9 @@
                     showAdminScreen();
                     updateUserUI();
                     await Router.init();
+
+                    // Verificar alertas críticas del sistema
+                    checkSystemCriticalAlerts();
 
                     // Cargar vista según hash o dashboard
                     const currentView =
@@ -1236,6 +787,7 @@
 
                                 // Inicializar router y cargar dashboard
                                 await Router.init();
+                                checkSystemCriticalAlerts();
                                 Router.navigate("dashboard");
                             } else {
                                 throw new Error(

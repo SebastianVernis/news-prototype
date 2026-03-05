@@ -1,0 +1,87 @@
+/* Article Page Styles - Enfoque Capital Forest Theme */
+.article-page { padding: 60px 0; background: var(--bg-pure); color: var(--text-dark); }
+
+.article-full { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    background: #FFFFFF; 
+    padding: 0; 
+}
+
+.article-header { margin-bottom: 40px; border-bottom: 1px solid #eaeaea; padding-bottom: 30px; }
+
+.breadcrumb a { color: var(--accent-gold); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; }
+.breadcrumb span { color: #ccc; margin: 0 10px; }
+
+.article-category-badge { 
+    display: inline-block; 
+    padding: 0; 
+    font-size: 0.75rem; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    color: var(--accent-gold); 
+    margin-bottom: 15px; 
+    letter-spacing: 3px;
+}
+
+.article-title { 
+    font-family: 'Playfair Display', serif; 
+    font-size: clamp(2.2rem, 5vw, 3.5rem); 
+    line-height: 1.1; 
+    margin-bottom: 25px; 
+    color: var(--bg-forest); 
+}
+
+.article-meta { 
+    display: flex; 
+    align-items: center; 
+    gap: 20px; 
+    font-size: 0.85rem; 
+    color: var(--text-muted); 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.article-meta .author { color: var(--text-dark); font-weight: bold; }
+
+.article-image-wrapper { margin: 40px 0; }
+.article-image { 
+    width: 100%; 
+    height: auto; 
+    display: block;
+    filter: contrast(105%);
+}
+
+.article-content { 
+    font-size: 1.15rem; 
+    line-height: 1.8; 
+    color: var(--text-dark); 
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.article-content p { margin-bottom: 25px; }
+
+.article-content h2 { 
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; 
+    margin-top: 45px; 
+    margin-bottom: 20px; 
+    color: var(--bg-forest); 
+}
+
+.article-quote { 
+    border-left: 3px solid var(--accent-gold); 
+    padding: 20px 40px; 
+    margin: 40px 0; 
+    font-family: 'Playfair Display', serif;
+    font-style: italic; 
+    font-size: 1.6rem; 
+    color: var(--text-muted); 
+    background: #fcfaf5;
+}
+
+@media (max-width: 768px) { 
+    .article-full { padding: 0 20px; } 
+    .article-title { font-size: 2.2rem; } 
+    .article-content { font-size: 1.1rem; } 
+}

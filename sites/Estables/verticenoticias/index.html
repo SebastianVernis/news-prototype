@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Vértice Noticias - Perspectivas Únicas</title>
+    <meta content="Perspectivas únicas. Análisis profundo desde el vértice de la información." name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="style-custom.css" rel="stylesheet"/>
+    <link rel="alternate" type="application/rss+xml" title="Vértice Noticias RSS" href="/rss.xml"/>
+</head>
+<body>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main class="main-content">
+    <div class="container">
+        <!-- Bento/Mosaic grid asimétrico -->
+        <section class="featured-section">
+            <div id="featured-container">
+                <div style="text-align:center;padding:60px;color:#4FB0C6;">Cargando noticias...</div>
+            </div>
+        </section>
+
+        <!-- Grid adicional -->
+        <section class="news-section" id="news-section">
+            <h2 class="section-title">Más Noticias</h2>
+            <div id="news-container" class="card-grid"></div>
+        </section>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    const API = 'https://news-api.sebastianvernis.workers.dev/api/articles?site=verticenoticias&limit=20';
+
+    async function loadArticles() {
+        try {
+            const res = await fetch(API);
+            if (!res.ok) throw new Error('Network error');
+            const {articles} = await res.json();
+            if (!articles?.length) {
+                document.getElementById('featured-container').innerHTML =
+                    '<div style="text-align:center;padding:60px;color:#4FB0C6;">No hay noticias disponibles.</div>';
+                return;
+            }
+            renderBento(articles.slice(0, 4));
+            renderGrid(articles.slice(4));
+        } catch(e) {
+            console.error('Error:', e);
+            document.getElementById('featured-container').innerHTML =
+                '<div style="text-align:center;padding:60px;color:#C2185B;">Error al cargar noticias.</div>';
+        }
+    }
+
+    function renderBento(articles) {
+        const container = document.getElementById('featured-container');
+        if (!container || !articles.length) return;
+
+        // Asignar celdas: [0]=large, [1]=tall, [2]=sm, [3]=sm
+        const cells = [
+            { cls: 'bento-cell-large', a: articles[0], size: 'large' },
+            { cls: 'bento-cell-tall',  a: articles[1], size: 'tall'  },
+            { cls: 'bento-cell-sm',    a: articles[2], size: 'sm'    },
+            { cls: 'bento-cell-sm',    a: articles[3], size: 'sm'    },
+        ].filter(c => c.a);
+
+        const cellsHtml = cells.map(({cls, a, size}) => {
+            const img   = a.imageUrl || 'logo.png';
+            const badge = `<span class="category-badge cat-${esc((a.category||'general').toLowerCase())}">${esc(a.category||'General')}</span>`;
+            const meta  = `<div class="bento-meta"><span><i class="far fa-calendar"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span></div>`;
+            const link  = `articulo/index.html?slug=${enc(a.slug)}`;
+
+            let inner = '';
+            if (size === 'large') {
+                inner = `
+                    ${badge}
+                    <h2><a href="${link}">${esc(a.title)}</a></h2>
+                    <p>${esc(a.excerpt||'')}</p>
+                    ${meta}`;
+            } else if (size === 'tall') {
+                inner = `
+                    ${badge}
+                    <h3><a href="${link}">${esc(a.title)}</a></h3>
+                    ${meta}`;
+            } else {
+                inner = `
+                    ${badge}
+                    <h4><a href="${link}">${esc(a.title)}</a></h4>`;
+            }
+
+            return `
+                <article class="bento-card ${cls}">
+                    <a href="${link}">
+                        <img src="${img}" alt="${esc(a.title)}" loading="lazy">
+                    </a>
+                    <div class="bento-overlay">${inner}</div>
+                </article>`;
+        }).join('');
+
+        container.innerHTML = `<div class="bento-grid">${cellsHtml}</div>`;
+    }
+
+    function renderGrid(articles) {
+        const container = document.getElementById('news-container');
+        const section   = document.getElementById('news-section');
+        if (!container) return;
+        if (!articles.length) { if (section) section.style.display = 'none'; return; }
+
+        container.innerHTML = articles.map(a => `
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <a href="articulo/index.html?slug=${enc(a.slug)}">
+                        <img src="${a.imageUrl || 'logo.png'}" alt="${esc(a.title)}" loading="lazy">
+                    </a>
+                </div>
+                <div class="card-content">
+                    <span class="card-category-badge cat-${esc((a.category||'general').toLowerCase())}">${esc(a.category||'General')}</span>
+                    <h3 class="card-title"><a href="articulo/index.html?slug=${enc(a.slug)}">${esc(a.title)}</a></h3>
+                    <p class="card-excerpt">${esc(a.excerpt||'')}</p>
+                    <div class="card-footer">
+                        <span class="card-author"><i class="far fa-user"></i> ${esc(a.author||'Redacción')}</span>
+                        <span class="card-date"><i class="far fa-calendar"></i> ${a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : ''}</span>
+                    </div>
+                </div>
+            </article>`).join('');
+    }
+
+    function esc(t) {
+        if (!t) return '';
+        return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function enc(t) { return encodeURIComponent(t || ''); }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadArticles);
+    } else { loadArticles(); }
+})();
+</script>
+
+</body>
+</html>

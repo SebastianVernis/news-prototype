@@ -1,0 +1,6 @@
+# Proxy /api/* al worker de noticias
+/api/* https://news-api.sebastianvernis.workers.dev/api/:splat 200
+
+# RSS Feed
+/rss.xml  /api/rss/mexicantimes  200
+/feed.xml /api/rss/mexicantimes  200

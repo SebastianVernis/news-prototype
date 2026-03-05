@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElPulsoMexicano - Noticias en Tiempo Real</title>
+    <meta name="description" content="ElPulsoMexicano - Noticias digitales en tiempo real.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="style-custom.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="ElPulsoMexicano RSS" href="/rss.xml">
+</head>
+<body>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main>
+        
+        <section class="hero-max">
+            <div class="hero-text-block">
+                <h1>LA CULTURA DEL REMIX DESTRUYE EL COPYRIGHT TRADICIONAL</h1>
+                <p style="font-family: sans-serif; font-size: 1.2rem; font-weight: bold; text-transform: none;">Colectivos de arte digital hackean las bases de datos de propiedad intelectual, liberando miles de obras al dominio público en un acto de protesta sin precedentes.</p>
+            </div>
+            <div class="hero-max-img"></div>
+        </section>
+
+        <div class="tape-divider">
+            +++ URGENTE +++ NO CONFÍES EN EL ALGORITMO +++ URGENTE +++ NO CONFÍES EN EL ALGORITMO +++
+        </div>
+
+        <section class="max-grid">
+
+            <article class="max-card card-1">
+                <div class="max-img"></div>
+                <h2>Estética de la Destrucción</h2>
+                <p style="font-family: sans-serif; font-weight: bold; margin-bottom: 10px;">Arte digital que desafía las convenciones establecidas.</p>
+                <a href="#" class="read-btn">LEER MÁS -></a>
+            </article>
+
+            <article class="max-card card-2">
+                <div class="max-img" style="background-color: var(--bg-acid); border-color: var(--text-heavy);"></div>
+                <h2>Moda Anti-Vigilancia</h2>
+                <p style="font-family: sans-serif; font-weight: bold; margin-bottom: 10px;">Prendas que confunden a las cámaras de reconocimiento facial urbano.</p>
+                <a href="#" class="read-btn">LEER MÁS -></a>
+            </article>
+
+            <article class="max-card card-3">
+                <div class="max-img"></div>
+                <h2>Sonido Industrial 2.0</h2>
+                <p style="font-family: sans-serif; font-weight: bold; margin-bottom: 10px;">Nuevos ritmos desde el underground tecnológico.</p>
+                <a href="#" class="read-btn">LEER MÁS -></a>
+            </article>
+
+        </section>
+
+    </main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+(function() {
+    var API = "https://news-api.sebastianvernis.workers.dev/api/articles?site=elpulsomexicano&limit=20";
+    function esc(t){if(!t)return"";return String(t).replace(/&/g,"\&amp;").replace(/</g,"\&lt;").replace(/>/g,"\&gt;");}
+    function enc(t){return encodeURIComponent(t||"");}
+
+    async function load(){
+        try{
+            var r=await fetch(API);if(!r.ok)throw new Error("err");
+            var d=await r.json();var arts=d.articles;
+            if(!arts||!arts.length)return;
+            populate(arts);
+        }catch(e){console.error("Error:",e);}
+    }
+
+    function populate(arts){
+        var main=document.querySelector("main");if(!main)return;
+        var ai=0;
+
+        // Handle hero-max section explicitly (image is sibling, not child)
+        var heroMax=main.querySelector(".hero-max");
+        if(heroMax&&arts[0]){
+            var a=arts[0];
+            var link="articulo/index.html?slug="+enc(a.slug);
+            var h1=heroMax.querySelector("h1");
+            if(h1)h1.innerHTML='<a href="'+link+'" style="color:inherit;text-decoration:none;">'+esc(a.title)+'</a>';
+            var hp=heroMax.querySelector("p");
+            if(hp&&a.excerpt)hp.textContent=a.excerpt;
+            var heroImg=heroMax.querySelector(".hero-max-img");
+            if(heroImg&&a.imageUrl){
+                heroImg.style.backgroundImage="url("+a.imageUrl+")";
+                heroImg.style.backgroundSize="cover";
+                heroImg.style.backgroundPosition="center";
+                heroImg.style.backgroundColor="transparent";
+                // Remove the ::after placeholder text
+                heroImg.classList.add("has-image");
+            }
+            ai=1;
+        }
+
+        // Populate the 3 max-grid cards with articles 1, 2, 3
+        var cards=main.querySelectorAll(".max-grid .max-card");
+        cards.forEach(function(card,i){
+            var idx=ai+i;
+            if(idx>=arts.length)return;
+            var a=arts[idx];
+            var link="articulo/index.html?slug="+enc(a.slug);
+            
+            // Populate heading
+            var h2=card.querySelector("h2");
+            if(h2)h2.innerHTML='<a href="'+link+'" style="color:inherit;text-decoration:none;">'+esc(a.title)+'</a>';
+            
+            // Populate description (the p tag before read-btn)
+            var p=card.querySelector("p");
+            if(p&&a.excerpt)p.textContent=a.excerpt;
+            
+            // Populate image
+            var imgDiv=card.querySelector(".max-img");
+            if(imgDiv&&a.imageUrl){
+                imgDiv.style.backgroundImage="url("+a.imageUrl+")";
+                imgDiv.style.backgroundSize="cover";
+                imgDiv.style.backgroundPosition="center";
+            }
+            
+            // Fix read-btn link
+            var btn=card.querySelector(".read-btn");
+            if(btn)btn.href=link;
+        });
+
+        // Populate numbered lists (Swiss Design, etc.)
+        var listItems=main.querySelectorAll(".numbered-list li,.trending-list li");
+        listItems.forEach(function(el,i){
+            if(!arts[i])return;
+            var span=el.querySelector("span");
+            if(span)span.textContent=arts[i].title;
+            else el.textContent=arts[i].title;
+        });
+
+        // Populate marquee/ticker
+        var marquee=main.querySelector(".marquee,marquee");
+        if(marquee)marquee.textContent=arts.slice(0,5).map(function(a){return"+++ "+a.title.toUpperCase();}).join(" ");
+
+        // Populate newspaper columns
+        var cols=main.querySelector(".newspaper-columns");
+        if(cols&&arts[0]){
+            var credit=cols.querySelector(".author-credit");
+            if(credit&&arts[0].author)credit.textContent="Por "+arts[0].author;
+            var paras=cols.querySelectorAll("p");
+            paras.forEach(function(p,i){if(arts[i]&&arts[i].excerpt)p.textContent=arts[i].excerpt;});
+        }
+    }
+
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",load);
+    else load();
+})();
+</script>
+
+</body>
+</html>

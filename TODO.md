@@ -1,19 +1,22 @@
-# TODO: Quitar ocultamiento del Header en todos los sitios
+# TODO - Adaptación de headers y tickers en 17 sitios
 
-## Objetivo
-Reemplazar `initAutoHideHeader()` por `initFixedHeader()` en los 10 sitios para que el header sea siempre visible.
+## 1) Preparación
+- [x] Confirmar archivos objetivo (`components.js`) en los 17 sitios solicitados.
+- [x] Definir mapa de variantes por sitio (top/sidebar/footer/invertido).
 
-## Archivos editados
+## 2) Implementación por bloques
+- [x] Bloque A (Top ticker): reportediario, diarioexpress, capitalpress, mexicantimes ✅
+- [x] Bloque B (Sidebar widget): puntonoticias, boominformativo, enfoquecapital, enfoquedirecto ✅
+- [x] Bloque C (Footer ticker): mradio, formulacdmx, televisionabc, puntoclave ✅
+- [x] Bloque D (Ticker invertido): mexico360noticias, elpulsomexicano, radarinformativo, noticiashorizonte, pulsodiario ✅
 
-- [x] sites/verticenoticias/components.js
-- [x] sites/tvmexico/components.js
-- [x] sites/reportecentralmx/components.js
-- [x] sites/noticiasobjetivo/components.js
-- [x] sites/radiocinconoticias/components.js
-- [x] sites/nodoinformativo/components.js
-- [x] sites/mexicoinformado/components.js
-- [x] sites/centralmexico/components.js
-- [x] sites/cbnnoticias/components.js
-- [x] sites/bitacoraurbana/components.js
+## 3) Ajustes visuales de header
+- [x] Adaptar fondo/header con gradiente accentColor → #121826 para cada sitio.
+- [x] Ajustar color de texto (#f3f4f6) y contraste en navegación (font-weight:700, letter-spacing:.5px).
+- [x] Logo con drop-shadow para mejor visibilidad sobre fondo oscuro.
 
-## ✅ COMPLETADO
+## 4) Validación
+- [x] Cada grupo tiene variante distinta (top/sidebar/footer/inverse).
+- [x] tvmexico y verticenoticias NO fueron modificados.
+
+## ✅ COMPLETADO — Todos los 17 sitios actualizados.

@@ -2,6 +2,8 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const app = new Hono().basePath('/api');
 
 // Dominios permitidos (sitios de la red) - con y sin www
@@ -617,12 +619,18 @@ const slugify = (text) => {
 const parseArticleRow = (row) => {
   if (!row) return null;
   const category = row.CATEGORIA || row.category || 'General';
+  
+  // Decodificar entidades HTML en los campos de texto para evitar renderizado visible de &nbsp;, etc.
+  const title = decodeHTMLEntities(row.TITULO_PARAFRASEADO || row.TITULO || row.title || '');
+  const content = decodeHTMLEntities(row.CONTENIDO || row.content || '');
+  const excerpt = decodeHTMLEntities(row.DESCRIPCION_PARAFRASEADA || row.DESCRIPCION || row.excerpt || '');
+  
   return {
     id: row.ID || row.id,
-    title: row.TITULO_PARAFRASEADO || row.TITULO || row.title || '',
+    title: title,
     slug: row.slug || row.SLUG || slugify(row.TITULO_PARAFRASEADO || row.TITULO || 'articulo'),
-    content: row.CONTENIDO || row.content || '',
-    excerpt: row.DESCRIPCION_PARAFRASEADA || row.DESCRIPCION || row.excerpt || '',
+    content: content,
+    excerpt: excerpt,
     category: category,
     author: 'Redacción ' + category,
     publishedAt: row.FECHA_PUBLICACION || row.published_at || null,
@@ -634,12 +642,13 @@ const parseArticleRow = (row) => {
 };
 
 app.get('/articles', async (c) => {
-  const { site, limit = 20, category } = c.req.query();
+  const { site, limit = 20, offset = 0, category } = c.req.query();
   const l = parseInt(limit);
+  const o = parseInt(offset);
   const MIN_ARTICLES = 8; // mínimo para llenar el layout
 
   try {
-    const fetchArticles = async (siteFilter) => {
+    const fetchArticles = async (siteFilter, applyOffset = true) => {
       const s = siteFilter ? `%${siteFilter}%` : '%';
       let queryPara = "SELECT *, 'PARAFRASEADO' as SOURCE_TABLE FROM ARTICULOS_PARAFRASEADOS WHERE SITIO_DESTINO LIKE ?";
       let paramsPara = [s];
@@ -653,14 +662,16 @@ app.get('/articles', async (c) => {
         paramsCMS.push(category);
       }
 
-      // Filtrar solo artículos con imágenes válidas para el index/listados
-      queryPara += " AND URL_IMAGEN IS NOT NULL AND URL_IMAGEN != '' AND URL_IMAGEN NOT LIKE '%logo.png%'";
-      queryCMS += " AND URL_IMAGEN IS NOT NULL AND URL_IMAGEN != '' AND URL_IMAGEN NOT LIKE '%logo.png%'";
+      // Si no hay filtro de sitio (dashboard/admin), queremos ver TODO, incluso sin imagen
+      if (siteFilter) {
+        queryPara += " AND URL_IMAGEN IS NOT NULL AND URL_IMAGEN != '' AND URL_IMAGEN NOT LIKE '%logo.png%'";
+        queryCMS += " AND URL_IMAGEN IS NOT NULL AND URL_IMAGEN != '' AND URL_IMAGEN NOT LIKE '%logo.png%'";
+      }
 
-      queryPara += " ORDER BY FECHA_PUBLICACION DESC LIMIT ?";
-      paramsPara.push(l);
-      queryCMS += " ORDER BY FECHA_PUBLICACION DESC LIMIT ?";
-      paramsCMS.push(l);
+      queryPara += " ORDER BY FECHA_PUBLICACION DESC LIMIT ? OFFSET ?";
+      paramsPara.push(l, applyOffset ? o : 0);
+      queryCMS += " ORDER BY FECHA_PUBLICACION DESC LIMIT ? OFFSET ?";
+      paramsCMS.push(l, applyOffset ? o : 0);
 
       const [resPara, resCMS] = await Promise.all([
         c.env.DB.prepare(queryPara).bind(...paramsPara).all(),
@@ -675,11 +686,11 @@ app.get('/articles', async (c) => {
     };
 
     // 1. Obtener artículos del sitio específico
-    let articles = site ? await fetchArticles(site) : await fetchArticles(null);
+    let articles = await fetchArticles(site);
 
-    // 2. Si hay menos del mínimo, complementar con artículos de todos los sitios
-    if (site && articles.length < MIN_ARTICLES) {
-      const allArticles = await fetchArticles(null);
+    // 2. Si hay menos del mínimo y estamos en un sitio específico, complementar
+    if (site && articles.length < MIN_ARTICLES && o === 0) {
+      const allArticles = await fetchArticles(null, false);
       const existingIds = new Set(articles.map(a => a.id));
       const extras = allArticles.filter(a => !existingIds.has(a.id));
       articles = [...articles, ...extras].slice(0, l);
@@ -1083,32 +1094,68 @@ app.post('/cms/articles', async (c) => {
 
     const now = new Date().toISOString();
     const articleId = id || crypto.randomUUID();
-    const slug = slugify(titulo);
+    let slug = slugify(titulo);
+    let retryCount = 0;
+    const maxRetries = 3;
 
-    if (id) {
-      await c.env.DB.prepare(`
-        UPDATE ARTICULOS_CMS SET
-          TITULO = ?, SLUG = ?, CONTENIDO = ?, DESCRIPCION = ?,
-          CATEGORIA = ?, URL_IMAGEN = ?, DESTACADO = ?, ESTADO = ?
-        WHERE ID = ?
-      `).bind(
-        titulo, slug, contenido || '', descripcion || '',
-        (categoria || 'NACIONAL').toUpperCase(), url_imagen || '',
-        destacado || 0, estado || 'BORRADOR', id
-      ).run();
-    } else {
-      await c.env.DB.prepare(`
-        INSERT INTO ARTICULOS_CMS (ID, TITULO, SLUG, CONTENIDO, DESCRIPCION, CATEGORIA, URL_IMAGEN, DESTACADO, ESTADO, FECHA_CREACION)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `).bind(
-        articleId, titulo, slug, contenido || '', descripcion || '',
-        (categoria || 'NACIONAL').toUpperCase(), url_imagen || '',
-        destacado || 0, estado || 'BORRADOR', now
-      ).run();
+    // Intentar insertar con retry en caso de colisión de SLUG
+    while (retryCount < maxRetries) {
+      try {
+        // Verificar duplicados de SLUG antes de insertar (solo para nuevos)
+        if (!id) {
+          const existingSlug = await c.env.DB.prepare(
+            'SELECT ID, TITULO FROM ARTICULOS_CMS WHERE SLUG = ? LIMIT 1'
+          ).bind(slug).first();
+          
+          if (existingSlug) {
+            // Agregar timestamp único al SLUG para evitar colisión
+            slug = `${slugify(titulo)}-${Date.now()}`;
+            console.log(`[CMS] SLUG "${slugify(titulo)}" ya existe. Usando: ${slug}`);
+          }
+        }
+
+        if (id) {
+          await c.env.DB.prepare(`
+            UPDATE ARTICULOS_CMS SET
+              TITULO = ?, SLUG = ?, CONTENIDO = ?, DESCRIPCION = ?,
+              CATEGORIA = ?, URL_IMAGEN = ?, DESTACADO = ?, ESTADO = ?
+            WHERE ID = ?
+          `).bind(
+            titulo, slug, contenido || '', descripcion || '',
+            (categoria || 'NACIONAL').toUpperCase(), url_imagen || '',
+            destacado || 0, estado || 'BORRADOR', id
+          ).run();
+        } else {
+          await c.env.DB.prepare(`
+            INSERT INTO ARTICULOS_CMS (ID, TITULO, SLUG, CONTENIDO, DESCRIPCION, CATEGORIA, URL_IMAGEN, DESTACADO, ESTADO, FECHA_CREACION)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `).bind(
+            articleId, titulo, slug, contenido || '', descripcion || '',
+            (categoria || 'NACIONAL').toUpperCase(), url_imagen || '',
+            destacado || 0, estado || 'BORRADOR', now
+          ).run();
+        }
+        
+        // Success - exit loop
+        break;
+        
+      } catch (dbErr) {
+        // Si es error de UNIQUE constraint, reintentar con nuevo slug
+        if (dbErr.message.includes('UNIQUE constraint failed') && retryCount < maxRetries - 1) {
+          retryCount++;
+          slug = `${slugify(titulo)}-${Date.now()}-${retryCount}`;
+          console.log(`[CMS] UNIQUE constraint error. Retry ${retryCount}/${maxRetries} con SLUG: ${slug}`);
+        } else {
+          throw dbErr; // Propagar otros errores
+        }
+      }
     }
 
-    return c.json({ success: true, id: articleId });
-  } catch (e) { return c.json({ error: e.message }, 500); }
+    return c.json({ success: true, id: articleId, slug });
+  } catch (e) { 
+    console.error('[CMS/articles] Error:', e.message);
+    return c.json({ error: e.message }, 500); 
+  }
 });
 
 // Generar variaciones parafraseadas → Mesa de Revisión
@@ -1156,8 +1203,40 @@ app.post('/cms/publish', async (c) => {
     ).bind(id).first();
     if (!article) return c.json({ error: 'Artículo no encontrado' }, 404);
 
-    const now = new Date().toISOString();
     const baseSlug = article.SLUG || slugify(article.TITULO);
+    
+    // Verificar si ya existe un registro publicado con este SLUG (evita duplicados)
+    const existingPara = await c.env.DB.prepare(
+      'SELECT ID FROM ARTICULOS_PARAFRASEADOS WHERE SLUG = ? AND ESTADO = "PUBLICADO" LIMIT 1'
+    ).bind(baseSlug).first();
+    
+    if (existingPara) {
+      // Actualizar el registro existente en lugar de duplicar
+      const now = new Date().toISOString();
+      const sitiosStr = sitios.join(',');
+      const isFeatured = (article.DESTACADO || 0) === 1 && (article.URL_IMAGEN && article.URL_IMAGEN.trim() !== '');
+      
+      await c.env.DB.prepare(`
+        UPDATE ARTICULOS_PARAFRASEADOS SET
+          TITULO_PARAFRASEADO = ?, CONTENIDO = ?, DESCRIPCION_PARAFRASEADA = ?,
+          CATEGORIA = ?, FECHA_PUBLICACION = ?, URL_IMAGEN = ?, SITIO_DESTINO = ?, DESTACADO = ?, FB_REQUERIDO = ?
+        WHERE ID = ?
+      `).bind(
+        article.TITULO,
+        article.CONTENIDO || '', article.DESCRIPCION || '',
+        (article.CATEGORIA || 'NACIONAL').toUpperCase(), now,
+        article.URL_IMAGEN || '', sitiosStr, isFeatured ? 1 : 0, fb_requerido ? 1 : 0, existingPara.ID
+      ).run();
+      
+      // Actualizar CMS también
+      await c.env.DB.prepare(
+        "UPDATE ARTICULOS_CMS SET ESTADO = 'PUBLICADO', SITIOS_DESTINO = ?, FECHA_PUBLICACION = ?, FB_REQUERIDO = ?, DESTACADO = ? WHERE ID = ?"
+      ).bind(sitiosStr, now, fb_requerido ? 1 : 0, isFeatured ? 1 : 0, id).run();
+      
+      return c.json({ success: true, published: 0, updated: 1, siteCount: sitios.length, message: 'Artículo actualizado (ya existía)' });
+    }
+
+    const now = new Date().toISOString();
     const sitiosStr = sitios.join(',');
 
     // Solo permitir 'destacado' si hay una imagen válida
@@ -1172,13 +1251,13 @@ app.post('/cms/publish', async (c) => {
     const paraId = crypto.randomUUID();
     await c.env.DB.prepare(`
       INSERT INTO ARTICULOS_PARAFRASEADOS
-        (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA, CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SITIO_DESTINO, DESTACADO, VISTAS, ESTADO)
-      VALUES (?, ?, ?, ?, ?, ?, 'Redacción CMS', ?, ?, ?, ?, 0, 'PUBLICADO')
+        (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA, CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SITIO_DESTINO, DESTACADO, VISTAS, ESTADO, FB_REQUERIDO)
+      VALUES (?, ?, ?, ?, ?, ?, 'Redacción CMS', ?, ?, ?, ?, 0, 'PUBLICADO', ?)
     `).bind(
       paraId, article.TITULO, baseSlug,
       article.CONTENIDO || '', article.DESCRIPCION || '',
       (article.CATEGORIA || 'NACIONAL').toUpperCase(), now,
-      article.URL_IMAGEN || '', sitiosStr, isFeatured ? 1 : 0
+      article.URL_IMAGEN || '', sitiosStr, isFeatured ? 1 : 0, fb_requerido ? 1 : 0
     ).run();
 
     return c.json({ success: true, published: 1, siteCount: sitios.length });
@@ -1548,13 +1627,37 @@ app.get('/facebook/debug-tokens', async (c) => {
   if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
   try {
     const sites = await c.env.DB.prepare("SELECT SLUG, FACEBOOK_TOKEN_SECRET, FACEBOOK_PAGE_ID FROM SITIOS").all();
-    const report = (sites.results || []).map(s => ({
-      slug: s.SLUG,
-      token_key: s.FACEBOOK_TOKEN_SECRET,
-      has_token: !!c.env[s.FACEBOOK_TOKEN_SECRET],
-      has_page_id: !!s.FACEBOOK_PAGE_ID
+    const results = await Promise.all((sites.results || []).map(async s => {
+      const token = c.env[s.FACEBOOK_TOKEN_SECRET];
+      const has_token = !!token;
+      let is_valid = false;
+      let fb_error = null;
+
+      if (has_token && s.FACEBOOK_PAGE_ID) {
+        try {
+          // Validar token pidiendo información básica de la página
+          const fbRes = await fetch(`https://graph.facebook.com/v19.0/${s.FACEBOOK_PAGE_ID}?fields=name&access_token=${token}`);
+          const fbData = await fbRes.json();
+          if (fbRes.ok) {
+            is_valid = true;
+          } else {
+            fb_error = fbData.error?.message || "Invalid Token";
+          }
+        } catch (e) {
+          fb_error = e.message;
+        }
+      }
+
+      return {
+        slug: s.SLUG,
+        token_key: s.FACEBOOK_TOKEN_SECRET,
+        has_token,
+        is_valid,
+        fb_error,
+        has_page_id: !!s.FACEBOOK_PAGE_ID
+      };
     }));
-    return c.json(report);
+    return c.json(results);
   } catch (e) {
     return c.json({ error: e.message }, 500);
   }
@@ -1646,34 +1749,76 @@ app.post('/cron/ingest', async (c) => {
 });
 
 async function processFB(env) {
+  const LOCK_KEY = 'fb_process_lock';
   try {
-    const cms = await env.DB.prepare("SELECT ID, TITULO, SLUG, SITIOS_DESTINO FROM ARTICULOS_CMS WHERE ESTADO = 'PUBLICADO' AND FB_REQUERIDO = 1 AND FB_PUBLICADO = 0 LIMIT 2").all();
-    for (const a of (cms.results || [])) await publishToFB(env, a, 'CMS');
-    
-    // Solo publicar en FB si NO es una imagen de fallback (contiene unsplash)
-    const para = await env.DB.prepare("SELECT ID, TITULO_PARAFRASEADO as TITULO, SLUG, SITIO_DESTINO as SITIOS_DESTINO FROM ARTICULOS_PARAFRASEADOS WHERE FB_REQUERIDO = 1 AND FB_PUBLICADO = 0 AND URL_IMAGEN NOT LIKE '%unsplash.com%' LIMIT 2").all();
-    for (const a of (para.results || [])) await publishToFB(env, a, 'PARA');
+    // Intentar adquirir el bloqueo (expira en 5 minutos por seguridad)
+    const lock = await env.ARTICLES_KV.get(LOCK_KEY);
+    if (lock) {
+      console.log('[FB] Proceso bloqueado: ya hay una publicación en curso.');
+      return;
+    }
+    await env.ARTICLES_KV.put(LOCK_KEY, 'true', { expirationTtl: 300 });
+
+    try {
+      // 1. CMS Pendientes
+      const cms = await env.DB.prepare("SELECT ID, TITULO, SLUG, SITIOS_DESTINO, URL_IMAGEN FROM ARTICULOS_CMS WHERE ESTADO = 'PUBLICADO' AND FB_REQUERIDO = 1 AND FB_PUBLICADO = 0 LIMIT 2").all();
+      for (const a of (cms.results || [])) {
+        await publishToFB(env, a, 'CMS');
+        // Pequeña espera entre publicaciones para no saturar la API
+        await new Promise(r => setTimeout(r, 1000));
+      }
+      
+      // 2. Parafraseados Pendientes (solo con imagen original)
+      const para = await env.DB.prepare("SELECT ID, TITULO_PARAFRASEADO as TITULO, SLUG, SITIO_DESTINO as SITIOS_DESTINO FROM ARTICULOS_PARAFRASEADOS WHERE FB_REQUERIDO = 1 AND FB_PUBLICADO = 0 AND URL_IMAGEN NOT LIKE '%unsplash.com%' LIMIT 2").all();
+      for (const a of (para.results || [])) {
+        await publishToFB(env, a, 'PARA');
+        await new Promise(r => setTimeout(r, 1000));
+      }
+    } finally {
+      // Liberar el bloqueo siempre
+      await env.ARTICLES_KV.delete(LOCK_KEY);
+    }
   } catch (e) {
     console.log('processFB Error:', e.message);
+    await env.ARTICLES_KV.delete(LOCK_KEY);
   }
+}
+
+// Función para decodificar entidades HTML
+function decodeHTMLEntities(text) {
+  if (!text) return '';
+  return text
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#39;/g, "'")
+    .replace(/&ldquo;/g, '"')
+    .replace(/&rdquo;/g, '"')
+    .replace(/&lsquo;/g, "'")
+    .replace(/&rsquo;/g, "'");
 }
 
 async function publishToFB(env, article, type) {
   // Mapeo inteligente de propiedades según el origen (CMS vs PARA)
   const targetSites = article.SITIOS_DESTINO || article.SITIO_DESTINO;
-  const title = article.TITULO || article.TITULO_PARAFRASEADO;
+  // Decodificar entidades HTML en el título
+  const title = decodeHTMLEntities(article.TITULO || article.TITULO_PARAFRASEADO);
   const slug = article.SLUG || article.slug; // Algunos registros PARA pueden tenerlo en minúsculas
-  
+  const imageUrl = article.URL_IMAGEN || '';
+
   if (!targetSites) {
     console.log(`[FB] No hay sitios destino para artículo ${article.ID}`);
     return { error: "No target sites" };
   }
-  
+
   if (!slug) {
     console.error(`[FB] ERROR: Artículo ${article.ID} no tiene SLUG. No se puede publicar.`);
     return { error: "Missing slug" };
   }
-  
+
   let slugs = [];
   try {
     if (targetSites.startsWith('[')) {
@@ -1684,28 +1829,30 @@ async function publishToFB(env, article, type) {
   } catch (e) {
     slugs = targetSites.split(",").map(s => s.trim());
   }
-  
+
   const report = [];
   let successCount = 0;
-  
+
   for (const siteSlug of slugs) {
     try {
       const site = await env.DB.prepare("SELECT * FROM SITIOS WHERE SLUG = ? AND FACEBOOK_ACTIVO = 1").bind(siteSlug).first();
       if (!site) { report.push({ slug: siteSlug, error: "Site not found or inactive" }); continue; }
       if (!site.FACEBOOK_PAGE_ID || !site.FACEBOOK_TOKEN_SECRET) { report.push({ slug: siteSlug, error: "Missing config" }); continue; }
-      
+
       const token = env[site.FACEBOOK_TOKEN_SECRET];
       if (!token) { report.push({ slug: siteSlug, error: "Missing secret token" }); continue; }
-      
+
       const domain = site.DOMINIO || `${siteSlug}.pages.dev`;
       const url = `https://${domain}/articulo/?slug=${slug}`;
-      
-      console.log(`[FB] Publicando en ${siteSlug}: ${title.substring(0, 30)}...`);
-      
+
+      console.log(`[FB] Publicando en ${siteSlug}: ${title.substring(0, 30)}... | Imagen: ${imageUrl.substring(0, 50) || 'N/A'}`);
+
       const formData = new URLSearchParams();
       formData.append('message', title);
       formData.append('link', url);
       formData.append('access_token', token);
+      // Ya no enviamos 'picture' explícitamente para evitar el error de "Only owners of the URL..."
+      // Facebook scrappeará automáticamente las meta tags OG que inyectamos.
       
       const response = await fetch(`https://graph.facebook.com/v19.0/${site.FACEBOOK_PAGE_ID}/feed`, {
         method: "POST",
@@ -1719,6 +1866,9 @@ async function publishToFB(env, article, type) {
       } else {
         report.push({ slug: siteSlug, success: false, error: result });
       }
+      
+      // Delay entre peticiones a Meta (2-5 segundos) para evitar bloqueos
+      await sleep(2000 + (Math.random() * 3000));
     } catch (e) {
       report.push({ slug: siteSlug, success: false, error: e.message });
     }
@@ -1738,12 +1888,10 @@ async function publishToFB(env, article, type) {
 async function runRSSDirectIngest(env, force = false) {
   console.log(`Cron: Starting RSS Ingest (Force: ${force})...`);
   const FEEDS = [
-    "https://elpais.com/rss/mexico/portada.xml",
+    "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada",
     "https://www.proceso.com.mx/rss/feed.html?id=12",
-    "https://aristeguinoticias.com/feed/",
-    "https://www.animalpolitico.com/feed/",
-    "https://www.eluniversal.com.mx/rss.xml",
-    "https://rss.reforma.com/libre/online/mexico.xml"
+    "https://www.jornada.com.mx/rss/portada.xml",
+    "https://expansion.mx/rss"
   ];
   
   const SITIOS_LIST = [
@@ -1759,7 +1907,7 @@ async function runRSSDirectIngest(env, force = false) {
           console.log(`[Ingest] Fetching feed: ${feedUrl}`);
           const res = await fetch(feedUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
           const xml = await res.text();
-          const items = xml.match(/<(item|entry)>([\s\S]*?)<\/\1>/g) || [];
+          const items = xml.match(/<(item|entry)>([\s\S]*?)<\/\1>/gi) || [];
           console.log(`[Ingest] Feed ${feedUrl} returned ${items.length} items.`);
           
           for (const item of items) {
@@ -1767,16 +1915,19 @@ async function runRSSDirectIngest(env, force = false) {
             
             const titleMatch = item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || 
                               item.match(/<title>([\s\S]*?)<\/title>/);
-            const linkMatch = item.match(/<link>([\s\S]*?)<\/link>/) || 
-                             item.match(/<link[^>]+href=["']([^"']+)["']/);
+            const linkMatch = item.match(/<link[^>]+href=["']([^"']+)["']/) ||
+                             item.match(/<link>([\s\S]*?)<\/link>/);
             
             if (!titleMatch || !linkMatch) {
               console.log("[Ingest] Item skip: No title/link match found in XML.");
               continue;
             }
             
-            const title = titleMatch[1].trim();
-            let link = linkMatch[1].trim();
+            let title = titleMatch[1].trim();
+            // Limpiar CDATA si quedó atrapado en el match simple
+            title = title.replace(/^<!\[CDATA\[/, '').replace(/\]\]>$/, '').trim();
+            
+            const link = linkMatch[1].trim();
             
             // 1. Check if URL exists (Global)
             if (!force) {
@@ -1802,16 +1953,15 @@ async function runRSSDirectIngest(env, force = false) {
               const html = await pageRes.text();
               const pMatches = html.match(/<p>([\s\S]*?)<\/p>/g) || [];
               content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 40).join('\n\n');
-              console.log(`[Ingest] Scraped ${content.length} characters.`);
             } catch(e) { 
               console.error(`[Ingest] Error scraping ${link}:`, e.message);
               continue; 
             }
             
-                        if (content.length < 300) {
-                          console.log(`[Ingest] Item skip: Content too short (${content.length} chars).`);
-                          continue;
-                        }
+            if (!force && content.length < 300) {
+              console.log(`[Ingest] Item skip: Content too short (${content.length} chars).`);
+              continue;
+            }
             
                                     // Clean common editorial signatures and footers
                                     content = content
@@ -1824,6 +1974,11 @@ async function runRSSDirectIngest(env, force = false) {
                                       .replace(/© 202\d Aristegui Noticias/gi, '')
                                       .replace(/Derechos Reservados © 202\d[\s\S]*?Grupo Reforma/gi, '')
                                       .replace(/Prohibida su reproducción total o parcial/gi, '')
+                                      .replace(/© 202\d DERECHOS RESERVADOS EXPANSIÓN,? S\.A\. DE C\.V\./gi, '')
+                                      .replace(/Seguir leyendo/gi, '')
+                                      .replace(/Foto: [\s\S]*?\n/gi, '')
+                                      .replace(/^[A-Z\s,]+ \([a-z]+\)\.-\s*/gi, '')
+                                      .replace(/^[A-Z\s,]+\.-\s*/gi, '')
                                       .trim();              
                       // AI Proofread                      console.log(`[Ingest] Running AI Proofread for: ${title.substring(0, 30)}...`);
                       try {
@@ -1938,6 +2093,41 @@ async function uploadToR2(url, env) {
     await env.UPLOADS.put(key, buffer, { httpMetadata: { contentType } });
     return `https://uploads.sebastianvernis.space/${key}`;
   } catch(e) { return null; }
+}
+
+async function runMasterCron(env) {
+  const now = Date.now();
+  const status = { lastRun: new Date().toISOString(), tasks: {} };
+  try {
+    const count = await runRSSDirectIngest(env);
+    status.tasks.ingest = `OK (${count} articles)`;
+  } catch(e) { status.tasks.ingest = `Error: ${e.message}`; }
+  try { await updateTickerData(env); status.tasks.ticker = "OK"; } catch(e) { status.tasks.ticker = "Error"; }
+  try {
+    const SITIOS_LIST = ["radiocinconoticias", "centralmexico", "tvmexico", "cbnnoticias", "mexicoinformado", "nodoinformativo", "bitacoraurbana", "reportecentralmx", "verticenoticias", "noticiasobjetivo"];
+    for (const siteSlug of SITIOS_LIST) {
+      const kvKey = `last_fb_post_${siteSlug}`;
+      const lastFB = parseInt(await env.ARTICLES_KV.get(kvKey) || "0");
+      if (now - lastFB >= 3 * 60 * 60 * 1000) {
+        const query = `SELECT * FROM (SELECT ID, TITULO_PARAFRASEADO as TITULO, SLUG, SITIO_DESTINO as SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'PARA' as TIPO FROM ARTICULOS_PARAFRASEADOS WHERE FB_PUBLICADO = 0 AND SITIO_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%' UNION ALL SELECT ID, TITULO, SLUG, SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'CMS' as TIPO FROM ARTICULOS_CMS WHERE FB_PUBLICADO = 0 AND ESTADO = 'PUBLICADO' AND SITIOS_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%') ORDER BY FECHA_PUBLICACION DESC LIMIT 1`;
+        const possible = await env.DB.prepare(query).bind(`%${siteSlug}%`, `%${siteSlug}%`).first();
+        if (possible) {
+          const result = await publishToFB(env, possible, possible.TIPO);
+          // Solo actualizar timer si la publicación fue exitosa
+          if (result.successCount > 0) {
+            await env.ARTICLES_KV.put(kvKey, now.toString());
+            status.tasks[`fb_${siteSlug}`] = `OK (${possible.ID})`;
+          } else {
+            status.tasks[`fb_${siteSlug}`] = `Error: ${JSON.stringify(result.report)}`;
+          }
+        } else { status.tasks[`fb_${siteSlug}`] = "No eligible news"; }
+      } else {
+        const remaining = Math.round((3*60*60*1000 - (now - lastFB))/60000);
+        status.tasks[`fb_${siteSlug}`] = `Waiting (${remaining} mins)`;
+      }
+    }
+  } catch(e) { status.tasks.fb_global_error = e.message; }
+  await env.ARTICLES_KV.put("cron_status", JSON.stringify(status));
 }
 
 async function updateTickerData(env) {

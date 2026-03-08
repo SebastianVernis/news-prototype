@@ -267,7 +267,7 @@ async function uploadContentImage(input) {
     if (!input.files || !input.files[0]) return;
     const file = input.files[0];
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('file', file);
 
     if (window.showLoading) showLoading("Subiendo imagen al servidor...");
 
@@ -277,23 +277,33 @@ async function uploadContentImage(input) {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('CMS_AUTH_TOKEN')}` },
             body: formData
         });
-        const data = await res.json();
-        
-        if (data.url) {
-            const textarea = document.getElementById('uni-content');
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            const text = textarea.value;
-            
-            // Insertar el HTML de la imagen en la posición del cursor
-            const embed = `\n<figure class="content-image">\n  <img src="${data.url}" alt="imagen">\n  <figcaption>Descripción de la imagen</figcaption>\n</figure>\n`;
-            textarea.value = text.substring(0, start) + embed + text.substring(end);
-            
-            if (window.Toast) Toast.success('Imagen insertada con éxito');
-            textarea.focus();
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            throw new Error(data.error || data.message || `Error al subir imagen (HTTP ${res.status})`);
         }
-    } catch (e) { 
-        alert('Error al subir imagen: ' + e.message); 
+
+        if (!data.url) {
+            throw new Error('La API no devolvió la URL de la imagen');
+        }
+
+        const textarea = document.getElementById('uni-content');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+
+        // Insertar el HTML de la imagen en la posición del cursor
+        const embed = `\n<figure class="content-image">\n  <img src="${data.url}" alt="imagen">\n  <figcaption>Descripción de la imagen</figcaption>\n</figure>\n`;
+        textarea.value = text.substring(0, start) + embed + text.substring(end);
+
+        if (typeof showSuccessToast === 'function') {
+            showSuccessToast('Imagen Insertada', 'La imagen se subió correctamente', 3000);
+        }
+        textarea.focus();
+    } catch (e) {
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al Subir Imagen', e.message, 5000);
+        }
     } finally {
         if (window.hideLoading) hideLoading();
         input.value = ''; // Resetear input para permitir subir la misma imagen si se desea
@@ -304,7 +314,7 @@ async function uploadUniversalImage(input) {
     if (!input.files || !input.files[0]) return;
     const file = input.files[0];
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('file', file);
 
     const btn = document.querySelector('.btn-upload-image');
     const originalHtml = btn.innerHTML;
@@ -317,14 +327,27 @@ async function uploadUniversalImage(input) {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('CMS_AUTH_TOKEN')}` },
             body: formData
         });
-        const data = await res.json();
-        if (data.url) {
-            document.getElementById('uni-image').value = data.url;
-            document.getElementById('uni-preview-img').src = data.url;
-            document.getElementById('uni-image-preview').style.display = 'block';
-            if (window.Toast) Toast.success('Imagen subida con éxito');
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            throw new Error(data.error || data.message || `Error al subir portada (HTTP ${res.status})`);
         }
-    } catch (e) { alert('Error al subir: ' + e.message); }
+
+        if (!data.url) {
+            throw new Error('La API no devolvió la URL de la portada');
+        }
+
+        document.getElementById('uni-image').value = data.url;
+        document.getElementById('uni-preview-img').src = data.url;
+        document.getElementById('uni-image-preview').style.display = 'block';
+        if (typeof showSuccessToast === 'function') {
+            showSuccessToast('Imagen Subida', 'La portada se subió correctamente', 3000);
+        }
+    } catch (e) {
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al Subir', e.message, 5000);
+        }
+    }
     finally {
         btn.disabled = false;
         btn.innerHTML = originalHtml;
@@ -335,27 +358,32 @@ async function saveUniversal(action) {
     const id = document.getElementById('uni-id').value;
     const mode = document.getElementById('uni-mode').value;
     const selectedSites = Array.from(document.querySelectorAll('.uni-site-checkbox:checked')).map(cb => cb.value);
-    
+
     const payload = {
-        title: document.getElementById('uni-title').value,
-        slug: document.getElementById('uni-slug').value,
-        author: document.getElementById('uni-author').value,
+        title: document.getElementById('uni-title').value.trim(),
+        slug: document.getElementById('uni-slug').value.trim(),
+        author: document.getElementById('uni-author').value.trim(),
         category: document.getElementById('uni-category').value,
-        excerpt: document.getElementById('uni-excerpt').value,
-        imageUrl: document.getElementById('uni-image').value,
+        excerpt: document.getElementById('uni-excerpt').value.trim(),
+        imageUrl: document.getElementById('uni-image').value.trim(),
         featured: document.getElementById('uni-featured').value === '1',
-        content: document.getElementById('uni-content').value,
+        content: document.getElementById('uni-content').value.trim(),
         site: selectedSites.join(','),
         fbRequired: document.getElementById('uni-publish-fb')?.checked || false
     };
 
-    if (!payload.title || !payload.content) {
-        alert("Título y Contenido son obligatorios");
+    if (!payload.title) {
+        showErrorToast('Campo Requerido', 'El título es obligatorio', 3000);
+        return;
+    }
+
+    if (!payload.content) {
+        showErrorToast('Campo Requerido', 'El contenido es obligatorio', 3000);
         return;
     }
 
     if (selectedSites.length === 0) {
-        alert("Debes seleccionar al menos un sitio de destino");
+        showErrorToast('Selección Requerida', 'Debes seleccionar al menos un sitio de destino', 3000);
         return;
     }
 
@@ -363,10 +391,45 @@ async function saveUniversal(action) {
 
     try {
         if (mode === 'cms') {
-            const cmsPayload = { ...payload, id, status: action === 'publish' ? 'PUBLICADO' : 'BORRADOR' };
-            await apiFetch('/cms/articles', { method: 'POST', body: JSON.stringify(cmsPayload) });
+            // Step 1: Save to CMS table (always)
+            const cmsPayload = { 
+                id, 
+                titulo: payload.title,
+                contenido: payload.content,
+                descripcion: payload.excerpt,
+                categoria: payload.category,
+                url_imagen: payload.imageUrl,
+                destacado: payload.featured ? 1 : 0,
+                estado: 'BORRADOR' // Always save as BORRADOR first
+            };
+            
+            // If editing existing article, include id and estado
+            if (id) {
+                cmsPayload.estado = payload.status || 'BORRADOR';
+            }
+            
+            const saveResult = await apiFetch('/cms/articles', { 
+                method: 'POST', 
+                body: JSON.stringify(cmsPayload) 
+            });
+            
+            const articleId = id || saveResult.id;
+            
+            // Step 2: If publishing, also call /cms/publish to move to PARAFRASEADOS
+            if (action === 'publish') {
+                if (window.showLoading) showLoading("Publicando en sitios...");
+                
+                await apiFetch('/cms/publish', { 
+                    method: 'POST', 
+                    body: JSON.stringify({ 
+                        id: articleId, 
+                        sitios: selectedSites, 
+                        fb_requerido: payload.fbRequired 
+                    }) 
+                });
+            }
+            
             if (action === 'publish' && payload.fbRequired) {
-                // El proceso de fondo se encarga, pero avisamos
                 console.log("Artículo marcado para Facebook");
             }
         } else if (mode === 'revision') {
@@ -379,11 +442,16 @@ async function saveUniversal(action) {
             await apiFetch('/articles/' + id, { method: 'PUT', body: JSON.stringify(payload) });
         }
 
-        if (window.Toast) Toast.success('¡Operación exitosa!');
-        else alert('¡Guardado con éxito!');
-        
+        if (typeof showSuccessToast === 'function') {
+            showSuccessToast('¡Operación Exitosa!', 'El artículo se guardó correctamente', 3000);
+        }
+
         closeUniversalEditor();
-    } catch (e) { alert('Error al guardar: ' + e.message); }
+    } catch (e) {
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al Guardar', e.message, 5000);
+        }
+    }
     finally { if (window.hideLoading) hideLoading(); }
 }
 
@@ -393,6 +461,13 @@ async function deleteLiveArticle(id) {
     try {
         await apiFetch(`/articles/${id}`, { method: 'DELETE' });
         closeUniversalEditor();
-    } catch (e) { alert('Error: ' + e.message); }
+        if (typeof showSuccessToast === 'function') {
+            showSuccessToast('Artículo Eliminado', 'El artículo fue eliminado correctamente', 3000);
+        }
+    } catch (e) {
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al Eliminar', e.message, 5000);
+        }
+    }
     finally { if (window.hideLoading) hideLoading(); }
 }

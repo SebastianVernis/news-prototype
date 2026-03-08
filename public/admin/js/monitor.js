@@ -155,26 +155,20 @@ async function triggerManualIngest() {
   try {
     const res = await apiFetch("/cron/ingest", { method: "POST" });
     if (res.success) {
-      if (window.Toast) {
-        Toast.success(`¡Éxito! Se importaron ${res.count} artículos nuevos.`);
-      } else {
-        alert(`¡Éxito! Se han importado ${res.count} artículos nuevos.`);
+      if (typeof showSuccessToast === 'function') {
+        showSuccessToast('Ingesta Completada', `Se importaron ${res.count} artículos nuevos`, 4000);
       }
       await loadCronStatus();
       await loadFBMonitorHistory();
     } else {
       const msg = res.error || "Ocurrió un problema durante la ingesta.";
-      if (window.Toast) {
-        Toast.error(msg);
-      } else {
-        alert(`Error: ${msg}`);
+      if (typeof showErrorToast === 'function') {
+        showErrorToast('Error en Ingesta', msg, 5000);
       }
     }
   } catch (e) {
-    if (window.Toast) {
-      Toast.error(`Error técnico: ${e.message}`);
-    } else {
-      alert(`Error técnico: ${e.message}`);
+    if (typeof showErrorToast === 'function') {
+      showErrorToast('Error Técnico', e.message, 5000);
     }
   } finally {
     btn.disabled = false;

@@ -45,7 +45,12 @@ function closeCategoryModal() {
 async function createCategory() {
     const input = document.getElementById('new-category-name');
     const nombre = (input?.value || '').trim();
-    if (!nombre) return alert('Ingresa un nombre para la categoría.');
+    if (!nombre) {
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Campo Requerido', 'Ingresa un nombre para la categoría', 3000);
+        }
+        return;
+    }
 
     const btn = document.querySelector('#category-modal .btn-primary');
     if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...'; }
@@ -57,8 +62,13 @@ async function createCategory() {
         });
         closeCategoryModal();
         await loadCategoriesTable();
+        if (typeof showSuccessToast === 'function') {
+            showSuccessToast('Categoría Creada', 'La categoría se creó correctamente', 3000);
+        }
     } catch (e) {
-        alert('Error al crear categoría: ' + e.message);
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al Crear', e.message, 5000);
+        }
     } finally {
         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Crear Categoría'; }
     }
@@ -67,5 +77,7 @@ async function createCategory() {
 function editCategory(id, nombre) {
     const nuevo = prompt('Editar nombre de categoría:', nombre);
     if (!nuevo || nuevo.trim() === nombre) return;
-    alert('Edición de categorías próximamente disponible.');
+    if (typeof showInfoToast === 'function') {
+        showInfoToast('Próximamente', 'Edición de categorías próximamente disponible', 3000);
+    }
 }

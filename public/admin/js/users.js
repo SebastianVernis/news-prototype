@@ -77,9 +77,11 @@ const UsersModule = (function () {
     // Generar link
     async function doGenerateLink() {
         const username = document.getElementById('gl-username').value.trim();
-        
+
         if (!username) {
-            alert('Por favor selecciona un usuario');
+            if (typeof showErrorToast === 'function') {
+                showErrorToast('Usuario Requerido', 'Por favor selecciona un usuario', 3000);
+            }
             return;
         }
 
@@ -118,10 +120,12 @@ const UsersModule = (function () {
     // Copiar link
     async function copyLink() {
         const link = document.getElementById('gl-link-display').textContent;
-        
+
         try {
             await navigator.clipboard.writeText(link);
-            alert('Link copiado al portapapeles');
+            if (typeof showSuccessToast === 'function') {
+                showSuccessToast('Copiado', 'Link copiado al portapapeles', 3000);
+            }
         } catch (err) {
             // Fallback
             const textarea = document.createElement('textarea');
@@ -130,7 +134,9 @@ const UsersModule = (function () {
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-            alert('Link copiado al portapapeles');
+            if (typeof showSuccessToast === 'function') {
+                showSuccessToast('Copiado', 'Link copiado al portapapeles', 3000);
+            }
         }
     }
 

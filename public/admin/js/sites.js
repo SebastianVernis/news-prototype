@@ -61,7 +61,9 @@ async function editSiteById(id) {
         document.getElementById('site-tagline').value = site.TAGLINE || '';
         document.getElementById('site-activo').checked = site.ACTIVO == 1;
     } catch (e) {
-        alert('Error: ' + e.message);
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error', e.message, 5000);
+        }
     }
 }
 
@@ -87,11 +89,15 @@ async function handleSiteSubmit(e) {
         };
 
         await apiFetch('/sites', { method: 'POST', body: JSON.stringify(sitePayload) });
-        alert('¡Guardado!');
+        if (typeof showSuccessToast === 'function') {
+            showSuccessToast('Guardado', 'El sitio se guardó correctamente', 3000);
+        }
         exitSiteEditor();
-    } catch (e) { 
-        alert(e.message); 
-    } finally { 
-        btn.disabled = false; 
+    } catch (e) {
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error', e.message, 5000);
+        }
+    } finally {
+        btn.disabled = false;
     }
 }

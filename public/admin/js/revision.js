@@ -47,16 +47,20 @@ window.openRevisionEditorUnified = function(id) {
     const rev = currentRevisionList.find(r => String(r.ID) === String(id));
     if (!rev) {
         console.error('No se encontró el artículo con ID:', id);
-        alert('Error: No se encontró el artículo');
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error', 'No se encontró el artículo', 3000);
+        }
         return;
     }
 
     console.log('Artículo encontrado:', rev.TITULO_PROPUESTO);
-    
+
     // Verificar que openUniversalEditor esté disponible
     if (typeof openUniversalEditor !== 'function') {
         console.error('openUniversalEditor no está disponible');
-        alert('Error: El editor no está cargado. Recarga la página.');
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error', 'El editor no está cargado. Recarga la página.', 3000);
+        }
         return;
     }
 

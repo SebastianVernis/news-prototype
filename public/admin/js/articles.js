@@ -113,19 +113,18 @@ function hideLoading() {
 
 async function publishToFBManual(id) {
     if (!confirm('¿Deseas poner este artículo en cola para publicarlo en Facebook?')) return;
-    
+
     showLoading("Publicando en Facebook...");
     try {
         const res = await apiFetch(`/articles/publish-fb/${id}`, { method: 'POST' });
         if (res.success) {
-            if (window.Toast) Toast.success('¡Artículo publicado en Facebook!');
-            else alert('¡Artículo publicado con éxito!');
+            showSuccessToast('¡Publicado!', 'El artículo se publicó en Facebook correctamente.', 3000);
         } else {
-            showErrorPopup('Fallo en Meta API', res.error || 'No se pudo publicar en Facebook.');
+            showErrorToast('Fallo en Meta API', res.error || 'No se pudo publicar en Facebook.', 5000);
         }
         await loadPublicArticles();
-    } catch (e) { 
-        showErrorPopup('Error de Conexión', e.message); 
+    } catch (e) {
+        showErrorToast('Error de Conexión', e.message, 5000);
     } finally {
         hideLoading();
     }

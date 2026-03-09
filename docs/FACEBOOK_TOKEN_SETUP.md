@@ -15,8 +15,10 @@ This guide explains how to set up Facebook Page Access Tokens for all 10 news si
 Edit the `.env` file and add your long-lived user token:
 
 ```bash
-LONG_LIVED_TOKENFB=EAAmv1Puxa7wBQ...your_token_here
+LONG_LIVED_TOKENFB=YOUR_FACEBOOK_USER_TOKEN_HERE
 ```
+
+Get your token from: https://developers.facebook.com/tools/explorer/
 
 ### Step 2: Run the Token Update Script
 
@@ -41,7 +43,7 @@ python3 scripts/update_fb_tokens.py
 ```
 === Actualización de Tokens Facebook ===
 
-🔑 Usando token de usuario: EAAmv1Puxa7wBQ...
+🔑 Usando token de usuario: YOUR_FACEBOOK_USER_TOKEN_HERE
 
 📋 Obteniendo páginas del usuario...
 ✅ Encontradas 10 páginas

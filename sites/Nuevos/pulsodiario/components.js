@@ -49,7 +49,7 @@
         AL MOMENTO
     </div>
     <div id="unified-ticker" style="flex:1;overflow:hidden;white-space:nowrap;display:flex;align-items:center;position:relative;height:100%;">
-        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 60s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
+        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 180s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
             <span id="ticker-content">Cargando noticias y finanzas...</span>
         </div>
     </div>
@@ -73,7 +73,7 @@
     .up { color: #22c55e; }
     .down { color: #ef4444; }
     #unified-ticker:hover .ticker-scroll { animation-play-state: paused; }
-    #unified-ticker-container.ticker-inverse .ticker-scroll { animation: ticker-swipe-reverse 60s linear infinite; }
+    #unified-ticker-container.ticker-inverse .ticker-scroll { animation: ticker-swipe-reverse 180s linear infinite; }
     #unified-ticker-container.ticker-sidebar { position:fixed;top:140px;right:8px;left:auto;width:300px;height:auto;min-height:220px;display:block;padding-bottom:10px;border:1px solid rgba(255,255,255,.12);border-radius:10px;box-shadow:0 12px 24px rgba(0,0,0,.35);z-index:10000; }
     #unified-ticker-container.ticker-sidebar > div:first-child { height:auto;padding:10px 12px;border-radius:10px 10px 0 0; }
     #unified-ticker-container.ticker-sidebar #unified-ticker { height:120px;display:block;padding:8px 12px;overflow:hidden; }
@@ -83,7 +83,7 @@
     @media (max-width:900px) {
         #unified-ticker-container.ticker-sidebar { left:0;right:0;top:0;width:100%;height:40px;min-height:40px;display:flex;border-radius:0;padding-bottom:0; }
         #unified-ticker-container.ticker-sidebar #unified-ticker { height:100%;padding:0; }
-        #unified-ticker-container.ticker-sidebar .ticker-scroll { position:absolute;padding-left:100%;white-space:nowrap;animation:ticker-swipe 60s linear infinite; }
+        #unified-ticker-container.ticker-sidebar .ticker-scroll { position:absolute;padding-left:100%;white-space:nowrap;animation:ticker-swipe 180s linear infinite; }
         #unified-ticker-container.ticker-sidebar #weather-widget { height:100%;border-top:0;border-left:1px solid rgba(255,255,255,.2); }
     }
 </style>`;
@@ -93,7 +93,7 @@
 <header class="header" style="margin-top:40px;background:linear-gradient(295deg, ${siteConfig.accentColor} 70%, #ffffff 90%);box-shadow:0 2px 10px rgba(0,0,0,0.18);position:sticky;top:40px;z-index:9999;">
     <div class="container" style="display:flex;align-items:center;padding:10px 20px;max-width:1200px;margin:0 auto;">
         <a href="${base}" style="display:block;margin-right:auto;">
-            <img src="${base}logo.png" alt="${siteConfig.name}" style="height:50px;width:auto;filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));">
+            <img src="${base}logo.png" alt="${siteConfig.name}" style="scale:2;height:50px;width:auto;filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));">
         </a>
         <nav class="main-nav" style="display:flex;gap:20px;margin-left:auto;">
             <a href="${base}" class="nav-link${cls(isHome)}" style="text-decoration:none;color:#f3f4f6;font-weight:700;font-size:0.82rem;text-transform:uppercase;letter-spacing:.5px;">Inicio</a>

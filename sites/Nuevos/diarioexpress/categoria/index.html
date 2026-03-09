@@ -43,5 +43,105 @@
     <div id="site-footer"></div>
     <script src="../components.js"></script>
     <script src="../script.js"></script>
+    <script>
+    (async function() {
+        const CATEGORY_MAP = {
+            nacional: 'Nacional',
+            politica: 'Política',
+            economia: 'Economía',
+            deportes: 'Deportes',
+            cultura: 'Cultura',
+            tecnologia: 'Tecnología'
+        };
+
+        function getCategorySlug() {
+            const params = new URLSearchParams(location.search);
+            const fromQuery = (params.get('cat') || params.get('category') || '').toLowerCase().trim();
+            if (fromQuery) return fromQuery;
+
+            const path = location.pathname.toLowerCase();
+            const byPath = path.match(/\/categoria\/([a-z0-9-]+)\.html$/);
+            if (byPath && byPath[1]) return byPath[1];
+
+            return '';
+        }
+
+        const categorySlug = getCategorySlug();
+        const categoryName = CATEGORY_MAP[categorySlug] || (categorySlug ? (categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1)) : 'Categoría');
+
+        const titleEl = document.getElementById('category-title');
+        const nameEl = document.getElementById('category-name');
+        const descEl = document.getElementById('category-description');
+        if (titleEl) titleEl.textContent = categoryName;
+        if (nameEl) nameEl.textContent = categoryName;
+        if (descEl) descEl.textContent = 'Artículos de ' + categoryName;
+
+        try {
+            if (!categorySlug) throw new Error('category-missing');
+
+            const res = await fetch('https://news-api.sebastianvernis.workers.dev/api/articles?site=diarioexpress&category=' + encodeURIComponent(categorySlug) + '&limit=30');
+            if (!res.ok) throw new Error('fetch-failed');
+            const data = await res.json();
+            const articles = data.articles || [];
+
+            if (!articles.length) {
+                showError();
+                return;
+            }
+
+            renderCards(articles);
+            document.getElementById('category-loading').style.display = 'none';
+            document.getElementById('category-articles').style.display = 'grid';
+        } catch (e) {
+            console.error('Category render error:', e);
+            showError();
+        }
+
+        function renderCards(articles) {
+            const container = document.getElementById('category-articles');
+            if (!container) return;
+
+            container.innerHTML = articles.map(function(a) {
+                const slug = encodeURIComponent(a.slug || '');
+                const title = esc(a.title || '');
+                const excerpt = esc(a.excerpt || '');
+                const cat = esc(a.category || categoryName);
+                const image = a.imageUrl ? '<div class="card-img" style="background-image:url(\'' + escAttr(a.imageUrl) + '\')"></div>' : '';
+                return (
+                    '<article class="category-card">' +
+                        image +
+                        '<div class="card-content">' +
+                            '<span class="card-category">' + cat + '</span>' +
+                            '<h3 class="card-title">' + title + '</h3>' +
+                            '<p class="card-excerpt">' + excerpt + '</p>' +
+                            '<a class="card-link" href="../articulo/index.html?slug=' + slug + '">Leer más <i class="fas fa-arrow-right"></i></a>' +
+                        '</div>' +
+                    '</article>'
+                );
+            }).join('');
+        }
+
+        function showError() {
+            document.getElementById('category-loading').style.display = 'none';
+            document.getElementById('category-error').style.display = 'block';
+        }
+
+        function esc(t) {
+            return String(t || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '<')
+                .replace(/>/g, '>');
+        }
+
+        function escAttr(t) {
+            return String(t || '')
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '"')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '<')
+                .replace(/>/g, '>');
+        }
+    })();
+    </script>
 </body>
 </html>

@@ -1,251 +1,237 @@
-# 🚀 Guía de Despliegue - Cloudflare News Project
+# Guía de Despliegue - Nuevos 17 Sitios
 
-## ✅ Sitios Listos para Desplegar
+## 📋 Resumen
 
-| # | Sitio | Layout | Estado |
-|---|-------|--------|--------|
-| 1 | **radiocinconoticias** | Carousel + Sidebar | ✅ Listo |
-| 2 | **centralmexico** | Grid 4 Columnas | ✅ Listo |
-| 3 | **tvmexico** | Classic | ✅ Listo |
-| 4 | **cbnnoticias** | Horizontal List | ✅ Listo |
-| 5 | **mexicoinformado** | Magazine | ✅ Listo |
-| 6 | **nodoinformativo** | Masonry | ✅ Listo |
-| 7 | **bitacoraurbana** | Masonry | ✅ Listo |
-| 8 | **reportecentralmx** | Classic | ✅ Listo |
-| 9 | **verticenoticias** | Masonry | ✅ Listo |
-| 10 | **noticiasobjetivo** | Carousel + Sidebar | ✅ Listo |
+Esta guía cubre el despliegue de **17 nuevos sitios** a la red NexoPress, aumentando la capacidad de 10 a **27 sitios totales**.
+
+### Nuevos Sitios
+
+| # | Sitio | Slug | Dominio |
+|---|-------|------|---------|
+| 11 | Boominformativo | `boominformativo` | https://www.boominformativo.site |
+| 12 | Capital Press | `capitalpress` | https://www.capitalpress.mx |
+| 13 | Diario Express | `diarioexpress` | https://www.diarioexpress.news |
+| 14 | El Pulso Mexicano | `elpulsomexicano` | https://www.elpulsomexicano.com |
+| 15 | Enfoque Capital | `enfoquecapital` | https://www.enfoquecapital.mx |
+| 16 | Enfoque Directo | `enfoquedirecto` | https://www.enfoquedirecto.news |
+| 17 | Fórmula CDMX | `formulacdmx` | https://www.formulacdmx.mx |
+| 18 | The Mexican Times | `mexicantimes` | https://www.mexicantimes.mx |
+| 19 | México 360 Noticias | `mexico360noticias` | https://www.mexico360noticias.mx |
+| 20 | M Radio | `mradio` | https://www.mradio.mx |
+| 21 | Noticias Horizonte | `noticiashorizonte` | https://www.noticiashorizonte.mx |
+| 22 | Pulso Diario | `pulsodiario` | https://www.pulsodiario.mx |
+| 23 | Punto Clave | `puntoclave` | https://www.puntoclave.mx |
+| 24 | Punto Noticias | `puntonoticias` | https://www.puntonoticias.mx |
+| 25 | Radar Informativo | `radarinformativo` | https://www.radarinformativo.mx |
+| 26 | Reporte Diario | `reportediario` | https://www.reportediario.mx |
+| 27 | Televisión ABC | `televisionabc` | https://www.televisionabc.mx |
 
 ---
 
-## 📋 Opción 1: Despliegue con Wrangler CLI (Recomendado)
+## 🚀 Pasos de Despliegue
 
-### Prerrequisitos
+### Paso 1: Actualizar el Worker (API)
+
+El archivo `src/index.js` ya fue actualizado con los nuevos sitios en `SITES_CONFIG`.
 
 ```bash
-# Instalar wrangler
-npm install -g wrangler
-
-# Iniciar sesión
-wrangler login
+# Deploy del Worker actualizado
+cd /mnt/c/Users/soluc/cloudflare-news-project/src
+wrangler deploy --config wrangler.toml
 ```
 
-### Comandos de Despliegue
+✅ **Verificación:**
+```bash
+curl -s https://news-api.sebastianvernis.workers.dev/api/cron/status | python3 -m json.tool
+```
 
-Ejecuta cada comando para desplegar un sitio:
+---
+
+### Paso 2: Agregar Sitios a la Base de Datos
+
+Ejecutar el script SQL para insertar los nuevos sitios en la tabla `SITIOS`:
 
 ```bash
-# 1. Radio Cinco Noticias (Carousel + Sidebar)
-wrangler pages deploy ./sites/radiocinconoticias --project-name=radiocinconoticias
+# Opción A: Usando el archivo SQL
+wrangler d1 execute news_db --file scripts/add_new_sites.sql --remote
 
-# 2. Central México (Grid 4 Columnas)
-wrangler pages deploy ./sites/centralmexico --project-name=centralmexico
-
-# 3. TV México (Classic)
-wrangler pages deploy ./sites/tvmexico --project-name=tvmexico
-
-# 4. CBN Noticias (Horizontal List)
-wrangler pages deploy ./sites/cbnnoticias --project-name=cbnnoticias
-
-# 5. México Informado (Magazine)
-wrangler pages deploy ./sites/mexicoinformado --project-name=mexicoinformado
-
-# 6. Nodo Informativo (Masonry)
-wrangler pages deploy ./sites/nodoinformativo --project-name=nodoinformativo
-
-# 7. Bitácora Urbana (Masonry)
-wrangler pages deploy ./sites/bitacoraurbana --project-name=bitacoraurbana
-
-# 8. Reporte Central MX (Classic)
-wrangler pages deploy ./sites/reportecentralmx --project-name=reportecentralmx
-
-# 9. Vértice Noticias (Masonry)
-wrangler pages deploy ./sites/verticenoticias --project-name=verticenoticias
-
-# 10. Noticias Objetivo (Carousel + Sidebar)
-wrangler pages deploy ./sites/noticiasobjetivo --project-name=noticiasobjetivo
+# Opción B: Comando directo (copiar y pegar)
+wrangler d1 execute news_db --command "
+  INSERT OR IGNORE INTO SITIOS (ID, SLUG, NOMBRE, DOMINIO, TAGLINE, ACTIVO, FACEBOOK_ACTIVO) VALUES
+    (lower(hex(randomblob(16))), 'boominformativo', 'Boominformativo', 'https://www.boominformativo.site', 'Información que impacta', 1, 1),
+    (lower(hex(randomblob(16))), 'capitalpress', 'Capital Press', 'https://www.capitalpress.mx', 'Prensa independiente', 1, 1)
+    -- ... (ver script completo en scripts/add_new_sites.sql)
+" --remote
 ```
 
-### URLs de Producción
-
-Cada sitio estará disponible en:
-- `https://radiocinconoticias.pages.dev`
-- `https://centralmexico.pages.dev`
-- `https://tvmexico.pages.dev`
-- `https://cbnnoticias.pages.dev`
-- `https://mexicoinformado.pages.dev`
-- `https://nodoinformativo.pages.dev`
-- `https://bitacoraurbana.pages.dev`
-- `https://reportecentralmx.pages.dev`
-- `https://verticenoticias.pages.dev`
-- `https://noticiasobjetivo.pages.dev`
+✅ **Verificación:**
+```bash
+wrangler d1 execute news_db --command "SELECT COUNT(*) as total FROM SITIOS" --remote
+# Debería mostrar 27 (10 anteriores + 17 nuevos)
+```
 
 ---
 
-## 📋 Opción 2: Despliegue desde Cloudflare Dashboard
+### Paso 3: Desplegar Sitios a Cloudflare Pages
 
-### Pasos
-
-1. **Ve a Cloudflare Dashboard**
-   - https://dash.cloudflare.com/?to=/:account/pages
-
-2. **Click en "Create a project"**
-
-3. **Selecciona "Direct Upload"**
-
-4. **Sube la carpeta del sitio**
-   - Arrastra la carpeta `sites/radiocinconoticias` completa
-   - O comprime en ZIP y sube
-
-5. **Click en "Deploy"**
-
-6. **Repite para cada sitio**
-
----
-
-## 📋 Opción 3: Despliegue Automático con GitHub
-
-### Configurar GitHub Repository
+Cada sitio debe desplegarse individualmente:
 
 ```bash
-# Inicializar repo (si no existe)
-git init
-git add .
-git commit -m "Initial commit - 10 news sites"
-
-# Crear repo en GitHub y hacer push
-git remote add origin https://github.com/tu-usuario/cloudflare-news.git
-git push -u origin main
+# Script automático (recomendado)
+cd /mnt/c/Users/soluc/cloudflare-news-project
+chmod +x scripts/deploy_new_sites.sh
+./scripts/deploy_new_sites.sh
 ```
 
-### Conectar con Cloudflare Pages
+**O manualmente (uno por uno):**
 
-1. Ve a https://dash.cloudflare.com/?to=/:account/pages
-2. Click "Create a project"
-3. Selecciona "Connect to Git"
-4. Selecciona tu repositorio
-5. Configura:
-   - **Production branch**: `main`
-   - **Build command**: (dejar vacío)
-   - **Build output directory**: `sites/radiocinconoticias`
-6. Click "Save and Deploy"
-
-### Deploy Automático
-
-Cada push a `main` desplegará automáticamente.
-
----
-
-## 🔧 Configuración Avanzada
-
-### Dominio Personalizado
-
-1. Ve al proyecto en Cloudflare Pages
-2. Click en "Custom domains"
-3. Agrega tu dominio (ej: `radiocinco.com`)
-4. Cloudflare configura DNS automáticamente
-
-### Variables de Entorno
-
-Para cada sitio, puedes configurar:
-- `SITE_TITLE` - Título del sitio
-- `ADMIN_TOKEN` - Token para CMS
-
-### Redirects
-
-Crea `sites/[sitio]/_redirects`:
-```
-/articulo/* /articulo/informe-especial-tecnologia.html 200
-/categoria/* /categoria/nacional.html 200
-```
-
----
-
-## 📊 Estructura de Archivos por Sitio
-
-```
-sites/[sitio]/
-├── index.html              # Portada con layout personalizado
-├── style.css               # Estilos únicos del sitio
-├── script.js               # JavaScript (carousel, etc.)
-├── article.css             # Estilos de artículos
-├── legal.css               # Páginas legales
-├── logo.png                # Logo del sitio
-├── admin/                  # CMS de administración
-│   ├── index.html
-│   ├── login.html
-│   ├── style.css
-│   ├── script.js
-│   └── login.js
-├── articulo/               # 21 artículos individuales
-│   ├── article-1.html
-│   └── ...
-├── categoria/              # 4 páginas de categoría
-│   ├── nacional.html
-│   ├── politica.html
-│   ├── economia.html
-│   └── deportes.html
-└── assets/
-    └── images/             # 21 imágenes descargadas
-        ├── article_1.jpg
-        └── ...
-```
-
----
-
-## 🎨 Layouts Disponibles
-
-| Layout | Sitios | Características |
-|--------|--------|----------------|
-| **Carousel + Sidebar** | radiocinconoticias, noticiasobjetivo | 1 artículo principal + lista lateral |
-| **Horizontal List** | cbnnoticias | Lista horizontal tipo blog |
-| **Grid 4 Columnas** | centralmexico | Grid denso tipo Pinterest |
-| **Masonry** | nodoinformativo, bitacoraurbana, verticenoticias | Columnas estilo Pinterest |
-| **Magazine** | mexicoinformado | Hero grande + grid |
-| **Classic** | tvmexico, reportecentralmx | Lista vertical tradicional |
-
----
-
-## ✅ Verificación Post-Despliegue
-
-Después de desplegar cada sitio:
-
-1. ✅ Verificar que el logo carga
-2. ✅ Verificar que las imágenes de artículos cargan
-3. ✅ Probar navegación entre páginas
-4. ✅ Probar CMS (`/admin/login.html`)
-5. ✅ Verificar diseño responsivo (móvil)
-
----
-
-## 🐛 Solución de Problemas
-
-### Error: "Project not found"
 ```bash
-# Crear proyecto primero en dashboard
-# Luego hacer deploy
+cd sites/Nuevos/boominformativo
+wrangler pages deploy . --project-name=boominformativo --branch=main
+
+cd ../capitalpress
+wrangler pages deploy . --project-name=capitalpress --branch=main
+
+# ... repetir para cada sitio
 ```
 
-### Error: "Build failed"
+✅ **Verificación:**
+Visitar cualquier sitio:
+- https://boominformativo.pages.dev
+- https://capitalpress.pages.dev
+- etc.
+
+---
+
+### Paso 4: Configurar Facebook Tokens (Opcional)
+
+Si los nuevos sitios tendrán publicación automática en Facebook:
+
 ```bash
-# Verificar que la carpeta tiene index.html
-ls sites/[sitio]/index.html
+# Script interactivo (pide cada token)
+python3 scripts/setup_new_sites_fb_tokens.py
 ```
 
-### Imágenes no cargan
+**O manualmente (uno por uno):**
+
 ```bash
-# Verificar rutas en HTML
-# Deben ser relativas: assets/images/article_1.jpg
+wrangler secret put FB_TOKEN_BOOMINFORMATIVO --name news-api
+wrangler secret put FB_TOKEN_CAPITALPRESS --name news-api
+wrangler secret put FB_TOKEN_DIARIOEXPRESS --name news-api
+wrangler secret put FB_TOKEN_ENFOQUECAPITAL --name news-api
+wrangler secret put FB_TOKEN_ENFOQUEDIRECTO --name news-api
+wrangler secret put FB_TOKEN_FORMULACDMX --name news-api
+wrangler secret put FB_TOKEN_MEXICANTIMES --name news-api
+wrangler secret put FB_TOKEN_MEXICO360NOTICIAS --name news-api
+wrangler secret put FB_TOKEN_MRADIO --name news-api
+wrangler secret put FB_TOKEN_NOTICIASHORIZONTE --name news-api
+wrangler secret put FB_TOKEN_PULSODIARIO --name news-api
+wrangler secret put FB_TOKEN_PUNTOCLAVE --name news-api
+wrangler secret put FB_TOKEN_PUNTONOTICIAS --name news-api
+wrangler secret put FB_TOKEN_RADARINFORMATIVO --name news-api
+wrangler secret put FB_TOKEN_REPORTEDIARIO --name news-api
+wrangler secret put FB_TOKEN_TELEVISIONABC --name news-api
+```
+
+✅ **Verificación:**
+```bash
+wrangler secret list --name news-api
 ```
 
 ---
 
-## 📞 Soporte
+### Paso 5: Configurar Dominios Personalizados (Opcional)
 
-- **Cloudflare Pages Docs**: https://developers.cloudflare.com/pages/
-- **Wrangler Docs**: https://developers.cloudflare.com/workers/wrangler/
+Para cada sitio con dominio personalizado:
+
+1. Ir a Cloudflare Dashboard → Pages → [sitio] → Custom Domains
+2. Agregar dominio (ej: `www.boominformativo.site`)
+3. Configurar DNS en Cloudflare
 
 ---
 
-**Generado:** 2026-02-19  
-**Total de sitios:** 10  
-**Estado:** ✅ Listos para desplegar
+## 📊 Verificación Final
+
+### 1. Verificar Worker
+```bash
+curl -s https://news-api.sebastianvernis.workers.dev/api/cron/status
+```
+
+### 2. Verificar Base de Datos
+```bash
+wrangler d1 execute news_db --command "SELECT SLUG, NOMBRE, DOMINIO FROM SITIOS ORDER BY NOMBRE" --remote
+```
+
+### 3. Verificar RSS Feeds
+```bash
+# Probar RSS de un nuevo sitio
+curl -s "https://news-api.sebastianvernis.workers.dev/api/rss/boominformativo" | head -20
+```
+
+### 4. Verificar Facebook Tokens
+```bash
+curl -s https://news-api.sebastianvernis.workers.dev/api/facebook/monitor | python3 -m json.tool
+```
+
+### 5. Verificar Sitios Desplegados
+Visitar las URLs de los nuevos sitios:
+- https://boominformativo.pages.dev
+- https://capitalpress.pages.dev
+- https://diarioexpress.pages.dev
+- etc.
+
+---
+
+## 🔧 Solución de Problemas
+
+### Error: "Project already exists"
+```bash
+# El proyecto ya existe, usar --branch para actualizar
+wrangler pages deploy . --project-name=[sitio] --branch=main
+```
+
+### Error: "UNIQUE constraint failed: SITIOS.SLUG"
+```bash
+# El sitio ya existe en la DB, es seguro ignorar este error
+# O verificar con:
+wrangler d1 execute news_db --command "SELECT * FROM SITIOS WHERE SLUG = 'boominformativo'" --remote
+```
+
+### Error: "Secret not found"
+```bash
+# El token de Facebook no está configurado
+# Configurar con:
+wrangler secret put FB_TOKEN_[SITIO] --name news-api
+```
+
+### RSS no muestra artículos
+```bash
+# Verificar que hay artículos para el sitio
+wrangler d1 execute news_db --command "SELECT COUNT(*) FROM ARTICULOS_PARAFRASEADOS WHERE SITIO_DESTINO LIKE '%boominformativo%'" --remote
+```
+
+---
+
+## 📝 Checklist de Despliegue
+
+- [ ] Worker actualizado y desplegado
+- [ ] Script SQL ejecutado (17 sitios en DB)
+- [ ] 17 sitios desplegados a Pages
+- [ ] Facebook tokens configurados (si aplica)
+- [ ] Dominios personalizados configurados (si aplica)
+- [ ] RSS feeds verificados
+- [ ] Monitor de Facebook verificado
+
+---
+
+## 🎯 Próximos Pasos
+
+1. **Configurar RSS Feeds** para ingesta automática de noticias
+2. **Personalizar logos** de cada sitio
+3. **Configurar Google Analytics** por sitio
+4. **Habilitar Facebook Publishing** para cada sitio
+
+---
+
+**Documentación actualizada:** Marzo 2026
+**Total de sitios:** 27 (10 estables + 17 nuevos)

@@ -17,17 +17,19 @@
 
 ## Descripción del Proyecto
 
-**NexoPress** es una plataforma de noticias multi-sitio que gestiona 10 sitios de noticias independientes desde un único panel de administración y un núcleo centralizado en Cloudflare Workers y D1.
+**NexoPress** es una plataforma de noticias multi-sitio que gestiona **27 sitios de noticias independientes** desde un único panel de administración y un núcleo centralizado en Cloudflare Workers y D1.
 
 ### Características Principales
 
-- **10 Sitios de Noticias:** Cada uno con dominio personalizado
+- **27 Sitios de Noticias:** 10 estables + 17 nuevos en despliegue
 - **Ingesta Automática:** RSS y Atom feeds (El País, Proceso, Aristegui, etc.)
 - **Parafraseo con IA:** OpenRouter (Gemini 2.0 Flash)
 - **Publicación en Facebook:** Automática cada 3 horas por sitio
 - **Cloudflare Stack:** Workers, D1, R2, KV, Pages
 
 ### Sitios de la Red
+
+#### Sitios Estables (10)
 
 | # | Sitio | Dominio | Slug |
 |---|-------|---------|------|
@@ -41,6 +43,28 @@
 | 8 | Reporte Central MX | https://www.reportecentral.site | `reportecentralmx` |
 | 9 | Vértice Noticias | https://www.verticenoticias.today | `verticenoticias` |
 | 10 | Noticias Objetivo | https://www.noticiasobjetivo.click | `noticiasobjetivo` |
+
+#### Nuevos Sitios (17) - En Despliegue
+
+| # | Sitio | Dominio | Slug |
+|---|-------|---------|------|
+| 11 | Boominformativo | https://www.boominformativo.site | `boominformativo` |
+| 12 | Capital Press | https://www.capitalpress.mx | `capitalpress` |
+| 13 | Diario Express | https://www.diarioexpress.news | `diarioexpress` |
+| 14 | El Pulso Mexicano | https://www.elpulsomexicano.com | `elpulsomexicano` |
+| 15 | Enfoque Capital | https://www.enfoquecapital.mx | `enfoquecapital` |
+| 16 | Enfoque Directo | https://www.enfoquedirecto.news | `enfoquedirecto` |
+| 17 | Fórmula CDMX | https://www.formulacdmx.mx | `formulacdmx` |
+| 18 | The Mexican Times | https://www.mexicantimes.mx | `mexicantimes` |
+| 19 | México 360 Noticias | https://www.mexico360noticias.mx | `mexico360noticias` |
+| 20 | M Radio | https://www.mradio.mx | `mradio` |
+| 21 | Noticias Horizonte | https://www.noticiashorizonte.mx | `noticiashorizonte` |
+| 22 | Pulso Diario | https://www.pulsodiario.mx | `pulsodiario` |
+| 23 | Punto Clave | https://www.puntoclave.mx | `puntoclave` |
+| 24 | Punto Noticias | https://www.puntonoticias.mx | `puntonoticias` |
+| 25 | Radar Informativo | https://www.radarinformativo.mx | `radarinformativo` |
+| 26 | Reporte Diario | https://www.reportediario.mx | `reportediario` |
+| 27 | Televisión ABC | https://www.televisionabc.mx | `televisionabc` |
 
 ---
 
@@ -804,6 +828,8 @@ curl -s https://news-api.sebastianvernis.workers.dev/api/facebook/monitor | pyth
 
 ### Worker Secrets (news-api)
 
+#### Tokens de Facebook - Sitios Estables (10)
+
 | Secret | Descripción | Ejemplo |
 |--------|-------------|---------|
 | `OPENROUTER_API_KEY` | API key para IA | `sk-or-...` |
@@ -818,6 +844,28 @@ curl -s https://news-api.sebastianvernis.workers.dev/api/facebook/monitor | pyth
 | `FB_TOKEN_REPORTECENTRALMX` | Token FB Reporte Central | `EAAmv1Puxa7wBQ...` |
 | `FB_TOKEN_VERTICENOTICIAS` | Token FB Vértice Noticias | `EAAmv1Puxa7wBQ...` |
 | `FB_TOKEN_NOTICIASOBJETIVO` | Token FB Noticias Objetivo | `EAAmv1Puxa7wBQ...` |
+
+#### Tokens de Facebook - Nuevos Sitios (17)
+
+| Secret | Descripción |
+|--------|-------------|
+| `FB_TOKEN_BOOMINFORMATIVO` | Token FB Boominformativo |
+| `FB_TOKEN_CAPITALPRESS` | Token FB Capital Press |
+| `FB_TOKEN_DIARIOEXPRESS` | Token FB Diario Express |
+| `FB_TOKEN_ELPULSOMEXICANO` | Token FB El Pulso Mexicano |
+| `FB_TOKEN_ENFOQUECAPITAL` | Token FB Enfoque Capital |
+| `FB_TOKEN_ENFOQUEDIRECTO` | Token FB Enfoque Directo |
+| `FB_TOKEN_FORMULACDMX` | Token FB Fórmula CDMX |
+| `FB_TOKEN_MEXICANTIMES` | Token FB The Mexican Times |
+| `FB_TOKEN_MEXICO360NOTICIAS` | Token FB México 360 Noticias |
+| `FB_TOKEN_MRADIO` | Token FB M Radio |
+| `FB_TOKEN_NOTICIASHORIZONTE` | Token FB Noticias Horizonte |
+| `FB_TOKEN_PULSODIARIO` | Token FB Pulso Diario |
+| `FB_TOKEN_PUNTOCLAVE` | Token FB Punto Clave |
+| `FB_TOKEN_PUNTONOTICIAS` | Token FB Punto Noticias |
+| `FB_TOKEN_RADARINFORMATIVO` | Token FB Radar Informativo |
+| `FB_TOKEN_REPORTEDIARIO` | Token FB Reporte Diario |
+| `FB_TOKEN_TELEVISIONABC` | Token FB Televisión ABC |
 
 ### Worker Variables (wrangler.toml)
 

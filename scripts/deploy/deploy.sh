@@ -69,7 +69,7 @@ if [ "$selection" == "all" ]; then
         echo "=============================================="
         echo "📍 Desplegando: $site"
         echo "=============================================="
-        wrangler pages deploy "$ROOT_DIR/sites/$site" --project-name="$site" --branch=main --commit-dirty=true
+        wrangler pages deploy "$ROOT_DIR/sites/$site" --project-name="$site" --branch=master --commit-dirty=true
     done
 else
     # Desplegar uno
@@ -81,7 +81,7 @@ else
         echo "=============================================="
         echo "📍 Desplegando: $site"
         echo "=============================================="
-        wrangler pages deploy "$ROOT_DIR/sites/$site" --project-name="$site" --branch=main --commit-dirty=true
+        wrangler pages deploy "$ROOT_DIR/sites/$site" --project-name="$site" --branch=master --commit-dirty=true
         
         if [ $? -eq 0 ]; then
             echo ""

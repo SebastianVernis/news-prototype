@@ -163,7 +163,6 @@
             if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
             if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text;
             if (waLink) waLink.href = 'https://wa.me/?text=' + text + '%20' + url;
-
             // Cargar script de Instagram si hay embeds
             if (body && body.innerHTML.includes('instagram-media')) {
                 const script = document.createElement('script');

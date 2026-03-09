@@ -44,12 +44,12 @@
 
     // ── TICKER BAR (UNIFIED) ─────────────────────────────────────────────────
     const TICKER_HTML = `
-<div id="unified-ticker-container" style="position:fixed;top:0;left:0;right:0;height:40px;background:#000;color:#fff;z-index:10000;display:flex;align-items:center;font-family:'Inter',sans-serif;border-bottom:1px solid ${siteConfig.accentColor};">
+<div id="unified-ticker-container" style="position:fixed;bottom:0;left:0;right:0;height:40px;background:#000;color:#fff;z-index:10000;display:flex;align-items:center;font-family:'Inter',sans-serif;border-bottom:1px solid ${siteConfig.accentColor};">
     <div style="background:${siteConfig.accentColor};color:#000;height:100%;display:flex;align-items:center;padding:0 15px;font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;flex-shrink:0;">
         AL MOMENTO
     </div>
     <div id="unified-ticker" style="flex:1;overflow:hidden;white-space:nowrap;display:flex;align-items:center;position:relative;height:100%;">
-        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 60s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
+        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 180s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
             <span id="ticker-content">Cargando noticias y finanzas...</span>
         </div>
     </div>
@@ -77,10 +77,10 @@
 
     // ── HEADER ───────────────────────────────────────────────────────────────
     const HEADER_HTML = `
-<header class="header" style="margin-top:40px;background:linear-gradient(295deg, ${siteConfig.accentColor} 0%, #121826 100%);box-shadow:0 2px 10px rgba(0,0,0,0.18);position:sticky;top:40px;z-index:9999;">
+<header class="header" style="margin-top:0;background:linear-gradient(295deg, ${siteConfig.accentColor} 0%, #121826 100%);box-shadow:0 2px 10px rgba(0,0,0,0.18);position:sticky;top:0;z-index:9999;">
     <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;max-width:1200px;margin:0 auto;">
         <a href="${base}" style="display:block;">
-            <img src="${base}logo.png" alt="${siteConfig.name}" style="height:50px;width:auto;filter:brightness(0) invert(1);">
+            <img src="${base}logo.png" alt="${siteConfig.name}" style="scale:2;height:50px;width:auto;filter:brightness(0) invert(1);">
         </a>
         <nav class="main-nav" style="display:flex;gap:20px;">
             <a href="${base}" class="nav-link${cls(isHome)}" style="text-decoration:none;color:#f3f4f6;font-weight:700;font-size:0.82rem;text-transform:uppercase;letter-spacing:.5px;">Inicio</a>

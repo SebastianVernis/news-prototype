@@ -22,9 +22,6 @@
                 <span class="tag">Bienestar Urbano</span>
                 <h1>El rediseño de las áreas verdes para fomentar la desconexión digital</h1>
                 <p>Nuevos proyectos paisajísticos en el centro de la ciudad están eliminando el acceso a Wi-Fi público para crear verdaderos santuarios de tranquilidad.</p>
-                <div class="author-info" style="border-top: none; padding-top: 0;">
-                    <div class="author-avatar"></div>
-                    <span class="author-name">Por Elena Fuentes</span>
                 </div>
             </div>
         </section>
@@ -37,10 +34,6 @@
                     <span class="tag" style="color: #10B981;">Sostenibilidad</span>
                     <h2>El auge de la moda circular en marcas de lujo</h2>
                     <p>Las principales casas de diseño han comenzado a implementar programas de recuperación y reciclaje de prendas a nivel global.</p>
-                    <div class="author-info">
-                        <div class="author-avatar"></div>
-                        <span class="author-name">David Silva</span>
-                    </div>
                 </div>
             </article>
 
@@ -50,10 +43,6 @@
                     <span class="tag" style="color: #F59E0B;">Cultura</span>
                     <h2>La vuelta del formato físico en la era del streaming</h2>
                     <p>Las ventas de vinilos y casetes alcanzan cifras récord gracias a una generación que busca volver a la experiencia táctil de la música.</p>
-                    <div class="author-info">
-                        <div class="author-avatar"></div>
-                        <span class="author-name">Marina López</span>
-                    </div>
                 </div>
             </article>
 
@@ -63,10 +52,6 @@
                     <span class="tag" style="color: #8B5CF6;">Tecnología</span>
                     <h2>Aplicaciones que te ayudan a concentrarte leyendo</h2>
                     <p>Una nueva ola de desarrollo de software está enfocada en bloquear notificaciones y crear entornos de lectura inmersivos en dispositivos móviles.</p>
-                    <div class="author-info">
-                        <div class="author-avatar"></div>
-                        <span class="author-name">Carlos Ruiz</span>
-                    </div>
                 </div>
             </article>
 
@@ -76,10 +61,6 @@
                     <span class="tag" style="color: #EF4444;">Gastronomía</span>
                     <h2>Restaurantes que cultivan sus propios ingredientes</h2>
                     <p>El movimiento "de la huerta a la mesa" evoluciona con chefs que instalan invernaderos directamente en las azoteas de sus locales.</p>
-                    <div class="author-info">
-                        <div class="author-avatar"></div>
-                        <span class="author-name">Sofía Herrera</span>
-                    </div>
                 </div>
             </article>
 
@@ -89,10 +70,6 @@
                     <span class="tag" style="color: #3B82F6;">Actualidad</span>
                     <h2>Nuevos esquemas de trabajo de cuatro días ganan popularidad</h2>
                     <p>Los primeros resultados de los estudios a gran escala muestran un aumento en la productividad y una reducción del estrés en los empleados.</p>
-                    <div class="author-info">
-                        <div class="author-avatar"></div>
-                        <span class="author-name">Equipo Editorial</span>
-                    </div>
                 </div>
             </article>
 
@@ -102,10 +79,6 @@
                     <span class="tag" style="color: #EC4899;">Diseño</span>
                     <h2>Espacios minimalistas para mejorar la salud mental</h2>
                     <p>La psicología del color y la eliminación del ruido visual en interiores como herramienta terapéutica avalada por expertos.</p>
-                    <div class="author-info">
-                        <div class="author-avatar"></div>
-                        <span class="author-name">Alejandro Marín</span>
-                    </div>
                 </div>
             </article>
 
@@ -211,15 +184,6 @@
         // Populate marquee/ticker
         var marquee=main.querySelector(".marquee,marquee");
         if(marquee)marquee.textContent=arts.slice(0,5).map(function(a){return"+++ "+a.title.toUpperCase();}).join(" ");
-
-        // Populate newspaper columns
-        var cols=main.querySelector(".newspaper-columns");
-        if(cols&&arts[0]){
-            var credit=cols.querySelector(".author-credit");
-            if(credit&&arts[0].author)credit.textContent="Por "+arts[0].author;
-            var paras=cols.querySelectorAll("p");
-            paras.forEach(function(p,i){if(arts[i]&&arts[i].excerpt)p.textContent=arts[i].excerpt;});
-        }
     }
 
     if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",load);

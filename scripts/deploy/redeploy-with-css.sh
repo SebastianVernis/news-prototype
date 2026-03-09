@@ -1,6 +1,12 @@
 #!/bin/bash
 
-export CLOUDFLARE_API_TOKEN="2yB_LyzS8ykeKIUv6720ogmi13dBVc5DLzjfdZJZ"
+# Set your Cloudflare API token before running:
+# export CLOUDFLARE_API_TOKEN="your_token_here"
+if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+    echo "❌ Error: CLOUDFLARE_API_TOKEN not set"
+    echo "   Run: export CLOUDFLARE_API_TOKEN=\"your_token_here\""
+    exit 1
+fi
 
 echo "🚀 RE-DESPLIEGUE DE 10 SITIOS CON CSS Y ASSETS"
 echo "================================================"
@@ -60,7 +66,7 @@ EOF
     
     # Desplegar
     echo "   🚀 Desplegando..."
-    sudo CLOUDFLARE_API_TOKEN="2yB_LyzS8ykeKIUv6720ogmi13dBVc5DLzjfdZJZ" wrangler pages deploy "$TEMP_DIR" --project-name="$project_name" --branch=main 2>&1 | grep -E "(Deployment complete|https://.*pages\.dev)"
+    wrangler pages deploy "$TEMP_DIR" --project-name="$project_name" --branch=master 2>&1 | grep -E "(Deployment complete|https://.*pages\.dev)"
     
     # Limpiar
     rm -rf "$TEMP_DIR"

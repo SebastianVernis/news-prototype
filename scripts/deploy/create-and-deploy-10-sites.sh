@@ -1,6 +1,12 @@
 #!/bin/bash
 
-export CLOUDFLARE_API_TOKEN="2yB_LyzS8ykeKIUv6720ogmi13dBVc5DLzjfdZJZ"
+# Set your Cloudflare API token before running:
+# export CLOUDFLARE_API_TOKEN="your_token_here"
+if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+    echo "❌ Error: CLOUDFLARE_API_TOKEN not set"
+    echo "   Run: export CLOUDFLARE_API_TOKEN=\"your_token_here\""
+    exit 1
+fi
 
 echo "🚀 CREACIÓN Y DESPLIEGUE DE 10 SITIOS DE NOTICIAS"
 echo "=================================================="
@@ -29,11 +35,11 @@ create_and_deploy_site() {
     
     # Intentar crear el proyecto primero
     echo "   📁 Creando proyecto..."
-    sudo CLOUDFLARE_API_TOKEN="2yB_LyzS8ykeKIUv6720ogmi13dBVc5DLzjfdZJZ" wrangler pages project create "$project_name" --production-branch=main 2>&1 | grep -E "(success|Created|already)" || true
-    
+    wrangler pages project create "$project_name" --production-branch=main 2>&1 | grep -E "(success|Created|already)" || true
+
     # Desplegar
     echo "   🚀 Desplegando..."
-    sudo CLOUDFLARE_API_TOKEN="2yB_LyzS8ykeKIUv6720ogmi13dBVc5DLzjfdZJZ" wrangler pages deploy "$TEMP_DIR" --project-name="$project_name" --branch=main 2>&1 | tail -5
+    wrangler pages deploy "$TEMP_DIR" --project-name="$project_name" --branch=master 2>&1 | tail -5
     
     # Limpiar
     rm -rf "$TEMP_DIR"

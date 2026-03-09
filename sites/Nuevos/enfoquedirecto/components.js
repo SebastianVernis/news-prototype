@@ -43,12 +43,12 @@
 
     // ── TICKER BAR (UNIFIED) ─────────────────────────────────────────────────
     const TICKER_HTML = `
-<div id="unified-ticker-container" style="position:fixed;top:0;left:0;right:0;height:40px;background:rgba(10,10,10,0.95);color:#fff;z-index:10001;display:flex;align-items:center;font-family:'Helvetica Neue',sans-serif;border-bottom:1px solid rgba(197,160,89,0.3);backdrop-filter:blur(10px);">
+<div id="unified-ticker-container" style="position:fixed;bottom:0;left:0;right:0;height:40px;background:rgba(10,10,10,0.95);color:#fff;z-index:10001;display:flex;align-items:center;font-family:'Helvetica Neue',sans-serif;border-bottom:1px solid rgba(197,160,89,0.3);backdrop-filter:blur(10px);">
     <div style="background:${siteConfig.accentColor};color:#000;height:100%;display:flex;align-items:center;padding:0 20px;font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;flex-shrink:0;">
         AL MOMENTO
     </div>
     <div id="unified-ticker" style="flex:1;overflow:hidden;white-space:nowrap;display:flex;align-items:center;position:relative;height:100%;">
-        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 60s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
+        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 180s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
             <span id="ticker-content">Cargando noticias y finanzas...</span>
         </div>
     </div>
@@ -75,10 +75,10 @@
 
     // ── HEADER ───────────────────────────────────────────────────────────────
     const HEADER_HTML = `
-<header class="header" style="margin-top:40px;background:rgba(10,10,10,0.8);backdrop-filter:blur(15px);border-bottom:1px solid rgba(255,255,255,0.05);position:sticky;top:40px;z-index:10000;transition: background 0.3s ease;">
+<header class="header" style="margin-top:0;background:rgba(10,10,10,0.8);backdrop-filter:blur(15px);border-bottom:1px solid rgba(255,255,255,0.05);position:sticky;top:0;z-index:10000;transition: background 0.3s ease;">
     <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:15px 30px;max-width:1400px;margin:0 auto;position:relative;">
         <a href="${base}" style="display:block;z-index:1001;">
-            <img src="${base}logo.png" alt="${siteConfig.name}" style="height:40px;width:auto;filter: contrast(1.1) brightness(1.2);">
+            <img src="${base}logo.png" alt="${siteConfig.name}" style="scale:2;height:40px;width:auto;filter: contrast(1.1) brightness(1.2);">
         </a>
 
         <!-- Mobile Toggle -->

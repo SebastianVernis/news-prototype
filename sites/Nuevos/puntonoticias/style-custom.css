@@ -181,28 +181,6 @@
             flex-grow: 1;
         }
 
-        .author-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: auto;
-            padding-top: 16px;
-            border-top: 1px solid #F3F4F6;
-        }
-
-        .author-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #D1D5DB;
-        }
-
-        .author-name {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
         /* FOOTER */
         footer {
             background-color: var(--card-bg);

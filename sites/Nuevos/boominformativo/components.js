@@ -44,12 +44,12 @@
 
     // ── TICKER BAR (UNIFIED) ─────────────────────────────────────────────────
     const TICKER_HTML = `
-<div id="unified-ticker-container" style="position:fixed;top:0;left:0;right:0;height:40px;background:#000;color:#fff;z-index:10001;display:flex;align-items:center;font-family:'Inter',sans-serif;border-bottom:1px solid ${siteConfig.accentColor};">
+<div id="unified-ticker-container" style="position:fixed;bottom:0;left:0;right:0;height:40px;background:#000;color:#fff;z-index:10001;display:flex;align-items:center;font-family:'Inter',sans-serif;border-bottom:1px solid ${siteConfig.accentColor};">
     <div style="background:${siteConfig.accentColor};color:#000;height:100%;display:flex;align-items:center;padding:0 15px;font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;flex-shrink:0;">
         AL MOMENTO
     </div>
     <div id="unified-ticker" style="flex:1;overflow:hidden;white-space:nowrap;display:flex;align-items:center;position:relative;height:100%;">
-        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 60s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
+        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 180s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
             <span id="ticker-content">Cargando noticias y finanzas...</span>
         </div>
     </div>
@@ -76,10 +76,10 @@
 
     // ── HEADER ───────────────────────────────────────────────────────────────
     const HEADER_HTML = `
-<header class="header" style="margin-top:40px;background:linear-gradient(295deg, ${siteConfig.accentColor} 0%, #121826 80%);box-shadow:0 2px 10px rgba(0,0,0,0.18);position:sticky;top:40px;z-index:10000;">
+<header class="header" style="margin-top:0;background:linear-gradient(295deg, ${siteConfig.accentColor} 0%, #121826 80%);box-shadow:0 2px 10px rgba(0,0,0,0.18);position:sticky;top:0;z-index:10000;">
     <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;max-width:1200px;margin:0 auto;position:relative;">
         <a href="${base}" style="display:block;z-index:1001;">
-            <img src="${base}logo.png" alt="${siteConfig.name}" style="height:50px;width:auto;filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));">
+            <img src="${base}logo.png" alt="${siteConfig.name}" style="height:50px;width:auto;filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));scale: 2;object-fit: contain;">
         </a>
         
         <!-- Mobile Toggle -->

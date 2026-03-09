@@ -14,6 +14,17 @@ build/
 # Environment & Secrets
 .env
 .env.local
+.env.*
+secrets.toml
+
+# Facebook Tokens & Sensitive Data
+FB_TOKEN_*
+*fb_tokens*
+meta.json
+text.txt
+scripts/setup_fb_tokens.py
+scripts/verify_fb_tokens.py
+src/setup_fb_tokens.sh
 
 # Project Data & Backups (Local only)
 data/
@@ -24,13 +35,11 @@ backups/archive/
 *.json
 !package.json
 !package-lock.json
-!meta.json
 
-# IDEs
-.vscode/
-.idea/
-.DS_Store
-
-# Temporary / OS
-tmp/
-temp/
+# Cloudflare & Build
+.wrangler/
+.crush/
+dist/
+build/
+.dev.vars
+wrangler.toml.bak

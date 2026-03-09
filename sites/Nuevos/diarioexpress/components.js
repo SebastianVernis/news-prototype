@@ -49,7 +49,7 @@
         AL MOMENTO
     </div>
     <div id="unified-ticker" style="flex:1;overflow:hidden;white-space:nowrap;display:flex;align-items:center;position:relative;height:100%;">
-        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 60s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
+        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 180s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
             <span id="ticker-content">Cargando noticias y finanzas...</span>
         </div>
     </div>
@@ -79,7 +79,7 @@
 <header class="header" style="margin-top:40px;background:#fff;border-bottom:2px solid ${siteConfig.accentColor};position:sticky;top:40px;z-index:10000;">
     <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:15px 20px;max-width:1400px;margin:0 auto;position:relative;">
         <a href="${base}" style="display:block;z-index:1001;">
-            <img src="${base}logo.png" alt="${siteConfig.name}" style="height:45px;width:auto;">
+            <img src="${base}logo.png" alt="${siteConfig.name}" style="scale:2;height:45px;width:auto;">
         </a>
 
         <!-- Mobile Toggle -->

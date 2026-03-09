@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UNIFIED COMPONENTS - DEFINITIVE VERSION
  * Managed by Gemini CLI
  */
@@ -43,12 +43,12 @@
 
     // ── TICKER BAR (UNIFIED) ─────────────────────────────────────────────────
     const TICKER_HTML = `
-<div id="unified-ticker-container" style="position:fixed;top:0;left:0;right:0;height:45px;background:#000;color:#fff;z-index:10001;display:flex;align-items:center;font-family:'Impact',sans-serif;border-bottom:4px solid ${siteConfig.accentColor};">
+<div id="unified-ticker-container" style="position:fixed;bottom:0;left:0;right:0;height:45px;background:#000;color:#fff;z-index:10001;display:flex;align-items:center;font-family:'Impact',sans-serif;border-top:4px solid ${siteConfig.accentColor};">
     <div style="background:${siteConfig.accentColor};color:#000;height:100%;display:flex;align-items:center;padding:0 20px;font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;flex-shrink:0;transform:skewX(-10deg);margin-left:-10px;">
         <span style="transform:skewX(10deg);padding-left:10px;">AL MOMENTO</span>
     </div>
     <div id="unified-ticker" style="flex:1;overflow:hidden;white-space:nowrap;display:flex;align-items:center;position:relative;height:100%;">
-        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 60s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
+        <div class="ticker-scroll" style="display:inline-block;padding-left:100%;animation:ticker-swipe 240s linear infinite;white-space:nowrap;position:absolute;will-change:transform;">
             <span id="ticker-content">Cargando noticias y finanzas...</span>
         </div>
     </div>
@@ -63,8 +63,8 @@
         0% { transform: translate3d(0, 0, 0); }
         100% { transform: translate3d(-100%, 0, 0); }
     }
-    .ticker-item-fin { margin-right: 40px; font-weight: 900; font-size: 1rem; color: #fff; }
-    .ticker-item-news { margin-right: 40px; font-weight: 900; font-size: 1rem; color: ${siteConfig.accentColor}; text-transform: uppercase; }
+    .ticker-item-fin { margin-right: 60px; font-weight: 300; letter-spacing: 4px; font-size: 1rem; color: #fff; }
+    .ticker-item-news { margin-right: 60px; font-weight: 300; letter-spacing: 4px; font-size: 1rem; color: ${siteConfig.accentColor}; text-transform: uppercase; }
     .up { color: #0f0 !important; }
     .down { color: #f00 !important; }
     #unified-ticker:hover .ticker-scroll { animation-play-state: paused; }
@@ -75,10 +75,10 @@
 
     // ── HEADER ───────────────────────────────────────────────────────────────
     const HEADER_HTML = `
-<header class="header" style="margin-top:45px;background:#FF00FF;border-bottom:6px solid #000;position:sticky;top:45px;z-index:10000;padding:15px 20px;">
+<header class="header" style="margin-top:0;background:#FF00FF;border-bottom:6px solid #000;position:sticky;top:0;z-index:10000;padding:15px 20px;">
     <div class="container" style="display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;position:relative;">
         <a href="${base}" style="display:block;z-index:1001;background:#000;padding:10px;transform:rotate(-2deg);box-shadow:8px 8px 0px #fff;">
-            <img src="${base}logo.png" alt="${siteConfig.name}" style="height:45px;width:auto;filter:brightness(0) invert(1);">
+            <img src="${base}logo.png" alt="${siteConfig.name}" style="scale:2;height:45px;width:auto;">
         </a>
 
         <!-- Mobile Toggle -->

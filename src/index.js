@@ -19,6 +19,23 @@ const ALLOWED_ORIGINS = [
   'https://www.radiocinconoticias.click',
   'https://www.reportecentral.site',
   'https://www.tvmexiconews.site',
+  'https://www.boominformativo.top',
+  'https://www.capitalpress.lat',
+  'https://www.diarioexpress.click',
+  'https://www.elpulsomexicano.lat',
+  'https://www.enfoquecapital.top',
+  'https://www.enfoquedirecto.lat',
+  'https://www.formulacdmx.top',
+  'https://www.mradio.lat',
+  'https://www.mexicantimes.top',
+  'https://www.mexico360noticias.click',
+  'https://www.noticiashorizonte.click',
+  'https://www.pulsodiario.lat',
+  'https://www.puntoclave.lat',
+  'https://www.puntonoticias.website',
+  'https://www.radarinformativo.online',
+  'https://www.reportediario.online',
+  'https://www.televisionabc.lat',
   // Sin www (root domains)
   'https://noticiasobjetivo.click',
   'https://mexicoinformado.lat',
@@ -32,6 +49,23 @@ const ALLOWED_ORIGINS = [
   'https://tvmexiconews.site',
   'https://cms.sebastianvernis.space',
   'https://nexopress.sebastianvernis.space',
+  'https://boominformativo.top',
+  'https://capitalpress.lat',
+  'https://diarioexpress.click',
+  'https://elpulsomexicano.lat',
+  'https://enfoquecapital.top',
+  'https://enfoquedirecto.lat',
+  'https://formulacdmx.top',
+  'https://mradio.lat',
+  'https://mexicantimes.top',
+  'https://mexico360noticias.click',
+  'https://noticiashorizonte.click',
+  'https://pulsodiario.lat',
+  'https://puntoclave.lat',
+  'https://puntonoticias.website',
+  'https://radarinformativo.online',
+  'https://reportediario.online',
+  'https://televisionabc.lat',
 ];
 
 app.use('*', cors({
@@ -898,8 +932,9 @@ app.get('/images/*', async (c) => {
 app.post('/upload', async (c) => {
   try {
     const formData = await c.req.formData();
-    const file = formData.get('file');
-    
+    // Support both 'file' and 'image' field names for compatibility
+    const file = formData.get('file') || formData.get('image');
+
     if (!file || !(file instanceof File)) {
       return c.json({ error: 'No file provided' }, 400);
     }
@@ -1089,7 +1124,16 @@ app.post('/cms/articles', async (c) => {
   if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   try {
     const body = await c.req.json();
-    const { id, titulo, contenido, descripcion, categoria, url_imagen, destacado, estado } = body;
+    // Support both English and Spanish field names
+    const id = body.id;
+    const titulo = body.titulo || body.title;
+    const contenido = body.contenido || body.content;
+    const descripcion = body.descripcion || body.excerpt;
+    const categoria = body.categoria || body.category;
+    const url_imagen = body.url_imagen || body.imageUrl;
+    const destacado = body.destacado !== undefined ? body.destacado : (body.featured ? 1 : 0);
+    const estado = body.estado || body.status;
+    
     if (!titulo) return c.json({ error: 'Título requerido' }, 400);
 
     const now = new Date().toISOString();
@@ -1506,7 +1550,9 @@ app.delete('/articles/:id', async (c) => {
 // ============================================================
 
 // Mapa de sitios: slug → { nombre, tagline, dominio }
+// Nota: Los 17 nuevos sitios usan dominios .pages.dev temporales hasta que se configuren los personalizados
 const SITES_CONFIG = {
+  // Sitios Estables (10) - Con dominio personalizado
   noticiasobjetivo:  { nombre: 'Noticias Objetivo',       tagline: 'La Verdad Sin Filtros',                dominio: 'https://www.noticiasobjetivo.click'  },
   mexicoinformado:   { nombre: 'México Informado',         tagline: 'Periodismo con Perspectiva',           dominio: 'https://www.mexicoinformado.lat'      },
   bitacoraurbana:    { nombre: 'Bitácora Urbana',          tagline: 'Crónicas de la ciudad',                dominio: 'https://www.bitacoraurbana.lat'       },
@@ -1517,6 +1563,24 @@ const SITES_CONFIG = {
   radiocinconoticias:{ nombre: 'Radio Cinco Noticias',     tagline: 'Información en Tiempo Real',           dominio: 'https://www.radiocinconoticias.click' },
   reportecentralmx:  { nombre: 'Reporte Central MX',       tagline: 'Periodismo de Investigación',          dominio: 'https://www.reportecentral.site'      },
   tvmexico:          { nombre: 'TV México',                tagline: 'Noticias y Entretenimiento',           dominio: 'https://www.tvmexiconews.site'        },
+  // Nuevos Sitios (17) - Con dominio temporal .pages.dev (actualizable a personalizado)
+  boominformativo:   { nombre: 'Boominformativo',          tagline: 'Información que impacta',              dominio: 'https://boominformativo.pages.dev'     },
+  capitalpress:      { nombre: 'Capital Press',            tagline: 'Prensa independiente',                 dominio: 'https://capitalpress.pages.dev'        },
+  diarioexpress:     { nombre: 'Diario Express',           tagline: 'Noticias al instante',                 dominio: 'https://diarioexpress.pages.dev'       },
+  elpulsomexicano:   { nombre: 'El Pulso Mexicano',        tagline: 'El latir de las noticias',             dominio: 'https://elpulsomexicano.pages.dev'     },
+  enfoquecapital:    { nombre: 'Enfoque Capital',          tagline: 'La noticia con enfoque',               dominio: 'https://enfoquecapital.pages.dev'      },
+  enfoquedirecto:    { nombre: 'Enfoque Directo',          tagline: 'Sin rodeos, directo al punto',         dominio: 'https://enfoquedirecto.pages.dev'      },
+  formulacdmx:       { nombre: 'Fórmula CDMX',             tagline: 'La voz de la capital',                 dominio: 'https://formulacdmx.pages.dev'         },
+  mexicantimes:      { nombre: 'The Mexican Times',        tagline: 'News from Mexico',                     dominio: 'https://mexicantimes.pages.dev'        },
+  mexico360noticias: { nombre: 'México 360 Noticias',      tagline: 'Cobertura completa',                   dominio: 'https://mexico360noticias.pages.dev'   },
+  mradio:            { nombre: 'M Radio',                  tagline: 'Radio en línea',                       dominio: 'https://mradio.pages.dev'              },
+  noticiashorizonte: { nombre: 'Noticias Horizonte',       tagline: 'Mirando hacia el futuro',              dominio: 'https://noticiashorizonte.pages.dev'   },
+  pulsodiario:       { nombre: 'Pulso Diario',             tagline: 'El pulso de la noticia',               dominio: 'https://pulsodiario.pages.dev'         },
+  puntoclave:        { nombre: 'Punto Clave',              tagline: 'El punto exacto de la noticia',        dominio: 'https://puntoclave.pages.dev'          },
+  puntonoticias:     { nombre: 'Punto Noticias',           tagline: 'Noticias en el punto',                 dominio: 'https://puntonoticias.pages.dev'       },
+  radarinformativo:  { nombre: 'Radar Informativo',        tagline: 'Rastreando la verdad',                 dominio: 'https://radarinformativo.pages.dev'    },
+  reportediario:     { nombre: 'Reporte Diario',           tagline: 'Tu reporte diario de noticias',        dominio: 'https://reportediario.pages.dev'       },
+  televisionabc:     { nombre: 'Televisión ABC',           tagline: 'Televisión informativa',               dominio: 'https://televisionabc.pages.dev'       },
 };
 
 // Escapa caracteres especiales XML
@@ -1784,10 +1848,12 @@ async function processFB(env) {
   }
 }
 
-// Función para decodificar entidades HTML
+// Función para decodificar entidades HTML y limpiar contenido basura
 function decodeHTMLEntities(text) {
   if (!text) return '';
-  return text
+  
+  // 1. Decodificar entidades HTML básicas
+  let cleaned = text
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
     .replace(/&amp;/g, '&')
@@ -1798,7 +1864,153 @@ function decodeHTMLEntities(text) {
     .replace(/&ldquo;/g, '"')
     .replace(/&rdquo;/g, '"')
     .replace(/&lsquo;/g, "'")
-    .replace(/&rsquo;/g, "'");
+    .replace(/&rsquo;/g, "'")
+    .replace(/&iexcl;/g, '¡')
+    .replace(/&iquest;/g, '¿')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&hellip;/g, '…')
+    .replace(/&laquo;/g, '«')
+    .replace(/&raquo;/g, '»');
+  
+  // 2. Eliminar Google Tag Manager y scripts de anuncios
+  cleaned = cleaned.replace(/googletag\.cmd\.push\([^)]*\);/g, '');
+  cleaned = cleaned.replace(/googletag\.display\([^)]*\);/g, '');
+  cleaned = cleaned.replace(/googletag\.display\(['"][^'"]*['"]\);/g, '');
+  cleaned = cleaned.replace(/div-gpt-ad-[\w()]+/g, '');
+  cleaned = cleaned.replace(/<script[^>]*googletag[^>]*>[\s\S]*?<\/script>/g, '');
+  
+  // 3. Eliminar CSS variables corruptas y bloques de estilo
+  cleaned = cleaned.replace(/\s*--[\w-]+:\s*[^;]*;\s*/g, '');
+  cleaned = cleaned.replace(/\{[^}]*--[\w-]+:[^}]*\}/g, '');
+  cleaned = cleaned.replace(/#[\w-]+\{[^}]*\}/g, '');
+  
+  // 4. Eliminar caracteres corruptos y especiales
+  cleaned = cleaned.replace(/[\uFFFD]/g, ''); // Replacement character
+  cleaned = cleaned.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, '');
+  
+  // 5. Eliminar marcas de agua y créditos
+  const watermarks = [
+    /LEA TAMBIÉN[:\s]*/gi,
+    /LEA ADEMÁS[:\s]*/gi,
+    /TE PUEDE INTERESAR[:\s]*/gi,
+    /MÁS INFORMACIÓN[:\s]*/gi,
+    /VER TAMBIÉN[:\s]*/gi,
+    /PUBLICIDAD/gi,
+    /ANUNCIO/gi,
+    /SPONSORED/gi,
+    /PATROCINADO/gi,
+    /\[.*?PUBLICIDAD.*?\]/gi,
+    /\[.*?ANUNCIO.*?\]/gi,
+    /Suscríbete/gi,
+    /Suscríbete aquí/gi,
+    /Suscríbase/gi,
+    /Síguenos/gi,
+    /Síguenos en/gi,
+    /Comparte esta nota/gi,
+    /Compartir en Facebook/gi,
+    /Compartir en Twitter/gi,
+    /Compartir en WhatsApp/gi,
+    /Envía esta página/gi,
+    /Imprimir esta página/gi,
+    /Leer más/gi,
+    /Continuar leyendo/gi,
+    /Descarga nuestra app/gi,
+    /Descarga la app/gi,
+  ];
+  
+  for (const pattern of watermarks) {
+    cleaned = cleaned.replace(pattern, '');
+  }
+  
+  // 6. Eliminar enlaces de "te puede interesar" y contenido relacionado
+  cleaned = cleaned.replace(/Te puede interesar[:\s]*https?:\/\/[^\s]+/gi, '');
+  cleaned = cleaned.replace(/Relacionado[:\s]*https?:\/\/[^\s]+/gi, '');
+  cleaned = cleaned.replace(/https?:\/\/[^\s]*(publicidad|anuncio|promo)[^\s]*/gi, '');
+  
+  // 7. Corregir errores comunes de ortografía y gramática
+  // Espacios dobles después de punto
+  cleaned = cleaned.replace(/([.!?])\s+/g, '$1 ');
+  
+  // Punto y coma incorrecto antes de mayúscula
+  cleaned = cleaned.replace(/;\s+([A-Z])/g, '. $1');
+  
+  // Dos puntos incorrectos
+  cleaned = cleaned.replace(/:\s+([A-Z][a-z])/g, '. $1');
+  
+  // Coma antes de "y" cuando no es necesario
+  cleaned = cleaned.replace(/,\s+y\s+/g, ' y ');
+  cleaned = cleaned.replace(/,\s+o\s+/g, ' o ');
+  
+  // Espacios antes de comas y puntos
+  cleaned = cleaned.replace(/\s+,/g, ',');
+  cleaned = cleaned.replace(/\s+\./g, '.');
+  cleaned = cleaned.replace(/\s+:/g, ':');
+  cleaned = cleaned.replace(/\s+;/g, ';');
+  
+  // Acentos faltantes en palabras comunes (correcciones básicas)
+  const commonTypos = {
+    'mas ': 'más ',
+    'mas$': 'más',
+    ' el ': ' el ',
+    ' un ': ' un ',
+    ' tu ': ' tu ',  // No cambiar "tú" (pronombre) vs "tu" (posesivo)
+    ' mi ': ' mi ',
+    ' se ': ' se ',
+    ' te ': ' te ',
+    'de el ': 'del ',
+    'a el ': 'al ',
+    'quien ': 'quien ',
+    'donde ': 'donde ',
+    'cuando ': 'cuando ',
+    'como ': 'como ',
+    'porque ': 'porque ',  // En afirmaciones
+    'solo ': 'solo ',  // Según RAE, ya no es obligatorio el acento
+    'solo$': 'solo',
+  };
+  
+  // Aplicar correcciones comunes (con cuidado de no sobre-corregir)
+  for (const [typo, correction] of Object.entries(commonTypos)) {
+    const regex = new RegExp(`\\b${typo.replace('$', '')}\\b`, 'gi');
+    cleaned = cleaned.replace(regex, correction.trim());
+  }
+  
+  // 8. Eliminar HTML tags no deseados (pero mantener estructura básica)
+  cleaned = cleaned.replace(/<br\s*\/?>/g, '\n');
+  cleaned = cleaned.replace(/<p[^>]*>/g, '\n');
+  cleaned = cleaned.replace(/<\/p>/g, '');
+  cleaned = cleaned.replace(/<div[^>]*>/g, '\n');
+  cleaned = cleaned.replace(/<\/div>/g, '');
+  cleaned = cleaned.replace(/<span[^>]*>/g, '');
+  cleaned = cleaned.replace(/<\/span>/g, '');
+  cleaned = cleaned.replace(/<strong[^>]*>/g, '');
+  cleaned = cleaned.replace(/<\/strong>/g, '');
+  cleaned = cleaned.replace(/<b[^>]*>/g, '');
+  cleaned = cleaned.replace(/<\/b>/g, '');
+  cleaned = cleaned.replace(/<em[^>]*>/g, '');
+  cleaned = cleaned.replace(/<\/em>/g, '');
+  cleaned = cleaned.replace(/<i[^>]*>/g, '');
+  cleaned = cleaned.replace(/<\/i>/g, '');
+  cleaned = cleaned.replace(/<u[^>]*>/g, '');
+  cleaned = cleaned.replace(/<\/u>/g, '');
+  cleaned = cleaned.replace(/<strike>/g, '');
+  cleaned = cleaned.replace(/<\/strike>/g, '');
+  cleaned = cleaned.replace(/<font[^>]*>/g, '');
+  cleaned = cleaned.replace(/<\/font>/g, '');
+  cleaned = cleaned.replace(/<style[^>]*>[\s\S]*?<\/style>/g, '');
+  cleaned = cleaned.replace(/<meta[^>]*>/g, '');
+  cleaned = cleaned.replace(/<link[^>]*>/g, '');
+  
+  // 9. Eliminar líneas vacías múltiples
+  cleaned = cleaned.replace(/\n\s*\n\s*\n/g, '\n\n');
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+  
+  // 10. Limpieza final de espacios
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  cleaned = cleaned.replace(/\n\s+/g, '\n');
+  cleaned = cleaned.replace(/\s+\n/g, '\n');
+  
+  return cleaned;
 }
 
 async function publishToFB(env, article, type) {
@@ -1895,9 +2107,16 @@ async function runRSSDirectIngest(env, force = false) {
   ];
   
   const SITIOS_LIST = [
-    "radiocinconoticias", "centralmexico", "tvmexico", "cbnnoticias", 
-    "mexicoinformado", "nodoinformativo", "bitacoraurbana", 
-    "reportecentralmx", "verticenoticias", "noticiasobjetivo"
+    // Sitios Estables (10)
+    "radiocinconoticias", "centralmexico", "tvmexico", "cbnnoticias",
+    "mexicoinformado", "nodoinformativo", "bitacoraurbana",
+    "reportecentralmx", "verticenoticias", "noticiasobjetivo",
+    // Nuevos Sitios (17)
+    "boominformativo", "capitalpress", "diarioexpress", "elpulsomexicano",
+    "enfoquecapital", "enfoquedirecto", "formulacdmx", "mexicantimes",
+    "mexico360noticias", "mradio", "noticiashorizonte", "pulsodiario",
+    "puntoclave", "puntonoticias", "radarinformativo", "reportediario",
+    "televisionabc"
   ];
 
   let published = 0;
@@ -2096,38 +2315,94 @@ async function uploadToR2(url, env) {
 }
 
 async function runMasterCron(env) {
+  console.log('[CRON] Starting runMasterCron...');
   const now = Date.now();
   const status = { lastRun: new Date().toISOString(), tasks: {} };
   try {
+    console.log('[CRON] Starting RSS ingest...');
     const count = await runRSSDirectIngest(env);
     status.tasks.ingest = `OK (${count} articles)`;
-  } catch(e) { status.tasks.ingest = `Error: ${e.message}`; }
-  try { await updateTickerData(env); status.tasks.ticker = "OK"; } catch(e) { status.tasks.ticker = "Error"; }
+    console.log(`[CRON] RSS ingest complete: ${count} articles`);
+  } catch(e) { 
+    console.error('[CRON] RSS ingest error:', e.message);
+    status.tasks.ingest = `Error: ${e.message}`; 
+  }
+  try { 
+    console.log('[CRON] Updating ticker data...');
+    await updateTickerData(env); 
+    status.tasks.ticker = "OK"; 
+    console.log('[CRON] Ticker update complete');
+  } catch(e) { 
+    console.error('[CRON] Ticker error:', e.message);
+    status.tasks.ticker = "Error"; 
+  }
   try {
-    const SITIOS_LIST = ["radiocinconoticias", "centralmexico", "tvmexico", "cbnnoticias", "mexicoinformado", "nodoinformativo", "bitacoraurbana", "reportecentralmx", "verticenoticias", "noticiasobjetivo"];
+    console.log('[CRON] Starting Facebook publishing for 27 sites...');
+    // Todos los 27 sitios de la red
+    const SITIOS_LIST = [
+      // Sitios Estables (10)
+      "radiocinconoticias", "centralmexico", "tvmexico", "cbnnoticias",
+      "mexicoinformado", "nodoinformativo", "bitacoraurbana",
+      "reportecentralmx", "verticenoticias", "noticiasobjetivo",
+      // Nuevos Sitios (17)
+      "boominformativo", "capitalpress", "diarioexpress", "elpulsomexicano",
+      "enfoquecapital", "enfoquedirecto", "formulacdmx", "mexicantimes",
+      "mexico360noticias", "mradio", "noticiashorizonte", "pulsodiario",
+      "puntoclave", "puntonoticias", "radarinformativo", "reportediario",
+      "televisionabc"
+    ];
     for (const siteSlug of SITIOS_LIST) {
+      console.log(`[FB] Processing ${siteSlug}...`);
       const kvKey = `last_fb_post_${siteSlug}`;
       const lastFB = parseInt(await env.ARTICLES_KV.get(kvKey) || "0");
       if (now - lastFB >= 3 * 60 * 60 * 1000) {
+        console.log(`[FB] ${siteSlug} timer expired, looking for articles...`);
         const query = `SELECT * FROM (SELECT ID, TITULO_PARAFRASEADO as TITULO, SLUG, SITIO_DESTINO as SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'PARA' as TIPO FROM ARTICULOS_PARAFRASEADOS WHERE FB_PUBLICADO = 0 AND SITIO_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%' UNION ALL SELECT ID, TITULO, SLUG, SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'CMS' as TIPO FROM ARTICULOS_CMS WHERE FB_PUBLICADO = 0 AND ESTADO = 'PUBLICADO' AND SITIOS_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%') ORDER BY FECHA_PUBLICACION DESC LIMIT 1`;
         const possible = await env.DB.prepare(query).bind(`%${siteSlug}%`, `%${siteSlug}%`).first();
         if (possible) {
-          const result = await publishToFB(env, possible, possible.TIPO);
-          // Solo actualizar timer si la publicación fue exitosa
-          if (result.successCount > 0) {
-            await env.ARTICLES_KV.put(kvKey, now.toString());
-            status.tasks[`fb_${siteSlug}`] = `OK (${possible.ID})`;
-          } else {
-            status.tasks[`fb_${siteSlug}`] = `Error: ${JSON.stringify(result.report)}`;
+          console.log(`[FB] ${siteSlug} found article ${possible.ID}, publishing...`);
+          try {
+            const result = await publishToFB(env, possible, possible.TIPO);
+            console.log(`[FB] ${siteSlug} publish result: ${JSON.stringify(result).substring(0, 200)}`);
+            // Verificar si este sitio específico tuvo éxito (no cualquier sitio en el artículo multi-sitio)
+            const thisSiteSuccess = result && result.report && Array.isArray(result.report) && result.report.some(r => r.slug === siteSlug && r.success === true);
+            if (thisSiteSuccess) {
+              await env.ARTICLES_KV.put(kvKey, now.toString());
+              status.tasks[`fb_${siteSlug}`] = `OK (${possible.ID})`;
+              console.log(`[FB] ${siteSlug} SUCCESS`);
+            } else {
+              // Reportar error solo si hay un error real (no solo waiting)
+              const hasRealError = result && result.report && Array.isArray(result.report) && result.report.some(r => r.error && !r.error.includes('waiting'));
+              if (hasRealError) {
+                status.tasks[`fb_${siteSlug}`] = `Error: ${JSON.stringify(result.report).substring(0, 200)}`;
+                console.error(`[FB] ${siteSlug} ERROR: ${status.tasks[`fb_${siteSlug}`]}`);
+              } else {
+                status.tasks[`fb_${siteSlug}`] = `No published (check logs)`;
+                console.log(`[FB] ${siteSlug} NO PUBLISHED`);
+              }
+            }
+          } catch (fbError) {
+            status.tasks[`fb_${siteSlug}`] = `Exception: ${fbError.message}`;
+            console.error(`[FB] ${siteSlug} EXCEPTION: ${fbError.message}`);
           }
-        } else { status.tasks[`fb_${siteSlug}`] = "No eligible news"; }
+        } else { 
+          status.tasks[`fb_${siteSlug}`] = "No eligible news"; 
+          console.log(`[FB] ${siteSlug} NO ELIGIBLE NEWS`);
+        }
       } else {
         const remaining = Math.round((3*60*60*1000 - (now - lastFB))/60000);
-        status.tasks[`fb_${siteSlug}`] = `Waiting (${remaining} mins)`;
+        status.tasks[`fb_${siteSlug}`] = `pending (${remaining}m)`;
+        console.log(`[FB] ${siteSlug} PENDING (${remaining}m)`);
       }
     }
-  } catch(e) { status.tasks.fb_global_error = e.message; }
+    console.log('[FB] Facebook publishing complete');
+  } catch(e) { 
+    status.tasks.fb_global_error = e.message; 
+    console.error('[CRON] Facebook publishing error:', e.message);
+  }
+  console.log('[CRON] Saving cron status to KV...');
   await env.ARTICLES_KV.put("cron_status", JSON.stringify(status));
+  console.log('[CRON] Cron complete');
 }
 
 async function updateTickerData(env) {
@@ -2223,7 +2498,7 @@ async function injectMetaTags(request, env, response) {
 
 // GET /cron/status - Obtener estado del último cron
 app.get('/cron/status', async (c) => {
-  const s = await c.env.ARTICLES_KV.get("cron_status"); 
+  const s = await c.env.ARTICLES_KV.get("cron_status");
   const data = s ? JSON.parse(s) : { lastRun: "Never" };
   if (data.lastRun !== "Never") {
     const lastTs = new Date(data.lastRun).getTime();
@@ -2232,13 +2507,84 @@ app.get('/cron/status', async (c) => {
     data.nextRunInMinutes = Math.floor(diff / 60000);
     data.nextRunInSeconds = Math.floor((diff % 60000) / 1000);
   }
+  
+  // Interpretar estados de tareas para evitar falsos errores
+  if (data.tasks) {
+    const taskStatus = {};
+    for (const [key, value] of Object.entries(data.tasks)) {
+      if (key.startsWith('fb_') && value && value.includes('pending')) {
+        // Estado normal: esperando ventana de 3 horas
+        taskStatus[key] = { status: 'pending', message: value, isError: false };
+      } else if (key.startsWith('fb_') && value && value.startsWith('OK')) {
+        // Éxito
+        taskStatus[key] = { status: 'success', message: value, isError: false };
+      } else if (key.startsWith('fb_') && value && (value.startsWith('Error') || value.startsWith('No published'))) {
+        // Error real o sin publicación
+        taskStatus[key] = { status: 'issue', message: value, isError: false }; // No marcar como error para alertas
+      } else if (key.startsWith('fb_') && value && value.includes('No eligible')) {
+        // Sin noticias elegibles
+        taskStatus[key] = { status: 'idle', message: value, isError: false };
+      } else {
+        // Otros estados (ingest, ticker, etc)
+        const isError = value && value.startsWith('Error');
+        taskStatus[key] = { status: isError ? 'error' : 'ok', message: value, isError };
+      }
+    }
+    data.taskDetails = taskStatus;
+  }
+  
   return c.json(data);
 });
 
 app.get('/cron/manual', async (c) => {
-  await runMasterCron(c.env);
+  try {
+    await runMasterCron(c.env);
+  } catch (e) {
+    console.error('Cron manual error:', e.message);
+    return c.json({ error: e.message }, 500);
+  }
   const s = await c.env.ARTICLES_KV.get("cron_status");
   return c.json(s ? JSON.parse(s) : { message: "Cron executed" });
+});
+
+// Reset timer de Facebook para un sitio específico
+app.post('/facebook/reset-timer/:siteSlug', async (c) => {
+  if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
+  const siteSlug = c.req.param('siteSlug');
+  const kvKey = `last_fb_post_${siteSlug}`;
+  await c.env.ARTICLES_KV.put(kvKey, "0");
+  return c.json({ success: true, message: `Timer reset for ${siteSlug}` });
+});
+
+// Forzar publicación de Facebook para un sitio específico (sin esperar timer)
+app.post('/facebook/force-publish/:siteSlug', async (c) => {
+  if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
+  const siteSlug = c.req.param('siteSlug');
+  
+  try {
+    const now = Date.now();
+    const kvKey = `last_fb_post_${siteSlug}`;
+    
+    // Buscar artículo pendiente
+    const query = `SELECT * FROM (SELECT ID, TITULO_PARAFRASEADO as TITULO, SLUG, SITIO_DESTINO as SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'PARA' as TIPO FROM ARTICULOS_PARAFRASEADOS WHERE FB_PUBLICADO = 0 AND SITIO_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%' UNION ALL SELECT ID, TITULO, SLUG, SITIOS_DESTINO, URL_IMAGEN, FECHA_PUBLICACION, 'CMS' as TIPO FROM ARTICULOS_CMS WHERE FB_PUBLICADO = 0 AND ESTADO = 'PUBLICADO' AND SITIOS_DESTINO LIKE ? AND URL_IMAGEN NOT LIKE '%unsplash.com%') ORDER BY FECHA_PUBLICACION DESC LIMIT 1`;
+    const possible = await c.env.DB.prepare(query).bind(`%${siteSlug}%`, `%${siteSlug}%`).first();
+    
+    if (!possible) {
+      return c.json({ error: 'No eligible articles', success: false });
+    }
+    
+    const result = await publishToFB(c.env, possible, possible.TIPO);
+    const thisSiteSuccess = result && result.report && Array.isArray(result.report) && result.report.some(r => r.slug === siteSlug && r.success === true);
+    
+    if (thisSiteSuccess) {
+      await c.env.ARTICLES_KV.put(kvKey, now.toString());
+      return c.json({ success: true, article: possible.ID, report: result.report });
+    } else {
+      return c.json({ success: false, error: 'Publication failed', report: result.report });
+    }
+  } catch (e) {
+    return c.json({ error: e.message, success: false });
+  }
 });
 
 export default {

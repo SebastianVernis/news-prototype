@@ -54,5 +54,78 @@
     <div id="site-footer"></div>
     <script src="../components.js"></script>
     <script src="../script.js"></script>
+    <script>
+    (async function() {
+        const params = new URLSearchParams(location.search);
+        const slug = params.get('slug');
+
+        if (!slug) {
+            showError();
+            return;
+        }
+
+        try {
+            const res = await fetch('https://news-api.sebastianvernis.workers.dev/api/articles/' + encodeURIComponent(slug));
+            if (!res.ok) throw new Error('not found');
+            const data = await res.json();
+            const a = data.article;
+            if (!a) throw new Error('empty');
+            renderArticle(a);
+        } catch(e) {
+            console.error('Error loading article:', e);
+            showError();
+        }
+
+        function renderArticle(a) {
+            document.title = (a.title || 'Artículo') + ' - Capital Press';
+            const desc = document.getElementById('page-desc');
+            if (desc) desc.content = a.excerpt || '';
+
+            const cat = a.category || '';
+            const catSlug = cat.toLowerCase().replace(/\s+/g, '-');
+            const badge = document.getElementById('art-category-badge');
+            if (badge) { badge.textContent = cat; badge.className = 'article-category-badge cat-' + catSlug; }
+            const breadCat = document.getElementById('art-category-breadcrumb');
+            if (breadCat) breadCat.textContent = cat;
+
+            const title = document.getElementById('art-title');
+            if (title) title.textContent = a.title || '';
+
+            const author = document.getElementById('art-author');
+            if (author) author.textContent = a.author || 'Redacción';
+            const date = document.getElementById('art-date');
+            if (date) date.textContent = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX', {year:'numeric',month:'long',day:'numeric'}) : '';
+
+            const imgWrapper = document.getElementById('art-image-wrapper');
+            const img = document.getElementById('art-image');
+            if (a.imageUrl && img) {
+                img.src = a.imageUrl;
+                img.alt = a.title || '';
+            } else if (imgWrapper) {
+                imgWrapper.style.display = 'none';
+            }
+
+            const body = document.getElementById('art-body');
+            if (body) {
+                let content = a.content || '';
+                if (!content) {
+                    content = '<p>' + (a.excerpt || '') + '</p>';
+                } else if (!content.includes('<p>') && !content.includes('<div>') &&
+                           !content.includes('<blockquote') && !content.includes('<iframe')) {
+                    content = content.split(/\n\n+/).map(p => '<p>' + p.trim() + '</p>').join('');
+                }
+                body.innerHTML = content;
+            }
+
+            document.getElementById('article-loading').style.display = 'none';
+            document.getElementById('article-content').style.display = 'block';
+        }
+
+        function showError() {
+            document.getElementById('article-loading').style.display = 'none';
+            document.getElementById('article-error').style.display = 'block';
+        }
+    })();
+    </script>
 </body>
 </html>

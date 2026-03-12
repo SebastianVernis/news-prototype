@@ -1,9 +1,8 @@
-// Monitor de Sistema - Dashboard Ingesta + Facebook + Cron
+// Monitor de Sistema - Dashboard Ingesta + Cron
 async function initMonitor() {
   console.log("[Monitor] Iniciando controlador...");
   await loadCronStatus();
   await checkFBTokens();
-  await loadFBMonitorHistory();
 }
 
 /**
@@ -44,7 +43,12 @@ async function loadCronStatus() {
 
 /**
  * Verifica si los tokens de los sitios están presentes en los secretos.
+ * Con paginación para manejar 27 sitios.
  */
+let tokenPage = 1;
+const tokensPerPage = 10;
+let allTokens = [];
+
 async function checkFBTokens() {
   const list = document.getElementById("token-status-list");
   if (!list) return;
@@ -60,29 +64,75 @@ async function checkFBTokens() {
       return;
     }
 
-    list.innerHTML = tokens
-      .map(
-        (t) => `
+    allTokens = tokens;
+    renderTokenPage(1);
+  } catch (e) {
+    list.innerHTML = `<p class="monitor-error" style="grid-column: 1 / -1"><i class="fas fa-exclamation-circle"></i> Error de diagnóstico: ${e.message}</p>`;
+  }
+}
+
+function renderTokenPage(page) {
+  const list = document.getElementById("token-status-list");
+  if (!list || !allTokens.length) return;
+
+  tokenPage = page;
+  const totalPages = Math.ceil(allTokens.length / tokensPerPage);
+  const start = (page - 1) * tokensPerPage;
+  const end = start + tokensPerPage;
+  const pageTokens = allTokens.slice(start, end);
+
+  list.innerHTML = pageTokens
+    .map(
+      (t) => `
             <div class="token-item">
                 <span class="token-item-slug">${t.slug}</span>
                 ${
                   t.is_valid
                     ? '<i class="fas fa-check-circle token-ok" title="Token Válido"></i>'
                     : t.has_token
-                    ? `<i class="fas fa-exclamation-circle token-warn" title="Error de validación: ${t.fb_error || 'Token expirado'}"></i>`
+                    ? `<i class="fas fa-exclamation-circle token-warn" title="Error: ${t.fb_error || 'Token expirado'}"></i>`
                     : '<i class="fas fa-times-circle token-err" title="Falta Token"></i>'
                 }
             </div>
         `,
-      )
-      .join("");
-  } catch (e) {
-    list.innerHTML = `<p class="monitor-error" style="grid-column: 1 / -1"><i class="fas fa-exclamation-circle"></i> Error de diagnóstico: ${e.message}</p>`;
+    )
+    .join("");
+
+  // Agregar controles de paginación
+  const pagination = document.getElementById("token-pagination");
+  if (pagination) {
+    pagination.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+        <small style="color: var(--text-secondary); font-size: 0.85rem;">
+          Mostrando ${start + 1}-${Math.min(end, allTokens.length)} de ${allTokens.length} sitios
+        </small>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button class="btn btn-outline btn-sm" onclick="prevTokenPage()" ${page === 1 ? 'disabled' : ''}>
+            <i class="fas fa-chevron-left"></i> Anterior
+          </button>
+          <span style="font-size: 0.85rem; color: var(--text-secondary);">
+            Página ${page} de ${totalPages}
+          </span>
+          <button class="btn btn-outline btn-sm" onclick="nextTokenPage()" ${page === totalPages ? 'disabled' : ''}>
+            Siguiente <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    `;
   }
 }
 
+function prevTokenPage() {
+  if (tokenPage > 1) renderTokenPage(tokenPage - 1);
+}
+
+function nextTokenPage() {
+  const totalPages = Math.ceil(allTokens.length / tokensPerPage);
+  if (tokenPage < totalPages) renderTokenPage(tokenPage + 1);
+}
+
 /**
- * Carga el historial de envíos unificado (Facebook Monitor).
+ * Carga el historial de envíos unificado (Facebook Monitor) - Nuevo sistema por sitio
  */
 async function loadFBMonitorHistory() {
   const tbody = document.getElementById("monitor-fb-table-body");
@@ -93,7 +143,7 @@ async function loadFBMonitorHistory() {
     showTableSkeleton(tbody, 4, 5);
   } else {
     tbody.innerHTML =
-      '<tr><td colspan="4" class="monitor-empty">Cargando historial...</td></tr>';
+      '<tr><td colspan="5" class="monitor-empty">Cargando historial...</td></tr>';
   }
 
   try {
@@ -101,7 +151,7 @@ async function loadFBMonitorHistory() {
 
     if (!fbArticles || fbArticles.length === 0) {
       tbody.innerHTML =
-        '<tr><td colspan="4" class="monitor-empty">No hay registros.</td></tr>';
+        '<tr><td colspan="5" class="monitor-empty">No hay registros.</td></tr>';
       return;
     }
 
@@ -113,23 +163,30 @@ async function loadFBMonitorHistory() {
                     <small class="monitor-article-type">[${a.TIPO || "ART"}]</small>
                     <div class="monitor-article-title">${a.TITULO}</div>
                 </td>
-                <td class="monitor-article-sites">${a.SITIOS_DESTINO || "-"}</td>
+                <td>
+                    <span class="badge-info" style="font-size:0.7rem; background:rgba(6,182,212,0.1); color:var(--primary-color); padding:2px 6px; border-radius:4px;">
+                        ${a.SITIO || '-'}
+                    </span>
+                </td>
+                <td style="white-space: nowrap; width: 120px;">
+                    <span class="monitor-badge monitor-badge--published"><i class="fas fa-check"></i> Web</span>
+                </td>
                 <td style="white-space: nowrap; width: 120px;">
                     ${
                       a.FB_PUBLICADO === 1
-                        ? '<span class="monitor-badge monitor-badge--published"><i class="fas fa-check"></i> Publicado</span>'
-                        : '<span class="monitor-badge monitor-badge--pending"><i class="fas fa-clock"></i> Pendiente</span>'
+                        ? '<span class="monitor-badge monitor-badge--published"><i class="fas fa-facebook"></i> FB</span>'
+                        : '<span class="monitor-badge monitor-badge--pending"><i class="fas fa-clock"></i> FB</span>'
                     }
                 </td>
                 <td class="monitor-article-date">
-                    ${a.FB_FECHA ? new Date(a.FB_FECHA).toLocaleString("es") : "En proceso..."}
+                    ${a.FECHA_PUBLICACION ? new Date(a.FECHA_PUBLICACION).toLocaleString("es") : '-'}
                 </td>
             </tr>
         `,
       )
       .join("");
   } catch (e) {
-    tbody.innerHTML = `<tr><td colspan="4" class="monitor-error"><i class="fas fa-exclamation-circle"></i> Error: ${e.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" class="monitor-error"><i class="fas fa-exclamation-circle"></i> Error: ${e.message}</td></tr>`;
   }
 }
 

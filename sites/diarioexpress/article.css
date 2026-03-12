@@ -1,0 +1,175 @@
+/* Article Page Styles - Diario Express Swiss Theme */
+.article-page { 
+    padding: 40px 0; 
+    background: var(--bg-color); 
+    color: var(--text-main); 
+}
+
+.article-full { 
+    max-width: 900px; 
+    margin: 0 auto; 
+    background: #FFFFFF; 
+    padding: 50px; 
+    border: 1px solid #DEE2E6;
+}
+
+.article-header { margin-bottom: 40px; }
+
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.breadcrumb a { 
+    color: var(--accent-color); 
+    text-decoration: none; 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+}
+.breadcrumb span { 
+    color: #ccc; 
+    margin: 0 8px; 
+}
+
+.article-category-badge { 
+    display: inline-block; 
+    padding: 4px 10px; 
+    font-size: 0.8rem; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+    background: var(--accent-color); 
+    color: #fff; 
+    margin-bottom: 20px; 
+}
+
+.article-title { 
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+    font-size: clamp(2.2rem, 5vw, 3.5rem); 
+    font-weight: 800; 
+    line-height: 1.05; 
+    margin-bottom: 25px; 
+    color: var(--text-main); 
+    letter-spacing: -1.5px;
+}
+
+.article-meta { 
+    display: flex; 
+    align-items: center; 
+    gap: 20px; 
+    font-size: 0.9rem; 
+    color: var(--text-muted); 
+    border-bottom: 2px solid var(--text-main);
+    padding-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.article-meta .author { font-weight: 800; color: var(--text-main); }
+
+.article-image-wrapper { margin: 30px 0; }
+.article-image { 
+    width: 100%; 
+    height: auto; 
+    display: block;
+    object-fit: cover;
+}
+
+.article-content { 
+    font-size: 1.2rem; 
+    line-height: 1.6; 
+    color: var(--text-main); 
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.article-content p { margin-bottom: 20px; }
+
+.article-content h2 { 
+    font-weight: 800; 
+    font-size: 2rem; 
+    margin-top: 40px; 
+    margin-bottom: 20px; 
+    color: var(--text-main); 
+    text-transform: uppercase;
+}
+
+.article-quote { 
+    border-left: 10px solid var(--accent-color); 
+    padding: 20px 30px; 
+    margin: 40px 0; 
+    font-style: italic; 
+    font-size: 1.5rem; 
+    font-weight: 700;
+    color: var(--text-main); 
+    background: #F8F9FA;
+}
+
+@media (max-width: 900px) {
+    .article-page {
+        padding: 30px 0;
+    }
+    .article-full {
+        padding: 36px 28px;
+    }
+    .article-title {
+        letter-spacing: -1px;
+    }
+}
+
+@media (max-width: 768px) { 
+    .article-full { 
+        padding: 30px 20px; 
+        border: none; 
+    } 
+    .article-title { 
+        font-size: 2.2rem; 
+        letter-spacing: -0.5px; 
+    } 
+    .article-content { 
+        font-size: 1.1rem; 
+    }
+    .article-meta { 
+        gap: 12px; 
+        font-size: 0.8rem;
+    }
+    .article-quote {
+        padding: 18px 20px;
+        font-size: 1.25rem;
+        margin: 30px 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .article-page {
+        padding: 22px 0;
+    }
+    .article-full {
+        padding: 22px 14px;
+    }
+    .article-header {
+        margin-bottom: 28px;
+    }
+    .article-title {
+        font-size: 1.7rem;
+        margin-bottom: 18px;
+    }
+    .article-category-badge {
+        font-size: 0.72rem;
+        padding: 4px 8px;
+        margin-bottom: 14px;
+    }
+    .article-content {
+        font-size: 1rem;
+    }
+    .article-content h2 {
+        font-size: 1.4rem;
+        margin-top: 28px;
+        margin-bottom: 14px;
+    }
+    .article-quote {
+        border-left-width: 6px;
+        padding: 14px 14px 14px 16px;
+        font-size: 1.05rem;
+        margin: 24px 0;
+    }
+}

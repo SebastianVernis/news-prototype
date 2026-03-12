@@ -2,7 +2,11 @@
 
 import { slugify, decodeHTMLEntities } from '../utils/helpers.js';
 import { getOGImage, uploadToR2 } from '../utils/html.js';
-import { SITIOS_LIST, SITE_DOMAIN_MAP } from '../config.js';
+import { SITIOS_LIST, SITE_DOMAIN_MAP, log, error, warn, LOG_PREFIXES } from '../config.js';
+
+const RSS_LOG = (...args) => log('[RSS INGEST]', ...args);
+const RSS_ERR = (...args) => error('[RSS INGEST]', ...args);
+const RSS_WARN = (...args) => warn('[RSS]', ...args);
 
 // ============================================================
 // cleanArticleContent — Limpieza profunda de contenido
@@ -120,7 +124,7 @@ export function cleanArticleContent(text) {
 async function proofreadTextAI(text, type, env) {
   try {
     if (!env.AI) {
-      console.warn('[AI] No AI binding available');
+      RSS_WARN('[AI] No AI binding available');
       return text;
     }
 
@@ -135,7 +139,7 @@ async function proofreadTextAI(text, type, env) {
 
     return response?.response?.trim() || text;
   } catch (e) {
-    console.error(`[AI] Error paraphrasing ${type}:`, e.message);
+    RSS_ERR(`Error paraphrasing ${type}:`, e.message);
     return text;
   }
 }
@@ -144,7 +148,7 @@ async function proofreadTextAI(text, type, env) {
 // runRSSIngest — Ingesta 1 artículo por sitio cada 30 minutos
 // ============================================================
 export async function runRSSIngest(env) {
-  console.log('[RSS INGEST] Starting RSS ingestion...');
+  RSS_LOG('Starting RSS ingestion...');
 
   const FEEDS = [
     // Fuentes verificadas que funcionan desde Cloudflare Workers
@@ -160,7 +164,7 @@ export async function runRSSIngest(env) {
     if (published >= SITIOS_LIST.length) break; // Max 1 por sitio
 
     try {
-      console.log(`[RSS INGEST] Fetching feed: ${feedUrl}`);
+      RSS_LOG(`Fetching feed: ${feedUrl}`);
       const res = await fetch(feedUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
       const xml = await res.text();
       
@@ -169,7 +173,7 @@ export async function runRSSIngest(env) {
       
       // Soportar tanto RSS 2.0 (<item>) como Atom (<entry>)
       const items = normalizedXml.match(/<(item|entry)>([\s\S]*?)<\/\1>/gi) || [];
-      console.log(`[RSS INGEST] Feed ${feedUrl} returned ${items.length} items.`);
+      RSS_LOG(`Feed ${feedUrl} returned ${items.length} items.`);
 
       for (const item of items) {
         if (published >= SITIOS_LIST.length) break;
@@ -194,38 +198,11 @@ export async function runRSSIngest(env) {
         ).bind(link).first();
 
         if (urlExists) {
-          console.log(`[RSS INGEST] Skip: Already exists (${link})`);
-          continue;
-        }
-
-        // Obtener imagen OG
-        let imageUrl = await getOGImage(link);
-        if (!imageUrl) {
-          console.log('[RSS INGEST] No OG Image, using fallback.');
-          imageUrl = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop';
-        }
-
-        // Extraer contenido
-        let content = '';
-        try {
-          const pageRes = await fetch(link, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-          const html = await pageRes.text();
-
-          // Detectar paywall antes de procesar (solo paywalls reales, no menciones)
-          const paywallIndicators = [
-            'para continuar leyendo',
-            'suscríbete para acceder',
-            'contenido exclusivo para suscriptores',
-            'inicia sesión para continuar',
-            'accede con tu cuenta de suscriptor',
-          ];
-
-          const hasPaywall = paywallIndicators.some((indicator) =>
-            html.toLowerCase().includes(indicator.toLowerCase())
-          );
-
-          if (hasPaywall) {
-            console.log(`[RSS INGEST] Skip: Paywall detected (${link})`);
+          RSS_LOG(`Skip: Already exists (${link})`);
+        } else if (!imageUrl) {
+          RSS_LOG('Skip: No OG Image, using fallback.');
+        } else if (isPaywall) {
+          RSS_LOG(`Skip: Paywall detected (${link})`);
             continue;
           }
 

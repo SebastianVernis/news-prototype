@@ -1,0 +1,199 @@
+/* Article Page Styles - Enfoque Capital Forest Theme */
+.article-page { 
+    padding: 60px 0; 
+    background: var(--bg-pure); 
+    color: var(--text-dark); 
+}
+
+.article-full { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    background: #FFFFFF; 
+    padding: 0; 
+}
+
+.article-header { 
+    margin-bottom: 40px; 
+    border-bottom: 1px solid #eaeaea; 
+    padding-bottom: 30px; 
+}
+
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.breadcrumb a { 
+    color: var(--accent-gold); 
+    text-decoration: none; 
+    font-size: 0.75rem; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+}
+.breadcrumb span { 
+    color: #ccc; 
+    margin: 0 10px; 
+}
+
+.article-category-badge { 
+    display: inline-block; 
+    padding: 0; 
+    font-size: 0.75rem; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    color: var(--accent-gold); 
+    margin-bottom: 15px; 
+    letter-spacing: 3px;
+}
+
+.article-title { 
+    font-family: 'Playfair Display', serif; 
+    font-size: clamp(2.2rem, 5vw, 3.5rem); 
+    line-height: 1.1; 
+    margin-bottom: 25px; 
+    color: var(--bg-forest); 
+}
+
+.article-meta { 
+    display: flex; 
+    align-items: center; 
+    gap: 20px; 
+    font-size: 0.85rem; 
+    color: var(--text-muted); 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-wrap: wrap;
+}
+
+.article-meta .author { color: var(--text-dark); font-weight: bold; }
+
+.article-image-wrapper { margin: 40px 0; }
+.article-image { 
+    width: 100%; 
+    height: auto; 
+    display: block;
+    filter: contrast(105%);
+    object-fit: cover;
+}
+
+.article-content { 
+    font-size: 1.15rem; 
+    line-height: 1.8; 
+    color: var(--text-dark); 
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.article-content p { margin-bottom: 25px; }
+
+.article-content h2 { 
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; 
+    margin-top: 45px; 
+    margin-bottom: 20px; 
+    color: var(--bg-forest); 
+}
+
+.article-quote { 
+    border-left: 3px solid var(--accent-gold); 
+    padding: 20px 40px; 
+    margin: 40px 0; 
+    font-family: 'Playfair Display', serif;
+    font-style: italic; 
+    font-size: 1.6rem; 
+    color: var(--text-muted); 
+    background: #fcfaf5;
+}
+
+@media (max-width: 900px) {
+    .article-page {
+        padding: 40px 0;
+    }
+    .article-full {
+        max-width: 92%;
+    }
+    .article-title {
+        font-size: 2.6rem;
+    }
+    .article-content {
+        font-size: 1.1rem;
+    }
+    .article-content h2 {
+        font-size: 1.8rem;
+        margin-top: 36px;
+    }
+    .article-quote {
+        font-size: 1.35rem;
+        padding: 18px 24px;
+    }
+}
+
+@media (max-width: 768px) { 
+    .article-full { 
+        padding: 0 20px; 
+        max-width: 100%;
+    } 
+    .article-title { 
+        font-size: 2.2rem; 
+    } 
+    .article-content { 
+        font-size: 1.1rem; 
+    }
+    .article-meta {
+        gap: 10px;
+    }
+    .article-quote {
+        padding: 16px 20px;
+        margin: 30px 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .article-page {
+        padding: 24px 0;
+    }
+    .article-full {
+        padding: 0 14px;
+    }
+    .article-header {
+        margin-bottom: 28px;
+        padding-bottom: 20px;
+    }
+    .breadcrumb a {
+        font-size: 0.68rem;
+        letter-spacing: 1.5px;
+    }
+    .article-category-badge {
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+    }
+    .article-title {
+        font-size: 1.7rem;
+        margin-bottom: 16px;
+    }
+    .article-meta {
+        font-size: 0.74rem;
+        gap: 8px;
+    }
+    .article-image-wrapper {
+        margin: 24px 0;
+    }
+    .article-content {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+    .article-content p {
+        margin-bottom: 18px;
+    }
+    .article-content h2 {
+        font-size: 1.35rem;
+        margin-top: 28px;
+        margin-bottom: 14px;
+    }
+    .article-quote {
+        font-size: 1.05rem;
+        padding: 12px 14px;
+        margin: 22px 0;
+    }
+}

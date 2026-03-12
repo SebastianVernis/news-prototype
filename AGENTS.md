@@ -17,11 +17,11 @@
 
 ## Descripción del Proyecto
 
-**NexoPress** es una plataforma de noticias multi-sitio que gestiona 10 sitios de noticias independientes desde un único panel de administración y un núcleo centralizado en Cloudflare Workers y D1.
+**NexoPress** es una plataforma de noticias multi-sitio que gestiona 27 sitios de noticias independientes desde un único panel de administración y un núcleo centralizado en Cloudflare Workers y D1.
 
 ### Características Principales
 
-- **10 Sitios de Noticias:** Cada uno con dominio personalizado
+- **27 Sitios de Noticias:** Cada uno con dominio personalizado
 - **Ingesta Automática:** RSS y Atom feeds (El País, Proceso, Aristegui, etc.)
 - **Parafraseo con IA:** OpenRouter (Gemini 2.0 Flash)
 - **Publicación en Facebook:** Automática cada 3 horas por sitio
@@ -41,6 +41,23 @@
 | 8 | Reporte Central MX | https://www.reportecentral.site | `reportecentralmx` |
 | 9 | Vértice Noticias | https://www.verticenoticias.today | `verticenoticias` |
 | 10 | Noticias Objetivo | https://www.noticiasobjetivo.click | `noticiasobjetivo` |
+| 11 | Boominformativo | https://www.boominformativo.lat | `boominformativo` |
+| 12 | Capital Press | https://www.capitalpress.lat | `capitalpress` |
+| 13 | Diario Express | https://www.diarioexpress.lat | `diarioexpress` |
+| 14 | El Pulso Mexicano | https://www.elpulsomexicano.lat | `elpulsomexicano` |
+| 15 | Enfoque Capital | https://www.enfoquecapital.lat | `enfoquecapital` |
+| 16 | Enfoque Directo | https://www.enfoquedirecto.lat | `enfoquedirecto` |
+| 17 | Fórmula CDMX | https://www.formulacdmx.lat | `formulacdmx` |
+| 18 | Mexican Times | https://www.mexicantimes.lat | `mexicantimes` |
+| 19 | México 360 Noticias | https://www.mexico360noticias.lat | `mexico360noticias` |
+| 20 | MRadio | https://www.mradio.lat | `mradio` |
+| 21 | Noticias Horizonte | https://www.noticiashorizonte.lat | `noticiashorizonte` |
+| 22 | Pulso Diario | https://www.pulsodiario.lat | `pulsodiario` |
+| 23 | Punto Clave | https://www.puntoclave.lat | `puntoclave` |
+| 24 | Punto Noticias | https://www.puntonoticias.lat | `puntonoticias` |
+| 25 | Radar Informativo | https://www.radarinformativo.lat | `radarinformativo` |
+| 26 | Reporte Diario | https://www.reportediario.lat | `reportediario` |
+| 27 | Television ABC | https://www.televisionabc.lat | `televisionabc` |
 
 ---
 
@@ -73,7 +90,7 @@
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                 Cloudflare Pages (10 sitios)                    │
+│                 Cloudflare Pages (27 sitios)                    │
 │  Cada sitio tiene:                                              │
 │  - Frontend estático (HTML/CSS/JS)                              │
 │  - Functions para SSR (middleware de artículos)                 │
@@ -93,7 +110,7 @@
 │   ├── schema.sql               # Schema de D1
 │   └── wrangler.toml            # Config del Worker
 │
-├── sites/                       # 10 sitios Cloudflare Pages
+├── sites/                       # 27 sitios Cloudflare Pages
 │   ├── radiocinconoticias/
 │   ├── centralmexico/
 │   ├── tvmexico/
@@ -353,7 +370,7 @@ El CMS usa un router SPA interno. Las rutas se manejan via hash (`#/ruta`).
 | `#/cms` | CMS | Artículos creados manualmente | `cms.js` |
 | `#/revision` | Revisión | Mesa de revisión de contenido | `revision.js` |
 | `#/monitor` | Monitor | Estado del sistema en vivo | `monitor.js` |
-| `#/sites` | Sitios | Gestión de los 10 sitios | `sites.js` |
+| `#/sites` | Sitios | Gestión de los 27 sitios | `sites.js` |
 | `#/users` | Usuarios | Gestión de usuarios y roles | `users.js` |
 | `#/settings` | Configuración | Ajustes generales | `index.html` |
 
@@ -407,7 +424,7 @@ const views = {
 - Diagnóstico de errores
 
 #### 6. Sitios (`#/sites`)
-- Lista de los 10 sitios
+- Lista de los 27 sitios
 - Configurar Facebook por sitio
 - Activar/Desactivar sitio
 
@@ -889,3 +906,100 @@ wrangler pages deploy . --project-name=[sitio] --branch=master
 ---
 
 *Última actualización: 2026-03-03*
+
+<!-- gitnexus:start -->
+# GitNexus — Code Intelligence
+
+This project is indexed by GitNexus as **cloudflare-news-project** (7576 symbols, 14308 relationships, 300 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+
+> If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
+
+## Always Do
+
+- **MUST run impact analysis before editing any symbol.** Before modifying a function, class, or method, run `gitnexus_impact({target: "symbolName", direction: "upstream"})` and report the blast radius (direct callers, affected processes, risk level) to the user.
+- **MUST run `gitnexus_detect_changes()` before committing** to verify your changes only affect expected symbols and execution flows.
+- **MUST warn the user** if impact analysis returns HIGH or CRITICAL risk before proceeding with edits.
+- When exploring unfamiliar code, use `gitnexus_query({query: "concept"})` to find execution flows instead of grepping. It returns process-grouped results ranked by relevance.
+- When you need full context on a specific symbol — callers, callees, which execution flows it participates in — use `gitnexus_context({name: "symbolName"})`.
+
+## When Debugging
+
+1. `gitnexus_query({query: "<error or symptom>"})` — find execution flows related to the issue
+2. `gitnexus_context({name: "<suspect function>"})` — see all callers, callees, and process participation
+3. `READ gitnexus://repo/cloudflare-news-project/process/{processName}` — trace the full execution flow step by step
+4. For regressions: `gitnexus_detect_changes({scope: "compare", base_ref: "main"})` — see what your branch changed
+
+## When Refactoring
+
+- **Renaming**: MUST use `gitnexus_rename({symbol_name: "old", new_name: "new", dry_run: true})` first. Review the preview — graph edits are safe, text_search edits need manual review. Then run with `dry_run: false`.
+- **Extracting/Splitting**: MUST run `gitnexus_context({name: "target"})` to see all incoming/outgoing refs, then `gitnexus_impact({target: "target", direction: "upstream"})` to find all external callers before moving code.
+- After any refactor: run `gitnexus_detect_changes({scope: "all"})` to verify only expected files changed.
+
+## Never Do
+
+- NEVER edit a function, class, or method without first running `gitnexus_impact` on it.
+- NEVER ignore HIGH or CRITICAL risk warnings from impact analysis.
+- NEVER rename symbols with find-and-replace — use `gitnexus_rename` which understands the call graph.
+- NEVER commit changes without running `gitnexus_detect_changes()` to check affected scope.
+
+## Tools Quick Reference
+
+| Tool | When to use | Command |
+|------|-------------|---------|
+| `query` | Find code by concept | `gitnexus_query({query: "auth validation"})` |
+| `context` | 360-degree view of one symbol | `gitnexus_context({name: "validateUser"})` |
+| `impact` | Blast radius before editing | `gitnexus_impact({target: "X", direction: "upstream"})` |
+| `detect_changes` | Pre-commit scope check | `gitnexus_detect_changes({scope: "staged"})` |
+| `rename` | Safe multi-file rename | `gitnexus_rename({symbol_name: "old", new_name: "new", dry_run: true})` |
+| `cypher` | Custom graph queries | `gitnexus_cypher({query: "MATCH ..."})` |
+
+## Impact Risk Levels
+
+| Depth | Meaning | Action |
+|-------|---------|--------|
+| d=1 | WILL BREAK — direct callers/importers | MUST update these |
+| d=2 | LIKELY AFFECTED — indirect deps | Should test |
+| d=3 | MAY NEED TESTING — transitive | Test if critical path |
+
+## Resources
+
+| Resource | Use for |
+|----------|---------|
+| `gitnexus://repo/cloudflare-news-project/context` | Codebase overview, check index freshness |
+| `gitnexus://repo/cloudflare-news-project/clusters` | All functional areas |
+| `gitnexus://repo/cloudflare-news-project/processes` | All execution flows |
+| `gitnexus://repo/cloudflare-news-project/process/{name}` | Step-by-step execution trace |
+
+## Self-Check Before Finishing
+
+Before completing any code modification task, verify:
+1. `gitnexus_impact` was run for all modified symbols
+2. No HIGH/CRITICAL risk warnings were ignored
+3. `gitnexus_detect_changes()` confirms changes match expected scope
+4. All d=1 (WILL BREAK) dependents were updated
+
+## Keeping the Index Fresh
+
+After committing code changes, the GitNexus index becomes stale. Re-run analyze to update it:
+
+```bash
+npx gitnexus analyze
+```
+
+If the index previously included embeddings, preserve them by adding `--embeddings`:
+
+```bash
+npx gitnexus analyze --embeddings
+```
+
+To check whether embeddings exist, inspect `.gitnexus/meta.json` — the `stats.embeddings` field shows the count (0 means no embeddings). **Running analyze without `--embeddings` will delete any previously generated embeddings.**
+
+> Claude Code users: A PostToolUse hook handles this automatically after `git commit` and `git merge`.
+
+## CLI
+
+- Re-index: `npx gitnexus analyze`
+- Check freshness: `npx gitnexus status`
+- Generate docs: `npx gitnexus wiki`
+
+<!-- gitnexus:end -->

@@ -1,7 +1,10 @@
 // src/cron/facebook.js — Publicación en Facebook: individual, cola y procesamiento masivo
 
 import { sleep } from '../utils/helpers.js';
-import { SITIOS_LIST } from '../config.js';
+import { SITIOS_LIST, log, error, LOG_PREFIXES } from '../config.js';
+
+const FB_LOG = (...args) => log('[FB]', ...args);
+const FB_ERR = (...args) => error('[FB]', ...args);
 
 // ============================================================
 // publishToFBIndividual — Publica un artículo en la página FB de un sitio
@@ -36,9 +39,9 @@ export async function publishToFBIndividual(env, article, siteSlug) {
     // Decodificar título (importado inline para evitar dependencia circular)
     const title = article.TITULO || '';
 
-    console.log(`[FB] Publicando en ${siteSlug}: ${title.substring(0, 40)}...`);
-    console.log(`[FB] URL: ${url} (usando main.${pagesDomain} para OG tags)`);
-    console.log(`[FB] Imagen: ${article.URL_IMAGEN ? 'R2 (OG scrape)' : 'N/A'}`);
+    FB_LOG(`Publicando en ${siteSlug}: ${title.substring(0, 40)}...`);
+    FB_LOG(`URL: ${url} (usando main.${pagesDomain} para OG tags)`);
+    FB_LOG(`Imagen: ${article.URL_IMAGEN ? 'R2 (OG scrape)' : 'N/A'}`);
 
     // NO enviar parámetro 'picture' — Facebook usa OG tags para evitar Error #100 con R2
     const formData = new FormData();
@@ -56,11 +59,11 @@ export async function publishToFBIndividual(env, article, siteSlug) {
     if (response.ok && result.id) {
       return { success: true, post_id: result.id };
     } else {
-      console.error(`[FB] API Error:`, result);
+      FB_ERR('API Error:', result);
       return { success: false, error: result };
     }
   } catch (e) {
-    console.error(`[FB] Exception:`, e.message);
+    FB_ERR('Exception:', e.message);
     return { success: false, error: e.message };
   }
 }
@@ -79,7 +82,7 @@ export async function processFB(env) {
       `).first();
 
       const count = countResult?.c || 0;
-      console.log(`[FB] ${siteSlug}: ${count} artículos pendientes de Facebook`);
+      FB_LOG(`${siteSlug}: ${count} artículos pendientes de Facebook`);
 
       if (count > 0) {
         // Limit 3 para evitar rate limiting
@@ -94,7 +97,7 @@ export async function processFB(env) {
         `).all();
 
         for (const article of (articles.results || [])) {
-          console.log(`[FB] ${siteSlug} publishing article ${article.SITIO_ID}...`);
+          FB_LOG(`${siteSlug} publishing article ${article.SITIO_ID}...`);
 
           try {
             const result = await publishToFBIndividual(env, article, siteSlug);
@@ -106,12 +109,12 @@ export async function processFB(env) {
                 WHERE ID = ?
               `).bind(result.post_id, article.SITIO_ID).run();
 
-              console.log(`[FB] ${siteSlug} SUCCESS: ${result.post_id}`);
+              FB_LOG(`${siteSlug} SUCCESS: ${result.post_id}`);
             } else {
-              console.error(`[FB] ${siteSlug} FAILED: ${result.error}`);
+              FB_ERR(`${siteSlug} FAILED: ${result.error}`);
             }
           } catch (fbError) {
-            console.error(`[FB] ${siteSlug} EXCEPTION: ${fbError.message}`);
+            FB_ERR(`${siteSlug} EXCEPTION: ${fbError.message}`);
           }
 
           // Delay entre publicaciones (2-5 segundos para evitar rate limiting)
@@ -120,7 +123,7 @@ export async function processFB(env) {
       }
     }
   } catch (e) {
-    console.error('[processFB] Error:', e.message);
+    FB_ERR('processFB Error:', e.message);
   }
 }
 
@@ -129,7 +132,7 @@ export async function processFB(env) {
 // cuando el timer de 3 horas se cumple para cada sitio
 // ============================================================
 export async function processFBTimer(env) {
-  console.log('[FB TIMER] Starting Facebook Timer processing...');
+  FB_LOG('Starting Facebook Timer processing...');
   const stats = { processed: 0, success: 0, failed: 0, skipped: 0 };
   const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
 
@@ -143,11 +146,11 @@ export async function processFBTimer(env) {
     const now = Date.now();
     const elapsed = now - lastPostTime;
 
-    console.log(`[FB TIMER] ${siteSlug}: Last post ${Math.floor(elapsed / 60000)} min ago`);
+    FB_LOG(`${siteSlug}: Last post ${Math.floor(elapsed / 60000)} min ago`);
 
     // Solo procesar si pasaron 3 horas
     if (elapsed < THREE_HOURS_MS) {
-      console.log(`[FB TIMER] ${siteSlug}: Skipping (timer not reached)`);
+      FB_LOG(`${siteSlug}: Skipping (timer not reached)`);
       stats.skipped++;
       continue;
     }
@@ -169,7 +172,7 @@ export async function processFBTimer(env) {
     `).first();
 
     if (!randomArticle) {
-      console.log(`[FB TIMER] ${siteSlug}: No articles with valid R2 image`);
+      FB_LOG(`${siteSlug}: No articles with valid R2 image`);
       stats.skipped++;
       // Reset timer para evitar loop infinito
       await env.ARTICLES_KV.put(kvKey, now.toString());
@@ -177,7 +180,7 @@ export async function processFBTimer(env) {
     }
 
     stats.processed++;
-    console.log(`[FB TIMER] ${siteSlug}: Publishing "${randomArticle.TITULO?.substring(0, 40)}..."`);
+    FB_LOG(`${siteSlug}: Publishing "${randomArticle.TITULO?.substring(0, 40)}..."`);
 
     try {
       const result = await publishToFBIndividual(env, randomArticle, siteSlug);
@@ -194,21 +197,21 @@ export async function processFBTimer(env) {
         await env.ARTICLES_KV.put(kvKey, Date.now().toString());
 
         stats.success++;
-        console.log(`[FB TIMER] ${siteSlug} SUCCESS: ${result.post_id}`);
+        FB_LOG(`${siteSlug} SUCCESS: ${result.post_id}`);
       } else {
         stats.failed++;
-        console.error(`[FB TIMER] ${siteSlug} FAILED: ${JSON.stringify(result.error)}`);
+        FB_ERR(`${siteSlug} FAILED: ${JSON.stringify(result.error)}`);
       }
     } catch (e) {
       stats.failed++;
-      console.error(`[FB TIMER] ${siteSlug} EXCEPTION: ${e.message}`);
+      FB_ERR(`${siteSlug} EXCEPTION: ${e.message}`);
     }
 
     // Delay entre publicaciones (2-5 segundos)
     await sleep(2000 + Math.random() * 3000);
   }
 
-  console.log(
+  FB_LOG(
     `[FB TIMER] Complete: ${stats.processed} processed, ` +
     `${stats.success} success, ${stats.failed} failed, ${stats.skipped} skipped`
   );

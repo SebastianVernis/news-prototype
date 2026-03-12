@@ -1,4 +1,4 @@
-// Controlador Artículos Públicos con Paginación y Filtros
+// Controlador Artículos Públicos con Paginación y Filtros - Adaptado al nuevo sistema por sitio
 let articlesData = [];
 let currentSite = "";
 let currentPage = 1;
@@ -14,7 +14,7 @@ async function loadPublicArticles() {
     if (!tbody) return;
 
     // Loading state
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;"><i class="fas fa-spinner fa-spin fa-2x"></i></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px;"><i class="fas fa-spinner fa-spin fa-2x"></i></td></tr>';
 
     try {
         const offset = (currentPage - 1) * limit;
@@ -23,29 +23,29 @@ async function loadPublicArticles() {
 
         const data = await apiFetch(url);
         articlesData = data.articles || [];
-        
+
         if (articlesData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--text-secondary);">No se encontraron artículos.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px; color: var(--text-secondary);">No se encontraron artículos.</td></tr>';
         } else {
             tbody.innerHTML = articlesData.map(a => `
                 <tr>
                     <td style="font-weight:600;">${a.title || ''}</td>
                     <td><span class="badge-info" style="font-size:0.7rem; background:rgba(6,182,212,0.1); color:var(--primary-color); padding:2px 6px; border-radius:4px;">${a.category || ''}</span></td>
                     <td class="site-cell"><small>${a.site || ''}</small></td>
-                    <td style="white-space:nowrap; font-size:0.85rem;">${a.publishedAt ? new Date(a.publishedAt).toLocaleString('es-MX', { 
-                        year: 'numeric', 
-                        month: '2-digit', 
-                        day: '2-digit', 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
+                    <td style="white-space:nowrap; font-size:0.85rem;">${a.publishedAt ? new Date(a.publishedAt).toLocaleString('es-MX', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
                     }) : '-'}</td>
+                    <td>
+                        <span class="status-badge status-featured" style="font-size:0.7rem;">
+                            <i class="fas fa-check"></i> Web
+                        </span>
+                    </td>
                     <td class="col-actions">
                         <div class="actions">
-                            ${!a.fb_published ? `
-                                <button class="btn btn-outline" style="color:#1877F2; border-color:#1877F2;" title="Publicar en Facebook" onclick="publishToFBManual('${a.id}')">
-                                    <i class="fab fa-facebook"></i>
-                                </button>
-                            ` : '<button class="btn btn-outline" disabled style="opacity:0.5; color:#cbd5e1; border-color:#e2e8f0;"><i class="fab fa-facebook"></i></button>'}
                             <button class="btn btn-outline" onclick="editArticleUnified('${a.id}')" title="Editar"><i class="fas fa-edit"></i></button>
                         </div>
                     </td>
@@ -58,9 +58,9 @@ async function loadPublicArticles() {
         document.getElementById('prev-page').disabled = currentPage === 1;
         document.getElementById('next-page').disabled = articlesData.length < limit;
 
-    } catch (e) { 
-        console.error(e); 
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: #dc3545; padding: 40px;">Error al cargar datos: ${e.message}</td></tr>`;
+    } catch (e) {
+        console.error(e);
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #dc3545; padding: 40px;">Error al cargar datos: ${e.message}</td></tr>`;
     }
 }
 
@@ -116,11 +116,13 @@ async function publishToFBManual(id) {
 
     showLoading("Publicando en Facebook...");
     try {
-        const res = await apiFetch(`/articles/publish-fb/${id}`, { method: 'POST' });
+        // NOTA: Con el nuevo sistema, Facebook se maneja automáticamente por sitio (cada 6 web → 1 FB)
+        // Este endpoint ahora solo retorna información del artículo
+        const res = await apiFetch(`/articles/publish-fb/${id}`);
         if (res.success) {
-            showSuccessToast('¡Publicado!', 'El artículo se publicó en Facebook correctamente.', 3000);
+            showSuccessToast('Información', 'Facebook publishing es ahora automático por sitio (cada 6 artículos web).', 3000);
         } else {
-            showErrorToast('Fallo en Meta API', res.error || 'No se pudo publicar en Facebook.', 5000);
+            showErrorToast('Error', res.error || 'No se pudo obtener información del artículo.', 5000);
         }
         await loadPublicArticles();
     } catch (e) {

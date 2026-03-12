@@ -4,7 +4,7 @@
 
 set -e
 
-cd /mnt/c/Users/soluc/cloudflare-news-project/sites/Nuevos
+cd /home/sebastianvernis/cloudflare-news-project/sites/Nuevos
 
 # Lista de sitios nuevos
 SITES=(

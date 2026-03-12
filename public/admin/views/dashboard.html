@@ -2,6 +2,11 @@
     <h2><i class="fas fa-chart-line"></i> Dashboard de la Red</h2>
 </div>
 
+<!-- Métricas en Vivo -->
+<div id="live-metrics" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+    <!-- Se llena dinámicamente con loadLiveMetrics() -->
+</div>
+
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
     <div class="card" style="border-bottom: 4px solid var(--primary-color);">
         <div style="color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-newspaper"></i> Artículos Públicos</div>
@@ -35,6 +40,28 @@
         </thead>
         <tbody id="recent-articles-table">
             <tr><td colspan="3" style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Cargando actividad...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container" style="margin-top: 2rem;">
+    <div class="header" style="border-bottom: none; margin-bottom: 0; padding: 1.5rem;">
+        <h3 style="font-size: 1.1rem;"><i class="fas fa-chart-bar"></i> Estadísticas por Sitio</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+            Todos los artículos se publican automáticamente en la web. Facebook publica 1 artículo cada 3 horas.
+        </p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Sitio</th>
+                <th style="text-align:center;">Total Artículos</th>
+                <th style="text-align:center;">Facebook Publicados</th>
+                <th style="text-align:center;">Estado</th>
+            </tr>
+        </thead>
+        <tbody id="site-stats-table">
+            <tr><td colspan="4" style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Cargando estadísticas...</td></tr>
         </tbody>
     </table>
 </div>

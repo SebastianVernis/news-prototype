@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Categoría - Bitácora Urbana</title>
+    <meta name="description" id="page-desc" content="Artículos de la categoría seleccionada">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style-custom.css">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+</head>
+<body>
+    <div id="site-preloader"></div>
+    <div id="site-header"></div>
+    <main class="main-content category-page">
+        <div class="container">
+            <div class="category-header">
+                <div class="breadcrumb" style="margin-bottom:12px;">
+                    <a href="../index.html">Inicio</a>
+                    <span style="margin:0 6px;color:#4FB0C6;">/</span>
+                    <span id="category-name">Categoría</span>
+                </div>
+                <h1 id="category-title">Categoría</h1>
+                <p id="category-description">Artículos de esta categoría</p>
+            </div>
+            <div id="category-loading" style="text-align:center;padding:60px 20px;">
+                <p style="font-size:1.1rem;color:#4FB0C6;">Cargando artículos...</p>
+            </div>
+            <div id="category-error" style="display:none;text-align:center;padding:60px 20px;">
+                <h2>No hay artículos</h2>
+                <p style="color:#4FB0C6;margin:20px 0;">No se encontraron artículos en esta categoría.</p>
+                <a href="../index.html" style="color:var(--vn-prussian,#042548);font-weight:bold;">
+                    <i class="fas fa-arrow-left"></i> Volver al inicio
+                </a>
+            </div>
+            <div id="category-articles" class="card-grid" style="display:none;"></div>
+            <div id="pagination" class="pagination" style="display:none;"></div>
+        </div>
+    </main>
+    <div id="site-footer"></div>
+    <script src="../components.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

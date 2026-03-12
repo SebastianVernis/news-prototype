@@ -58,7 +58,7 @@
             "
         >
             <h3 style="margin: 0">
-                <i class="fab fa-facebook-f"></i> Diagnóstico de Tokens
+                <i class="fab fa-facebook-f"></i> Tokens de Facebook (27 Sitios)
             </h3>
             <button class="btn btn-outline btn-sm" onclick="checkFBTokens()">
                 <i class="fas fa-redo"></i>
@@ -72,11 +72,13 @@
                 Diagnosticando...
             </p>
         </div>
+        <div id="token-pagination" style="margin-top: 1rem;"></div>
     </div>
 </div>
 
-<!-- Historial de publicaciones Facebook -->
-<div class="card" style="border-top: 4px solid #10b981">
+<!-- Historial de publicaciones Facebook - OCULTO -->
+<!-- Esta sección fue removida porque Facebook publica automáticamente cada 3 horas -->
+<div class="card" style="border-top: 4px solid #10b981; display: none;">
     <div
         style="
             display: flex;
@@ -97,14 +99,15 @@
             <thead>
                 <tr>
                     <th>Artículo</th>
-                    <th>Sitios</th>
-                    <th>Estado</th>
-                    <th>Fecha Intento</th>
+                    <th>Sitio</th>
+                    <th>Estado Web</th>
+                    <th>Estado Facebook</th>
+                    <th>Fecha Publicación</th>
                 </tr>
             </thead>
             <tbody id="monitor-fb-table-body">
                 <tr>
-                    <td colspan="4" class="monitor-empty">
+                    <td colspan="5" class="monitor-empty">
                         Cargando historial...
                     </td>
                 </tr>

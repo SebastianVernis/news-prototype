@@ -43,3 +43,4 @@ dist/
 build/
 .dev.vars
 wrangler.toml.bak
+.gitnexus

@@ -1,0 +1,275 @@
+/* PulsoDiario - Original Theme CSS */
+:root {
+            --bg-monochrome: #F0F2F5;
+            --surface-white: #FFFFFF;
+            --text-primary: #1C1E21;
+            --text-secondary: #606770;
+            --accent-neon: #00FF66; /* Verde eléctrico sutil para interacciones */
+            --border-subtle: 1px solid #DADDE1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-monochrome);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden; /* Evita scroll horizontal general de la página */
+        }
+
+        /* HEADER (Con Logo a la izquierda y Nav a la derecha) */
+        header {
+            background-color: var(--surface-white);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            border-bottom: var(--border-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        header .container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        header a[href*="logo"],
+        header .logo {
+            margin-right: auto;
+        }
+        
+        header nav {
+            margin-left: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+            box-shadow: 0 2px 0 0 var(--accent-neon);
+        }
+
+        /* TOP SECTION: STANDARD LAYOUT */
+        .top-section {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .hero-article {
+            background-color: var(--surface-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .hero-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #D1D5DB; /* Placeholder panorámico estándar */
+        }
+
+        .hero-content {
+            padding: 30px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .side-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .side-article {
+            background-color: var(--surface-white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tag-pill {
+            display: inline-block;
+            background-color: var(--text-primary);
+            color: var(--surface-white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+
+        .side-article h2 {
+            font-size: 1.4rem;
+            line-height: 1.3;
+        }
+
+        /* MID SECTION TITLE */
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-header h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .swipe-hint {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* GRID SECTION: HORIZONTAL SCROLL (La magia) */
+        .horizontal-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 30px;
+            padding: 10px 40px 60px 40px;
+            -ms-overflow-style: none; /* Ocultar scrollbar IE/Edge */
+            scrollbar-width: none; /* Ocultar scrollbar Firefox */
+        }
+
+        /* Ocultar scrollbar en Chrome/Safari */
+        .horizontal-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-card {
+            flex: 0 0 75vw; /* Cada tarjeta ocupa el 75% del ancho de la pantalla */
+            max-width: 1000px;
+            scroll-snap-align: center; /* Se ajusta al centro al detener el scroll */
+            background-color: var(--surface-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .scroll-img {
+            width: 100%;
+            aspect-ratio: 21/9; /* Súper panorámico */
+            background-color: #9CA3AF; /* Placeholder panorámico extremo */
+        }
+
+        .scroll-content {
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scroll-content h2 {
+            font-size: 1.8rem;
+            width: 70%;
+        }
+
+        .read-btn {
+            background-color: transparent;
+            border: 2px solid var(--text-primary);
+            color: var(--text-primary);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .read-btn:hover {
+            background-color: var(--text-primary);
+            color: var(--surface-white);
+            border-color: var(--text-primary);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--surface-white);
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            border-top: var(--border-subtle);
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .top-section {
+                grid-template-columns: 1fr;
+            }
+            .scroll-card {
+                flex: 0 0 85vw;
+            }
+            .scroll-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .scroll-content h2 {
+                width: 100%;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header { justify-content: center; }
+            nav ul { gap: 15px; }
+            nav a { font-size: 0.8rem; }
+            .scroll-img { aspect-ratio: 16/9; }
+            .scroll-card { flex: 0 0 90vw; }
+        }

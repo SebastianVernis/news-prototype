@@ -62,7 +62,7 @@ for site_dir in "$SITES_DIR"/*/; do
     cd "$site_dir"
     
     # Ejecutar wrangler pages deploy
-    if wrangler pages deploy "." --project-name "$site_name"; then
+    if wrangler pages deploy "." --project-name "$site_name" --branch main; then
         echo -e "${COLOR_GREEN}✓ Éxito: $site_name desplegado correctamente${COLOR_RESET}"
         SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
     else

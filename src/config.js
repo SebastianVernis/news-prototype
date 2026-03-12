@@ -1,6 +1,23 @@
 // src/config.js — Constantes compartidas de la red de sitios
 
 // ============================================================
+// ENTORNO
+// ============================================================
+export const DEBUG = false; // Cambiar a true para ver logs en desarrollo
+
+// Helper de logging: solo muestra en modo DEBUG
+export const log = DEBUG ? console.log.bind(console) : () => {};
+export const error = DEBUG ? console.error.bind(console) : () => {};
+export const warn = DEBUG ? console.warn.bind(console) : () => {};
+
+export const LOG_PREFIXES = {
+  FB: '[FB]',
+  RSS: '[RSS INGEST]',
+  CRON: '[CRON]',
+  CACHE: '[CACHE]',
+  AUTH: '[Auth]',
+  DB: '[DB]',
+};
 // CORS — Dominios permitidos
 // ============================================================
 export const ALLOWED_ORIGINS = [

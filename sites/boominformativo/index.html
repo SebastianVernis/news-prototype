@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoomInformativo - Noticias en Tiempo Real</title>
+    <meta name="description" content="BoomInformativo - Noticias digitales en tiempo real.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="style-custom.css" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="BoomInformativo RSS" href="/rss.xml">
+    <style>
+        /* Preloader Styles - Colores Dinámicos */
+        #preloader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-navy, #0A192F);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        #preloader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .preloader-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .preloader-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            animation: preloader-pulse 1.5s ease-in-out infinite;
+        }
+        
+        .loader {
+            width: 48px;
+            height: 48px;
+            display: inline-block;
+            position: relative;
+            background: var(--accent-cyan, #00E5FF);
+            box-sizing: border-box;
+            animation: flipX 1s linear infinite;
+            border-radius: 4px;
+        }
+        
+        @keyframes flipX {
+            0% {
+                transform: perspective(200px) rotateX(0deg) rotateY(0deg);
+            }
+            50% {
+                transform: perspective(200px) rotateX(-180deg) rotateY(0deg);
+            }
+            100% {
+                transform: perspective(200px) rotateX(-180deg) rotateY(-180deg);
+            }
+        }
+        
+        @keyframes preloader-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="preloader-container">
+    <div class="preloader-wrapper">
+        <img src="logo.png" alt="BoomInformativo" class="preloader-logo" onerror="this.src='logo-header.png'">
+        <span class="loader"></span>
+    </div>
+</div>
+
+<div id="site-preloader"></div>
+<div id="site-header"></div>
+
+<main>
+        <section class="hero-section">
+            <div class="hero-img-box">
+                </div>
+            <div class="hero-text-box">
+                <h1></h1>
+                <p></p>
+            </div>
+        </section>
+
+        <section class="diagonal-section">
+            <div class="diagonal-content">
+                <h2></h2>
+            </div>
+        </section>
+
+        <section class="asymmetric-grid">
+
+            <article class="grid-item item-large">
+                <span class="tag"></span>
+                <h3></h3>
+            </article>
+
+            <article class="grid-item item-tall">
+                <span class="tag"></span>
+                <h3></h3>
+            </article>
+
+            <article class="grid-item">
+                <span class="tag"></span>
+                <h3></h3>
+            </article>
+
+            <article class="grid-item">
+                <span class="tag"></span>
+                <h3></h3>
+            </article>
+
+        </section>
+    </main>
+
+<div id="site-footer"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+<script>
+// Preloader Logic
+(function() {
+    const preloader = document.getElementById('preloader-container');
+    
+    // Hide preloader when page is fully loaded
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            preloader.classList.add('hidden');
+            // Remove from DOM after transition
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 500);
+        }, 1500); // Minimum 1.5s to show animation
+    });
+})();
+
+</script>
+
+</body>
+</html>

@@ -3,8 +3,9 @@
 import { sleep } from '../utils/helpers.js';
 import { SITIOS_LIST, log, error, LOG_PREFIXES } from '../config.js';
 
-const FB_LOG = (...args) => log('[FB]', ...args);
-const FB_ERR = (...args) => error('[FB]', ...args);
+// Usar console.log directamente para que los logs se vean siempre en production
+const FB_LOG = (...args) => console.log('[FB]', ...args);
+const FB_ERR = (...args) => console.error('[FB]', ...args);
 
 // ============================================================
 // publishToFBIndividual — Publica un artículo en la página FB de un sitio
@@ -32,15 +33,15 @@ export async function publishToFBIndividual(env, article, siteSlug) {
     }
 
     // Construir URL del artículo - USAR .pages.dev para que OG tags funcionen
-    // Los dominios personalizados no ejecutan el middleware de OG tags
+    // El middleware de OG tags está en el deployment de producción (sin main.)
     const pagesDomain = `${siteSlug}.pages.dev`;
-    const url = `https://main.${pagesDomain}/articulo/?slug=${article.SLUG}`;
+    const url = `https://${pagesDomain}/articulo/?slug=${article.SLUG}`;
 
     // Decodificar título (importado inline para evitar dependencia circular)
     const title = article.TITULO || '';
 
     FB_LOG(`Publicando en ${siteSlug}: ${title.substring(0, 40)}...`);
-    FB_LOG(`URL: ${url} (usando main.${pagesDomain} para OG tags)`);
+    FB_LOG(`URL: ${url} (usando ${pagesDomain} para OG tags)`);
     FB_LOG(`Imagen: ${article.URL_IMAGEN ? 'R2 (OG scrape)' : 'N/A'}`);
 
     // NO enviar parámetro 'picture' — Facebook usa OG tags para evitar Error #100 con R2
@@ -129,12 +130,13 @@ export async function processFB(env) {
 
 // ============================================================
 // processFBTimer — Publica 1 artículo aleatorio con imagen R2
-// cuando el timer de 3 horas se cumple para cada sitio
+// PUBLICA SI O SI cada 3 horas en TODOS los sitios con artículos pendientes
 // ============================================================
 export async function processFBTimer(env) {
   FB_LOG('Starting Facebook Timer processing...');
-  const stats = { processed: 0, success: 0, failed: 0, skipped: 0 };
+  const stats = { processed: 0, success: 0, failed: 0, skipped: 0, skipped_timer: 0, skipped_no_articles: 0, skipped_no_image: 0 };
   const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
+  const now = Date.now();
 
   for (const siteSlug of SITIOS_LIST) {
     const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
@@ -143,17 +145,50 @@ export async function processFBTimer(env) {
     // Obtener última publicación desde KV
     const lastPostRaw = await env.ARTICLES_KV.get(kvKey);
     const lastPostTime = lastPostRaw ? parseInt(lastPostRaw, 10) : 0;
-    const now = Date.now();
     const elapsed = now - lastPostTime;
+    const elapsedMin = Math.floor(elapsed / 60000);
 
-    FB_LOG(`${siteSlug}: Last post ${Math.floor(elapsed / 60000)} min ago`);
+    FB_LOG(`${siteSlug}: Last post ${elapsedMin} min ago (${lastPostTime === 0 ? 'NEVER' : 'active timer'})`);
 
-    // Solo procesar si pasaron 3 horas
-    if (elapsed < THREE_HOURS_MS) {
-      FB_LOG(`${siteSlug}: Skipping (timer not reached)`);
-      stats.skipped++;
+    // Verificar si hay artículos pendientes
+    const pendingCount = await env.DB.prepare(`
+      SELECT COUNT(*) as c FROM ${tableName}
+      WHERE FB_PUBLICADO = 0
+    `).first();
+
+    const pending = pendingCount?.c || 0;
+    FB_LOG(`${siteSlug}: ${pending} artículos pendientes`);
+
+    // Si no hay artículos pendientes, NO resetear timer - dejar que expire naturalmente
+    // Resetear timer aquí crea un loop infinito de espera
+    if (pending === 0) {
+      FB_LOG(`${siteSlug}: SKIP - No pending articles (timer preserved)`);
+      stats.skipped_no_articles++;
       continue;
     }
+
+    // Verificar si hay artículos con imagen válida (para logging)
+    const validImageCount = await env.DB.prepare(`
+      SELECT COUNT(*) as c FROM ${tableName} s
+      JOIN ARTICULOS_PARAFRASEADOS p ON s.ID_PARAFRASEADO = p.ID
+      WHERE s.FB_PUBLICADO = 0
+        AND p.URL_IMAGEN IS NOT NULL
+        AND p.URL_IMAGEN != ''
+        AND p.URL_IMAGEN NOT LIKE '%logo.png'
+        AND p.URL_IMAGEN NOT LIKE '%fallback%'
+    `).first();
+    const validImages = validImageCount?.c || 0;
+
+    // PUBLICAR SI O SI si pasaron 3 horas O si nunca ha publicado (lastPostTime = 0)
+    const shouldPublish = elapsed >= THREE_HOURS_MS || lastPostTime === 0;
+
+    if (!shouldPublish) {
+      FB_LOG(`${siteSlug}: SKIP - Timer not expired (${elapsedMin} min / 180 min), ${validImages} articles with valid image`);
+      stats.skipped_timer++;
+      continue;
+    }
+
+    FB_LOG(`${siteSlug}: PUBLISHING (timer expired: ${elapsedMin} min or never published)`);
 
     // Seleccionar 1 artículo aleatorio con imagen R2 (no fallback)
     // Filtra imágenes que sean logo.png o vacías
@@ -172,10 +207,9 @@ export async function processFBTimer(env) {
     `).first();
 
     if (!randomArticle) {
-      FB_LOG(`${siteSlug}: No articles with valid R2 image`);
-      stats.skipped++;
-      // Reset timer para evitar loop infinito
-      await env.ARTICLES_KV.put(kvKey, now.toString());
+      FB_LOG(`${siteSlug}: SKIP - No articles with valid R2 image (${pending} total pending, ${validImages} with image)`);
+      stats.skipped_no_image++;
+      // NO reset timer - allow retry on next cron run
       continue;
     }
 
@@ -213,7 +247,8 @@ export async function processFBTimer(env) {
 
   FB_LOG(
     `[FB TIMER] Complete: ${stats.processed} processed, ` +
-    `${stats.success} success, ${stats.failed} failed, ${stats.skipped} skipped`
+    `${stats.success} success, ${stats.failed} failed, ` +
+    `${stats.skipped_timer} skipped_timer, ${stats.skipped_no_articles} skipped_no_articles, ${stats.skipped_no_image} skipped_no_image`
   );
   return stats;
 }

@@ -264,9 +264,9 @@ facebook.post('/update-post/:siteSlug/:postId', async (c) => {
       return c.json({ error: 'Missing Facebook token', success: false });
     }
 
-    // Construir URL del artículo (usar .pages.dev para OG tags)
+    // Construir URL del artículo (usar .pages.dev para OG tags - producción)
     const pagesDomain = `${siteSlug}.pages.dev`;
-    const url = `https://main.${pagesDomain}/articulo/?slug=${article.SLUG}`;
+    const url = `https://${pagesDomain}/articulo/?slug=${article.SLUG}`;
 
     console.log(`[FB UPDATE] Updating post ${postId} for ${siteSlug}`);
     console.log(`[FB UPDATE] URL: ${url}`);
@@ -343,7 +343,7 @@ facebook.post('/update-recent/:siteSlug', async (c) => {
     for (const post of (posts.results || [])) {
       if (!post.FB_POST_ID) continue;
 
-      const url = `https://main.${pagesDomain}/articulo/?slug=${post.SLUG}`;
+      const url = `https://${pagesDomain}/articulo/?slug=${post.SLUG}`;
 
       try {
         const formData = new FormData();

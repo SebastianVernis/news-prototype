@@ -27,6 +27,7 @@ export async function runMasterCron(env) {
   try {
     console.log('[CRON] Starting Facebook Timer processing...');
     const fbStats = await processFBTimer(env);
+    console.log(`[CRON] FB Timer result: processed=${fbStats.processed}, success=${fbStats.success}, failed=${fbStats.failed}, skipped_timer=${fbStats.skipped_timer}, skipped_no_articles=${fbStats.skipped_no_articles}, skipped_no_image=${fbStats.skipped_no_image}`);
     status.tasks.fb = `OK (${fbStats.success}/${fbStats.processed})`;
     console.log('[CRON] Facebook Timer processing complete');
   } catch (e) {

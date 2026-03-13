@@ -199,13 +199,41 @@ export async function runRSSIngest(env) {
 
         if (urlExists) {
           RSS_LOG(`Skip: Already exists (${link})`);
-        } else if (!imageUrl) {
-          RSS_LOG('Skip: No OG Image, using fallback.');
-        } else if (isPaywall) {
-          RSS_LOG(`Skip: Paywall detected (${link})`);
+          continue;
+        }
+
+        // Fetch article HTML for OG image and content
+        let imageUrl = null;
+        let isPaywall = false;
+        let content = '';
+        let html = '';
+
+        try {
+          const articleRes = await fetch(link, {
+            headers: { 'User-Agent': 'Mozilla/5.0' },
+          });
+          html = await articleRes.text();
+
+          // Extraer imagen de OG tags
+          const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/);
+          imageUrl = ogImageMatch ? ogImageMatch[1] : null;
+
+          // Verificar paywall
+          isPaywall = html.toLowerCase().includes('suscripción') ||
+                      html.toLowerCase().includes('premium') ||
+                      html.toLowerCase().includes('solo para suscriptores');
+
+          if (!imageUrl) {
+            RSS_LOG('Skip: No OG Image, using fallback.');
             continue;
           }
 
+          if (isPaywall) {
+            RSS_LOG(`Skip: Paywall detected (${link})`);
+            continue;
+          }
+
+          // Extraer párrafos
           const pMatches = html.match(/<p>([\s\S]*?)<\/p>/g) || [];
           content = pMatches
             .map((p) => p.replace(/<[^>]*>/g, '').trim())

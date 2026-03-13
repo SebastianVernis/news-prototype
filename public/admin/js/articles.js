@@ -25,7 +25,7 @@ async function loadPublicArticles() {
         articlesData = data.articles || [];
 
         if (articlesData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px; color: var(--text-secondary);">No se encontraron artículos.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--text-secondary);">No se encontraron artículos.</td></tr>';
         } else {
             tbody.innerHTML = articlesData.map(a => `
                 <tr>
@@ -41,13 +41,8 @@ async function loadPublicArticles() {
                     }) : '-'}</td>
                     <td>
                         <span class="status-badge status-featured" style="font-size:0.7rem;">
-                            <i class="fas fa-check"></i> Web
+                            <i class="fas fa-globe"></i> Web
                         </span>
-                    </td>
-                    <td class="col-actions">
-                        <div class="actions">
-                            <button class="btn btn-outline" onclick="editArticleUnified('${a.id}')" title="Editar"><i class="fas fa-edit"></i></button>
-                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -60,7 +55,7 @@ async function loadPublicArticles() {
 
     } catch (e) {
         console.error(e);
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #dc3545; padding: 40px;">Error al cargar datos: ${e.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: #dc3545; padding: 40px;">Error al cargar datos: ${e.message}</td></tr>`;
     }
 }
 

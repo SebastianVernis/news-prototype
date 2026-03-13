@@ -4,6 +4,27 @@ async function initDashboard() {
     await loadRecentArticles();
     await loadSiteStats();
     await loadLiveMetrics();
+    await loadCronStatus();
+}
+
+// Cargar estado del cron y mostrar próximo timer
+async function loadCronStatus() {
+    try {
+        const status = await apiFetch('/cron/status');
+        
+        // Actualizar próximo timer de ingesta
+        const nextTimer = document.getElementById('next-ingest-timer');
+        if (nextTimer && status.nextRunInMinutes !== undefined) {
+            const mins = status.nextRunInMinutes;
+            const secs = status.nextRunInSeconds || 0;
+            nextTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            
+            // Auto-refresh
+            setTimeout(loadCronStatus, 10000);
+        }
+    } catch (e) {
+        console.error('Cron status error:', e);
+    }
 }
 
 async function loadDashboardStats() {
@@ -117,28 +138,59 @@ async function loadSiteStats() {
     try {
         // Obtener estadísticas desde el nuevo endpoint
         const stats = await apiFetch('/sites/stats');
+        
+        // Obtener diagnóstico del cron para timers
+        let diagnostics = {};
+        try {
+            const diag = await apiFetch('/cron/diagnostic');
+            if (diag && diag.diagnostics) {
+                diagnostics = diag.diagnostics.reduce((acc, d) => {
+                    acc[d.site] = d;
+                    return acc;
+                }, {});
+            }
+        } catch (e) {
+            console.log('Diagnostic not available');
+        }
 
         if (!stats || stats.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4">No hay sitios configurados.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5">No hay sitios configurados.</td></tr>';
             return;
         }
 
-        tbody.innerHTML = stats.map(s => `
+        tbody.innerHTML = stats.map(s => {
+            const diag = diagnostics[s.slug] || {};
+            const timerReady = diag.timer?.ready;
+            const timerRemaining = diag.timer?.expires || '-';
+            const pending = diag.articles?.pending || 0;
+            
+            return `
             <tr>
                 <td><strong>${s.name}</strong><br><small style="color:var(--text-secondary);">${s.slug}</small></td>
-                <td style="text-align:center;">${s.total}</td>
                 <td style="text-align:center;">
-                    <span class="status-badge ${s.fb > 0 ? 'status-featured' : 'status-normal'}" style="font-size:0.75rem; background:rgba(24,119,242,0.1); color:#1877F2;">
+                    <span style="font-weight:600; color: var(--primary-color);">${s.total}</span>
+                    ${pending > 0 ? `<br><small style="color: var(--text-secondary);">${pending} pend.</small>` : ''}
+                </td>
+                <td style="text-align:center;">
+                    <span class="status-badge status-featured" style="font-size:0.75rem; background:rgba(24,119,242,0.1); color:#1877F2;">
                         ${s.fb}
                     </span>
                 </td>
                 <td style="text-align:center;">
-                    ${s.fb > 0 ? '<span class="status-badge status-featured" style="font-size:0.7rem;"><i class="fas fa-check"></i> Activos</span>' : '<small style="color:var(--text-secondary);">Sin actividad</small>'}
+                    ${timerReady === true ? 
+                        '<span class="status-badge" style="background:rgba(16,185,129,0.1); color:#10b981;"><i class="fas fa-play"></i> Listo</span>' :
+                        timerReady === false ?
+                        `<span style="color: var(--text-secondary); font-size:0.8rem;">${timerRemaining} min</span>` :
+                        '-'
+                    }
+                </td>
+                <td style="text-align:center;">
+                    ${s.fb > 0 ? '<span class="status-badge status-featured" style="font-size:0.7rem;"><i class="fas fa-check"></i> Activo</span>' : '<small style="color:var(--text-secondary);">Sin actividad</small>'}
                 </td>
             </tr>
-        `).join('');
+        `}).join('');
     } catch (e) {
         console.error('Error loading site stats:', e);
-        tbody.innerHTML = '<tr><td colspan="4">Error al cargar estadísticas por sitio.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5">Error al cargar estadísticas por sitio.</td></tr>';
     }
 }

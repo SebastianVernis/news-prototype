@@ -1,34 +1,43 @@
 # Índice Documental - NexoPress
 
-Bienvenido a la documentación oficial del sistema **NexoPress**. Aquí encontrarás las guías necesarias para operar, mantener y escalar la red de 10 sitios de noticias.
+Plataforma de noticias multi-sitio con **27 sitios** gestionados desde Cloudflare Workers, D1 y Pages.
 
-## 📌 Documentación Principal
+## Flujo de Publicación Actual
 
-1.  **[Monitor del Sistema](./SYSTEM_MONITOR.md)**
-    *   Guía de diagnóstico de crons, ingesta y Facebook.
-    *   Cómo interpretar el dashboard de monitoreo.
+```
+RSS Ingesta (3 artículos/30min) → Distribución Aleatoria (9 sitios/artículo) → Upload R2 → Sitios Web → Facebook (3h)
+```
 
-2.  **[Referencia de API](./API_REFERENCE.md)**
-    *   Listado completo de endpoints del Worker Unificado.
-    *   Formatos de petición y autenticación.
+## Documentación Principal
 
-3.  **[Gestión de Usuarios y Seguridad](./PASSWORD_RESET_SYSTEM.md)**
-    *   Cómo crear administradores y recuperar contraseñas.
-    *   Uso de tokens de seguridad.
+| Guía | Descripción |
+|------|-------------|
+| [Monitor del Sistema](./SYSTEM_MONITOR.md) | Diagnóstico de crons, ingesta y Facebook |
+| [Referencia de API](./API_REFERENCE.md) | Endpoints del Worker |
+| [Gestión de Usuarios](./PASSWORD_RESET_SYSTEM.md) | Administradores y seguridad |
+| [Arquitectura de Rutas](./ROUTE_DOCUMENTATION.md) | URLs en Pages y Worker |
+| [Setup Facebook](./FACEBOOK_TOKEN_SETUP.md) | Configuración de tokens |
 
-4.  **[Arquitectura de Rutas](./ROUTE_DOCUMENTATION.md)**
-    *   Cómo funcionan las URLs en los sitios Pages y el Worker.
-    *   Configuración de `_routes.json`.
+## Operación
 
-## 🛠️ Guías de Operación
+- **Ingesta RSS**: Automática cada 30 min (3 artículos)
+- **Distribución**: 9 sitios por artículo (aleatorio)
+- **Facebook**: 1 publicación cada 3 horas por sitio
+- **Imágenes**: Se suben a R2 automáticamente
 
-- **Ingesta de Noticias:** La ingesta es automática cada 30 min. Para forzarla, usa el botón en el dashboard o el endpoint `POST /api/cron/ingest`.
-- **Publicación en Facebook:** Se requiere un "Page Access Token" por sitio. Consulta el Monitor para ver el estado de los tokens.
-- **Backups:** Los scripts de mantenimiento antiguos y backups SQL se encuentran en `backups/archive/`.
+## Estructura del Proyecto
 
-## 📁 Archivo Histórico
-La documentación de las fases de desarrollo anteriores se ha movido a:
-- `docs/archive/`
+```
+src/              → Worker API (cron, routes, utils)
+sites/            → 27 sitios Pages
+public/admin/     → CMS dashboard
+docs/             → Documentación
+docs/archive/     → Historial de desarrollo
+docs/migrations/  → Scripts SQL históricos
+```
 
----
-*NexoPress - Plataforma de alto rendimiento para el ecosistema Cloudflare.*
+## URLs de Producción
+
+- **API**: https://news-api.sebastianvernis.workers.dev
+- **CMS**: https://cms.sebastianvernis.space/admin/
+- **Worker Cron**: */30 * * * *

@@ -11,6 +11,7 @@ async function initMonitor() {
 async function loadCronStatus() {
   const list = document.getElementById("cron-tasks-list");
   const lastRunEl = document.getElementById("cron-last-run");
+  const lastIngestEl = document.getElementById("last-ingest-time");
   if (!list) return;
 
   try {
@@ -24,18 +25,39 @@ async function loadCronStatus() {
     if (lastRunEl) {
       lastRunEl.textContent = new Date(data.lastRun).toLocaleString("es");
     }
+    
+    if (lastIngestEl) {
+      lastIngestEl.textContent = new Date(data.lastRun).toLocaleTimeString("es");
+    }
 
     list.innerHTML = Object.entries(data.tasks)
       .map(([task, status]) => {
         const isOk = status.includes("OK");
+        let taskIcon = '⚙️';
+        let taskLabel = task.replace(/_/g, " ");
+        
+        if (task === 'ingest') {
+          taskIcon = '📥';
+          taskLabel = 'RSS Ingesta';
+        } else if (task === 'fb') {
+          taskIcon = '📘';
+          taskLabel = 'Facebook Timer';
+        } else if (task === 'ticker') {
+          taskIcon = '📰';
+          taskLabel = 'Ticker';
+        }
+        
         return `
                 <div class="status-item ${isOk ? "status-item--ok" : "status-item--err"}">
-                    <span class="status-item-name">${task.replace(/_/g, " ")}:</span>
+                    <span class="status-item-name">${taskIcon} ${taskLabel}:</span>
                     <span class="${isOk ? "badge-ok" : "badge-err"}">${status}</span>
                 </div>
             `;
       })
       .join("");
+      
+    // Auto-refresh cada 30 segundos
+    setTimeout(loadCronStatus, 30000);
   } catch (e) {
     list.innerHTML = `<p class="monitor-error"><i class="fas fa-exclamation-circle"></i> Error: ${e.message}</p>`;
   }

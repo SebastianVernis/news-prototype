@@ -1,6 +1,6 @@
 <div id="articles-list-view">
     <div class="header">
-        <h2>Artículos Públicos</h2>
+        <h2><i class="fas fa-newspaper"></i> Artículos de la Red</h2>
         <div style="display: flex; gap: 10px; align-items: center;">
             <select id="filter-site" class="editor-input" style="width: 200px; padding: 5px 10px;" onchange="changeSiteFilter()">
                 <option value="">Todos los Sitios</option>
@@ -16,8 +16,20 @@
                 <option value="noticiasobjetivo">Noticias Objetivo</option>
             </select>
             <button class="btn btn-primary" onclick="showNewArticle()">
-                <i class="fas fa-plus"></i> Nuevo Artículo
+                <i class="fas fa-plus"></i> Nuevo Artículo CMS
             </button>
+        </div>
+    </div>
+    
+    <div class="card" style="margin-bottom: 1rem; padding: 1rem; border-left: 4px solid #06b6d4; background: rgba(6,182,212,0.05);">
+        <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+            <span><i class="fas fa-rss"></i> <strong>3 artículos</strong> se ingestan cada 30 min</span>
+            <i class="fas fa-arrow-right"></i>
+            <span><i class="fas fa-random"></i> Se distribuyen a <strong>9 sitios</strong> aleatoriamente</span>
+            <i class="fas fa-arrow-right"></i>
+            <span><i class="fas fa-cloud-upload-alt"></i> <strong>Imágenes</strong> se suben a R2</span>
+            <i class="fas fa-arrow-right"></i>
+            <span><i class="fab fa-facebook"></i> <strong>Facebook</strong> publica cada 3h</span>
         </div>
     </div>
 
@@ -28,8 +40,8 @@
                     <th>Título</th>
                     <th>Categoría</th>
                     <th>Sitio</th>
-                    <th>Fecha/Hora Publicación</th>
-                    <th class="col-actions">Acciones</th>
+                    <th>Fecha/Hora</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody id="articles-public-table"></tbody>

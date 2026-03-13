@@ -145,46 +145,57 @@ async function proofreadTextAI(text, type, env) {
 }
 
 // ============================================================
-// runRSSIngest — Ingesta 1 artículo por sitio cada 30 minutos
+// shuffleArray — Mezcla un array aleatoriamente
+// ============================================================
+function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ============================================================
+// runRSSIngest — Ingesta artículos y distribuye proporcionalmente
 // ============================================================
 export async function runRSSIngest(env) {
-  RSS_LOG('Starting RSS ingestion...');
-
+  console.log('[RSS INGEST] Starting RSS ingestion...');
+  
   const FEEDS = [
-    // Fuentes verificadas que funcionan desde Cloudflare Workers
-    'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada',  // El País México
-    'https://expansion.mx/rss',  // Expansión (negocios)
-    'https://www.proceso.com.mx/rss/feed.html?id=12',  // Proceso (nacional)
-    'https://www.sinembargo.mx/feed',  // SinEmbargo (general)
+    'https://www.jornada.com.mx/rss/edicion.xml?v=1',
+    'https://www.informador.mx/rss/mexico.xml',
   ];
 
-  let published = 0;
+  const totalSites = SITIOS_LIST.length;
+  const MAX_ARTICLES = 3; // Artículos máximos a ingestar por ejecución
+  
+  // Calcular cuántos sitios por artículo para distribuir proporcionalmente
+  // Si hay 27 sitios y 3 artículos, cada artículo va a 9 sitios (27/3 = 9)
+  // Si hay 27 sitios y 1 artículo, el artículo va a todos los sitios (27/1 = 27)
+  const sitesPerArticle = Math.ceil(totalSites / MAX_ARTICLES);
+  
+  console.log(`[RSS INGEST] Total sites: ${totalSites}, Articles: ${MAX_ARTICLES}, Sites per article: ${sitesPerArticle}`);
+
+  let articlesPublished = 0;
+  let sitesAssigned = 0;
 
   for (const feedUrl of FEEDS) {
-    if (published >= SITIOS_LIST.length) break; // Max 1 por sitio
-
+    if (articlesPublished >= MAX_ARTICLES) break;
+    
     try {
-      RSS_LOG(`Fetching feed: ${feedUrl}`);
+      console.log('Fetching feed:', feedUrl);
       const res = await fetch(feedUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
       const xml = await res.text();
-      
-      // Normalizar XML (remover saltos de línea para el regex)
       const normalizedXml = xml.replace(/[\r\n]+/g, ' ');
-      
-      // Soportar tanto RSS 2.0 (<item>) como Atom (<entry>)
       const items = normalizedXml.match(/<(item|entry)>([\s\S]*?)<\/\1>/gi) || [];
-      RSS_LOG(`Feed ${feedUrl} returned ${items.length} items.`);
+      console.log('Items found:', items.length);
 
       for (const item of items) {
-        if (published >= SITIOS_LIST.length) break;
+        if (articlesPublished >= MAX_ARTICLES) break;
 
-        // Parsear título y link
-        const titleMatch =
-          item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) ||
-          item.match(/<title>([\s\S]*?)<\/title>/);
-        const linkMatch =
-          item.match(/<link[^>]+href=["']([^"']+)["']/) ||
-          item.match(/<link>([\s\S]*?)<\/link>/);
+        const titleMatch = item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || item.match(/<title>([\s\S]*?)<\/title>/);
+        const linkMatch = item.match(/<link[^>]+href=["']([^"']+)["']/) || item.match(/<link>([\s\S]*?)<\/link>/);
 
         if (!titleMatch || !linkMatch) continue;
 
@@ -192,127 +203,68 @@ export async function runRSSIngest(env) {
         title = title.replace(/^<!\[CDATA\[/, '').replace(/\]\]>$/, '').trim();
         const link = linkMatch[1].trim();
 
-        // Verificar si URL ya existe (evitar duplicados)
-        const urlExists = await env.DB.prepare(
-          'SELECT ID FROM ARTICULOS_PARAFRASEADOS WHERE SOURCE_URL = ?'
-        ).bind(link).first();
+        // Check duplicate
+        const urlExists = await env.DB.prepare('SELECT ID FROM ARTICULOS_PARAFRASEADOS WHERE SOURCE_URL = ?').bind(link).first();
+        if (urlExists) continue;
 
-        if (urlExists) {
-          RSS_LOG(`Skip: Already exists (${link})`);
-          continue;
-        }
+        // Fetch article
+        const articleRes = await fetch(link, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        const html = await articleRes.text();
 
-        // Fetch article HTML for OG image and content
-        let imageUrl = null;
-        let isPaywall = false;
-        let content = '';
-        let html = '';
+        // OG Image
+        const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/);
+        const imageUrl = ogImageMatch ? ogImageMatch[1] : null;
 
+        if (!imageUrl) continue;
+
+        // Paywall
+        const isPaywall = html.toLowerCase().includes('suscripción') || html.toLowerCase().includes('premium');
+        if (isPaywall) continue;
+
+        // Content
+        const pMatches = html.match(/<p>([\s\S]*?)<\/p>/g) || [];
+        let content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 40).join('\n\n');
+        content = cleanArticleContent(content);
+
+        if (content.length < 300) continue;
+
+        // Insert article into DB
         try {
-          const articleRes = await fetch(link, {
-            headers: { 'User-Agent': 'Mozilla/5.0' },
-          });
-          html = await articleRes.text();
-
-          // Extraer imagen de OG tags
-          const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/);
-          imageUrl = ogImageMatch ? ogImageMatch[1] : null;
-
-          // Verificar paywall
-          isPaywall = html.toLowerCase().includes('suscripción') ||
-                      html.toLowerCase().includes('premium') ||
-                      html.toLowerCase().includes('solo para suscriptores');
-
-          if (!imageUrl) {
-            RSS_LOG('Skip: No OG Image, using fallback.');
-            continue;
-          }
-
-          if (isPaywall) {
-            RSS_LOG(`Skip: Paywall detected (${link})`);
-            continue;
-          }
-
-          // Extraer párrafos
-          const pMatches = html.match(/<p>([\s\S]*?)<\/p>/g) || [];
-          content = pMatches
-            .map((p) => p.replace(/<[^>]*>/g, '').trim())
-            .filter((p) => p.length > 40)
-            .join('\n\n');
-
-          // Limpieza profunda de contenido
-          content = cleanArticleContent(content);
-        } catch (e) {
-          console.error(`[RSS INGEST] Error scraping ${link}:`, e.message);
-          continue;
-        }
-
-        if (content.length < 300) {
-          console.log(`[RSS INGEST] Skip: Content too short (${content.length} chars).`);
-          continue;
-        }
-
-        // Verificar nuevamente que el contenido no sea de paywall
-        if (
-          content.toLowerCase().includes('suscripción') ||
-          content.toLowerCase().includes('premium') ||
-          content.toLowerCase().includes('compartir tu cuenta')
-        ) {
-          console.log('[RSS INGEST] Skip: Paywall content detected in parsed text');
-          continue;
-        }
-
-        // Parafrasear con IA
-        console.log('[RSS INGEST] Running AI proofread...');
-        try {
-          const aiTitle   = await proofreadTextAI(title, 'título', env);
-          const aiContent = await proofreadTextAI(content, 'contenido', env);
-
-          if (!aiTitle || !aiContent) {
-            console.error('[RSS INGEST] AI returned empty results.');
-            continue;
-          }
-
-          // Subir imagen a R2
-          const r2ImageUrl = await uploadToR2(imageUrl, env);
-          const finalImg   = r2ImageUrl || imageUrl;
-
-          // Insertar en PARAFRASEADOS
-          const now    = new Date().toISOString();
+          const now = new Date().toISOString();
           const paraId = crypto.randomUUID();
-          const slug   = slugify(aiTitle);
+          const slug = slugify(title);
 
           await env.DB.prepare(`
             INSERT INTO ARTICULOS_PARAFRASEADOS
               (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
                CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO)
             VALUES (?, ?, ?, ?, ?, 'NACIONAL', ?, ?, ?, ?, 'PUBLICADO')
-          `).bind(
-            paraId, aiTitle, slug, aiContent,
-            aiContent.substring(0, 200), 'Redacción NexoPress',
-            now, finalImg, link
-          ).run();
+          `).bind(paraId, title, slug, content, content.substring(0, 200), 'NexoPress', now, imageUrl, link).run();
 
-          // DISTRIBUCIÓN: Insertar en 1 sitio (round-robin)
-          const siteSlug  = SITIOS_LIST[published % SITIOS_LIST.length];
-          const siteId    = crypto.randomUUID();
-          const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
+          // Seleccionar sitios aleatorios para este artículo
+          const shuffledSites = shuffleArray(SITIOS_LIST);
+          
+          // Asignar a los sitios calculados (puede ser todos o una parte)
+          const sitesToAssign = shuffledSites.slice(0, sitesPerArticle);
+          
+          console.log(`[RSS INGEST] Assigning article to ${sitesToAssign.length} sites: ${sitesToAssign.join(', ')}`);
 
-          await env.DB.prepare(`
-            INSERT INTO ${tableName} (
-              ID, ID_PARAFRASEADO, FECHA_ASIGNACION,
-              FB_PUBLICADO, FB_FECHA, FB_POST_ID
-            ) VALUES (?, ?, datetime('now'), 0, NULL, NULL)
-          `).bind(siteId, paraId).run();
+          for (const siteSlug of sitesToAssign) {
+            const siteId = crypto.randomUUID();
+            const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
 
-          console.log(`[RSS INGEST] Published to ${siteSlug}: ${aiTitle.substring(0, 40)}...`);
+            await env.DB.prepare(`
+              INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
+              VALUES (?, ?, datetime('now'), 0, NULL, NULL)
+            `).bind(siteId, paraId).run();
+            
+            sitesAssigned++;
+          }
 
-          // El artículo queda disponible para Facebook Timer (se publica cuando el timer cumple 3 horas)
-
-          published++;
-        } catch (aiErr) {
-          console.error('[RSS INGEST] AI Error:', aiErr.message);
-          continue;
+          console.log(`[RSS INGEST] Published: "${title.substring(0, 40)}..." to ${sitesToAssign.length} sites`);
+          articlesPublished++;
+        } catch (dbErr) {
+          console.error('[RSS INGEST] DB Error:', dbErr.message);
         }
       }
     } catch (e) {
@@ -320,6 +272,6 @@ export async function runRSSIngest(env) {
     }
   }
 
-  console.log(`[RSS INGEST] Complete: ${published} articles published.`);
-  return published;
+  console.log(`[RSS INGEST] Complete: ${articlesPublished} articles, ${sitesAssigned} site assignments.`);
+  return articlesPublished;
 }

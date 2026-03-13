@@ -54,6 +54,11 @@ cron.get('/manual', async (c) => {
   return c.json(s ? JSON.parse(s) : { message: 'Cron executed' });
 });
 
+// ── GET /cron/test-ingest — Test de ingesta RSS (debug) ────────────
+cron.get('/test-ingest', async (c) => {
+  return c.json({ message: 'Use /cron/manual to trigger ingestion' });
+});
+
 // ── POST /cron/ingest — Información sobre ingesta RSS ────────
 cron.post('/ingest', async (c) => {
   if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
@@ -143,6 +148,7 @@ cron.get('/test-fb/:siteSlug', async (c) => {
   try {
     const { publishToFBIndividual } = await import('../cron/facebook.js');
     const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
+    const kvKey = `last_fb_post_${siteSlug}`;
     
     // Step 1: Check site config
     results.steps.push({ step: '1_check_site', status: 'pending' });
@@ -195,18 +201,21 @@ cron.get('/test-fb/:siteSlug', async (c) => {
     // Step 4: Publish to FB
     results.steps.push({ step: '4_publish_fb', status: 'pending' });
     const fbResult = await publishToFBIndividual(c.env, article, siteSlug);
-    
+
     if (fbResult.success) {
       results.steps[3].status = 'ok';
       results.steps[3].data = { post_id: fbResult.post_id };
-      
+
       // Update DB
       await c.env.DB.prepare(`
         UPDATE ${tableName}
         SET FB_PUBLICADO = 1, FB_FECHA = datetime('now'), FB_POST_ID = ?
         WHERE ID = ?
       `).bind(fbResult.post_id, article.SITIO_ID).run();
-      
+
+      // Update KV timer
+      await c.env.ARTICLES_KV.put(kvKey, Date.now().toString());
+
       results.success = true;
       results.message = `Published successfully: ${fbResult.post_id}`;
     } else {
@@ -282,6 +291,22 @@ cron.get('/debug-fb-timer/:siteSlug', async (c) => {
       sample: sampleArticle
     },
     willPublish: shouldPublish && (validImageCount?.c || 0) > 0
+  });
+});
+
+// ── GET /cron/run-fb-timer — Ejecutar Facebook Timer manualmente ─────
+cron.get('/run-fb-timer', async (c) => {
+  if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
+  
+  const { processFBTimer } = await import('../cron/facebook.js');
+  
+  console.log('[CRON ROUTE] Calling processFBTimer...');
+  const stats = await processFBTimer(c.env);
+  console.log('[CRON ROUTE] processFBTimer returned:', stats);
+  
+  return c.json({
+    message: 'Facebook Timer executed',
+    stats
   });
 });
 

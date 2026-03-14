@@ -17,6 +17,36 @@ export const slugify = (text) => {
     .replace(/^-+/, '').replace(/-+$/, '').substring(0, 100);
 };
 
+const ARTICLE_TITLE_PREFIXES = [
+  /^la\s+jornada:\s*/i,
+  /^el\s+informador:\s*/i,
+  /^proceso:\s*/i,
+  /^el\s+universal:\s*/i,
+  /^milenio:\s*/i,
+  /^excelsior:\s*/i,
+  /^excélsior:\s*/i,
+  /^expansion:\s*/i,
+  /^expansion:\s*/i,
+  /^expansión:\s*/i,
+  /^publimetro:\s*/i,
+  /^azteca\s+noticias:\s*/i,
+  /^tv\s+azteca:\s*/i,
+];
+
+export const normalizeArticleTitleForSlug = (text) => {
+  let cleaned = decodeHTMLEntities(text || '').trim();
+
+  for (const prefix of ARTICLE_TITLE_PREFIXES) {
+    cleaned = cleaned.replace(prefix, '');
+  }
+
+  cleaned = cleaned.replace(/\s*[|\-]\s*(la\s+jornada|el\s+informador|proceso|el\s+universal|milenio|excelsior|excélsior|expansion|expansión|publimetro|azteca\s+noticias|tv\s+azteca)\s*$/i, '');
+
+  return cleaned.trim();
+};
+
+export const articleSlugify = (text) => slugify(normalizeArticleTitleForSlug(text));
+
 // ============================================================
 // decodeHTMLEntities — Decodifica entidades HTML y limpia contenido
 // ============================================================
@@ -107,7 +137,7 @@ export const parseArticleRow = (row) => {
   return {
     id:          row.ID || row.id,
     title,
-    slug:        row.slug || row.SLUG || slugify(row.TITULO_PARAFRASEADO || row.TITULO || 'articulo'),
+    slug:        row.slug || row.SLUG || articleSlugify(row.TITULO_PARAFRASEADO || row.TITULO || 'articulo'),
     content,
     excerpt,
     category,

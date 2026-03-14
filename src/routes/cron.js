@@ -343,9 +343,9 @@ cron.post('/scrape', async (c) => {
     }
 
     const { SITIOS_LIST } = await import('../config.js');
-    const { cleanArticleContent } = await import('../cron/rss-ingest.js');
+    const { cleanArticleContent, cleanTitle } = await import('../cron/rss-ingest.js');
     const { getOGImage, uploadToR2 } = await import('../utils/html.js');
-    const { slugify } = await import('../utils/helpers.js');
+    const { articleSlugify } = await import('../utils/helpers.js');
 
     const results = [];
 
@@ -359,33 +359,54 @@ cron.post('/scrape', async (c) => {
         // Extraer título
         const titleMatch = html.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || 
                           html.match(/<title>([^<]+)<\/title>/);
-        const title = titleMatch ? titleMatch[1].replace(/<!\[CDATA\[/, '').replace(/\]\]>/, '').trim() : null;
+        let title = titleMatch ? titleMatch[1].replace(/<!\[CDATA\[/, '').replace(/\]\]>/, '').trim() : null;
 
         if (!title) {
           results.push({ url, success: false, error: 'No se pudo extraer el título' });
           continue;
         }
 
-        // Extraer OG Image
-        const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
-                            html.match(/<meta[^>]+content=["']([^"']+\.(jpg|jpeg|png|webp))["'][^>]+property=["']og:image["']/i);
-        const imageUrl = ogImageMatch ? ogImageMatch[1] : null;
+        // Limpiar título de nombres de medios
+        title = cleanTitle(title);
+
+        // Extraer OG Image - múltiples patrones
+        let ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
+                          html.match(/<meta[^>]+content=["']([^"']+\.(jpg|jpeg|png|webp))["'][^>]+property=["']og:image["']/i) ||
+                          html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/);
+        
+        let imageUrl = ogImageMatch ? ogImageMatch[1] : null;
+
+        // Si no hay OG image, buscar en <img>
+        if (!imageUrl) {
+          const imgMatch = html.match(/<img[^>]+src=["']([^"']+\.(jpg|jpeg|png|webp))["']/i);
+          if (imgMatch) imageUrl = imgMatch[1];
+        }
 
         if (!imageUrl) {
           results.push({ url, title: title.substring(0, 50), success: false, error: 'Sin imagen' });
           continue;
         }
 
-        // Verificar imagen
-        let finalImageUrl = imageUrl;
+        // Verificar imagen Y subir a R2
+        let finalImageUrl = null;
         try {
-          const imgCheck = await fetch(imageUrl, { method: 'HEAD' });
+          const imgCheck = await fetch(imageUrl, { method: 'GET', redirect: 'follow' });
           if (imgCheck.ok && imgCheck.headers.get('content-type')?.startsWith('image/')) {
             const r2Url = await uploadToR2(imageUrl, c.env);
-            if (r2Url) finalImageUrl = r2Url;
+            if (r2Url) {
+              finalImageUrl = r2Url;
+            }
+          } else {
+            console.log('[SCRAPE] Imagen no válida:', imgCheck.status, imageUrl.substring(0, 50));
           }
         } catch (e) {
-          console.log('[SCRAPE] Image check failed, using original:', e.message);
+          console.log('[SCRAPE] Error verificando imagen:', e.message);
+        }
+
+        // Si no se pudo subir a R2, descartar artículo
+        if (!finalImageUrl) {
+          results.push({ url, title: title.substring(0, 50), success: false, error: 'Imagen no válida o inaccesible' });
+          continue;
         }
 
         // Extraer contenido
@@ -403,7 +424,7 @@ cron.post('/scrape', async (c) => {
 
         // Insertar en DB
         const paraId = crypto.randomUUID();
-        const slug = slugify(title);
+        const slug = articleSlugify(title);
         
         await c.env.DB.prepare(`
           INSERT INTO ARTICULOS_PARAFRASEADOS

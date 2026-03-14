@@ -2,7 +2,7 @@
 
 import { Hono } from 'hono';
 import { checkAuth } from '../middleware/auth.js';
-import { slugify, parseArticleRow } from '../utils/helpers.js';
+import { articleSlugify, parseArticleRow } from '../utils/helpers.js';
 
 const articles = new Hono();
 
@@ -167,12 +167,27 @@ articles.get('/:slug', async (c) => {
       "SELECT *, 'PARAFRASEADO' as SOURCE_TABLE FROM ARTICULOS_PARAFRASEADOS WHERE SLUG IS NULL ORDER BY FECHA_PUBLICACION DESC LIMIT 100"
     ).all();
     const matchPara = (allPara.results || []).find((r) => {
-      const generated = slugify(r.TITULO_PARAFRASEADO || r.TITULO || '');
-      return generated === slug;
-    });
-    if (matchPara) return c.json({ article: parseArticleRow(matchPara) });
+       const generated = articleSlugify(r.TITULO_PARAFRASEADO || r.TITULO || '');
+       return generated === slug;
+     });
+     if (matchPara) return c.json({ article: parseArticleRow(matchPara) });
 
-    return c.json({ error: 'Article not found' }, 404);
+     const legacyPara = await c.env.DB.prepare(
+       "SELECT *, 'PARAFRASEADO' as SOURCE_TABLE FROM ARTICULOS_PARAFRASEADOS WHERE LEGACY_SLUG = ? LIMIT 1"
+     ).bind(slug).first();
+     if (legacyPara) return c.json({ article: parseArticleRow(legacyPara), legacySlug: slug, canonicalSlug: legacyPara.SLUG || parseArticleRow(legacyPara)?.slug });
+
+     let legacyCMS = null;
+     try {
+       legacyCMS = await c.env.DB.prepare(
+         "SELECT *, 'CMS' as SOURCE_TABLE FROM ARTICULOS_CMS WHERE ESTADO = 'PUBLICADO' AND LEGACY_SLUG = ? LIMIT 1"
+       ).bind(slug).first();
+     } catch (e) {
+       console.error('Error fetching CMS legacy article by slug:', e.message);
+     }
+     if (legacyCMS) return c.json({ article: parseArticleRow(legacyCMS), legacySlug: slug, canonicalSlug: legacyCMS.SLUG || parseArticleRow(legacyCMS)?.slug });
+
+     return c.json({ error: 'Article not found' }, 404);
   } catch (e) {
     console.error('Error fetching article by slug:', e.message);
     return c.json({ error: e.message }, 500);
@@ -190,7 +205,7 @@ articles.post('/', async (c) => {
     }
 
     const wordCount = article.content.trim().split(/\s+/).length;
-    const slug      = article.slug || slugify(article.title);
+    const slug      = article.slug || articleSlugify(article.title);
     const now       = new Date().toISOString();
     const articleId = crypto.randomUUID();
 
@@ -241,7 +256,7 @@ articles.post('/bulk', async (c) => {
           continue;
         }
 
-        const slug = article.slug || slugify(article.title);
+        const slug = article.slug || articleSlugify(article.title);
         const now  = new Date().toISOString();
 
         await c.env.DB.prepare(`
@@ -292,12 +307,12 @@ articles.put('/:id', async (c) => {
 
     if (!title) return c.json({ error: 'Título requerido' }, 400);
 
-    const articleSlug = slug || slugify(title);
+    const articleSlug = slug || articleSlugify(title);
     const now         = new Date().toISOString();
 
     // Intentar actualizar en PARAFRASEADOS primero
     const existingPara = await c.env.DB.prepare(
-      'SELECT ID FROM ARTICULOS_PARAFRASEADOS WHERE ID = ?'
+      'SELECT ID, SLUG FROM ARTICULOS_PARAFRASEADOS WHERE ID = ?'
     ).bind(id).first();
 
     if (existingPara) {
@@ -305,12 +320,13 @@ articles.put('/:id', async (c) => {
         UPDATE ARTICULOS_PARAFRASEADOS SET
           TITULO_PARAFRASEADO = ?, SLUG = ?, CONTENIDO = ?,
           DESCRIPCION_PARAFRASEADA = ?, CATEGORIA = ?, AUTOR = ?,
-          FECHA_PUBLICACION = ?, URL_IMAGEN = ?, SITIO_DESTINO = ?, DESTACADO = ?
+          FECHA_PUBLICACION = ?, URL_IMAGEN = ?, SITIO_DESTINO = ?, DESTACADO = ?,
+          LEGACY_SLUG = CASE WHEN SLUG IS NOT NULL AND SLUG != ? THEN SLUG ELSE LEGACY_SLUG END
         WHERE ID = ?
       `).bind(
         title, articleSlug, content || '', excerpt || '',
         (category || 'NACIONAL').toUpperCase(), author || 'Redacción',
-        now, imageUrl || '', site || '', featured ? 1 : 0, id
+        now, imageUrl || '', site || '', featured ? 1 : 0, articleSlug, id
       ).run();
       return c.json({ success: true, id, source: 'PARAFRASEADOS' });
     }

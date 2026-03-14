@@ -2,7 +2,7 @@
 
 import { Hono } from 'hono';
 import { checkAuth } from '../middleware/auth.js';
-import { slugify } from '../utils/helpers.js';
+import { articleSlugify } from '../utils/helpers.js';
 import { publishToFBIndividual } from '../cron/facebook.js';
 
 const cms = new Hono();
@@ -39,7 +39,7 @@ cms.post('/articles', async (c) => {
 
     const now       = new Date().toISOString();
     const articleId = id || crypto.randomUUID();
-    let slug        = slugify(titulo);
+    let slug        = articleSlugify(titulo);
     let retryCount  = 0;
     const maxRetries = 3;
 
@@ -51,8 +51,8 @@ cms.post('/articles', async (c) => {
           ).bind(slug).first();
 
           if (existingSlug) {
-            slug = `${slugify(titulo)}-${Date.now()}`;
-            console.log(`[CMS] SLUG "${slugify(titulo)}" ya existe. Usando: ${slug}`);
+            slug = `${articleSlugify(titulo)}-${Date.now()}`;
+            console.log(`[CMS] SLUG "${articleSlugify(titulo)}" ya existe. Usando: ${slug}`);
           }
         }
 
@@ -60,12 +60,13 @@ cms.post('/articles', async (c) => {
           await c.env.DB.prepare(`
             UPDATE ARTICULOS_CMS SET
               TITULO = ?, SLUG = ?, CONTENIDO = ?, DESCRIPCION = ?,
-              CATEGORIA = ?, URL_IMAGEN = ?, DESTACADO = ?, ESTADO = ?
+              CATEGORIA = ?, URL_IMAGEN = ?, DESTACADO = ?, ESTADO = ?,
+              LEGACY_SLUG = CASE WHEN SLUG IS NOT NULL AND SLUG != ? THEN SLUG ELSE LEGACY_SLUG END
             WHERE ID = ?
           `).bind(
             titulo, slug, contenido || '', descripcion || '',
             (categoria || 'NACIONAL').toUpperCase(), url_imagen || '',
-            destacado || 0, estado || 'BORRADOR', id
+            destacado || 0, estado || 'BORRADOR', slug, id
           ).run();
         } else {
           await c.env.DB.prepare(`
@@ -83,7 +84,7 @@ cms.post('/articles', async (c) => {
       } catch (dbErr) {
         if (dbErr.message.includes('UNIQUE constraint failed') && retryCount < maxRetries - 1) {
           retryCount++;
-          slug = `${slugify(titulo)}-${Date.now()}-${retryCount}`;
+          slug = `${articleSlugify(titulo)}-${Date.now()}-${retryCount}`;
           console.log(`[CMS] UNIQUE constraint error. Retry ${retryCount}/${maxRetries} con SLUG: ${slug}`);
         } else {
           throw dbErr;
@@ -146,7 +147,7 @@ cms.post('/publish', async (c) => {
     ).bind(id).first();
     if (!article) return c.json({ error: 'Artículo no encontrado' }, 404);
 
-    const baseSlug = article.SLUG || slugify(article.TITULO);
+    const baseSlug = article.SLUG || articleSlugify(article.TITULO);
 
     // Verificar si ya existe un registro publicado con este SLUG (evita duplicados)
     const existingPara = await c.env.DB.prepare(

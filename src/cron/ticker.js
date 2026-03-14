@@ -3,9 +3,30 @@
 // ============================================================
 // updateTickerData — Obtiene datos financieros y titulares en tiempo real
 // ============================================================
+function normalizeHeadlineTitle(title) {
+  if (!title || title === '[Removed]') return null;
+
+  return String(title)
+    .replace(/\s*[-|]\s*[^-|]+$/g, '')
+    .replace(/^\s+|\s+$/g, '');
+}
+
 export async function updateTickerData(env) {
   const newsKey = env.NEWSAPI_KEY;
   const now = new Date().toISOString();
+  const headlines = [];
+
+  try {
+    await env.DB.prepare(`
+      CREATE TABLE IF NOT EXISTS TICKER_HEADLINES (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        TITULO TEXT NOT NULL,
+        URL TEXT,
+        FUENTE TEXT,
+        FECHA_CREACION TEXT DEFAULT (datetime('now'))
+      )
+    `).run();
+  } catch (_) {}
 
   // 1. Headlines (NewsAPI)
   if (newsKey) {
@@ -15,14 +36,66 @@ export async function updateTickerData(env) {
       );
       const data = await res.json();
       for (const art of (data.articles || [])) {
-        if (art.title && art.title !== '[Removed]') {
-          await env.DB.prepare(
-            'INSERT INTO TICKER_HEADLINES (TITULO, URL, FUENTE, FECHA_CREACION) VALUES (?, ?, ?, ?)'
-          ).bind(art.title, art.url, art.source.name, now).run();
+        const title = normalizeHeadlineTitle(art.title);
+        if (title) {
+          headlines.push({
+            titulo: title,
+            url: art.url || null,
+            fuente: art.source?.name || 'NewsAPI',
+          });
         }
       }
     } catch (e) {
       console.error('[Ticker] Headlines error:', e.message);
+    }
+  }
+
+  if (headlines.length === 0) {
+    try {
+      const fallback = await env.DB.prepare(`
+        SELECT TITULO_PARAFRASEADO as TITULO, SLUG
+        FROM ARTICULOS_PARAFRASEADOS
+        WHERE ESTADO = 'PUBLICADO'
+        ORDER BY FECHA_PUBLICACION DESC
+        LIMIT 15
+      `).all();
+
+      for (const art of (fallback.results || [])) {
+        const title = normalizeHeadlineTitle(art.TITULO);
+        if (title) {
+          headlines.push({
+            titulo: title,
+            url: art.SLUG ? `https://www.radiocinconoticias.click/articulo/?slug=${art.SLUG}` : null,
+            fuente: 'NexoPress',
+          });
+        }
+      }
+    } catch (e) {
+      console.error('[Ticker] Local fallback error:', e.message);
+    }
+  }
+
+  if (headlines.length > 0) {
+    const unique = [];
+    const seen = new Set();
+
+    for (const item of headlines) {
+      const key = item.titulo.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      unique.push(item);
+      if (unique.length >= 15) break;
+    }
+
+    try {
+      await env.DB.prepare('DELETE FROM TICKER_HEADLINES').run();
+      for (const item of unique) {
+        await env.DB.prepare(
+          'INSERT INTO TICKER_HEADLINES (TITULO, URL, FUENTE, FECHA_CREACION) VALUES (?, ?, ?, ?)'
+        ).bind(item.titulo, item.url, item.fuente, now).run();
+      }
+    } catch (e) {
+      console.error('[Ticker] Persist headlines error:', e.message);
     }
   }
 

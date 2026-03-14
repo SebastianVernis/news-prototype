@@ -55,6 +55,10 @@ ticker.get('/headlines', async (c) => {
       'SELECT TITULO, URL, FUENTE, FECHA_CREACION FROM TICKER_HEADLINES ORDER BY FECHA_CREACION DESC LIMIT ?'
     ).bind(limit).all();
 
+    c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    c.header('Pragma', 'no-cache');
+    c.header('Expires', '0');
+
     return c.json(res.results || []);
   } catch (e) {
     return c.json([], 200); // Fallback a estáticos

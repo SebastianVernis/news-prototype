@@ -1,6 +1,6 @@
 // src/cron/rss-ingest.js — Ingesta automática de RSS y parafraseo con IA
 
-import { slugify, decodeHTMLEntities } from '../utils/helpers.js';
+import { articleSlugify, decodeHTMLEntities } from '../utils/helpers.js';
 import { getOGImage, uploadToR2 } from '../utils/html.js';
 import { SITIOS_LIST, SITE_DOMAIN_MAP, log, error, warn, LOG_PREFIXES } from '../config.js';
 
@@ -54,6 +54,7 @@ export function cleanArticleContent(text) {
 
   // 4. Eliminar firmas, copyright y datos legales
   cleaned = cleaned.replace(/\d{4}\s*DERECHOS\s*RESERVADOS.*$/gim, '');
+  cleaned = cleaned.replace(/Derechos\s+de\s+Autor.*$/gim, '');
   cleaned = cleaned.replace(/©\s*\d{4}.*$/gim, '');
   cleaned = cleaned.replace(/todos los derechos reservados/gi, '');
   cleaned = cleaned.replace(/prohibida su reproducción/gi, '');
@@ -116,6 +117,43 @@ export function cleanArticleContent(text) {
   cleaned = cleaned.trim();
 
   return cleaned;
+}
+
+// ============================================================
+// cleanTitle — Limpia títulos de nombres de medios/marcas
+// ============================================================
+export function cleanTitle(title) {
+  if (!title) return title;
+  
+  let cleaned = title;
+  
+  // Eliminar prefijos de medios comunes
+  const prefixes = [
+    /^La\s+Jornada:\s*/i,
+    /^El\s+Informador:\s*/i,
+    /^Proceso:\s*/i,
+    /^El\s+Universal:\s*/i,
+    /^Milenio:\s*/i,
+    /^Excélsior:\s*/i,
+    /^El\s+Sol\s+de\s+México:\s*/i,
+    /^La\s+Opinión\s*/i,
+    /^El\s+Diario\s+de\s+Hoy:\s*/i,
+    /^Publimetro:\s*/i,
+    /^24\s+Horas:\s*/i,
+    /^El\s+Economista:\s*/i,
+    /^Expansión:\s*/i,
+    /^Azteca\s+Noticias:\s*/i,
+    /^TV\s+Azteca:\s*/i,
+  ];
+  
+  for (const prefix of prefixes) {
+    cleaned = cleaned.replace(prefix, '');
+  }
+  
+  // Eliminar sufijos con管道 (|) y guiones
+  cleaned = cleaned.replace(/\s*[\||\-]\s*.+$/g, '');
+  
+  return cleaned.trim();
 }
 
 // ============================================================
@@ -261,7 +299,7 @@ export async function runRSSIngest(env) {
         try {
           const now = new Date().toISOString();
           const paraId = crypto.randomUUID();
-          const slug = slugify(title);
+          const slug = articleSlugify(title);
 
           await env.DB.prepare(`
             INSERT INTO ARTICULOS_PARAFRASEADOS

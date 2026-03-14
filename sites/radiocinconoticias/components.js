@@ -359,7 +359,8 @@ font-family:'Noto Sans',Arial,sans-serif;font-size:0.74rem;white-space:nowrap;}
     }
 
     function initBreakingTicker() {
-        fetch('https://news-api.sebastianvernis.workers.dev/api/ticker/headlines?limit=10')
+        var tickerUrl = 'https://news-api.sebastianvernis.workers.dev/api/ticker/headlines?limit=10&_ts=' + Date.now();
+        fetch(tickerUrl, { cache: 'no-store' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 if (!Array.isArray(data) || data.length === 0) return;

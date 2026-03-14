@@ -2,7 +2,7 @@
 
 import { Hono } from 'hono';
 import { checkAuth } from '../middleware/auth.js';
-import { slugify } from '../utils/helpers.js';
+import { articleSlugify } from '../utils/helpers.js';
 
 const revision = new Hono();
 
@@ -60,7 +60,7 @@ revision.post('/approve/:id', async (c) => {
     if (!rev) return c.json({ error: 'Revisión no encontrada' }, 404);
 
     const now    = new Date().toISOString();
-    const slug   = slugify(rev.TITULO_PROPUESTO || 'articulo');
+    const slug   = articleSlugify(rev.TITULO_PROPUESTO || 'articulo');
     const paraId = crypto.randomUUID();
 
     const isFeatured = (rev.DESTACADO || 0) === 1 &&

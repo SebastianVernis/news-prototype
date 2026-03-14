@@ -131,6 +131,7 @@ export async function processFB(env) {
 // ============================================================
 // processFBTimer — Publica 1 artículo aleatorio con imagen R2
 // PUBLICA SI O SI cada 3 horas en TODOS los sitios con artículos pendientes
+// USA DB en lugar de KV para evitar problemas de escritura/lectura
 // ============================================================
 export async function processFBTimer(env) {
   FB_LOG('Starting Facebook Timer processing...');
@@ -138,17 +139,31 @@ export async function processFBTimer(env) {
   const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
   const now = Date.now();
 
+  //确保表存在
+  try {
+    await env.DB.prepare(`
+      CREATE TABLE IF NOT EXISTS FB_TIMERS (
+        SITE_SLUG TEXT PRIMARY KEY,
+        LAST_POST TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `).run();
+  } catch (e) {
+    FB_LOG('Table check error (may already exist):', e.message);
+  }
+
   for (const siteSlug of SITIOS_LIST) {
     const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
-    const kvKey = `last_fb_post_${siteSlug}`;
 
-    // Obtener última publicación desde KV
-    const lastPostRaw = await env.ARTICLES_KV.get(kvKey);
-    const lastPostTime = lastPostRaw ? parseInt(lastPostRaw, 10) : 0;
+    // Obtener última publicación desde DB
+    const lastPostRow = await env.DB.prepare(
+      'SELECT LAST_POST FROM FB_TIMERS WHERE SITE_SLUG = ?'
+    ).bind(siteSlug).first();
+
+    const lastPostTime = lastPostRow?.LAST_POST ? new Date(lastPostRow.LAST_POST).getTime() : 0;
     const elapsed = now - lastPostTime;
     const elapsedMin = Math.floor(elapsed / 60000);
 
-    FB_LOG(`${siteSlug}: Last post ${elapsedMin} min ago (${lastPostTime === 0 ? 'NEVER' : 'active timer'})`);
+    FB_LOG(`${siteSlug}: Last post ${lastPostTime === 0 ? 'NEVER' : elapsedMin + ' min ago'}`);
 
     // Verificar si hay artículos pendientes
     const pendingCount = await env.DB.prepare(`
@@ -227,8 +242,10 @@ export async function processFBTimer(env) {
           WHERE ID = ?
         `).bind(result.post_id, randomArticle.SITIO_ID).run();
 
-        // Actualizar timer en KV
-        await env.ARTICLES_KV.put(kvKey, Date.now().toString());
+        // Actualizar timer en DB
+        await env.DB.prepare(`
+          INSERT OR REPLACE INTO FB_TIMERS (SITE_SLUG, LAST_POST) VALUES (?, datetime('now'))
+        `).bind(siteSlug).run();
 
         stats.success++;
         FB_LOG(`${siteSlug} SUCCESS: ${result.post_id}`);

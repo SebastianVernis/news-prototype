@@ -18,17 +18,26 @@ export const getOGImage = async (url) => {
 
 // ============================================================
 // uploadToR2 — Descarga imagen remota y la sube a R2
+// Retorna null si la imagen no es accesible (404, etc.)
 // ============================================================
 export const uploadToR2 = async (url, env) => {
   try {
     const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.log('[R2] Image not accessible:', res.status, url);
+      return null;
+    }
     const contentType = res.headers.get('content-type') || 'image/jpeg';
+    if (!contentType.startsWith('image/')) {
+      console.log('[R2] Not an image:', contentType, url);
+      return null;
+    }
     const buffer = await res.arrayBuffer();
     const key = `auto/${crypto.randomUUID()}.jpg`;
     await env.UPLOADS.put(key, buffer, { httpMetadata: { contentType } });
     return `https://uploads.sebastianvernis.space/${key}`;
-  } catch (_) {
+  } catch (e) {
+    console.log('[R2] Upload error:', e.message);
     return null;
   }
 };

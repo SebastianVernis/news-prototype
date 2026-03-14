@@ -1,302 +1,352 @@
-# NexoPress - Sistema de Noticias Multi-Sitio (Cloudflare)
+# Sitios Generados - Cloudflare News Project
 
-NexoPress es una plataforma de noticias de alto rendimiento diseñada íntegramente para el ecosistema de **Cloudflare**. Gestiona **27 sitios de noticias independientes** desde un único panel de administración y un núcleo centralizado en Cloudflare Workers y D1.
+## Resumen
 
-## 🚀 Arquitectura del Sistema
+Se han generado **10 sitios de noticias completamente independientes** y funcionales, cada uno con su propio diseño único, paleta de colores, configuración tipográfica y **sistema CMS de administración con autenticación por token de 64 dígitos**.
 
-El proyecto se basa en una arquitectura de **Worker Unificado** que gestiona tanto la API como las tareas programadas (Cron Jobs).
+## 📁 Estructura de Archivos
 
-- **Frontend:** 27 sitios estáticos en Cloudflare Pages (10 estables + 17 nuevos)
-- **Backend (API):** Cloudflare Workers (Hono framework)
-- **Base de Datos:** Cloudflare D1 (SQLite)
-- **Almacenamiento:** Cloudflare R2 (Imágenes) y KV (Caché/Estado)
-- **IA:** Integración con OpenRouter (Gemini 2.0 Flash) para corrección de estilo y parafraseo
-
-## ✨ Características Principales
-
-- **Ingesta Multi-Formato:** Soporte para RSS y Atom (El País, Proceso, Aristegui, etc.)
-- **Parafraseo con IA:** Corrección automática de ortografía y gramática mediante IA
-- **Flujo de Facebook Inteligente:**
-  - Publicación automática cada 3 horas por sitio
-  - Filtro de **"Imagen Perfecta"**: Solo publica en Facebook si el artículo tiene una imagen original (evita imágenes de relleno)
-  - Tokens de página permanentes (Never Expire)
-  - Soporte para 27 sitios independientes
-- **Dashboard Administrativo:**
-  - Gestión centralizada de 27 sitios
-  - **Monitor de Sistema:** Seguimiento en tiempo real de crons, tokens de Facebook e historial de publicaciones
-  - Ingesta manual forzada para diagnóstico
-  - Editor universal de artículos
-  - Mesa de revisión de contenido
-
-## 🌐 Red de Sitios (27)
-
-### Sitios Estables (10) - Operativos
-
-| # | Sitio | Dominio | Slug |
-|---|-------|---------|------|
-| 1 | Radio Cinco Noticias | https://www.radiocinconoticias.click | `radiocinconoticias` |
-| 2 | Central México | https://www.centralmexico.online | `centralmexico` |
-| 3 | TV México | https://www.tvmexiconews.site | `tvmexico` |
-| 4 | CBN Noticias | https://www.cbnnoticias.click | `cbnnoticias` |
-| 5 | México Informado | https://www.mexicoinformado.lat | `mexicoinformado` |
-| 6 | Nodo Informativo | https://www.nodoinformativo.lat | `nodoinformativo` |
-| 7 | Bitácora Urbana | https://www.bitacoraurbana.lat | `bitacoraurbana` |
-| 8 | Reporte Central MX | https://www.reportecentral.site | `reportecentralmx` |
-| 9 | Vértice Noticias | https://www.verticenoticias.today | `verticenoticias` |
-| 10 | Noticias Objetivo | https://www.noticiasobjetivo.click | `noticiasobjetivo` |
-
-### Nuevos Sitios (17) - Listos para Despliegue
-
-| # | Sitio | Dominio | Slug |
-|---|-------|---------|------|
-| 11 | Boominformativo | https://www.boominformativo.site | `boominformativo` |
-| 12 | Capital Press | https://www.capitalpress.mx | `capitalpress` |
-| 13 | Diario Express | https://www.diarioexpress.news | `diarioexpress` |
-| 14 | El Pulso Mexicano | https://www.elpulsomexicano.com | `elpulsomexicano` |
-| 15 | Enfoque Capital | https://www.enfoquecapital.mx | `enfoquecapital` |
-| 16 | Enfoque Directo | https://www.enfoquedirecto.news | `enfoquedirecto` |
-| 17 | Fórmula CDMX | https://www.formulacdmx.mx | `formulacdmx` |
-| 18 | The Mexican Times | https://www.mexicantimes.mx | `mexicantimes` |
-| 19 | México 360 Noticias | https://www.mexico360noticias.mx | `mexico360noticias` |
-| 20 | M Radio | https://www.mradio.mx | `mradio` |
-| 21 | Noticias Horizonte | https://www.noticiashorizonte.mx | `noticiashorizonte` |
-| 22 | Pulso Diario | https://www.pulsodiario.mx | `pulsodiario` |
-| 23 | Punto Clave | https://www.puntoclave.mx | `puntoclave` |
-| 24 | Punto Noticias | https://www.puntonoticias.mx | `puntonoticias` |
-| 25 | Radar Informativo | https://www.radarinformativo.mx | `radarinformativo` |
-| 26 | Reporte Diario | https://www.reportediario.mx | `reportediario` |
-| 27 | Televisión ABC | https://www.televisionabc.mx | `televisionabc` |
-
-## 📚 Documentación
-
-Para una guía detallada sobre el funcionamiento del sistema, consulta:
-
-| Documento | Descripción |
-|-----------|-------------|
-| [Índice Documental](./docs/INDEX.md) | Portal de toda la documentación |
-| [Guía para Agentes IA](./QWEN.md) | Guía completa para agentes de IA |
-| [Monitor de Sistema](./docs/SYSTEM_MONITOR.md) | Diagnóstico y monitoreo |
-| [Referencia de API](./docs/API_REFERENCE.md) | Endpoints y autenticación |
-| [27 Sitios Verificados](./27_SITIOS_VERIFICADOS.md) | Estado de implementación |
-
-## 🛠️ Estructura del Proyecto
-
+Cada sitio contiene:
 ```
-/home/sebastianvernis/cloudflare-news-project/
-├── public/admin/           # Dashboard de Administración (CMS)
-│   ├── views/              # Vistas HTML (dashboard, monitor, etc.)
-│   ├── js/                 # Lógica del CMS (router, auth, editor)
-│   └── css/                # Estilos del dashboard
-├── src/
-│   ├── index.js            # Worker Unificado (API + Cron + FB Flow)
-│   ├── index_append.js     # Funciones adicionales
-│   └── schema.sql          # Schema completo de D1
-├── sites/
-│   ├── Estables/           # 10 sitios operativos
-│   └── Nuevos/             # 17 sitios listos para deploy
-├── scripts/
-│   ├── setup/              # Scripts de configuración
-│   ├── deploy/             # Scripts de despliegue
-│   ├── verify/             # Scripts de verificación
-│   └── fixes/              # Scripts de mantenimiento
-├── docs/                   # Documentación técnica
-├── backups/archive/        # Archivo de backups y scripts obsoletos
-├── wrangler.toml           # Configuración de Cloudflare (referencia)
-└── package.json            # Dependencias del proyecto
+sites/[nombre-sitio]/
+├── index.html                 (Página principal)
+├── style.css                  (Estilos personalizados)
+├── script.js                  (JavaScript frontend)
+├── legal.css                  (Páginas legales)
+├── article.css                (Estilos para artículos)
+├── terminos.html              (Términos de uso)
+├── privacidad.html            (Política de privacidad)
+├── acerca-de.html             (Acerca de)
+├── contacto.html              (Contacto)
+├── admin/                     (✨ CMS de Administración)
+│   ├── index.html             (Dashboard)
+│   ├── login.html             (Autenticación)
+│   ├── style.css              (Estilos CMS)
+│   ├── script.js              (Lógica CMS)
+│   └── login.js               (Auth script)
+├── categoria/                 (Páginas de categoría)
+│   ├── nacional.html
+│   ├── politica.html
+│   ├── economia.html
+│   └── deportes.html
+└── articulo/                  (Página de artículo)
+    └── informe-especial-tecnologia.html
 ```
 
-## ⚙️ Configuración y Despliegue
+**Total por sitio:** 14 archivos HTML + 4 archivos CSS + 2 archivos JS = **20 archivos**
 
-### Requisitos
-- Cloudflare CLI (`wrangler`)
-- Cuenta de OpenRouter (para la IA)
-- Tokens de acceso a páginas de Facebook (27 sitios)
+**Total general:** 10 sitios × 20 archivos = **200+ archivos**
 
-### Despliegue del Worker (API)
+---
+
+## 🔐 Sistema CMS (Panel de Administración)
+
+Cada sitio incluye un **CMS completo con autenticación por token de 64 dígitos**.
+
+### Acceder al CMS
+
+1. **Navegue a:** `sites/[sitio]/admin/login.html`
+2. **Ingrese el token** correspondiente (ver `CMS_TOKENS.txt`)
+3. **Dashboard:** Gestione artículos, categorías y configuración
+
+### Funcionalidades del CMS
+
+✅ **Dashboard** con estadísticas en tiempo real
+✅ **Crear artículos** con título, contenido, categoría, imagen, tags
+✅ **Editar artículos** existentes
+✅ **Eliminar artículos**
+✅ **Búsqueda** en tiempo real
+✅ **Estados:** Publicado/Borrador
+✅ **Artículos destacados** (toggle)
+✅ **Exportar datos** en JSON
+✅ **Regenerar token** de seguridad
+
+### Tokens de Acceso
+
+Los tokens están en: **`sites/CMS_TOKENS.txt`**
+
+```
+radiocinconoticias: REDACTED_TOKEN
+centralmexico:      REDACTED_TOKEN
+tvmexico:           REDACTED_TOKEN
+... (ver archivo completo)
+```
+
+⚠️ **IMPORTANTE:** Guarde `CMS_TOKENS.txt` en un lugar seguro.
+
+### Cómo Usar el CMS
+
+**Local:**
 ```bash
-cd src
-wrangler deploy --config wrangler.toml
+cd sites/radiocinconoticias
+python3 -m http.server 8000
+# Abrir: http://localhost:8000/admin/login.html
 ```
 
-### Despliegue de Sitios Pages
-
-**Sitios Estables:**
+**Producción (Cloudflare Pages):**
 ```bash
-for site in radiocinconoticias centralmexico tvmexico cbnnoticias mexicoinformado nodoinformativo bitacoraurbana reportecentralmx verticenoticias noticiasobjetivo; do
-  cd sites/Estables/$site && wrangler pages deploy . --project-name=$site --branch=master && cd ../../..
-done
+wrangler pages deploy ./sites/radiocinconoticias --project-name=radiocinconoticias
+# Abrir: https://radiocinconoticias.pages.dev/admin/login.html
 ```
 
-**Nuevos Sitios:**
+📖 **Ver documentación completa:** `CMS_GUIDE.md`
+
+---
+
+## Lista de Sitios
+
+### 1. Radio Cinco Noticias
+- **Slug:** `radiocinconoticias`
+- **Tagline:** "Tu conexión con la actualidad"
+- **Colores:** Dark mode (negro/gris con acento dorado)
+- **Layout:** 3-1-3 Grid
+- **Icono:** `fa-broadcast-tower`
+- **Dominio sugerido:** `radiocinconoticias.pages.dev`
+
+### 2. Central México
+- **Slug:** `centralmexico`
+- **Tagline:** "El pulso de la nación"
+- **Colores:** Azul corporativo (#004a99)
+- **Layout:** Magazine Stack
+- **Icono:** `fa-newspaper`
+- **Dominio sugerido:** `centralmexico.pages.dev`
+
+### 3. TV México
+- **Slug:** `tvmexico`
+- **Tagline:** "Información en movimiento"
+- **Colores:** Rojo prensa (#c00000)
+- **Layout:** Classic News
+- **Icono:** `fa-tv`
+- **Dominio sugerido:** `tvmexico.pages.dev`
+
+### 4. CBN Noticias
+- **Slug:** `cbnnoticias`
+- **Tagline:** "Noticias con credibilidad"
+- **Colores:** Azul marino (#003366)
+- **Layout:** Masonry Grid
+- **Icono:** `fa-globe`
+- **Dominio sugerido:** `cbnnoticias.pages.dev`
+
+### 5. México Informado
+- **Slug:** `mexicoinformado`
+- **Tagline:** "La verdad minuto a minuto"
+- **Colores:** Verde México (#006341)
+- **Layout:** Magazine
+- **Icono:** `fa-check-circle`
+- **Dominio sugerido:** `mexicoinformado.pages.dev`
+
+### 6. Nodo Informativo
+- **Slug:** `nodoinformativo`
+- **Tagline:** "Conectando la información"
+- **Colores:** Azul moderno (#1e3a8a)
+- **Layout:** Masonry
+- **Icono:** `fa-network-wired`
+- **Dominio sugerido:** `nodoinformativo.pages.dev`
+
+### 7. Bitácora Urbana
+- **Slug:** `bitacoraurbana`
+- **Tagline:** "Crónicas de la ciudad"
+- **Colores:** Gris minimalista (#4a5568)
+- **Layout:** Masonry
+- **Icono:** `fa-city`
+- **Dominio sugerido:** `bitacoraurbana.pages.dev`
+
+### 8. Reporte Central MX
+- **Slug:** `reportecentralmx`
+- **Tagline:** "Análisis y profundidad"
+- **Colores:** Dark profesional (#2d3748)
+- **Layout:** Classic
+- **Icono:** `fa-file-alt`
+- **Dominio sugerido:** `reportecentralmx.pages.dev`
+
+### 9. Vértice Noticias
+- **Slug:** `verticenoticias`
+- **Tagline:** "El punto exacto de la noticia"
+- **Colores:** Rojo intenso (#9b2c2c)
+- **Layout:** Masonry
+- **Icono:** `fa-crosshairs`
+- **Dominio sugerido:** `verticenoticias.pages.dev`
+
+### 10. Noticias Objetivo (NUEVO)
+- **Slug:** `noticiasobjetivo`
+- **Tagline:** "Información sin censura"
+- **Colores:** Rojo intenso + dorado
+- **Layout:** 3-1-3 Grid
+- **Icono:** `fa-bullseye`
+- **Dominio sugerido:** `noticiasobjetivo.pages.dev`
+
+~~### 10. Vanguardia Tecámac~~ (❌ Eliminado, reemplazado por Noticias Objetivo)
+
+---
+
+## Características Comunes
+
+### Diseño Responsivo
+Todos los sitios son completamente responsivos y se adaptan a:
+- Móviles (≤480px)
+- Tablets (481px - 768px)
+- Tablets grandes (769px - 1024px)
+- Escritorio (≥1025px)
+
+### Componentes Incluidos
+- **Header:** Sticky con logo, navegación y búsqueda
+- **Breaking News:** Ticker de última hora
+- **Featured Section:** Artículo destacado principal
+- **News Grid:** Grid de noticias responsive
+- **Footer:** 3 columnas con enlaces y redes sociales
+- **Preloader:** Pantalla de carga animada
+
+### Páginas Legales
+Cada sitio incluye:
+- Términos de uso
+- Política de privacidad
+- Acerca de
+- Contacto
+- Descargo de responsabilidad
+
+### Categorías
+- Nacional
+- Política
+- Economía
+- Deportes
+
+---
+
+## Cómo Usar
+
+### Opción 1: Despliegue Directo a Cloudflare Pages
+
+Cada sitio puede desplegarse independientemente:
+
 ```bash
-./scripts/deploy_new_sites.sh
+# Ejemplo para Radio Cinco Noticias
+wrangler pages deploy ./sites/radiocinconoticias --project-name=radiocinconoticias
 ```
 
-### Variables de Entorno Críticas (Secrets)
+### Opción 2: Servidor Local para Pruebas
 
-**Generales:**
-- `OPENROUTER_API_KEY`: Para el parafraseo e ingesta con IA
-- `ADMIN_TOKEN`: Token maestro para administración del CMS
-
-**Facebook Tokens (27 sitios):**
 ```bash
-# Sitios Estables (10)
-wrangler secret put FB_TOKEN_RADIOCINCONOTICIAS --name news-api
-wrangler secret put FB_TOKEN_CENTRALMEXICO --name news-api
-wrangler secret put FB_TOKEN_TVMEXICO --name news-api
-wrangler secret put FB_TOKEN_CBNNOTICIAS --name news-api
-wrangler secret put FB_TOKEN_MEXICOINFORMADO --name news-api
-wrangler secret put FB_TOKEN_NODOINFORMATIVO --name news-api
-wrangler secret put FB_TOKEN_BITACORAURBANA --name news-api
-wrangler secret put FB_TOKEN_REPORTECENTRALMX --name news-api
-wrangler secret put FB_TOKEN_VERTICENOTICIAS --name news-api
-wrangler secret put FB_TOKEN_NOTICIASOBJETIVO --name news-api
+# Usar Python HTTP server
+cd sites/radiocinconoticias
+python3 -m http.server 8000
 
-# Nuevos Sitios (17)
-wrangler secret put FB_TOKEN_BOOMINFORMATIVO --name news-api
-wrangler secret put FB_TOKEN_CAPITALPRESS --name news-api
-wrangler secret put FB_TOKEN_DIARIOEXPRESS --name news-api
-# ... (ver QWEN.md para lista completa)
+# Abrir en navegador: http://localhost:8000
 ```
 
-**Configuración automática de tokens:**
-```bash
-python3 scripts/setup_fb_tokens.py
+### Opción 3: VS Code Live Server
+
+1. Instalar extensión "Live Server"
+2. Click derecho en `index.html` de cualquier sitio
+3. Seleccionar "Open with Live Server"
+
+---
+
+## Personalización
+
+### Cambiar Colores
+Editar `style.css` en cada sitio:
+```css
+:root {
+    --primary-color: #TU_COLOR;
+    --secondary-color: #TU_COLOR;
+    --accent-color: #TU_COLOR;
+}
 ```
 
-## 📊 Monitoreo
-
-El sistema incluye endpoints de diagnóstico protegidos:
-
-| Endpoint | Método | Descripción |
-|----------|--------|-------------|
-| `/api/cron/status` | GET | Estado de las últimas tareas automáticas |
-| `/api/facebook/monitor` | GET | Monitor de publicaciones en Facebook |
-| `/api/facebook/debug-tokens` | GET | Verifica la validez de los tokens de Facebook |
-| `/api/cron/ingest` | POST | Dispara una ingesta manual de noticias |
-| `/api/cron/manual` | POST | Ejecuta el cron manualmente |
-
-**Dashboard de Monitoreo:** https://cms.sebastianvernis.space/admin/#/monitor
-
-## 🔧 Comandos Útiles
-
-### Desarrollo Local
-```bash
-# Worker en local
-cd src && wrangler dev --config wrangler.toml
-
-# Pages en local
-cd sites/Estables/[sitio] && wrangler pages dev .
+### Cambiar Fuentes
+Editar Google Fonts en el `<head>` y las variables CSS:
+```css
+:root {
+    --font-primary: 'Tu Fuente', serif;
+    --font-secondary: 'Tu Fuente', sans-serif;
+}
 ```
 
-### Producción
-```bash
-# Deploy del Worker
-cd src && wrangler deploy
-
-# Deploy de un sitio
-cd sites/Estables/[sitio] && wrangler pages deploy . --project-name=[sitio] --branch=master
-
-# Ver logs en vivo
-wrangler tail --name news-api
-```
-
-### Base de Datos
-```bash
-# Query directa
-wrangler d1 execute news_db --command "SELECT COUNT(*) FROM ARTICULOS_PARAFRASEADOS" --remote
-
-# Backup
-wrangler d1 export news_db --output backup.sql --remote
-```
-
-### Verificación
-```bash
-# Verificar 27 sitios
-python3 scripts/verify_27_sites.py
-
-# Reporte de Facebook
-python3 scripts/fb_full_report.py
-
-# Ver estado del cron
-curl -s https://news-api.sebastianvernis.workers.dev/api/cron/status
-```
-
-## 🔐 Endpoints del CMS
-
-| Ruta | Vista | Descripción |
-|------|-------|-------------|
-| `#/dashboard` | Dashboard | Métricas generales y accesos rápidos |
-| `#/articles` | Artículos | Lista de artículos parafraseados |
-| `#/cms` | CMS | Artículos creados manualmente |
-| `#/revision` | Revisión | Mesa de revisión de contenido |
-| `#/monitor` | Monitor | Estado del sistema en vivo |
-| `#/sites` | Sitios | Gestión de los 27 sitios |
-| `#/users` | Usuarios | Gestión de usuarios y roles |
-
-**URL de Acceso:** https://cms.sebastianvernis.space/admin/
-
-## 📈 Estado del Proyecto
-
-| Componente | Estado | Descripción |
-|------------|--------|-------------|
-| **Worker API** | ✅ Operativo | API REST, Cron, Facebook Publishing |
-| **10 Sitios Estables** | ✅ Operativos | Todos desplegados y funcionando |
-| **17 Nuevos Sitios** | ✅ Listos | wrangler.toml, estructura y middleware completos |
-| **Base de Datos D1** | ✅ Configurada | Schema completo con índices |
-| **CMS Dashboard** | ✅ Operativo | SPA con editor universal |
-| **Facebook Tokens** | ⚠️ Parcial | 10/27 configurados (17 pendientes) |
-
-## 📝 Scripts Disponibles
-
-| Script | Propósito |
-|--------|-----------|
-| `scripts/setup_fb_tokens.py` | Configurar tokens de Facebook interactivamente |
-| `scripts/verify_fb_tokens.py` | Verificar validez de tokens FB |
-| `scripts/verify_27_sites.py` | Verificación completa de los 27 sitios |
-| `scripts/deploy_new_sites.sh` | Despliegue automático de 17 nuevos sitios |
-| `scripts/fb_full_report.py` | Reporte completo de publicaciones en Facebook |
-| `scripts/reset_fb_timers.py` | Resetear timers de Facebook |
-| `scripts/force_reset_and_ingest.py` | Forzar reset y ingesta manual |
-
-## 🏗️ Arquitectura
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Cloudflare Workers (27 sitios)               │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │              news-api (Worker Principal)                 │   │
-│  │  - API REST (Hono framework)                            │   │
-│  │  - Cron Jobs (cada 30 min)                              │   │
-│  │  - Facebook Publishing (cada 3 horas x 27 sitios)       │   │
-│  │  - RSS Ingestion & Feeds                                │   │
-│  └─────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-         ┌────────────────────┼────────────────────┐
-         │                    │                    │
-         ▼                    ▼                    ▼
-┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│   Cloudflare    │  │   Cloudflare    │  │   Cloudflare    │
-│      D1         │  │      R2         │  │       KV        │
-│  (SQLite DB)    │  │  (Imágenes)     │  │   (Caché)       │
-│                 │  │                 │  │                 │
-│ - SITIOS (27)   │  │ - uploads/      │  │ - cron_status   │
-│ - ARTICULOS_    │  │ - auto/         │  │ - last_fb_post_ │
-│ - REVISION_     │  │                 │  │ - session_      │
-└─────────────────┘  └─────────────────┘  └─────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                 Cloudflare Pages (27 sitios)                    │
-│  Cada sitio tiene:                                              │
-│  - Frontend estático (HTML/CSS/JS)                              │
-│  - Functions para SSR (middleware de artículos)                 │
-│  - Open Graph meta tags dinámicas                               │
-│  - Dominio personalizado configurable                           │
-└─────────────────────────────────────────────────────────────────┘
+### Agregar Noticias
+Editar el HTML en `index.html` y duplicar los bloques `<article class="news-card">`:
+```html
+<article class="news-card">
+    <div class="card-image-wrapper">
+        <img src="ruta/a/imagen.jpg" alt="Título">
+        <span class="card-category-badge cat-nacional">Categoría</span>
+    </div>
+    <div class="card-content">
+        <h3 class="card-title"><a href="articulo/slug.html">Título</a></h3>
+        <p class="card-excerpt">Descripción breve...</p>
+        <div class="card-footer">
+            <span class="card-author">Por Autor</span>
+            <span class="card-date">Fecha</span>
+        </div>
+    </div>
+</article>
 ```
 
 ---
 
-© 2026 NexoPress Network. Todos los derechos reservados.
+## Imágenes
+
+Las imágenes actuales usan placeholders de `placehold.co`. Para usar imágenes reales:
+
+1. Reemplazar las URLs en el HTML:
+```html
+<!-- Antes -->
+<img src="https://placehold.co/400x250/004a99/ffffff?text=News+1" alt="...">
+
+<!-- Después -->
+<img src="assets/images/noticia-1.jpg" alt="...">
+```
+
+2. O usar imágenes externas:
+```html
+<img src="https://tusitio.com/imagen.jpg" alt="...">
+```
+
+---
+
+## SEO Básico
+
+Cada página incluye:
+- Meta título único
+- Meta descripción
+- Etiquetas semánticas HTML5
+- URLs amigables
+- Jerarquía de encabezados (H1, H2, H3)
+
+Para mejorar el SEO:
+1. Agregar `sitemap.xml` en cada sitio
+2. Configurar `robots.txt`
+3. Agregar Open Graph tags para redes sociales
+4. Implementar schema.org markup
+
+---
+
+## Próximos Pasos
+
+### Inmediatos
+1. [ ] Reemplazar imágenes placeholder con imágenes reales
+2. [ ] Personalizar textos legales para cada sitio
+3. [ ] Agregar más artículos de ejemplo
+4. [ ] Configurar dominios en Cloudflare
+
+### Futuros
+1. [ ] Integrar con API de noticias
+2. [ ] Agregar sistema de comentarios
+3. [ ] Implementar newsletter
+4. [ ] Agregar analytics
+5. [ ] Optimizar performance (lazy loading, minificación)
+
+---
+
+## Soporte
+
+Para preguntas o problemas, revisar:
+- `QWEN.md` - Documentación principal del proyecto
+- `docs/INDEX.md` - Índice de documentación
+- `README.md` - README del proyecto principal
+
+---
+
+**Generado:** 19 de Febrero, 2026  
+**Total de sitios:** 10  
+**Total de archivos:** 170  
+**Estado:** ✅ Completado

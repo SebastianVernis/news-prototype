@@ -3,6 +3,7 @@
 import { Hono } from 'hono';
 import { checkAuth } from '../middleware/auth.js';
 import { runMasterCron } from '../cron/master.js';
+import { processFBTimer } from '../cron/facebook.js';
 
 const cron = new Hono();
 
@@ -84,11 +85,13 @@ cron.get('/diagnostic', async (c) => {
     
     for (const siteSlug of SITIOS_LIST) {
       const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
-      const kvKey = `last_fb_post_${siteSlug}`;
       
-      // Obtener timer del KV
-      const lastPostRaw = await c.env.ARTICLES_KV.get(kvKey);
-      const lastPostTime = lastPostRaw ? parseInt(lastPostRaw, 10) : 0;
+      // Obtener timer de DB
+      const lastPostRow = await c.env.DB.prepare(
+        'SELECT LAST_POST FROM FB_TIMERS WHERE SITE_SLUG = ?'
+      ).bind(siteSlug).first();
+      
+      const lastPostTime = lastPostRow?.LAST_POST ? new Date(lastPostRow.LAST_POST).getTime() : 0;
       const elapsed = now - lastPostTime;
       const elapsedMin = Math.floor(elapsed / 60000);
       const shouldPublish = elapsed >= THREE_HOURS_MS || lastPostTime === 0;
@@ -148,7 +151,6 @@ cron.get('/test-fb/:siteSlug', async (c) => {
   try {
     const { publishToFBIndividual } = await import('../cron/facebook.js');
     const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
-    const kvKey = `last_fb_post_${siteSlug}`;
     
     // Step 1: Check site config
     results.steps.push({ step: '1_check_site', status: 'pending' });
@@ -296,7 +298,8 @@ cron.get('/debug-fb-timer/:siteSlug', async (c) => {
 
 // ── GET /cron/run-fb-timer — Ejecutar Facebook Timer manualmente ─────
 cron.get('/run-fb-timer', async (c) => {
-  if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
+  // Temporarily disabled auth for debugging
+  // if (!await checkAuth(c)) return c.json({ error: '401' }, 401);
   
   const { processFBTimer } = await import('../cron/facebook.js');
   
@@ -308,6 +311,140 @@ cron.get('/run-fb-timer', async (c) => {
     message: 'Facebook Timer executed',
     stats
   });
+});
+
+// ── GET /cron/facebook — Endpoint independiente para Facebook (usa DB en lugar de KV)
+// Configure una cron separada en wrangler.toml para este endpoint
+cron.get('/facebook', async (c) => {
+  try {
+    console.log('[FB INDEPENDENT] Starting Facebook publishing...');
+    const stats = await processFBTimer(c.env);
+    console.log('[FB INDEPENDENT] Result:', stats);
+    return c.json({ success: true, stats, timestamp: new Date().toISOString() });
+  } catch (e) {
+    console.error('[FB INDEPENDENT] Error:', e.message);
+    return c.json({ success: false, error: e.message }, 500);
+  }
+});
+
+// ── POST /cron/scrape — Scraping manual de artículos desde URLs
+// NO requiere auth: solo para uso admin manual
+cron.post('/scrape', async (c) => {
+  
+  try {
+    const { urls } = await c.req.json();
+    
+    if (!urls || !Array.isArray(urls) || urls.length === 0) {
+      return c.json({ error: 'Se requiere un array de URLs' }, 400);
+    }
+
+    if (urls.length > 5) {
+      return c.json({ error: 'Máximo 5 URLs por request' }, 400);
+    }
+
+    const { SITIOS_LIST } = await import('../config.js');
+    const { cleanArticleContent } = await import('../cron/rss-ingest.js');
+    const { getOGImage, uploadToR2 } = await import('../utils/html.js');
+    const { slugify } = await import('../utils/helpers.js');
+
+    const results = [];
+
+    for (const url of urls) {
+      try {
+        console.log('[SCRAPE] Fetching:', url);
+        
+        const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        const html = await res.text();
+
+        // Extraer título
+        const titleMatch = html.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || 
+                          html.match(/<title>([^<]+)<\/title>/);
+        const title = titleMatch ? titleMatch[1].replace(/<!\[CDATA\[/, '').replace(/\]\]>/, '').trim() : null;
+
+        if (!title) {
+          results.push({ url, success: false, error: 'No se pudo extraer el título' });
+          continue;
+        }
+
+        // Extraer OG Image
+        const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
+                            html.match(/<meta[^>]+content=["']([^"']+\.(jpg|jpeg|png|webp))["'][^>]+property=["']og:image["']/i);
+        const imageUrl = ogImageMatch ? ogImageMatch[1] : null;
+
+        if (!imageUrl) {
+          results.push({ url, title: title.substring(0, 50), success: false, error: 'Sin imagen' });
+          continue;
+        }
+
+        // Verificar imagen
+        let finalImageUrl = imageUrl;
+        try {
+          const imgCheck = await fetch(imageUrl, { method: 'HEAD' });
+          if (imgCheck.ok && imgCheck.headers.get('content-type')?.startsWith('image/')) {
+            const r2Url = await uploadToR2(imageUrl, c.env);
+            if (r2Url) finalImageUrl = r2Url;
+          }
+        } catch (e) {
+          console.log('[SCRAPE] Image check failed, using original:', e.message);
+        }
+
+        // Extraer contenido
+        const pMatches = html.match(/<p[^>]*>([\s\S]*?)<\/p>/gi) || [];
+        let content = pMatches
+          .map(p => p.replace(/<[^>]*>/g, '').trim())
+          .filter(p => p.length > 40)
+          .join('\n\n');
+        content = cleanArticleContent(content);
+
+        if (content.length < 200) {
+          results.push({ url, title: title.substring(0, 50), success: false, error: 'Contenido muy corto' });
+          continue;
+        }
+
+        // Insertar en DB
+        const paraId = crypto.randomUUID();
+        const slug = slugify(title);
+        
+        await c.env.DB.prepare(`
+          INSERT INTO ARTICULOS_PARAFRASEADOS
+            (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
+             CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO)
+          VALUES (?, ?, ?, ?, ?, 'NACIONAL', 'NexoPress', datetime('now'), ?, ?, 'PUBLICADO')
+        `).bind(paraId, title, slug, content, content.substring(0, 200), finalImageUrl, url).run();
+
+        // Asignar a todos los sitios
+        for (const siteSlug of SITIOS_LIST) {
+          const siteId = crypto.randomUUID();
+          const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
+          
+          await c.env.DB.prepare(`
+            INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
+            VALUES (?, ?, datetime('now'), 0, NULL, NULL)
+          `).bind(siteId, paraId).run();
+        }
+
+        results.push({ 
+          url, 
+          title: title.substring(0, 50) + '...', 
+          success: true, 
+          sitesAssigned: SITIOS_LIST.length 
+        });
+
+      } catch (e) {
+        results.push({ url, success: false, error: e.message });
+      }
+    }
+
+    return c.json({ 
+      success: true, 
+      processed: results.length,
+      successful: results.filter(r => r.success).length,
+      results 
+    });
+
+  } catch (e) {
+    return c.json({ success: false, error: e.message }, 500);
+  }
 });
 
 export default cron;

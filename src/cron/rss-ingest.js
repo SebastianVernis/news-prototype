@@ -165,6 +165,8 @@ export async function runRSSIngest(env) {
   const FEEDS = [
     'https://www.jornada.com.mx/rss/edicion.xml?v=1',
     'https://www.informador.mx/rss/mexico.xml',
+    'https://www.proceso.com.mx/rss/feed.html?id=12',
+    'https://expansion.mx/rss',
   ];
 
   const totalSites = SITIOS_LIST.length;
@@ -217,6 +219,18 @@ export async function runRSSIngest(env) {
 
         if (!imageUrl) continue;
 
+        // Verificar que la imagen sea accesible antes de procesarla
+        try {
+          const imgCheck = await fetch(imageUrl, { method: 'HEAD', headers: { 'User-Agent': 'Mozilla/5.0' } });
+          if (!imgCheck.ok || !imgCheck.headers.get('content-type')?.startsWith('image/')) {
+            console.log('[RSS INGEST] Skip: Image not accessible or not image:', imageUrl.substring(0, 50));
+            continue;
+          }
+        } catch (e) {
+          console.log('[RSS INGEST] Skip: Image check failed:', e.message);
+          continue;
+        }
+
         // Paywall
         const isPaywall = html.toLowerCase().includes('suscripción') || html.toLowerCase().includes('premium');
         if (isPaywall) continue;
@@ -227,6 +241,21 @@ export async function runRSSIngest(env) {
         content = cleanArticleContent(content);
 
         if (content.length < 300) continue;
+
+        // Upload imagen a R2
+        let finalImageUrl = imageUrl;
+        try {
+          console.log('[RSS INGEST] Attempting R2 upload for:', imageUrl.substring(0, 50));
+          const r2Url = await uploadToR2(imageUrl, env);
+          if (r2Url) {
+            finalImageUrl = r2Url;
+            console.log('[RSS INGEST] ✓ Image uploaded to R2:', finalImageUrl.substring(0, 50));
+          } else {
+            console.log('[RSS INGEST] ✗ R2 upload returned null, using original');
+          }
+        } catch (r2Err) {
+          console.log('[RSS INGEST] ✗ R2 upload failed:', r2Err.message);
+        }
 
         // Insert article into DB
         try {
@@ -239,7 +268,7 @@ export async function runRSSIngest(env) {
               (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
                CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO)
             VALUES (?, ?, ?, ?, ?, 'NACIONAL', ?, ?, ?, ?, 'PUBLICADO')
-          `).bind(paraId, title, slug, content, content.substring(0, 200), 'NexoPress', now, imageUrl, link).run();
+          `).bind(paraId, title, slug, content, content.substring(0, 200), 'NexoPress', now, finalImageUrl, link).run();
 
           // Seleccionar sitios aleatorios para este artículo
           const shuffledSites = shuffleArray(SITIOS_LIST);

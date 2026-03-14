@@ -28,7 +28,9 @@ binding = "UPLOADS"
 bucket_name = "cms-news"
 
 [triggers]
-crons = ["*/30 * * * *"]
+crons = [
+  "*/30 * * * *"  # RSS + Facebook (con control interno de 3h) + Ticker
+]
 
 [build]
 command = "npm install"

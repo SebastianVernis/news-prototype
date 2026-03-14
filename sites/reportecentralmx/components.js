@@ -198,7 +198,7 @@ font-family:'Noto Sans',Arial,sans-serif;font-size:0.74rem;white-space:nowrap;}
     <div class="container header-container">
         <div class="logo-section">
             <a href="${base}index.html" style="display:block;line-height:0;">
-                <img src="${base}logo-header.png" alt="Reporte Central MX" class="site-logo" style="transform: scale(2); transform-origin: left center;">
+                <img src="${base}logo-header.png" alt="Reporte Central MX" class="site-logo" style="transform-origin: left center;">
             </a>
         </div>
         <nav class="main-nav">

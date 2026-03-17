@@ -1,4 +1,3 @@
-<!-- gitnexus:start -->
 # NexoPress - Guía Completa para Agentes de IA
 
 ## 📋 Índice
@@ -18,18 +17,19 @@
 
 ## Descripción del Proyecto
 
-**NexoPress** es una plataforma de noticias multi-sitio que gestiona 28 sitios de noticias independientes desde un único panel de administración y un núcleo centralizado en Cloudflare Workers y D1.
+**NexoPress** es una plataforma de noticias multi-sitio que gestiona **27 sitios de noticias independientes** desde un único panel de administración y un núcleo centralizado en Cloudflare Workers y D1.
 
 ### Características Principales
 
-- **28 Sitios de Noticias:** 27 sitios individuales + 1 directorio _shared con assets comunes
-- **Arquitectura Modular:** Worker API con 13 módulos de rutas separados
+- **27 Sitios de Noticias:** 10 estables + 17 nuevos en despliegue
 - **Ingesta Automática:** RSS y Atom feeds (El País, Proceso, Aristegui, etc.)
 - **Parafraseo con IA:** OpenRouter (Gemini 2.0 Flash)
 - **Publicación en Facebook:** Automática cada 3 horas por sitio
 - **Cloudflare Stack:** Workers, D1, R2, KV, Pages
 
 ### Sitios de la Red
+
+#### Sitios Estables (10)
 
 | # | Sitio | Dominio | Slug |
 |---|-------|---------|------|
@@ -43,23 +43,28 @@
 | 8 | Reporte Central MX | https://www.reportecentral.site | `reportecentralmx` |
 | 9 | Vértice Noticias | https://www.verticenoticias.today | `verticenoticias` |
 | 10 | Noticias Objetivo | https://www.noticiasobjetivo.click | `noticiasobjetivo` |
-| 11 | Boominformativo | https://www.boominformativo.lat | `boominformativo` |
-| 12 | Capital Press | https://www.capitalpress.lat | `capitalpress` |
-| 13 | Diario Express | https://www.diarioexpress.lat | `diarioexpress` |
-| 14 | El Pulso Mexicano | https://www.elpulsomexicano.lat | `elpulsomexicano` |
-| 15 | Enfoque Capital | https://www.enfoquecapital.lat | `enfoquecapital` |
-| 16 | Enfoque Directo | https://www.enfoquedirecto.lat | `enfoquedirecto` |
-| 17 | Fórmula CDMX | https://www.formulacdmx.lat | `formulacdmx` |
-| 18 | Mexican Times | https://www.mexicantimes.lat | `mexicantimes` |
-| 19 | México 360 Noticias | https://www.mexico360noticias.lat | `mexico360noticias` |
-| 20 | MRadio | https://www.mradio.lat | `mradio` |
-| 21 | Noticias Horizonte | https://www.noticiashorizonte.lat | `noticiashorizonte` |
-| 22 | Pulso Diario | https://www.pulsodiario.lat | `pulsodiario` |
-| 23 | Punto Clave | https://www.puntoclave.lat | `puntoclave` |
-| 24 | Punto Noticias | https://www.puntonoticias.lat | `puntonoticias` |
-| 25 | Radar Informativo | https://www.radarinformativo.lat | `radarinformativo` |
-| 26 | Reporte Diario | https://www.reportediario.lat | `reportediario` |
-| 27 | Television ABC | https://www.televisionabc.lat | `televisionabc` |
+
+#### Nuevos Sitios (17) - En Despliegue
+
+| # | Sitio | Dominio | Slug |
+|---|-------|---------|------|
+| 11 | Boominformativo | https://www.boominformativo.site | `boominformativo` |
+| 12 | Capital Press | https://www.capitalpress.mx | `capitalpress` |
+| 13 | Diario Express | https://www.diarioexpress.news | `diarioexpress` |
+| 14 | El Pulso Mexicano | https://www.elpulsomexicano.com | `elpulsomexicano` |
+| 15 | Enfoque Capital | https://www.enfoquecapital.mx | `enfoquecapital` |
+| 16 | Enfoque Directo | https://www.enfoquedirecto.news | `enfoquedirecto` |
+| 17 | Fórmula CDMX | https://www.formulacdmx.mx | `formulacdmx` |
+| 18 | The Mexican Times | https://www.mexicantimes.mx | `mexicantimes` |
+| 19 | México 360 Noticias | https://www.mexico360noticias.mx | `mexico360noticias` |
+| 20 | M Radio | https://www.mradio.mx | `mradio` |
+| 21 | Noticias Horizonte | https://www.noticiashorizonte.mx | `noticiashorizonte` |
+| 22 | Pulso Diario | https://www.pulsodiario.mx | `pulsodiario` |
+| 23 | Punto Clave | https://www.puntoclave.mx | `puntoclave` |
+| 24 | Punto Noticias | https://www.puntonoticias.mx | `puntonoticias` |
+| 25 | Radar Informativo | https://www.radarinformativo.mx | `radarinformativo` |
+| 26 | Reporte Diario | https://www.reportediario.mx | `reportediario` |
+| 27 | Televisión ABC | https://www.televisionabc.mx | `televisionabc` |
 
 ---
 
@@ -92,7 +97,7 @@
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                 Cloudflare Pages (27 sitios)                    │
+│                 Cloudflare Pages (10 sitios)                    │
 │  Cada sitio tiene:                                              │
 │  - Frontend estático (HTML/CSS/JS)                              │
 │  - Functions para SSR (middleware de artículos)                 │
@@ -105,44 +110,14 @@
 ## Estructura de Directorios
 
 ```
-/mnt/hdd/Multimedia/Datasets/cloudflare-news-project/
-├── src/                          # Worker API (Cloudflare Workers)
-│   ├── index.js                  # Entry point principal
-│   ├── config.js                 # Configuración global
-│   ├── index_append.js           # Funciones adicionales
-│   ├── schema.sql                # Schema D1
-│   ├── wrangler.toml             # Config del Worker
-│   │
-│   ├── cron/                     # Cron jobs
-│   │   ├── master.js             # Coordinador principal
-│   │   ├── facebook.js           # Publicación Facebook
-│   │   ├── rss-ingest.js         # Ingesta RSS
-│   │   └── ticker.js             # News ticker
-│   │
-│   ├── routes/                   # API Routes (13 módulos)
-│   │   ├── auth.js               # Autenticación
-│   │   ├── articles.js           # Artículos
-│   │   ├── stats.js              # Estadísticas
-│   │   ├── cms.js                # CMS
-│   │   ├── revision.js           # Mesa de revisión
-│   │   ├── sites.js              # Gestión de sitios
-│   │   ├── categories.js         # Categorías
-│   │   ├── ticker.js             # News ticker
-│   │   ├── weather.js            # Clima
-│   │   ├── images.js             # Imágenes
-│   │   ├── rss.js                # RSS
-│   │   ├── facebook.js           # Facebook
-│   │   └── cron.js               # Cron endpoints
-│   │
-│   ├── middleware/               # Middleware
-│   │   └── auth.js               # Autenticación JWT
-│   │
-│   └── utils/                    # Utilidades
-│       ├── helpers.js            # Helpers generales
-│       └── html.js               # Inyección meta tags OG
+/mnt/c/Users/soluc/cloudflare-news-project/
+├── src/
+│   ├── index.js                 # Worker principal (API + Cron + FB)
+│   ├── index_append.js          # Funciones adicionales
+│   ├── schema.sql               # Schema de D1
+│   └── wrangler.toml            # Config del Worker
 │
-├── sites/                        # 28 sitios Cloudflare Pages
-│   ├── _shared/                  # Assets compartidos
+├── sites/                       # 10 sitios Cloudflare Pages
 │   ├── radiocinconoticias/
 │   ├── centralmexico/
 │   ├── tvmexico/
@@ -152,67 +127,61 @@
 │   ├── bitacoraurbana/
 │   ├── reportecentralmx/
 │   ├── verticenoticias/
-│   ├── noticiasobjetivo/
-│   ├── boominformativo/
-│   ├── capitalpress/
-│   ├── diarioexpress/
-│   ├── elpulsomexicano/
-│   ├── enfoquecapital/
-│   ├── enfoquedirecto/
-│   ├── formulacdmx/
-│   ├── mexicantimes/
-│   ├── mexico360noticias/
-│   ├── mradio/
-│   ├── noticiashorizonte/
-│   ├── pulsodiario/
-│   ├── puntoclave/
-│   ├── puntonoticias/
-│   ├── radarinformativo/
-│   ├── reportediario/
-│   └── televisionabc/
-│       ├── index.html            # Homepage
+│   └── noticiasobjetivo/
+│       ├── index.html           # Homepage
 │       ├── articulo/
-│       │   └── index.html        # Página de artículo
+│       │   └── index.html       # Página de artículo
 │       ├── functions/
 │       │   └── articulo/
-│       │       └── _middleware.js   # SSR para OG tags
-│       ├── components.js         # Componentes JS
-│       ├── script.js             # Lógica principal
-│       ├── style.css             # Estilos base
-│       ├── style-custom.css      # Estilos personalizados
-│       └── wrangler.toml         # Config de Pages
+│       │       └── _middleware.js  # SSR para OG tags
+│       ├── components.js        # Componentes JS
+│       ├── script.js            # Lógica principal
+│       ├── style.css            # Estilos base
+│       ├── style-custom.css     # Estilos personalizados
+│       └── wrangler.toml        # Config de Pages
 │
 ├── public/
-│   └── admin/                    # Dashboard administrativo (CMS)
-│       ├── index.html            # SPA principal del CMS
-│       ├── generate-password-link.html
-│       ├── setup-password.html
-│       ├── sw.js                 # Service Worker PWA
+│   └── admin/                   # Dashboard administrativo (CMS)
+│       ├── index.html           # SPA principal del CMS
+│       ├── generate-password-link.html  # Generador de links de setup
+│       ├── setup-password.html  # Setup inicial de contraseña
+│       ├── sw.js                # Service Worker para PWA
 │       ├── css/
-│       │   └── admin.css
+│       │   └── admin.css        # Estilos del dashboard
 │       └── js/
-│           ├── api.js            # Cliente HTTP
-│           ├── auth.js           # Autenticación
-│           ├── editor.js         # Editor artículos
-│           ├── articles.js       # Vista artículos
-│           ├── cms.js            # Vista CMS
-│           ├── revision.js       # Mesa revisión
-│           ├── monitor.js        # Monitor sistema
-│           ├── sites.js          # Gestión sitios
-│           ├── users.js          # Usuarios
-│           ├── router.js         # Router SPA
-│           ├── pwa-manager.js    # PWA manager
-│           └── theme.js          # Temas
+│           ├── api.js           # Cliente HTTP para API
+│           ├── auth.js          # Gestión de autenticación
+│           ├── editor.js        # Editor universal de artículos
+│           ├── articles.js      # Vista de lista de artículos
+│           ├── cms.js           # Vista de artículos CMS
+│           ├── revision.js      # Mesa de revisión
+│           ├── monitor.js       # Monitor de sistema
+│           ├── sites.js         # Gestión de sitios
+│           ├── users.js         # Gestión de usuarios
+│           ├── router.js        # Router SPA interno
+│           ├── pwa-manager.js   # Gestión de PWA
+│           └── theme.js         # Gestor de temas (claro/oscuro)
 │
-├── scripts/                      # Scripts utilidad
-│   ├── setup_fb_tokens.py        # Setup tokens FB
-│   └── verify_fb_tokens.py       # Verificar tokens
+├── scripts/                     # Scripts de utilidad
+│   ├── setup_fb_tokens.py       # Configurar tokens FB
+│   ├── verify_fb_tokens.py      # Verificar tokens FB
+│   └── cleanup_duplicates.sql   # Limpieza de duplicados
 │
-├── docs/                         # Documentación
-├── tools/                        # Herramientas
-├── backups/                      # Backups DB
-├── package.json                  # Dependencias
-└── AGENTS.md                     # ESTE ARCHIVO
+├── docs/                        # Documentación
+│   ├── INDEX.md
+│   ├── SYSTEM_MONITOR.md
+│   └── ...
+│
+├── tools/                       # Herramientas de desarrollo
+│   ├── site/
+│   └── news/
+│
+├── backups/                     # Backups de DB
+│   └── archive/
+│
+├── wrangler.toml                # Config raíz (referencia)
+├── package.json                 # Dependencias Node
+└── AGENTS.md                    # ESTE ARCHIVO
 ```
 
 ---
@@ -351,23 +320,6 @@ wrangler d1 execute news_db --command "
 https://news-api.sebastianvernis.workers.dev/api
 ```
 
-### Health & Upload
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/health` | Health check del sistema |
-| `POST` | `/upload` | Subir archivo a R2 |
-
-### Auth
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `POST` | `/auth/login` | Iniciar sesión |
-| `POST` | `/auth/logout` | Cerrar sesión |
-| `GET` | `/auth/session` | Verificar sesión |
-| `POST` | `/auth/users` | Crear usuario |
-| `GET` | `/auth/setup/:token` | Setup con token |
-
 ### Artículos
 
 | Método | Endpoint | Descripción |
@@ -388,68 +340,12 @@ https://news-api.sebastianvernis.workers.dev/api
 | `POST` | `/cms/publish` | Publicar CMS → PARAFRASEADOS |
 | `POST` | `/cms/generate-variations` | Generar variaciones IA |
 
-### Revisión
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/revision/pending` | Artículos pendientes |
-| `POST` | `/revision/:id/approve` | Aprobar artículo |
-| `POST` | `/revision/:id/reject` | Rechazar artículo |
-
-### Sitios
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/sites` | Lista todos los sitios |
-| `GET` | `/sites/:slug` | Obtener sitio específico |
-| `PUT` | `/sites/:slug` | Actualizar sitio |
-
-### Categorías
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/categories?site=[slug]` | Lista categorías por sitio |
-
-### Estadísticas
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/stats/overview` | Estadísticas generales |
-| `GET` | `/stats/site/:slug` | Estadísticas por sitio |
-
-### Ticker
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/ticker` | Noticias para ticker |
-
-### Clima
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/weather?city=[ciudad]` | Datos del clima |
-
-### Imágenes
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `POST` | `/images/upload` | Subir imagen |
-| `GET` | `/images/list` | Listar imágenes |
-
-### RSS
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/rss/sources` | Fuentes RSS configuradas |
-| `POST` | `/rss/fetch` | Forzar fetch RSS |
-
 ### Facebook
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | `GET` | `/facebook/monitor` | Monitor de publicaciones |
 | `GET` | `/facebook/debug-tokens` | Debug de tokens |
-| `POST` | `/facebook/publish` | Publicar manualmente |
 
 ### Cron
 
@@ -481,7 +377,7 @@ El CMS usa un router SPA interno. Las rutas se manejan via hash (`#/ruta`).
 | `#/cms` | CMS | Artículos creados manualmente | `cms.js` |
 | `#/revision` | Revisión | Mesa de revisión de contenido | `revision.js` |
 | `#/monitor` | Monitor | Estado del sistema en vivo | `monitor.js` |
-| `#/sites` | Sitios | Gestión de los 27 sitios | `sites.js` |
+| `#/sites` | Sitios | Gestión de los 10 sitios | `sites.js` |
 | `#/users` | Usuarios | Gestión de usuarios y roles | `users.js` |
 | `#/settings` | Configuración | Ajustes generales | `index.html` |
 
@@ -535,7 +431,7 @@ const views = {
 - Diagnóstico de errores
 
 #### 6. Sitios (`#/sites`)
-- Lista de los 27 sitios
+- Lista de los 10 sitios
 - Configurar Facebook por sitio
 - Activar/Desactivar sitio
 
@@ -872,40 +768,23 @@ curl -X POST https://news-api.sebastianvernis.workers.dev/api/articles/publish-f
 ### Desarrollo Local
 
 ```bash
-# Ubicación del proyecto
-cd /mnt/hdd/Multimedia/Datasets/cloudflare-news-project
+# Worker local
+cd src
+wrangler dev --config wrangler.toml
 
-# Worker local (puerto 8781)
-npm run worker
-# o
-cd src && wrangler dev --config wrangler.toml
-
-# Pages local (puerto 8888)
-npm run dev
-# o
-wrangler pages dev ./public --port 8888 --proxy 8781
-
-# Ambos simultáneamente
-npm start
+# Pages local
+cd sites/[sitio]
+wrangler pages dev .
 ```
 
 ### Producción
 
 ```bash
-# Deploy Worker API
-cd /mnt/hdd/Multimedia/Datasets/cloudflare-news-project/src
-wrangler deploy --config wrangler.toml
+# Deploy Worker
+cd src && wrangler deploy
 
-# Deploy sitio individual
-cd /mnt/hdd/Multimedia/Datasets/cloudflare-news-project/sites/[sitio]
-wrangler pages deploy . --project-name=[sitio] --branch=master
-
-# Deploy todos los sitios
-cd /mnt/hdd/Multimedia/Datasets/cloudflare-news-project
-for site in radiocinconoticias centralmexico tvmexico cbnnoticias mexicoinformado nodoinformativo bitacoraurbana reportecentralmx verticenoticias noticiasobjetivo boominformativo capitalpress diarioexpress elpulsomexicano enfoquecapital enfoquedirecto formulacdmx mexicantimes mexico360noticias mradio noticiashorizonte pulsodiario puntoclave puntonoticias radarinformativo reportediario televisionabc; do
-  echo "Deploying $site..."
-  cd sites/$site && wrangler pages deploy . --project-name=$site --branch=master && cd ../..
-done
+# Deploy Pages
+cd sites/[sitio] && wrangler pages deploy . --project-name=[sitio] --branch=master
 
 # Ver logs
 wrangler tail --name news-api
@@ -949,20 +828,44 @@ curl -s https://news-api.sebastianvernis.workers.dev/api/facebook/monitor | pyth
 
 ### Worker Secrets (news-api)
 
+#### Tokens de Facebook - Sitios Estables (10)
+
 | Secret | Descripción | Ejemplo |
 |--------|-------------|---------|
 | `OPENROUTER_API_KEY` | API key para IA | `sk-or-...` |
 | `ADMIN_TOKEN` | Token maestro admin | `admin-12345` |
-| `FB_TOKEN_RADIOCINCONOTICIAS` | Token FB Radio Cinco | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_CENTRALMEXICO` | Token FB Central México | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_TVMEXICO` | Token FB TV México | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_CBNNOTICIAS` | Token FB CBN Noticias | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_MEXICOINFORMADO` | Token FB México Informado | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_NODOINFORMATIVO` | Token FB Nodo Informativo | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_BITACORAURBANA` | Token FB Bitácora Urbana | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_REPORTECENTRALMX` | Token FB Reporte Central | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_VERTICENOTICIAS` | Token FB Vértice Noticias | `[REDACTED_FB_TOKEN]` |
-| `FB_TOKEN_NOTICIASOBJETIVO` | Token FB Noticias Objetivo | `[REDACTED_FB_TOKEN]` |
+| `FB_TOKEN_RADIOCINCONOTICIAS` | Token FB Radio Cinco | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_CENTRALMEXICO` | Token FB Central México | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_TVMEXICO` | Token FB TV México | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_CBNNOTICIAS` | Token FB CBN Noticias | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_MEXICOINFORMADO` | Token FB México Informado | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_NODOINFORMATIVO` | Token FB Nodo Informativo | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_BITACORAURBANA` | Token FB Bitácora Urbana | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_REPORTECENTRALMX` | Token FB Reporte Central | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_VERTICENOTICIAS` | Token FB Vértice Noticias | `EAAmv1Puxa7wBQ...` |
+| `FB_TOKEN_NOTICIASOBJETIVO` | Token FB Noticias Objetivo | `EAAmv1Puxa7wBQ...` |
+
+#### Tokens de Facebook - Nuevos Sitios (17)
+
+| Secret | Descripción |
+|--------|-------------|
+| `FB_TOKEN_BOOMINFORMATIVO` | Token FB Boominformativo |
+| `FB_TOKEN_CAPITALPRESS` | Token FB Capital Press |
+| `FB_TOKEN_DIARIOEXPRESS` | Token FB Diario Express |
+| `FB_TOKEN_ELPULSOMEXICANO` | Token FB El Pulso Mexicano |
+| `FB_TOKEN_ENFOQUECAPITAL` | Token FB Enfoque Capital |
+| `FB_TOKEN_ENFOQUEDIRECTO` | Token FB Enfoque Directo |
+| `FB_TOKEN_FORMULACDMX` | Token FB Fórmula CDMX |
+| `FB_TOKEN_MEXICANTIMES` | Token FB The Mexican Times |
+| `FB_TOKEN_MEXICO360NOTICIAS` | Token FB México 360 Noticias |
+| `FB_TOKEN_MRADIO` | Token FB M Radio |
+| `FB_TOKEN_NOTICIASHORIZONTE` | Token FB Noticias Horizonte |
+| `FB_TOKEN_PULSODIARIO` | Token FB Pulso Diario |
+| `FB_TOKEN_PUNTOCLAVE` | Token FB Punto Clave |
+| `FB_TOKEN_PUNTONOTICIAS` | Token FB Punto Noticias |
+| `FB_TOKEN_RADARINFORMATIVO` | Token FB Radar Informativo |
+| `FB_TOKEN_REPORTEDIARIO` | Token FB Reporte Diario |
+| `FB_TOKEN_TELEVISIONABC` | Token FB Televisión ABC |
 
 ### Worker Variables (wrangler.toml)
 
@@ -1034,82 +937,3 @@ wrangler pages deploy . --project-name=[sitio] --branch=master
 ---
 
 *Última actualización: 2026-03-03*
-
-<!-- gitnexus:start -->
-# GitNexus — Code Intelligence
-
-This project is indexed by GitNexus as **cloudflare-news-project** (5151 symbols, 10482 relationships, 298 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
-
-> If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
-
-## Always Do
-
-- **MUST run impact analysis before editing any symbol.** Before modifying a function, class, or method, run `gitnexus_impact({target: "symbolName", direction: "upstream"})` and report the blast radius (direct callers, affected processes, risk level) to the user.
-- **MUST run `gitnexus_detect_changes()` before committing** to verify your changes only affect expected symbols and execution flows.
-- **MUST warn the user** if impact analysis returns HIGH or CRITICAL risk before proceeding with edits.
-- When exploring unfamiliar code, use `gitnexus_query({query: "concept"})` to find execution flows instead of grepping. It returns process-grouped results ranked by relevance.
-- When you need full context on a specific symbol — callers, callees, which execution flows it participates in — use `gitnexus_context({name: "symbolName"})`.
-
-## When Debugging
-
-1. `gitnexus_query({query: "<error or symptom>"})` — find execution flows related to the issue
-2. `gitnexus_context({name: "<suspect function>"})` — see all callers, callees, and process participation
-3. `READ gitnexus://repo/cloudflare-news-project/process/{processName}` — trace the full execution flow step by step
-4. For regressions: `gitnexus_detect_changes({scope: "compare", base_ref: "main"})` — see what your branch changed
-
-## When Refactoring
-
-- **Renaming**: MUST use `gitnexus_rename({symbol_name: "old", new_name: "new", dry_run: true})` first. Review the preview — graph edits are safe, text_search edits need manual review. Then run with `dry_run: false`.
-- **Extracting/Splitting**: MUST run `gitnexus_context({name: "target"})` to see all incoming/outgoing refs, then `gitnexus_impact({target: "target", direction: "upstream"})` to find all external callers before moving code.
-- After any refactor: run `gitnexus_detect_changes({scope: "all"})` to verify only expected files changed.
-
-## Never Do
-
-- NEVER edit a function, class, or method without first running `gitnexus_impact` on it.
-- NEVER ignore HIGH or CRITICAL risk warnings from impact analysis.
-- NEVER rename symbols with find-and-replace — use `gitnexus_rename` which understands the call graph.
-- NEVER commit changes without running `gitnexus_detect_changes()` to check affected scope.
-
-## Tools Quick Reference
-
-| Tool | When to use | Command |
-|------|-------------|---------|
-| `query` | Find code by concept | `gitnexus_query({query: "auth validation"})` |
-| `context` | 360-degree view of one symbol | `gitnexus_context({name: "validateUser"})` |
-| `impact` | Blast radius before editing | `gitnexus_impact({target: "X", direction: "upstream"})` |
-| `detect_changes` | Pre-commit scope check | `gitnexus_detect_changes({scope: "staged"})` |
-| `rename` | Safe multi-file rename | `gitnexus_rename({symbol_name: "old", new_name: "new", dry_run: true})` |
-| `cypher` | Custom graph queries | `gitnexus_cypher({query: "MATCH ..."})` |
-
-## Impact Risk Levels
-
-| Depth | Meaning | Action |
-|-------|---------|--------|
-| d=1 | WILL BREAK — direct callers/importers | MUST update these |
-| d=2 | LIKELY AFFECTED — indirect deps | Should test |
-| d=3 | MAY NEED TESTING — transitive | Test if critical path |
-
-## Resources
-
-| Resource | Use for |
-|----------|---------|
-| `gitnexus://repo/cloudflare-news-project/context` | Codebase overview, check index freshness |
-| `gitnexus://repo/cloudflare-news-project/clusters` | All functional areas |
-| `gitnexus://repo/cloudflare-news-project/processes` | All execution flows |
-| `gitnexus://repo/cloudflare-news-project/process/{name}` | Step-by-step execution trace |
-
-## Self-Check Before Finishing
-
-Before completing any code modification task, verify:
-1. `gitnexus_impact` was run for all modified symbols
-2. No HIGH/CRITICAL risk warnings were ignored
-3. `gitnexus_detect_changes()` confirms changes match expected scope
-4. All d=1 (WILL BREAK) dependents were updated
-
-## CLI
-
-- Re-index: `npx gitnexus analyze`
-- Check freshness: `npx gitnexus status`
-- Generate docs: `npx gitnexus wiki`
-
-<!-- gitnexus:end -->

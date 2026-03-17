@@ -1,0 +1,53 @@
+<div class="header">
+    <h2>Mesa de Revisión Editorial</h2>
+    <p>Contenido pendiente de aprobación final para los sitios.</p>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Título Propuesto</th>
+                <th>Sitio Destino</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="revision-pending-table">
+            <tr><td colspan="4">Cargando mesa de revisión...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal de Edición y Revisión -->
+<div id="revision-edit-modal" class="preview-modal">
+    <div class="preview-header">
+        <h3 id="rev-modal-title">Revisar Contenido</h3>
+        <button class="btn btn-danger" onclick="closeRevisionModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="form-container" style="margin-top:20px; overflow-y:auto; max-height:80vh;">
+        <form id="revision-form-element">
+            <input type="hidden" id="rev-id">
+            <div class="form-group">
+                <label class="form-label">Título Parafraseado</label>
+                <input type="text" class="form-control" id="rev-titulo" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Descripción / Resumen</label>
+                <textarea class="form-control" id="rev-descripcion" style="height:80px;"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Contenido Parafraseado</label>
+                <textarea class="form-control" id="rev-contenido" style="height:300px;" required></textarea>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button type="button" class="btn btn-outline" style="flex:1;" onclick="saveRevisionChanges()">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <button type="button" class="btn btn-primary" style="flex:1;" onclick="approveFromModal()">
+                    <i class="fas fa-check-circle"></i> Aprobar y Publicar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

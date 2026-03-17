@@ -1,0 +1,150 @@
+<div id="sites-list-view">
+    <div class="header">
+        <h2>Gestión de Red de Sitios</h2>
+        <button class="btn btn-primary" onclick="showNewSite()">
+            <i class="fas fa-plus"></i> Añadir Nuevo Sitio
+        </button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dominio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="sites-table"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="site-editor-view" style="display:none;">
+    <div class="header">
+        <h2 id="site-form-title">Configuración Integral</h2>
+        <button class="btn btn-outline" onclick="exitSiteEditor()">
+            <i class="fas fa-arrow-left"></i> Volver a la Lista
+        </button>
+    </div>
+
+    <div class="form-container">
+        <!-- Pestañas -->
+        <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid #ddd;">
+            <button type="button" class="btn btn-outline" id="tab-site-basic" onclick="switchSiteTab('basic')" style="border-bottom:none; border-radius:4px 4px 0 0;">Básico y Diseño</button>
+            <button type="button" class="btn btn-outline" id="tab-site-legals" onclick="switchSiteTab('legals')" style="border-bottom:none; border-radius:4px 4px 0 0;">Legales y Contacto</button>
+            <button type="button" class="btn btn-outline" id="tab-site-channels" onclick="switchSiteTab('channels')" style="border-bottom:none; border-radius:4px 4px 0 0;">Canales Externos</button>
+            <button type="button" class="btn btn-outline" id="tab-site-menus" onclick="switchSiteTab('menus')" style="border-bottom:none; border-radius:4px 4px 0 0;">Menús de Navegación</button>
+        </div>
+
+        <form id="site-form-element">
+            <input type="hidden" id="site-id">
+            
+            <!-- Contenido Pestaña: Básico -->
+            <div id="site-tab-basic-content">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="site-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Dominio</label>
+                        <input type="text" class="form-control" id="site-dominio" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tagline (Slogan)</label>
+                    <input type="text" class="form-control" id="site-tagline">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Paleta de Colores</label>
+                        <select class="form-control" id="site-paleta"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Estilo Visual</label>
+                        <select class="form-control" id="site-estilo"></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Header</label>
+                        <select class="form-control" id="site-header"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Footer</label>
+                        <select class="form-control" id="site-footer"></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Layout</label>
+                        <select class="form-control" id="site-layout"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preloader</label>
+                        <select class="form-control" id="site-preloader"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="site-activo" checked> Sitio Activo</label>
+                </div>
+            </div>
+
+            <!-- Contenido Pestaña: Legales -->
+            <div id="site-tab-legals-content" style="display:none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Email de Contacto</label>
+                        <input type="email" class="form-control" id="site-legal-email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="site-legal-telefono">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Términos y Condiciones</label>
+                    <textarea class="form-control" id="site-legal-terminos" style="height:150px;"></textarea>
+                </div>
+            </div>
+
+            <!-- Contenido Pestaña: Canales -->
+            <div id="site-tab-channels-content" style="display:none;">
+                <div id="channels-container"></div>
+                <button type="button" class="btn btn-outline" style="width:100%;" onclick="addChannelRow()">+ Añadir Canal</button>
+            </div>
+
+            <!-- Contenido Pestaña: Menús -->
+            <div id="site-tab-menus-content" style="display:none;">
+                <div id="menus-container"></div>
+                <button type="button" class="btn btn-outline" style="width:100%;" onclick="addMenuRow()">+ Añadir Enlace</button>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button type="button" class="btn btn-outline" style="flex:1;" onclick="openSitePreview()">
+                    <i class="fas fa-eye"></i> Vista Previa
+                </button>
+                <button type="submit" class="btn btn-primary" style="flex:2;">
+                    <i class="fas fa-save"></i> Guardar Todo
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Vista Previa (Inyectado en la vista) -->
+<div id="site-preview-modal" class="preview-modal">
+    <div class="preview-header">
+        <h3>Vista Previa en Tiempo Real</h3>
+        <div style="display:flex; gap:10px;">
+            <button class="btn btn-outline" onclick="setPreviewSize('mobile')"><i class="fas fa-mobile-alt"></i></button>
+            <button class="btn btn-outline" onclick="setPreviewSize('desktop')"><i class="fas fa-desktop"></i></button>
+            <button class="btn btn-danger" onclick="closeSitePreview()"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+    <div class="preview-body">
+        <iframe id="site-preview-iframe" class="preview-iframe"></iframe>
+    </div>
+</div>

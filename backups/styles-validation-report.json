@@ -1,0 +1,1602 @@
+{
+  "total": 27,
+  "passed": 0,
+  "failed": 0,
+  "warnings": 0,
+  "sites": {
+    "bitacoraurbana": {
+      "name": "bitacoraurbana",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "boominformativo": {
+      "name": "boominformativo",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "capitalpress": {
+      "name": "capitalpress",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "cbnnoticias": {
+      "name": "cbnnoticias",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "centralmexico": {
+      "name": "centralmexico",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "diarioexpress": {
+      "name": "diarioexpress",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "elpulsomexicano": {
+      "name": "elpulsomexicano",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "enfoquecapital": {
+      "name": "enfoquecapital",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "enfoquedirecto": {
+      "name": "enfoquedirecto",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "formulacdmx": {
+      "name": "formulacdmx",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "mexicantimes": {
+      "name": "mexicantimes",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "mexico360noticias": {
+      "name": "mexico360noticias",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "mexicoinformado": {
+      "name": "mexicoinformado",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "mradio": {
+      "name": "mradio",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "nodoinformativo": {
+      "name": "nodoinformativo",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "noticiashorizonte": {
+      "name": "noticiashorizonte",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "noticiasobjetivo": {
+      "name": "noticiasobjetivo",
+      "cssValidation": {
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "pulsodiario": {
+      "name": "pulsodiario",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "puntoclave": {
+      "name": "puntoclave",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "puntonoticias": {
+      "name": "puntonoticias",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "radarinformativo": {
+      "name": "radarinformativo",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "radiocinconoticias": {
+      "name": "radiocinconoticias",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "reportecentralmx": {
+      "name": "reportecentralmx",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "reportediario": {
+      "name": "reportediario",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "televisionabc": {
+      "name": "televisionabc",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "tvmexico": {
+      "name": "tvmexico",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    },
+    "verticenoticias": {
+      "name": "verticenoticias",
+      "cssValidation": {
+        "article.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "legal.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": false
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style-custom.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": true,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": true,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        },
+        "style.css": {
+          "checks": {
+            "hasFixedPositioning": false,
+            "hasProperZIndex": false,
+            "hasMobileMedia": true,
+            "hasLayoutOffset": false,
+            "hasHamburgerStyles": false,
+            "hasBoxShadow": false,
+            "hasTransitions": true
+          },
+          "issues": [],
+          "hasContent": true
+        }
+      },
+      "componentValidation": [],
+      "overallStatus": "PASS",
+      "issues": []
+    }
+  }
+}

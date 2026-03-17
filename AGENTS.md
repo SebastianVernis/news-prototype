@@ -1,3 +1,4 @@
+<!-- gitnexus:start -->
 # NexoPress - Guía Completa para Agentes de IA
 
 ## 📋 Índice

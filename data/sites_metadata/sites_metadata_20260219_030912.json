@@ -1,0 +1,178 @@
+{
+  "created_at": "2026-02-19T03:09:12.726546",
+  "total_sites": 6,
+  "sites": [
+    {
+      "name": "El Periódico En Línea",
+      "title": "El Periódico En Línea",
+      "tagline": "Rápido, Preciso, Confiable",
+      "domain": "www.elperidicoenlnea.com",
+      "created_at": "2026-02-19T03:09:12.726261",
+      "template_id": 9,
+      "categories": [
+        "Negocios",
+        "Entretenimiento",
+        "Cultura",
+        "Mundial",
+        "Deportes",
+        "Ciencia",
+        "Política",
+        "Tecnología"
+      ],
+      "layout_config": {
+        "layout_type": "split-hero",
+        "sidebar_position": "left",
+        "footer_columns": 4,
+        "grid_columns": 2,
+        "hero_variant": "image-right",
+        "sidebar_widgets": 2
+      },
+      "id": "el-peri-dico-en-l-nea",
+      "output_dir": "el-peri-dico-en-l-nea",
+      "logo_path": "logo.png"
+    },
+    {
+      "name": "El Periódico En Línea",
+      "title": "El Periódico En Línea",
+      "tagline": "Rápido, Preciso, Confiable",
+      "domain": "www.elperidicoenlnea.com",
+      "created_at": "2026-02-19T03:09:12.726261",
+      "template_id": 9,
+      "categories": [
+        "Negocios",
+        "Entretenimiento",
+        "Cultura",
+        "Mundial",
+        "Deportes",
+        "Ciencia",
+        "Política",
+        "Tecnología"
+      ],
+      "layout_config": {
+        "layout_type": "split-hero",
+        "sidebar_position": "left",
+        "footer_columns": 4,
+        "grid_columns": 2,
+        "hero_variant": "image-right",
+        "sidebar_widgets": 2
+      },
+      "id": "el-peri-dico-en-l-nea",
+      "output_dir": "el-peri-dico-en-l-nea",
+      "logo_path": "logo.png"
+    },
+    {
+      "name": "El Informador Latino",
+      "title": "El Informador Latino",
+      "tagline": "Tu Fuente de Información Confiable",
+      "domain": "www.elinformadorlatino.mx",
+      "created_at": "2026-02-19T03:09:12.726406",
+      "template_id": 4,
+      "categories": [
+        "Cultura",
+        "Opinión",
+        "Negocios",
+        "Deportes",
+        "Política",
+        "Economía",
+        "Inicio",
+        "Salud"
+      ],
+      "layout_config": {
+        "layout_type": "timeline",
+        "sidebar_position": "none",
+        "footer_columns": 3,
+        "grid_columns": 3,
+        "hero_variant": "image-right",
+        "sidebar_widgets": 4
+      },
+      "id": "el-informador-latino-1",
+      "output_dir": "el-informador-latino-1",
+      "logo_path": "logo.png"
+    },
+    {
+      "name": "El Informador Latino",
+      "title": "El Informador Latino",
+      "tagline": "Tu Fuente de Información Confiable",
+      "domain": "www.elinformadorlatino.mx",
+      "created_at": "2026-02-19T03:09:12.726406",
+      "template_id": 4,
+      "categories": [
+        "Cultura",
+        "Opinión",
+        "Negocios",
+        "Deportes",
+        "Política",
+        "Economía",
+        "Inicio",
+        "Salud"
+      ],
+      "layout_config": {
+        "layout_type": "timeline",
+        "sidebar_position": "none",
+        "footer_columns": 3,
+        "grid_columns": 3,
+        "hero_variant": "image-right",
+        "sidebar_widgets": 4
+      },
+      "id": "el-informador-latino-1",
+      "output_dir": "el-informador-latino-1",
+      "logo_path": "logo.png"
+    },
+    {
+      "name": "El Periódico Urbano",
+      "title": "El Periódico Urbano",
+      "tagline": "La Verdad en Cada Historia",
+      "domain": "www.elperidicourbano.com",
+      "created_at": "2026-02-19T03:09:12.726470",
+      "template_id": 3,
+      "categories": [
+        "Tecnología",
+        "Ciencia",
+        "Entretenimiento",
+        "Salud",
+        "Deportes",
+        "Economía",
+        "Inicio"
+      ],
+      "layout_config": {
+        "layout_type": "feature-stack",
+        "sidebar_position": "none",
+        "footer_columns": 3,
+        "grid_columns": 3,
+        "hero_variant": "full-bleed",
+        "sidebar_widgets": 3
+      },
+      "id": "el-peri-dico-urbano-2",
+      "output_dir": "el-peri-dico-urbano-2",
+      "logo_path": "logo.png"
+    },
+    {
+      "name": "El Periódico Urbano",
+      "title": "El Periódico Urbano",
+      "tagline": "La Verdad en Cada Historia",
+      "domain": "www.elperidicourbano.com",
+      "created_at": "2026-02-19T03:09:12.726470",
+      "template_id": 3,
+      "categories": [
+        "Tecnología",
+        "Ciencia",
+        "Entretenimiento",
+        "Salud",
+        "Deportes",
+        "Economía",
+        "Inicio"
+      ],
+      "layout_config": {
+        "layout_type": "feature-stack",
+        "sidebar_position": "none",
+        "footer_columns": 3,
+        "grid_columns": 3,
+        "hero_variant": "full-bleed",
+        "sidebar_widgets": 3
+      },
+      "id": "el-peri-dico-urbano-2",
+      "output_dir": "el-peri-dico-urbano-2",
+      "logo_path": "logo.png"
+    }
+  ]
+}

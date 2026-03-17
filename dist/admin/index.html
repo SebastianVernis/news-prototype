@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS - Noticias Hoy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Segmentado -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-newspaper"></i> Noticias Hoy</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a onclick="Router.navigate('dashboard')" class="nav-link" data-view="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="nav-item"><a onclick="Router.navigate('cms')" class="nav-link" data-view="cms"><i class="fas fa-pen-nib"></i><span>Redacción CMS</span></a></li>
+                <li class="nav-item"><a onclick="Router.navigate('revision')" class="nav-link" data-view="revision"><i class="fas fa-tasks"></i><span>Mesa de Revisión</span></a></li>
+                <li class="nav-item"><a onclick="Router.navigate('articles')" class="nav-link" data-view="articles"><i class="fas fa-newspaper"></i><span>Artículos Públicos</span></a></li>
+                <li class="nav-item"><a onclick="Router.navigate('categories')" class="nav-link" data-view="categories"><i class="fas fa-tags"></i><span>Categorías</span></a></li>
+                <li class="nav-item"><a onclick="Router.navigate('sites')" class="nav-link" data-view="sites"><i class="fas fa-globe"></i><span>Sitios</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Contenido Dinámico -->
+        <main class="main-content" id="main-content">
+            <div style="display:flex; justify-content:center; align-items:center; height:100%;">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts Base -->
+    <script src="/admin/js/api.js"></script>
+    <script src="/admin/js/router.js"></script>
+    
+    <!-- Controladores de Vistas -->
+    <script src="/admin/js/dashboard.js"></script>
+    <script src="/admin/js/cms.js"></script>
+    <script src="/admin/js/revision.js"></script>
+    <script src="/admin/js/sites.js"></script>
+    <script src="/admin/js/categories.js"></script>
+    <script src="/admin/js/articles.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => Router.init());
+    </script>
+</body>
+</html>

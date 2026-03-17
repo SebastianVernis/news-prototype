@@ -1,0 +1,514 @@
+{
+  "data": [
+    {
+      "access_token": "EAAmv1Puxa7wBQ0oUFI0DFdDgF482l2wUkWpCGpFxFKQZBnIZCFQkqH28jE61tPaTCrp10iZCfiOERfYKMhfcGLXBWvPdZB1NhV8iwxtKeTgpfnZAbir4TOTzXKz6E7sdFZCMDU7FIPJuTTUGD4YqhpuRO6P3FfOKxJWawV6ih2obwkw8Q8YVEMavx1mmHurhXr6i3mxupDYHy9nWZC5OavSNw5F",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        },
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Noticias Objetivo",
+      "id": "1015387651656200",
+      "tasks": [
+        "ADVERTISE",
+        "ANALYZE",
+        "CREATE_CONTENT",
+        "MESSAGING",
+        "MODERATE",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ1J7rRGY1Q07lx3IZBWdUv6TT84PWGZBG4DlY3wfzhZC2IvzOtlo9kDmoSrMbWRmEsZCOrDQhDhxaJ8XLZBYmVJjzTFga8AEfo6EJ0E4I9Wf0ir7nm2OTaF0K1pu8A6iWKujPbIoqwz5Dnyws0ymdoeiHlt5BE2MQrqGsUWcS5b9reCTvgQFZAKujJZCmUXAbSHzEKOa9HKMQpP",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Nodo Informativo",
+      "id": "891600150711683",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ5KcPQLG8MYpdtk2U4wZCyaGx6a7ien5m8I97Mhgt2andxGimnGnVtpd5k0E3pkMMluo80EJuWAUsGT2iP5r9YRCZCtVlKG3LLRIevEA7AM1uCWMZCEbwQTVDYQAaVH9dylLF8oGEjfZCmmHxuEkcYblA31UR3dSDijenbbr8GVaG1W6FqutBnAkp7d584hoBfZCL3B0icCx3",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Bitácora Urbana",
+      "id": "887254687809731",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ3nYSDYvKQAoLVCLnTUmiKi8hwgW6tzMEsOxzLoGF9mwRMcZA3CZAnHDD6ZB8SSbmOJPaf9dHJLbJGfoKjG4ZAAUoVeJlaJB3ZA8T0QM9QOgQGxfZCE5whVaOfniQMolBudUF9B976ejCebZApLenDSuwJdOxpZCLeUlTq6yx4KHpKQJh92IZA1dBcaZBZALa8olpZCWyY9uYANZAQEHk",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Vértice Noticias",
+      "id": "1007206479132086",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQyowox8liS5QqQhUmyXZCEAU3mXDadWLm5N6ZA90hyfRbv7SifyezTE4710KEE0gBXZCJBJTQLgh2nRowXjYkcHGp8BAOVDiS0vMjhVfeAkTVCW7nfnAjCQcmIwbKPAKDHl04ZBZAIwnT1z8UDyNA80SGp4S8bYgdGHX1wcwZCA7IVHKcrDyoZBZAgXhmYsB4qeqE51CQDwWXhq7",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Radar de Tecámac ",
+      "id": "864872583386128",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ1a1EvxlGg2xPvrw0J7eZB5YdlSS2OPmVOqhxiJnIy50Lz9uZBGp65ZC4Dqkfld8QSLJKsxzlFCY811sZARweZAMP6IXxH0LAXqUQzGdL4QFH8Qbkjd5pFAPjZCwVlYm6RVCyeSdPUEISEdoG9ekFPbXcKnJpK0LZCOKO6Q9rF09Ep0YJXy2scSGrQlFQyZCfTHlz1qneUFIuI8ZC",
+      "category": "Creador digital",
+      "category_list": [
+        {
+          "id": "2347428775505624",
+          "name": "Creador digital"
+        }
+      ],
+      "name": "Colectivo Manos Buscadoras",
+      "id": "820695717790027",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ4RhPiEM1ZCn8rZCYwZCKQk5RlVXAa3T94sLxWoRjODqCCJDY961gFdihqFSQ1IZCaYeBHl627Pimk9UeMSvp3ZCrZAQ9LhiIUf9xpXgCsuAWBCV4Jl94TG9ZCGplZAWUp9CfkqcwmH5bPPWi1os0rumx6SMpodJvapT6ZCAFmDAHWVlFZCQYVZAqh86wXZCyzlCrZAngsIyRSLTKdcUu",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "México Informado",
+      "id": "635096593022455",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQyMtFdV05ZBHb9lrXsAuaDOirxicdzFtEHKeCpzDGt6CKm1Rpb5eGf5Gt6YtC4PfltejHFvOmrhyPbn34Y7rc5ENVFxFMkkEYnES4vDYZAjslBr5SZBij5cBjj4OWHqpx482ZA2J102QfajfkVFAjw85FApKZAmyXrcZBwqWln7wZBJhI45Wj95EsFf9FG9DFnoeK1lCLzSqrtR",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Radio Cinco Noticias",
+      "id": "639476222579619",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ88LT48RPKK0lZCMPM7jjon2uZAZAoQRLCIGMJzIUHEgZCZBl6LGFk9Y2pgtPjpONsQyKKV5CowfDW7wsVW3J4Hmk6sBX8EKyspU96Cshz8Sc5QUmAxcBTV0MmFp4pwqyZAfa7ZC5L8CAa8lj7IIzm2gZCN3dF9IhHZAEevwzBAZC0om8Q1ilZBAc6URtL5tRXmBHcTns6884ocEJCi",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Visión Ciudadana",
+      "id": "616042304922924",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ2BkEkPXlHjjKsZCG8PTIxaazIHfkBe3CZBZCCMZAs2MWjDxj0opTzzsjaDz24lzqjb4wt5HjSXeXW8fpvz4UOy4XBeyHw3ZC2ojutAEAfDHBHN3SB3QZBVuBcLZAkBFzObA2kf0o1ZCOoSBQ95VsYNiMZCdFHnYZBKZBScFHA9pBcSIkDM8VwVBj5FIjJnl4JC4mysHU8oBvZCYGP45",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Central México News",
+      "id": "618190118045350",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ2pgy2Hic5PxWlmZAXMZAyAVy9tMYVoZC0PaWwOC4ZCUbyuAXymrqyegfMtt24qD7wGVd8qZBZAATJCrHD6oMrmgMbA2ZA0bCoamaI9FQFPrGtbhlkVNhlXVynhI2Kst1YgZAE65JAwMFhSpTsfG2u7dZBaFfanI3BitopAdtrjOdwHFuwZCdFZAgl6dG9X9y0dXlmTxwZAtyPFXZB6Gf",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "CBN Noticias",
+      "id": "580707195132774",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQyvmq29FFX7alQkZBoEqaQ4EI1M1ZAA2xarQEZCeZBFGlIRzllNUlbGa2JFie8y8JCysDVHcQIWhEMHSgwNrCcm9IGY0LtPeAOsK1XqeLW3J080gSySSdAYrIg005FO7vsH7sLmNqTs15OYEQFUC0sX7pmnp80U8cpUWBBzTECN55mI486zeNPkT2AEIE8Xnxd4k38hb2Mtt",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Noticias Objetivo",
+      "id": "591610227368886",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ7bkSZCOkiAuWeZCFSee5Ql3t9tx2ZC2hP50N0VRADxFTNHputDssENFErZCJLtJEWedUZBLrzl7BSGZCU9p7UeKdGHAXZBn2s3H9sSD8euultwx6opYJ1dVOz8wn8jXZBP1AK3Lh7v9enYVWm1anzN9l9wLs1Dt8tbTldoa4VjkKrnT9l08W4eZBAeyR6aPqfT8UuBOyeviES2Qr",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Fuerza Ciudadana",
+      "id": "554501611081564",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ6cYjgpntD2DQt9OQoDfr9lhcP0GeYvOc1ER6um1WHd9bcmP9J1Nl7nX4WUZBWsFaCPRFZCPkeX0iCLRp795IkCHOKeijeUtJa82NRlkkaxeB9GEuKCrrzn4nPf0TtM6eqJy4qwLBwpwn2ZASfqwMMEZBafxJuVXZBrmYsmZCPuHwTAU499BdxYtqLimVilUpeQhZBPxhWHIeF0",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Mexican Times",
+      "id": "578088192045850",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQZBoEEbA0FfkS6SGxHdp8vsXqubC6hy6euZCi3MxKyB0V3o5SLjMkk6kaQsK4vlO7RViz1MqFU7vAijCSTfYMoZBaAFqW6HjjvSmSNuqsvUH5ukogvGKc4X792WGp8p3KZA8jbMqNIaimJgQxbWG9mpH6oxwEfZCVhmaOlCjDFaEnsVOQ41l3RZCLWbTgBIeEQTbb3FKUCN1aY",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Reporte Central MX",
+      "id": "496061180253373",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ2sfI4gxbdkFcBDIvvvuZAwt1vJ3G7hyIZAEPNPMBfoCIc3P5f2ASl6uaLyajzjIqf6rP8djzLZBCpMwaLZA7iHoj4YvACuxDR3XrgFJ6VSW4gaR9uy4qhj31YQfZCdBkMS5lndFpZCeEgGqjX2ZAYZClGq5Vnx5O9Cjrj7esZCEArQt9sMrosXnJsRr9HVXzqO5DZCrJhvN2co381",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "ABC Television",
+      "id": "481562451709320",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQwY6F0lTGZBRWDX8VEcZChLlBOIq2BZB4sZCTvC5JbZCALV3oqluP1fNUFtZA8FmZB7ZBQq8yiD7PCe2QI3xeXDiEip5SUzUsDr14VYzaXmqJNrX3wBU9rZAa9gRBUig85yaj5w4ZBsIDBYXl4hb6ZBSr0JN2HJYSLKpJP9WH9WW2UOHBS0cjZBmGZCZAFW8drRE7sQxA3ZAQZBIiLijLoP5",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Capital Press",
+      "id": "458242550714232",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQzVMK1vCknwZAOPgtFAcajt39R85lpGaAuitWbEZCOnh53rPahcIRsgaK6gAYWwxZBZBWvheAQAJiAmQCYcZAQtdXo2v8CvHIVaPAEWDRPyQZA2ebfLWU2uOkZABZCzNwsdSBQkJapTS9vOMuR12ZBhVCCLzkmxiJRGFBcIT8gqQie8VXYGmSH2SDM9zQgtAoDPp1BLYdKL3QpokK",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "M radio",
+      "id": "472254365974557",
+      "tasks": [
+        "ADVERTISE",
+        "ANALYZE",
+        "CREATE_CONTENT",
+        "MESSAGING",
+        "MODERATE",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQZCjfSATVXvZAVHD961JSDO6lt8lJXN3AqmMGj67XAyB6kZB4DBXTPV4zGsb2aI4gLoDKx5RQ4mwwyGol0JsYWjTfyBW1TuH1LgoTn99WwGWGHpSkgMRRADURLs7Wj1jjsF5j7wedFM6E8sNVxZBxPc89Q15moDkr8tZAZBMi98kGuUU0T5rkbBq8MCTjMpAaZAabUw4rftHw26",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Pulso Ciudadano",
+      "id": "433567936515735",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ0iyAtsNDZC4TFrFplWPWz4BcgAiPiySmVzk8uX6rdZByIkpjiZCtKHxgnimj4ayxDU0m8OLoCGIZBXFg0wkob00DUPZBZCZAUvY5POuAjlQjwFJ9IL04USpQVCfIguq05PygVNvkhoYaEM0137ZApSoERWfQLSnFUhuvAP1QM2yy3NgaUhMlWZBjjsOKPujBQSpY1hiw83ZBJkPaT",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "News Capital",
+      "id": "433338646538832",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQzgcpCloTFckjHW8iMBCrRPkiZAI1JJZCHs3lFuWIOowgrRZBMyyZCpygbxeyntI4gUOKZBRjxajhrN6ZBM9MUjuSRsYjS6yvvehtkFWmLNDCdMngdWJjpEOOluyuvdX2w8ae6JYdmiIZA16Pz5BunZAu9x0HGj18nQn53xiShOW8KiVZCjsWIz0s7lBZBWgE03KMiZC4iYHRHZBCZCcZA",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Formula CDMX",
+      "id": "500033023189155",
+      "tasks": [
+        "ADVERTISE",
+        "ANALYZE",
+        "CREATE_CONTENT",
+        "MESSAGING",
+        "MODERATE",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ7LjrdPqWTewrCsr6zVJCdTuvYbcrXct6zZB2cKEWBxR9XBXFNLsr6x8s3vzumQW4DW5PtffgjrsUShwxYNE3C2KfWEwZCZCXmH2PSAPDbejSJisIkSjubHg9DVCZAYKoEjjzs5uDGjGZBEy0SYIX7elRIIRFVdw2kGdfDMbae8z8YZBq6PaLooTEmEaVojxPWFNsLlXL9fJJ5",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Enfoque capital",
+      "id": "457328060805587",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ9jzlHRQrnmfNmeJ0ughtsYVa0JRJvRQM3q2h8pA70RwBYSdS09zGM7jbS1dIEfpfQGZBP2wb0CTaCnFvUADfwr1bOVjBoOKlkvfonVJlHMvvD36cCD1B7LA6tEReaPrmJGJO0OaOHhAnw9lu8B8atiDcZAt7ksvy1QorElf5kUyEHf8JEWyH09Dd0SvCZCkFFw8tlrhu8D",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Rhonita Vive ",
+      "id": "466544409876454",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQwU6SAoc0xuYNMyYHKrybgFzSSu28sWjpZAEI8hI5AQkBZCoUBt6ZBbLVcZCQSDERbErwUxo1ph9VHpet4P5QZA4krS5XIrsxsOjuTRLx1nSZCjNZCg5DOsHV7XQHrZAZC3Kh2d3uAgpl3mWAGXcHijdkIpHVt8Li8NOjCJX6nTAf1ZBsjO3Gdu1Ax8xxuZAvrZB2zogBkt3HcnMuCH8",
+      "category": "Medio de comunicación/noticias",
+      "category_list": [
+        {
+          "id": "2233",
+          "name": "Medio de comunicación/noticias"
+        }
+      ],
+      "name": "Boom Informativo",
+      "id": "501728116348917",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    },
+    {
+      "access_token": "EAAmv1Puxa7wBQ5N9Q4ltG5BAHzLSLViwD9iykOe5tAp5GZCijhfGzeaT6hi9BhfOFesZB1SB7FdhcaPMsfYyrx0lWM4fpcFdAJde6KDtSZCVjStVCDuZAYA7iv1leZC7NzcLHlNaPUZBmGkaoFn9OAZBYmeI5xcnVGyepyJpIMKYNUMYbgdcbOERZAjOlfLu40CdyCp4eOYgzYu2Os8S2LGGBIO0",
+      "category": "Sitio web de noticias y medios de comunicación",
+      "category_list": [
+        {
+          "id": "2709",
+          "name": "Sitio web de noticias y medios de comunicación"
+        }
+      ],
+      "name": "Punto Clave",
+      "id": "497685936753403",
+      "tasks": [
+        "MODERATE",
+        "MESSAGING",
+        "ANALYZE",
+        "ADVERTISE",
+        "CREATE_CONTENT",
+        "MANAGE"
+      ]
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "before": "QVFIUy1iMEllb1dYV1hxVUZAfQ1V4VFBrc2xJR3R3UzZAkOUxLdVF1QXgybjZAlbVZAtMU9VZATdrczRTSURSRGRCMm5DLTQ4X1BWTlZAoYjdtb1J6ME96WF9NcFR3",
+      "after": "QVFIUzVUSEt1bE1sWk80aEZACVkpJM0RvY184MlJ3Q3REWFlHTGNNcUpnMGh0SWd4ejllWUR0Q2JTMUdDS0JKY3U4Nlk0S3UwNjlweEJkYVgtQ2hiU0wzSk53"
+    },
+    "next": "https://graph.facebook.com/v25.0/3071306433069379/accounts?access_token=EAAmv1Puxa7wBQ7qqSOYvoIE3SiHgB1zbZBwYuNqZBktIwdh1ZAaFIUQjGJf619CclZB16IrRFrzCUvMmmMZAUYC8ZCaSVMJZBK2wx3yqqNwldvgZBIcY8jMFZB0uAYorDqoxS52RtFMDapesFrmVzZBbZA20OaYnrZBworx3YeP6u7aeK4PfYYTxtZAs6dyBjVeEmYESUSbVynDDeKZAe6&limit=25&after=QVFIUzVUSEt1bE1sWk80aEZACVkpJM0RvY184MlJ3Q3REWFlHTGNNcUpnMGh0SWd4ejllWUR0Q2JTMUdDS0JKY3U4Nlk0S3UwNjlweEJkYVgtQ2hiU0wzSk53"
+  }
+}

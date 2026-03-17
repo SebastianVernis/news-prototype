@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-02-19T03:28:23.262144",
+  "total_sites": 2,
+  "sites": [
+    {
+      "nombre": "El Periódico En Línea",
+      "name": "El Periódico En Línea",
+      "title": "El Periódico En Línea",
+      "tagline": "Rápido, Preciso, Confiable",
+      "dominio": "www.elperidicoenlnea.com",
+      "domain": "www.elperidicoenlnea.mx",
+      "created_at": "2026-02-19T03:28:23.262035",
+      "template_id": 17,
+      "categories": [
+        "Negocios",
+        "Entretenimiento",
+        "Cultura",
+        "Mundial",
+        "Deportes",
+        "Ciencia",
+        "Política",
+        "Tecnología"
+      ],
+      "layout_config": {
+        "layout_type": "split-hero",
+        "sidebar_position": "left",
+        "footer_columns": 4,
+        "grid_columns": 2,
+        "hero_variant": "image-right",
+        "sidebar_widgets": 2
+      },
+      "id": "el-peri-dico-en-l-nea",
+      "output_dir": "el-peri-dico-en-l-nea",
+      "logo_path": "logo.png"
+    },
+    {
+      "nombre": "El Periódico En Línea",
+      "name": "El Periódico En Línea",
+      "title": "El Periódico En Línea",
+      "tagline": "Rápido, Preciso, Confiable",
+      "dominio": "www.elperidicoenlnea.com",
+      "domain": "www.elperidicoenlnea.mx",
+      "created_at": "2026-02-19T03:28:23.262035",
+      "template_id": 17,
+      "categories": [
+        "Negocios",
+        "Entretenimiento",
+        "Cultura",
+        "Mundial",
+        "Deportes",
+        "Ciencia",
+        "Política",
+        "Tecnología"
+      ],
+      "layout_config": {
+        "layout_type": "split-hero",
+        "sidebar_position": "left",
+        "footer_columns": 4,
+        "grid_columns": 2,
+        "hero_variant": "image-right",
+        "sidebar_widgets": 2
+      },
+      "id": "el-peri-dico-en-l-nea",
+      "output_dir": "el-peri-dico-en-l-nea",
+      "logo_path": "logo.png"
+    }
+  ]
+}

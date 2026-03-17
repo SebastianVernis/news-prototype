@@ -1,0 +1,36 @@
+# Tokens de Autenticación CMS - Cloudflare News Project
+# Generados: 2026-02-19 18:24:12
+#
+# GUARDE ESTE ARCHIVO EN UN LUGAR SEGURO
+# Estos tokens son necesarios para acceder al panel de administración de cada sitio
+
+## radiocinconoticias
+TOKEN=8422a4b25f744f6440dd5ea1f48e051276a486a6b671439842c19d26c5fee400
+
+## centralmexico
+TOKEN=f7464398232a30d8b453ca593a7c5919c29f97668ab47a0f8235e39b86b5e97a
+
+## tvmexico
+TOKEN=75b5751ffb75021aa53f47b8ba0e8bde05dabb4bdc2e20294b58e6ac06558d2e
+
+## cbnnoticias
+TOKEN=a0e6315f53d7be3145b88d1cb9a2b48bc001045b3ceb08ccee56198e1e832e11
+
+## mexicoinformado
+TOKEN=582d137cc494172e008ea441f6dab4925ff75a6a29c6db680f35fcfcb9fe9558
+
+## nodoinformativo
+TOKEN=5c5b984cec158a1862ceb477f239acd6c366b4fcd84359de719ecb7efcb13e0b
+
+## bitacoraurbana
+TOKEN=6110d299733cb611b2d783212f1f0304e074386595c4d251a7198c65c20729a6
+
+## reportecentralmx
+TOKEN=ae552d408445a5509f1e2ae7b5a2d413acbad6b98f610222c24fc5ad75e99d7e
+
+## verticenoticias
+TOKEN=ccda00c667504f562a78a69e3d332848786cf64ff680cadb527bd2ae770acacd
+
+## noticiasobjetivo
+TOKEN=a36cd986cdd712abe8b7393385a0b44858ffb1a6aca20ed80c166a47406f3c47
+

@@ -1,0 +1,96 @@
+<div id="cms-list-view">
+    <div class="header">
+        <h2>Redacción Interna (CMS)</h2>
+        <button class="btn btn-primary" onclick="showNewCMSArticle()">
+            <i class="fas fa-plus"></i> Crear Artículo
+        </button>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Categoría</th>
+                    <th>Estado</th>
+                    <th>Creación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="cms-articles-table"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="cms-editor-view" style="display:none;">
+    <div class="header">
+        <h2 id="cms-editor-title">Editor de Artículo</h2>
+        <button class="btn btn-outline" onclick="exitCMSEditor()">Volver</button>
+    </div>
+    <div class="form-container">
+        <form id="cms-form-element">
+            <input type="hidden" id="cms-article-id">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Título del Artículo</label>
+                    <input type="text" class="form-control" id="cms-titulo" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Categoría</label>
+                    <select class="form-control" id="cms-categoria" required></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Descripción Corta (SEO)</label>
+                <textarea class="form-control" id="cms-descripcion" style="height:80px;"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">URL de Imagen</label>
+                <input type="text" class="form-control" id="cms-imagen" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                    <label class="form-label" style="margin-bottom:0;">Contenido (Formato HTML)</label>
+                    <span style="font-size:0.75rem; color:#666;">Usa &lt;p&gt;, &lt;h2&gt;, &lt;strong&gt;, etc.</span>
+                </div>
+                <textarea class="form-control" id="cms-contenido" style="height:300px; font-family:monospace;" required></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><input type="checkbox" id="cms-destacado"> Marcar como Destacado</label>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button type="button" class="btn btn-outline" style="flex:1;" onclick="saveCMSArticle()">Guardar Borrador</button>
+                <button type="button" class="btn btn-primary" style="flex:1;" onclick="openPublishModal()">Publicar...</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Opciones de Publicación -->
+<div id="cms-publish-modal" class="preview-modal">
+    <div class="preview-header">
+        <h3>Opciones de Publicación</h3>
+        <button class="btn btn-danger" onclick="closePublishModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="form-container" style="margin-top:20px; max-width:500px;">
+        <div style="margin-bottom:25px; padding-bottom:15px; border-bottom:1px solid #eee;">
+            <h4 style="margin-bottom:10px;">Opción A: Parafraseo Seguro</h4>
+            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Genera versiones únicas para los sitios y envíalas a la Mesa de Revisión para control de calidad.</p>
+            <button class="btn btn-outline" style="width:100%;" onclick="actionParaphraseAndReview()">
+                <i class="fas fa-magic"></i> Parafrasear y Revisar
+            </button>
+        </div>
+
+        <div>
+            <h4 style="margin-bottom:10px;">Opción B: Publicación Directa</h4>
+            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Selecciona los sitios donde quieres publicar el contenido tal cual está ahora:</p>
+            <div id="publish-sites-checkboxes" style="max-height:200px; overflow-y:auto; border:1px solid #ddd; padding:10px; border-radius:4px; margin-bottom:15px;">
+                <!-- Checkboxes de sitios cargados dinámicamente -->
+            </div>
+            <button class="btn btn-primary" style="width:100%;" onclick="actionPublishDirectly()">
+                <i class="fas fa-paper-plane"></i> Publicar en Sitios Seleccionados
+            </button>
+        </div>
+    </div>
+</div>

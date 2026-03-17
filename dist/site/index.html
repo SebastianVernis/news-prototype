@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargando...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style id="site-core-css">
+        :root { --p: #667eea; --s: #764ba2; --f-title: 'Playfair Display', serif; --f-body: 'Noto Sans', sans-serif; --bg: #f8f9fc; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--f-body); background: var(--bg); color: #333; line-height: 1.6; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: inherit; }
+
+        /* HEADER */
+        #render-header { background: white; box-shadow: 0 2px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; padding: 15px 0; }
+        .nav-menu { display: flex; gap: 20px; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
+
+        /* LAYOUTS */
+        .layout-313 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .side-col { display: flex; flex-direction: column; gap: 20px; }
+        .layout-magazine .mag-hero { width: 100%; margin-bottom: 30px; }
+        .layout-magazine .mag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        .layout-classic { display: flex; flex-direction: column; gap: 30px; max-width: 900px; margin: 0 auto; }
+        .card-horizontal { display: grid; grid-template-columns: 300px 1fr; gap: 20px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
+        .layout-masonry { columns: 3 250px; gap: 20px; }
+        .layout-masonry > div { break-inside: avoid; margin-bottom: 20px; }
+
+        .card-main { position: relative; min-height: 450px; border-radius: 15px; overflow: hidden; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .card-main img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .card-main .overlay { position: absolute; bottom: 0; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white; width: 100%; z-index: 2; }
+        .card-mini { display: flex; gap: 15px; background: white; padding: 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; }
+        .card-mini img { width: 100px; height: 100px; border-radius: 8px; object-fit: cover; }
+
+        .loading-screen { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div id="render-preloader"><div class="loading-screen"><h2>Cargando...</h2></div></div>
+    <div id="render-header"></div>
+    <main id="view-home" class="container"><div class="main-layout" style="margin-top:30px;"><section id="home-grid-container"></section></div></main>
+    <main id="view-article" class="container" style="display:none;"></main>
+    <footer id="render-footer" style="background:#111; color:white; padding:60px 0; margin-top:60px; text-align:center;"></footer>
+
+    <script>
+        const API_URL = 'https://news-api.sebastianvernis.workers.dev/api';
+        let articles = [];
+        let siteConfig = {};
+
+        async function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let slug = urlParams.get('site') || window.location.hostname.split('.')[0];
+            if (slug === 'localhost') slug = 'radiocinconoticias';
+            try {
+                const [config, newsData] = await Promise.all([
+                    fetch(`${API_URL}/sites/full-config/${slug}`).then(r => r.json()),
+                    fetch(`${API_URL}/articles?site=${slug}`).then(r => r.json())
+                ]);
+                siteConfig = config;
+                articles = newsData.articles;
+                applyTheme(config);
+                handleRouting();
+                setTimeout(() => { if(document.querySelector('.loading-screen')) document.querySelector('.loading-screen').style.display='none'; }, 500);
+            } catch (e) { console.error(e); }
+        }
+
+        function applyTheme(data) {
+            const root = document.documentElement;
+            root.style.setProperty('--p', data.design.HEX_PRINCIPAL);
+            document.title = data.site.NOMBRE;
+            document.getElementById('render-header').innerHTML = `<div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+                <h1 style="font-family:var(--f-title); color:var(--p); cursor:pointer;" onclick="goHome()">${data.site.NOMBRE}</h1>
+                <nav class="nav-menu">${data.navigation.map(n => `<a href="${n.URL}">${n.ETIQUETA}</a>`).join('')}</nav>
+            </div>`;
+            document.getElementById('render-footer').innerHTML = `<div class="container"><h2>${data.site.NOMBRE}</h2><p>${data.site.TAGLINE}</p></div>`;
+        }
+
+        function handleRouting() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#articulo/')) renderArticle(articles.find(a => a.slug === hash.split('/')[1]));
+            else renderHome();
+        }
+
+        function renderHome() {
+            const grid = document.getElementById('home-grid-container');
+            const type = siteConfig.layout;
+            console.log('LAYOUT ACTIVO:', type);
+
+            if (type === 'MAGAZINE') {
+                grid.innerHTML = `<div class="layout-magazine">
+                    <div class="mag-hero">${renderMainCard(articles[0])}</div>
+                    <div class="mag-grid">${articles.slice(1,10).map(renderMainCard).join('')}</div>
+                </div>`;
+            } else if (type === 'CLASSIC') {
+                grid.innerHTML = `<div class="layout-classic">${articles.map(renderHorizontalCard).join('')}</div>`;
+            } else if (type === 'MASONRY') {
+                grid.innerHTML = `<div class="layout-masonry">${articles.map(a => `<div>${renderMainCard(a)}</div>`).join('')}</div>`;
+            } else {
+                grid.innerHTML = `<div class="layout-313">
+                    <div class="side-col">${articles.slice(0,3).map(renderMiniCard).join('')}</div>
+                    <div class="main-col">${renderMainCard(articles[3])}</div>
+                    <div class="side-col">${articles.slice(4,7).map(renderMiniCard).join('')}</div>
+                </div>`;
+            }
+        }
+
+        function renderMiniCard(a) { return `<div class="card-mini" onclick="goToArticle('${a.slug}')"><img src="${a.imageUrl||'https://placehold.co/200'}"><h4>${a.title}</h4></div>`; }
+        function renderMainCard(a) { return `<div class="card-main" onclick="goToArticle('${a.slug}')"><img src="${a.imageUrl||'https://placehold.co/800x500'}"><div class="overlay"><h3>${a.title}</h3></div></div>`; }
+        function renderHorizontalCard(a) { return `<div class="card-horizontal" onclick="goToArticle('${a.slug}')"><img src="${a.imageUrl||'https://placehold.co/400x300'}" style="width:300px; height:200px; object-fit:cover;"> <div style="padding:20px;"><h3>${a.title}</h3><p style="font-size:0.9rem; color:#666; margin-top:10px;">${a.excerpt}</p></div></div>`; }
+
+        function renderArticle(a) {
+            if (!a) return goHome();
+            window.scrollTo(0,0);
+            document.getElementById('view-home').style.display = 'none';
+            document.getElementById('view-article').style.display = 'block';
+            document.getElementById('view-article').innerHTML = `<div class="article-wrap"><span onclick="goHome()" style="color:var(--p); cursor:pointer; font-weight:bold;">← VOLVER</span><h1 style="font-family:var(--f-title); font-size:3rem; margin:20px 0;">${a.title}</h1><div class="article-content">${a.content}</div></div>`;
+        }
+
+        function goToArticle(slug) { window.location.hash = `#articulo/${slug}`; handleRouting(); }
+        function goHome() { window.location.hash = ''; handleRouting(); }
+        window.addEventListener('hashchange', handleRouting);
+        window.onload = init;
+    </script>
+</body>
+</html>

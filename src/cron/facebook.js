@@ -103,7 +103,6 @@ export async function processFBTimer(env) {
         continue;
       }
 
-      // Get pending article with valid image
       const article = await env.DB.prepare(`
         SELECT
           s.ID as SITIO_ID,
@@ -118,6 +117,8 @@ export async function processFBTimer(env) {
           AND p.URL_IMAGEN != ''
           AND p.URL_IMAGEN NOT LIKE '%logo.png'
           AND p.URL_IMAGEN NOT LIKE '%fallback%'
+          AND p.SLUG IS NOT NULL
+          AND p.SLUG != ''
         ORDER BY s.FECHA_ASIGNACION ASC
         LIMIT 1
       `).first();

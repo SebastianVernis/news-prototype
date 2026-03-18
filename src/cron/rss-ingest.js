@@ -299,7 +299,11 @@ export async function runRSSIngest(env) {
         try {
           const now = new Date().toISOString();
           const paraId = crypto.randomUUID();
-          const slug = articleSlugify(title);
+          let slug = articleSlugify(title);
+          if (!slug || slug.trim() === '') {
+            slug = `articulo-${Date.now()}`;
+            console.log(`[RSS INGEST] Generated fallback slug for article: ${slug}`);
+          }
 
           await env.DB.prepare(`
             INSERT INTO ARTICULOS_PARAFRASEADOS

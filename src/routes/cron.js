@@ -424,7 +424,11 @@ cron.post('/scrape', async (c) => {
 
         // Insertar en DB
         const paraId = crypto.randomUUID();
-        const slug = articleSlugify(title);
+        let slug = articleSlugify(title);
+        if (!slug || slug.trim() === '') {
+          slug = `articulo-${Date.now()}`;
+          console.log(`[CRON INGEST] Generated fallback slug for article: ${slug}`);
+        }
         
         await c.env.DB.prepare(`
           INSERT INTO ARTICULOS_PARAFRASEADOS

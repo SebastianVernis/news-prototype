@@ -1,0 +1,170 @@
+<div id="editor-view-container">
+    <div class="header">
+        <h2 id="universal-editor-title">Editor de Artículo</h2>
+        <button class="btn btn-outline" onclick="closeUniversalEditor()">
+            <i class="fas fa-arrow-left"></i> Volver
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="editor-body" style="padding: 20px;">
+            <form id="universal-article-form">
+                <input type="hidden" id="uni-id" />
+                <input type="hidden" id="uni-mode" />
+
+                <!-- Sección 1: Información Principal -->
+                <div class="editor-section">
+                    <h3 class="editor-section-title">
+                        <i class="fas fa-heading"></i>
+                        Información Principal
+                    </h3>
+
+                    <div style="margin-bottom: 1.5rem">
+                        <label class="editor-label">
+                            <i class="fas fa-pen-fancy editor-label-icon"></i>Título del Artículo *
+                        </label>
+                        <input type="text" class="editor-input editor-input--title" id="uni-title" required placeholder="Título del artículo..." />
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <label class="editor-label">
+                                <i class="fas fa-link editor-label-icon"></i>Slug (URL) *
+                            </label>
+                            <input type="text" class="editor-input editor-input--mono" id="uni-slug" placeholder="titulo-del-articulo" />
+                        </div>
+                        <div>
+                            <label class="editor-label">
+                                <i class="fas fa-user-edit editor-label-icon"></i>Autor
+                            </label>
+                            <input type="text" class="editor-input" id="uni-author" placeholder="Editorial" />
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <label class="editor-label">
+                                <i class="fas fa-folder editor-label-icon"></i>Categoría *
+                            </label>
+                            <select class="editor-input editor-input--select" id="uni-category" required>
+                                <option value="POLITICA">Política</option>
+                                <option value="NACIONAL">Nacional</option>
+                                <option value="INTERNACIONAL">Internacional</option>
+                                <option value="ECONOMIA">Economía</option>
+                                <option value="DEPORTES">Deportes</option>
+                                <option value="TECNOLOGIA">Tecnología</option>
+                                <option value="ENTRETENIMIENTO">Entretenimiento</option>
+                                <option value="SALUD">Salud</option>
+                                <option value="CIENCIA">Ciencia</option>
+                                <option value="CULTURA">Cultura</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="editor-label">
+                                <i class="fas fa-star editor-label-icon"></i>Destacado
+                            </label>
+                            <select class="editor-input editor-input--select" id="uni-featured">
+                                <option value="0">No</option>
+                                <option value="1">Sí</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Descripción e Imagen -->
+                <div class="editor-section">
+                    <h3 class="editor-section-title">
+                        <i class="fas fa-image"></i> Descripción y Multimedia
+                    </h3>
+
+                    <div style="margin-bottom: 1.5rem">
+                        <label class="editor-label">
+                            <i class="fas fa-align-left editor-label-icon"></i>Descripción Corta (SEO) *
+                        </label>
+                        <textarea class="editor-input" id="uni-excerpt" rows="3" placeholder="Breve descripción para SEO y redes sociales..." style="resize: vertical"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="editor-label">
+                            <i class="fas fa-upload editor-label-icon"></i>Imagen del Artículo
+                        </label>
+                        <div class="editor-upload-row" style="display: flex; gap: 10px;">
+                            <input type="text" class="editor-input editor-input--mono" id="uni-image" placeholder="https://ejemplo.com/imagen.jpg" style="flex: 1" />
+                            <button type="button" class="btn btn-outline btn-upload-image" onclick="document.getElementById('uni-upload-input').click()">
+                                <i class="fas fa-cloud-upload-alt"></i> Subir
+                            </button>
+                            <input type="file" id="uni-upload-input" style="display: none" accept="image/*" onchange="uploadUniversalImage(this)" />
+                        </div>
+                        <div id="uni-image-preview" class="editor-preview-box" style="margin-top: 10px; display: none;">
+                            <img id="uni-preview-img" src="" alt="Vista previa" style="max-width: 100%; border-radius: 8px; max-height: 200px;" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 3: Sitios y Contenido -->
+                <div class="editor-section">
+                    <h3 class="editor-section-title">
+                        <i class="fas fa-globe"></i> Sitios y Contenido
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 200px; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label class="editor-label">
+                                <i class="fas fa-sitemap editor-label-icon"></i>Sitios de Destino
+                            </label>
+                            <div class="editor-box" style="max-height: 150px; overflow-y: auto; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+                                <div id="uni-sites-container"></div>
+                            </div>
+                            <button type="button" class="btn btn-text" style="margin-top: 5px; font-size: 0.75rem;" onclick="toggleAllSites()">
+                                <i class="fas fa-check-square"></i> Seleccionar todos
+                            </button>
+                        </div>
+                        <div>
+                            <label class="editor-label">
+                                <i class="fab fa-facebook editor-label-icon"></i>Facebook
+                            </label>
+                            <div id="uni-fb-section" class="editor-fb-box" style="display: none; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="uni-publish-fb" style="width: 18px; height: 18px;" />
+                                    Publicar
+                                </label>
+                            </div>
+                            <div id="uni-fb-placeholder" style="font-size: 0.75rem; color: var(--text-secondary); opacity: 0.7;">
+                                <i class="fas fa-info-circle"></i> Solo para CMS
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editor de Contenido -->
+                    <div>
+                        <label class="editor-label" style="margin-bottom: 0.75rem">
+                            <i class="fas fa-file-alt editor-label-icon"></i>Contenido (HTML) *
+                        </label>
+                        <div class="editor-toolbar" style="margin-bottom: 5px; display: flex; flex-wrap: wrap; gap: 5px;">
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTag('h2')">H2</button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTag('h3')">H3</button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTag('p')">P</button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTag('strong')" title="Negrita"><i class="fas fa-bold"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTag('em')" title="Itálica"><i class="fas fa-italic"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTag('ul')" title="Lista desordenada"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTag('ol')" title="Lista ordenada"><i class="fas fa-list-ol"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertLink()" title="Enlace"><i class="fas fa-link"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertImage()" title="Imagen"><i class="fas fa-image"></i></button>
+                            <input type="file" id="uni-content-image-input" style="display: none" accept="image/*" onchange="uploadContentImage(this)" />
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertYouTube()" title="YouTube"><i class="fab fa-youtube"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertTwitter()" title="Twitter"><i class="fab fa-twitter"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="insertInstagram()" title="Instagram"><i class="fab fa-instagram"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="autoParagraph()" title="Auto Párrafos"><i class="fas fa-magic"></i> Auto-P</button>
+                        </div>
+                        <textarea class="editor-input" id="uni-content" rows="15" required style="font-family: monospace;"></textarea>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div id="uni-actions-container" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <!-- Se inyectan por JS -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

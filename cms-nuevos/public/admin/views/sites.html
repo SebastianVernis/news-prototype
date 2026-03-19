@@ -1,0 +1,61 @@
+<div id="sites-list-view">
+    <div class="header">
+        <h2>Gestión de Red de Sitios</h2>
+        <button class="btn btn-primary" onclick="showNewSite()">
+            <i class="fas fa-plus"></i> Añadir Nuevo Sitio
+        </button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dominio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="sites-table"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="site-editor-view" style="display:none;">
+    <div class="header">
+        <h2 id="site-form-title">Configurar Sitio</h2>
+        <button class="btn btn-outline" onclick="exitSiteEditor()">
+            <i class="fas fa-arrow-left"></i> Volver a la Lista
+        </button>
+    </div>
+
+    <div class="form-container">
+        <form id="site-form-element">
+            <input type="hidden" id="site-id">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="site-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dominio</label>
+                    <input type="text" class="form-control" id="site-dominio" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tagline (Slogan)</label>
+                <input type="text" class="form-control" id="site-tagline">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="site-activo" checked> Sitio Activo</label>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button type="submit" class="btn btn-primary" style="flex:1;">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deportes - alavistanoticias</title>
+    <meta name="description" content="Noticias de Deportes en alavistanoticias.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style-custom.css">
+</head>
+<body>
+    <div id="site-preloader"></div>
+    <div id="site-header"></div>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="category-header" style="margin:30px 0 20px;">
+                <span class="category-badge-large cat-deportes">Deportes</span>
+                <h1 class="category-title">Noticias de Deportes</h1>
+                <p class="category-description">Todas las noticias actualizadas sobre Deportes.</p>
+            </div>
+
+            <div id="cat-loading" style="text-align:center;padding:40px;">
+                <p style="color:#666;">Cargando noticias...</p>
+            </div>
+
+            <div id="cat-empty" style="display:none;text-align:center;padding:40px;">
+                <p style="color:#666;">No hay noticias disponibles en esta categoría por el momento.</p>
+                <a href="../index.html" style="color:var(--primary-color,#00897B);font-weight:bold;">← Volver al inicio</a>
+            </div>
+
+            <div id="cat-grid" class="news-grid news-grid-3" style="display:none;"></div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="../script.js"></script>
+    <script src="../components.js"></script>
+    <script>
+    (async function() {
+        const site = 'alavistanoticias';
+        const category = 'deportes';
+        try {
+            const res = await fetch('https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=' + site + '&category=' + category + '&limit=30');
+            if (!res.ok) throw new Error('fetch error');
+            const {articles} = await res.json();
+            if (!articles?.length) {
+                document.getElementById('cat-loading').style.display = 'none';
+                document.getElementById('cat-empty').style.display = 'block';
+                return;
+            }
+            const grid = document.getElementById('cat-grid');
+            grid.innerHTML = articles.map(a => renderCard(a)).join('');
+            document.getElementById('cat-loading').style.display = 'none';
+            grid.style.display = '';
+        } catch(e) {
+            console.error('Category load error:', e);
+            document.getElementById('cat-loading').style.display = 'none';
+            document.getElementById('cat-empty').style.display = 'block';
+        }
+
+        function renderCard(a) {
+            const slug = a.slug || '';
+            const img = a.imageUrl || '../assets/images/article_placeholder.jpg';
+            const cat = a.category || 'Deportes';
+            const catSlug = cat.toLowerCase().replace(/\s+/g, '-');
+            const title = escHtml(a.title || '');
+            const excerpt = escHtml(a.excerpt || '');
+            const author = escHtml(a.author || 'Redacción');
+            const date = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : '';
+            const url = '../articulo/index.html?slug=' + encodeURIComponent(slug);
+            return `<article class="article-card">
+                <div class="card-image-wrapper">
+                    <a href="${url}"><img src="${img}" alt="${title}" loading="lazy"></a>
+                    <span class="card-category-badge cat-${catSlug}">${cat}</span>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title"><a href="${url}">${title}</a></h3>
+                    <p class="card-excerpt">${excerpt}</p>
+                    <div class="card-footer">
+                        <span class="card-author">Por ${author}</span>
+                        <span class="card-date">${date}</span>
+                    </div>
+                </div>
+            </article>`;
+        }
+
+        function escHtml(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
+        }
+    })();
+    </script>
+</body>
+</html>

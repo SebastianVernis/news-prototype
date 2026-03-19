@@ -1,0 +1,120 @@
+<div class="header">
+    <h2><i class="fas fa-newspaper"></i> Explorador de Contenido Live</h2>
+    <p>Visualiza los artículos publicados actualmente en los 10 sitios de la red.</p>
+</div>
+
+<div class="card mb-4">
+    <div class="filter-bar" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <div class="filter-group">
+            <label class="editor-label" style="font-size: 0.8rem; margin-bottom: 2px;">Filtrar por Sitio:</label>
+            <select id="explorer-site-filter" class="editor-input btn-sm" onchange="loadExplorerArticles()" style="min-width: 200px;">
+                <option value="">Todos los sitios</option>
+                <option value="noticiasobjetivo">Noticias Objetivo</option>
+                <option value="mexicoinformado">México Informado</option>
+                <option value="bitacoraurbana">Bitácora Urbana</option>
+                <option value="nodoinformativo">Nodo Informativo</option>
+                <option value="cbnnoticias">CBN Noticias</option>
+                <option value="centralmexico">Central México</option>
+                <option value="verticenoticias">Vértice Noticias</option>
+                <option value="radiocinconoticias">Radio Cinco Noticias</option>
+                <option value="reportecentralmx">Reporte Central MX</option>
+                <option value="tvmexico">TV México</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label class="editor-label" style="font-size: 0.8rem; margin-bottom: 2px;">Categoría:</label>
+            <select id="explorer-category-filter" class="editor-input btn-sm" onchange="loadExplorerArticles()">
+                <option value="">Todas</option>
+                <option value="nacional">Nacional</option>
+                <option value="politica">Política</option>
+                <option value="economia">Economía</option>
+                <option value="deportes">Deportes</option>
+                <option value="cultura">Cultura</option>
+                <option value="tecnologia">Tecnología</option>
+            </select>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="loadExplorerArticles()" style="margin-top: 18px;">
+            <i class="fas fa-sync"></i> Refrescar
+        </button>
+    </div>
+</div>
+
+<div class="articles-grid" id="explorer-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+    <!-- Cargado vía JS -->
+</div>
+
+<style>
+    .explorer-card {
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--bg-white);
+        box-shadow: var(--shadow);
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid var(--border-color);
+    }
+    .explorer-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+    }
+    .explorer-img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        background: #f1f5f9;
+    }
+    .explorer-content {
+        padding: 1rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .explorer-tag {
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    .explorer-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
+        color: var(--text-primary);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .explorer-sites {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: auto;
+    }
+    .site-pill {
+        font-size: 0.6rem;
+        padding: 2px 6px;
+        background: #f1f5f9;
+        border-radius: 4px;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+    }
+    .dark-mode .site-pill {
+        background: #1e293b;
+        color: #94a3b8;
+        border-color: rgba(6, 182, 212, 0.2);
+    }
+    .explorer-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border-color);
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+    }
+</style>

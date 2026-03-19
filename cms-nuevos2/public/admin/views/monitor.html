@@ -1,0 +1,138 @@
+<div class="header">
+    <h2><i class="fas fa-microchip"></i> Monitoreo del Sistema</h2>
+    <p class="monitor-meta" style="margin-top: 0.25rem; font-size: 0.9rem">
+        Estado de las tareas automáticas: RSS Ingesta → Distribución → Facebook
+    </p>
+</div>
+
+<!-- Flujo Visual -->
+<div class="card" style="margin-bottom: 1.5rem; border-left: 4px solid #06b6d4; background: linear-gradient(135deg, rgba(6,182,212,0.08) 0%, rgba(16,185,129,0.08) 100%);">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem;">
+            <span style="background: rgba(6,182,212,0.2); padding: 0.5rem 1rem; border-radius: 20px;"><i class="fas fa-rss"></i> RSS Ingesta</span>
+            <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+            <span style="background: rgba(139,92,246,0.2); padding: 0.5rem 1rem; border-radius: 20px;"><i class="fas fa-random"></i> 9 sitios</span>
+            <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+            <span style="background: rgba(245,158,11,0.2); padding: 0.5rem 1rem; border-radius: 20px;"><i class="fas fa-cloud-upload-alt"></i> R2</span>
+            <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+            <span style="background: rgba(16,185,129,0.2); padding: 0.5rem 1rem; border-radius: 20px;"><i class="fas fa-globe"></i> Web</span>
+            <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+            <span style="background: rgba(24,119,242,0.2); padding: 0.5rem 1rem; border-radius: 20px;"><i class="fab fa-facebook"></i> FB (3h)</span>
+        </div>
+        <div style="text-align: right;">
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Última ingesta</div>
+            <div id="last-ingest-time" style="font-weight: 600;">--:--</div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="dashboard-grid"
+    style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    "
+>
+    <!-- Estado de Cron -->
+    <div class="card" style="border-top: 4px solid var(--primary-color)">
+        <div
+            style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+            "
+        >
+            <h3 style="margin: 0">
+                <i class="fas fa-clock"></i> Último Cron Automático
+            </h3>
+            <span id="cron-last-run" class="monitor-meta">Cargando...</span>
+        </div>
+        <div
+            id="cron-tasks-list"
+            style="display: flex; flex-direction: column; gap: 0.25rem"
+        >
+            <p class="monitor-empty">Obteniendo estado del servidor...</p>
+        </div>
+        <div class="monitor-card-footer">
+            <button
+                class="btn btn-primary"
+                onclick="triggerManualIngest()"
+                id="btn-manual-ingest"
+                style="width: 100%"
+            >
+                <i class="fas fa-sync-alt"></i> Forzar Ingesta Manual (RSS/Atom)
+            </button>
+        </div>
+    </div>
+
+    <!-- Diagnóstico de Tokens -->
+    <div class="card" style="border-top: 4px solid #3b82f6">
+        <div
+            style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+            "
+        >
+            <h3 style="margin: 0">
+                <i class="fab fa-facebook-f"></i> Tokens de Facebook (27 Sitios)
+            </h3>
+            <button class="btn btn-outline btn-sm" onclick="checkFBTokens()">
+                <i class="fas fa-redo"></i>
+            </button>
+        </div>
+        <div
+            id="token-status-list"
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem"
+        >
+            <p class="monitor-empty" style="grid-column: 1 / -1">
+                Diagnosticando...
+            </p>
+        </div>
+        <div id="token-pagination" style="margin-top: 1rem;"></div>
+    </div>
+</div>
+
+<!-- Historial de publicaciones Facebook - OCULTO -->
+<!-- Esta sección fue removida porque Facebook publica automáticamente cada 3 horas -->
+<div class="card" style="border-top: 4px solid #10b981; display: none;">
+    <div
+        style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        "
+    >
+        <h3 style="margin: 0">
+            <i class="fas fa-history"></i> Historial de Publicaciones Facebook
+        </h3>
+        <button class="btn btn-outline btn-sm" onclick="loadFBMonitorHistory()">
+            <i class="fas fa-sync-alt"></i> Actualizar
+        </button>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Artículo</th>
+                    <th>Sitio</th>
+                    <th>Estado Web</th>
+                    <th>Estado Facebook</th>
+                    <th>Fecha Publicación</th>
+                </tr>
+            </thead>
+            <tbody id="monitor-fb-table-body">
+                <tr>
+                    <td colspan="5" class="monitor-empty">
+                        Cargando historial...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

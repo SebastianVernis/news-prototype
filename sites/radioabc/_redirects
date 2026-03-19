@@ -1,0 +1,10 @@
+# Proxy /api/* al worker de noticias
+# Reemplaza WORKER_URL con tu URL de workers.dev (ej: https://news-api.mi-subdominio.workers.dev)
+# Este archivo es el fallback cuando el sitio corre en *.pages.dev
+# En dominios propios, las Workers Routes en src/wrangler.toml manejan esto automáticamente.
+
+/api/* https://cms-nuevos2.sebastianvernis.workers.dev/api/:splat 200
+
+# RSS Feed — para Buffer y lectores RSS
+/rss.xml  /api/rss/radioabc  200
+/feed.xml /api/rss/radioabc  200

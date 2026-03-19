@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultura - noticias123</title>
+    <meta name="description" content="Noticias de Cultura en noticias123.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style-custom.css">
+</head>
+<body>
+    <div id="site-preloader"></div>
+    <div id="site-header"></div>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="category-header" style="margin:30px 0 20px;">
+                <span class="category-badge cat-cultura">Cultura</span>
+                <h1 class="section-title" style="text-align:left;margin:10px 0 6px;">Noticias de Cultura</h1>
+                <p style="color:#666;font-size:0.95rem;">Todas las noticias actualizadas sobre Cultura.</p>
+            </div>
+            <div id="cat-loading" style="text-align:center;padding:40px;"><p>Cargando noticias...</p></div>
+            <div id="cat-empty" style="display:none;text-align:center;padding:40px;">
+                <p>No hay noticias disponibles en esta categoría.</p>
+                <a href="../index.html" style="font-weight:bold;">← Volver al inicio</a>
+            </div>
+            <div id="cat-grid" class="card-grid" style="display:none;margin-bottom:60px;"></div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="../script.js"></script>
+    <script src="../components.js"></script>
+    <script>
+    (async function() {
+        const site = 'noticias123', category = 'cultura';
+        try {
+            const res = await fetch('https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=' + site + '&category=' + category + '&limit=30');
+            if (!res.ok) throw new Error('fetch error');
+            const {articles} = await res.json();
+            if (!articles || !articles.length) {
+                document.getElementById('cat-loading').style.display = 'none';
+                document.getElementById('cat-empty').style.display = 'block';
+                return;
+            }
+            const grid = document.getElementById('cat-grid');
+            grid.innerHTML = articles.map(a => renderCard(a)).join('');
+            document.getElementById('cat-loading').style.display = 'none';
+            grid.style.display = '';
+        } catch(e) {
+            document.getElementById('cat-loading').style.display = 'none';
+            document.getElementById('cat-empty').style.display = 'block';
+        }
+        function renderCard(a) {
+            const slug = a.slug || '';
+            const img = a.imageUrl || '../assets/images/article_placeholder.jpg';
+            const cat = a.category || 'Cultura';
+            const catSlug = cat.toLowerCase().replace(/\s+/g, '-');
+            const title = escHtml(a.title || '');
+            const excerpt = escHtml(a.excerpt || '');
+            const author = escHtml(a.author || 'Redacción');
+            const date = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX') : '';
+            const url = '../articulo/index.html?slug=' + encodeURIComponent(slug);
+            return '<article class="article-card">' +
+                '<div class="card-image-wrapper">' +
+                '<a href="' + url + '"><img src="' + img + '" alt="' + title + '" loading="lazy"></a>' +
+                '<span class="card-category-badge cat-' + catSlug + '">' + cat + '</span>' +
+                '</div>' +
+                '<div class="card-content">' +
+                '<h3 class="card-title"><a href="' + url + '">' + title + '</a></h3>' +
+                '<p class="card-excerpt">' + excerpt + '</p>' +
+                '<div class="card-footer">' +
+                '<span class="card-author">Por ' + author + '</span>' +
+                '<span class="card-date">' + date + '</span>' +
+                '</div></div></article>';
+        }
+        function escHtml(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
+        }
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>RadioABC - Noticias</title>
+    <link href="style-custom.css" rel="stylesheet"/>
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section id="latest-container" data-api="https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=radioabc&limit=12"></section>
+        <section class="news-section">
+            <h2 style="text-align:center; margin: 40px 0 30px; font-size:2em;">Más Noticias</h2>
+            <div id="news-container" class="news-grid"></div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="components.js"></script>
+    <script>
+    (async function(){
+        const apiUrl = document.querySelector('#latest-container')?.dataset.api;
+        let articles = [];
+        try {
+            const res = await fetch(apiUrl);
+            const data = await res.json();
+            articles = data.articles || [];
+        } catch(e) { console.error(e); }
+        if(!articles.length) return;
+        const heroArticles = articles.slice(0, 3);
+        const listArticles = articles.slice(3);
+        const heroContainer = document.getElementById('latest-container');
+        if(heroContainer) {
+            
+      heroContainer.innerHTML = '';
+      heroArticles.slice(0,3).forEach((a, i) => {
+        heroContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="hero-card ' + (i===0 ? 'main' : 'sub') + '">' +
+            '<img src="' + (a.image || 'https://placehold.co/600x400/000080/ffffff?text=RADIO') + '" alt="Hero">' +
+            '<div class="hero-content">' +
+              (i===0 ? '<h2>'+a.title+'</h2>' : '<h3>'+a.title+'</h3>') +
+            '</div>' +
+          '</a>';
+      });
+    
+        }
+        const newsContainer = document.getElementById('news-container');
+        if(newsContainer) {
+            newsContainer.innerHTML = '';
+            listArticles.forEach(a => {
+                newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
+                    '<img src="' + (a.image || 'https://placehold.co/300x200/000080/ffffff?text=News') + '" alt="' + a.title + '">' +
+                    '<div class="news-content">' +
+                        '<h3 class="news-title">' + a.title + '</h3>' +
+                        '<p class="news-desc">' + (a.desc ? a.desc.substring(0, 100) + '...' : '') + '</p>' +
+                    '</div>' +
+                '</a>';
+            });
+        }
+    })();
+    </script>
+</body>
+</html>

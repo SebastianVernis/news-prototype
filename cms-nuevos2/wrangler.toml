@@ -1,0 +1,34 @@
+name = "cms-nuevos2"
+main = "src/index.js"
+compatibility_date = "2023-12-01"
+workers_dev = true
+
+[vars]
+ENVIRONMENT = "production"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "news_db_cms_nuevos2"
+database_id = "e3d0d028-fd76-4d7e-ae02-d2a928692bb8"
+
+[[kv_namespaces]]
+binding = "ARTICLES_KV"
+id = "0d0be3689d2342db8ad2a70070e1ecb3"
+
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "cms-uploads-nuevos2"
+
+[triggers]
+crons = ["*/30 * * * *"]
+
+[observability]
+enabled = false
+
+[observability.logs]
+enabled = true
+persist = true
+invocation_logs = true
+
+[ai]
+binding = "AI"

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - tmznews - CMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="auth-check">
+        <div class="auth-spinner">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            <p>Verificando sesión...</p>
+        </div>
+    </div>
+
+    <div id="admin-app" style="display: none;">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://placehold.co/200x200/39ff14/ffffff?text=TM" alt="Logo" style="height:40px;width:auto;margin-right:10px;">
+                <i class="fas fa-city"></i>
+                <span>tmznews</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-view="articles">
+                    <i class="fas fa-newspaper"></i> Artículos
+                </a>
+                <a href="#" class="nav-item" data-view="new-article">
+                    <i class="fas fa-plus-circle"></i> Nuevo Artículo
+                </a>
+                <a href="#" class="nav-item" data-view="categories">
+                    <i class="fas fa-folder"></i> Categorías
+                </a>
+                <a href="#" class="nav-item" data-view="settings">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="user-info">
+                    <span class="user-name"><i class="fas fa-user-circle"></i> Administrador</span>
+                    <span class="site-status"><i class="fas fa-circle status-online"></i> En línea</span>
+                </div>
+            </header>
+
+            <!-- DASHBOARD VIEW -->
+            <div id="view-dashboard" class="view active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #3498db;">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-articles">0</h3>
+                            <p>Total Artículos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #27ae60;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="published-articles">0</h3>
+                            <p>Publicados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #f39c12;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="draft-articles">0</h3>
+                            <p>Borradores</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #9b59b6;">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-categories">4</h3>
+                            <p>Categorías</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-articles">
+                    <div class="section-header">
+                        <h2>Artículos Recientes</h2>
+                        <button class="btn-primary" onclick="showView('new-article')">
+                            <i class="fas fa-plus"></i> Nuevo Artículo
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Categoría</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-articles-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ARTICLES VIEW -->
+            <div id="view-articles" class="view">
+                <div class="section-header">
+                    <h2>Gestión de Artículos</h2>
+                    <div class="actions">
+                        <input type="text" id="search-articles" class="search-input" placeholder="Buscar artículos...">
+                        <button class="btn-primary" onclick="showView('new-article')">
+                            <i class="fas fa-plus"></i> Nuevo Artículo
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Categoría</th>
+                                <th>Autor</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articles-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- NEW ARTICLE VIEW -->
+            <div id="view-new-article" class="view">
+                <div class="section-header">
+                    <h2 id="article-form-title">Crear Nuevo Artículo</h2>
+                    <button class="btn-secondary" onclick="showView('articles')">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                </div>
+                <form id="article-form" class="article-form">
+                    <input type="hidden" id="article-id">
+                    <div class="form-grid">
+                        <div class="form-main">
+                            <div class="form-group">
+                                <label for="article-title">Título *</label>
+                                <input type="text" id="article-title" class="form-control" required placeholder="Ingrese el título del artículo">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-slug">Slug (URL)</label>
+                                <input type="text" id="article-slug" class="form-control" placeholder="se-genera-automaticamente">
+                                <small class="form-hint">Se generará automáticamente si lo deja vacío</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-excerpt">Extracto / Descripción Corta</label>
+                                <textarea id="article-excerpt" class="form-control" rows="3" placeholder="Breve descripción del artículo"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-content">Contenido *</label>
+                                <textarea id="article-content" class="form-control" rows="15" required placeholder="Escriba el contenido completo del artículo..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-sidebar">
+                            <div class="form-group">
+                                <label for="article-category">Categoría *</label>
+                                <select id="article-category" class="form-control" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="nacional">Nacional</option>
+                                    <option value="politica">Política</option>
+                                    <option value="economia">Economía</option>
+                                    <option value="deportes">Deportes</option>
+                                    <option value="cultura">Cultura</option>
+                                    <option value="tecnologia">Tecnología</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-author">Autor</label>
+                                <input type="text" id="article-author" class="form-control" value="Redacción" placeholder="Nombre del autor">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-image">URL de Imagen</label>
+                                <input type="text" id="article-image" class="form-control" placeholder="https://ejemplo.com/imagen.jpg">
+                                <small class="form-hint">URL completa de la imagen destacada</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-tags">Etiquetas</label>
+                                <input type="text" id="article-tags" class="form-control" placeholder="tag1, tag2, tag3">
+                                <small class="form-hint">Separadas por comas</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-status">Estado</label>
+                                <select id="article-status" class="form-control">
+                                    <option value="published">Publicado</option>
+                                    <option value="draft">Borrador</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-featured">Destacado</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="article-featured">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary btn-block">
+                                    <i class="fas fa-save"></i> Guardar Artículo
+                                </button>
+                                <button type="button" id="btn-delete" class="btn-danger btn-block" style="display: none;">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CATEGORIES VIEW -->
+            <div id="view-categories" class="view">
+                <div class="section-header">
+                    <h2>Categorías</h2>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon" style="background: #dc3545;">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <h3>Nacional</h3>
+                        <p id="cat-nacional-count">0 artículos</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon" style="background: #007bff;">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <h3>Política</h3>
+                        <p id="cat-politica-count">0 artículos</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon" style="background: #28a745;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Economía</h3>
+                        <p id="cat-economia-count">0 artículos</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon" style="background: #fd7e14;">
+                            <i class="fas fa-futbol"></i>
+                        </div>
+                        <h3>Deportes</h3>
+                        <p id="cat-deportes-count">0 artículos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS VIEW -->
+            <div id="view-settings" class="view">
+                <div class="section-header">
+                    <h2>Configuración</h2>
+                </div>
+                <div class="settings-section">
+                    <h3>Token de Autenticación</h3>
+                    <div class="token-display">
+                        <code id="current-token">Generando...</code>
+                        <button class="btn-secondary" onclick="regenerateToken()">
+                            <i class="fas fa-sync"></i> Regenerar
+                        </button>
+                    </div>
+                    <p class="form-hint">Este token se usa para autenticar las solicitudes API. Guárdelo en un lugar seguro.</p>
+                </div>
+                <div class="settings-section">
+                    <h3>Información del Sitio</h3>
+                    <div class="form-group">
+                        <label>Nombre del Sitio</label>
+                        <input type="text" class="form-control" value="tmznews" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <span class="badge badge-success">Activo</span>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Exportar Datos</h3>
+                    <button class="btn-primary" onclick="exportArticles()">
+                        <i class="fas fa-download"></i> Exportar Artículos (JSON)
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

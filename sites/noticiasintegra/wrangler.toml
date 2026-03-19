@@ -1,0 +1,8 @@
+name = "noticiasintegra"
+pages_build_output_dir = "."
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "news_db_cms_nuevos2"
+database_id = "e3d0d028-fd76-4d7e-ae02-d2a928692bb8"

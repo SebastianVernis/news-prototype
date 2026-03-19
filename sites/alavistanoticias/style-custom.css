@@ -1,0 +1,96 @@
+/* ============================================
+   A LA VISTA - Custom Theme
+   ============================================ */
+:root {
+    --site-primary: #008080;
+    --site-secondary: #ffeb3b;
+    --site-bg: #f0f8ff;
+    --site-text: #2f4f4f;
+    --site-accent: #006666;
+    --site-white: #ffffff;
+    --site-border: #e0e0e0;
+}
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--site-bg);
+    color: var(--site-text);
+    line-height: 1.6;
+    margin: 0; padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Georgia", serif;
+    color: var(--site-accent);
+}
+a { text-decoration: none; color: inherit; }
+/* HEADER */
+.site-header {
+    background-color: var(--site-primary);
+    color: var(--site-white);
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 5px solid var(--site-secondary);
+}
+.header-container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.logo-section img { height: 70px; }
+.main-nav { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+.main-nav a { color: var(--site-white); font-weight: bold; text-transform: uppercase; padding: 5px 10px; }
+.main-nav a:hover { color: var(--site-secondary); }
+/* LAYOUTS */
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+/* FOOTER */
+.site-footer {
+    background-color: var(--site-accent);
+    color: var(--site-white);
+    padding: 40px 20px;
+    text-align: center;
+    margin-top: 60px;
+}
+.footer-logo img { height: 50px; margin-bottom: 20px; }
+.footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+.footer-links a { color: var(--site-white); }
+/* EXTRA CSS */
+
+      .hero-card { position: relative; display: block; border-radius: 12px; overflow: hidden; }
+      .hero-card.main-focus { height: 400px; }
+      .hero-card.side-focus { height: 400px; }
+      .hero-card img { width: 100%; height: 100%; object-fit: cover; }
+      .hero-content { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, #006666); color: white; }
+      .news-card { display: flex; flex-direction: column; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,128,128,0.1); }
+      .news-card img { width: 100%; height: 200px; object-fit: cover; }
+      .news-content { padding: 20px; }
+    
+@media (max-width: 768px) {
+    #latest-container, .news-grid { grid-template-columns: 1fr !important; }
+}
+
+/* --- HERO GRID FIXES --- */
+
+      #latest-container { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 20px; max-width: 1200px; margin: 40px auto; padding: 0 20px; align-items: stretch; }
+      .hero-card { position: relative; display: block; border-radius: 12px; overflow: hidden; height: 450px; }
+      .hero-card img { width: 100%; height: 100%; object-fit: cover; }
+      .hero-content { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, #006666); color: white; box-sizing: border-box; }
+      @media (max-width: 992px) { #latest-container { grid-template-columns: 1fr; } .hero-card { height: 300px; } }
+    
+
+/* --- PRELOADER --- */
+#site-preloader {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--site-bg); display: flex; justify-content: center; align-items: center;
+    z-index: 9999; transition: opacity 0.5s ease;
+}
+#site-preloader.hidden { opacity: 0; pointer-events: none; }
+
+.loader { animation: rotate 1s infinite; height: 50px; width: 50px; }
+  .loader:before, .loader:after { border-radius: 50%; content: ""; display: block; height: 20px; width: 20px; }
+  .loader:before { animation: ball1 1s infinite; background-color: var(--site-secondary); box-shadow: 30px 0 0 var(--site-primary); margin-bottom: 10px; }
+  .loader:after { animation: ball2 1s infinite; background-color: var(--site-primary); box-shadow: 30px 0 0 var(--site-secondary); }
+  @keyframes rotate { 0% { transform: rotate(0deg) scale(0.8) } 50% { transform: rotate(360deg) scale(1.2) } 100% { transform: rotate(720deg) scale(0.8) } }
+  @keyframes ball1 { 0% { box-shadow: 30px 0 0 var(--site-primary); } 50% { box-shadow: 0 0 0 var(--site-primary); margin-bottom: 0; transform: translate(15px, 15px); } 100% { box-shadow: 30px 0 0 var(--site-primary); margin-bottom: 10px; } }
+  @keyframes ball2 { 0% { box-shadow: 30px 0 0 var(--site-secondary); } 50% { box-shadow: 0 0 0 var(--site-secondary); margin-top: -20px; transform: translate(15px, 15px); } 100% { box-shadow: 30px 0 0 var(--site-secondary); margin-top: 0; } }

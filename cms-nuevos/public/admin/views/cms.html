@@ -1,0 +1,32 @@
+<div id="cms-list-view">
+    <div class="header">
+        <h2><i class="fas fa-pen-nib"></i> Redacción Interna (CMS)</h2>
+        <button class="btn btn-primary" onclick="showNewCMSArticle()">
+            <i class="fas fa-plus"></i> Crear Artículo
+        </button>
+    </div>
+    
+    <div class="card" style="margin-bottom: 1rem; padding: 1rem; border-left: 4px solid #8b5cf6; background: rgba(139,92,246,0.05);">
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+            <i class="fas fa-info-circle"></i> 
+            <strong>Artículos CMS:</strong> Artículos creados manualmente que se publican directamente en los sitios seleccionados. 
+            Diferente de los artículos RSS que se ingestan automáticamente.
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Categoría</th>
+                    <th>Estado</th>
+                    <th>Fecha Creación</th>
+                    <th class="col-actions">Acciones</th>
+                    </tr>
+            </thead>
+            <tbody id="cms-articles-table"></tbody>
+        </table>
+    </div>
+</div>
+<!-- El editor antiguo ha sido eliminado. Ahora se usa el Editor Universal en index.html -->

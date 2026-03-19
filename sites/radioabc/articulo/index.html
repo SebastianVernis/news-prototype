@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Cargando...</title>
+    <meta name="description" id="page-desc" content="">
+    <!-- OG Tags -->
+    <meta property="og:title" id="og-title" content="">
+    <meta property="og:description" id="og-desc" content="">
+    <meta property="og:image" id="og-image" content="">
+    <meta property="og:type" content="article">
+    <meta property="og:url" id="og-url" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../article.css">
+    <link rel="stylesheet" href="../style-custom.css">
+</head>
+<body>
+    <div id="site-preloader"></div>
+    <div id="site-header"></div>
+
+    <main class="main-content article-page">
+        <div class="container">
+            <div id="article-loading" style="text-align:center;padding:60px 20px;">
+                <p style="font-size:1.1rem;color:#666;">Cargando artículo...</p>
+            </div>
+            <div id="article-error" style="display:none;text-align:center;padding:60px 20px;">
+                <h2>Artículo no encontrado</h2>
+                <p style="color:#666;margin:20px 0;">El artículo que buscas no está disponible.</p>
+                <a href="../index.html" style="color:var(--rc-brick,#AB171D);font-weight:bold;">
+                    <i class="fas fa-arrow-left"></i> Volver al inicio
+                </a>
+            </div>
+            <article id="article-content" class="article-full" style="display:none;">
+                <div class="article-header">
+                    <div class="breadcrumb" style="margin-bottom:12px;">
+                        <a href="../index.html">Inicio</a>
+                        <span style="margin:0 6px;color:#999;">/</span>
+                        <span id="art-category-breadcrumb"></span>
+                    </div>
+                    <span id="art-category-badge" class="article-category-badge"></span>
+                    <h1 id="art-title" class="article-title"></h1>
+                    <div class="article-meta">
+                        <span class="author"><i class="far fa-user"></i> Por <span id="art-author"></span></span>
+                        <span class="separator">•</span>
+                        <span class="date"><i class="far fa-calendar"></i> <span id="art-date"></span></span>
+                    </div>
+                </div>
+                <div class="article-image-wrapper" id="art-image-wrapper">
+                    <img id="art-image" class="article-image" src="" alt="" loading="lazy"
+                         style="width:100%;max-height:500px;object-fit:cover;border-radius:8px;margin:20px 0;">
+                </div>
+                <div id="art-body" class="article-content"></div>
+                <div class="article-footer" style="margin-top:30px;padding-top:20px;border-top:1px solid #eee;">
+                    <div class="article-share">
+                        <span style="font-weight:bold;margin-right:10px;">Compartir:</span>
+                        <a id="share-fb" href="#" target="_blank" rel="noopener" style="margin-right:8px;"><i class="fab fa-facebook-f"></i></a>
+                        <a id="share-tw" href="#" target="_blank" rel="noopener" style="margin-right:8px;"><i class="fab fa-twitter"></i></a>
+                        <a id="share-wa" href="#" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div style="margin-top:30px;">
+                    <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="../script.js"></script>
+    <script src="../components.js"></script>
+    <script>
+    (async function() {
+        const params = new URLSearchParams(location.search);
+        const slug = params.get('slug');
+        if (!slug) { showError(); return; }
+        try {
+            const res = await fetch('https://cms-nuevos2.sebastianvernis.workers.dev/api/articles/' + encodeURIComponent(slug));
+            if (!res.ok) throw new Error('not found');
+            const data = await res.json();
+            const a = data.article;
+            if (!a) throw new Error('empty');
+            renderArticle(a);
+        } catch(e) { showError(); }
+
+        function renderArticle(a) {
+            document.title = (a.title || 'Artículo') + ' - radioabc';
+            const desc = document.getElementById('page-desc');
+            if (desc) desc.content = a.excerpt || '';
+            const cat = a.category || '';
+            const catSlug = cat.toLowerCase().replace(/\s+/g, '-');
+            const badge = document.getElementById('art-category-badge');
+            if (badge) { badge.textContent = cat; badge.className = 'article-category-badge cat-' + catSlug; }
+            const breadCat = document.getElementById('art-category-breadcrumb');
+            if (breadCat) breadCat.textContent = cat;
+            const title = document.getElementById('art-title');
+            if (title) title.textContent = a.title || '';
+            const author = document.getElementById('art-author');
+            if (author) author.textContent = a.author || 'Redacción';
+            const date = document.getElementById('art-date');
+            if (date) date.textContent = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('es-MX', {year:'numeric',month:'long',day:'numeric'}) : '';
+            const imgWrapper = document.getElementById('art-image-wrapper');
+            const img = document.getElementById('art-image');
+            if (a.imageUrl && img) {
+                img.src = a.imageUrl;
+                img.alt = a.title || '';
+                // Fallback a logo si la imagen falla (hotlink protection)
+                img.onerror = function() {
+                    this.src = '../logo.png';
+                    this.alt = 'Imagen no disponible';
+                };
+            }
+            else if (imgWrapper) imgWrapper.style.display = 'none';
+            const body = document.getElementById('art-body');
+            if (body) {
+                let content = a.content || '';
+                if (!content) {
+                    content = '<p>' + (a.excerpt || '') + '</p>';
+                } else if (!content.includes('<p>') && !content.includes('<div>') && 
+                         !content.includes('<blockquote') && !content.includes('<iframe')) {
+                    content = content.split(/\n\n+/).map(p => '<p>' + p.trim() + '</p>').join('');
+                }
+                body.innerHTML = content;
+            }
+            const url = encodeURIComponent(location.href);
+            const text = encodeURIComponent(a.title || '');
+            const fb = document.getElementById('share-fb');
+            const tw = document.getElementById('share-tw');
+            const wa = document.getElementById('share-wa');
+            if (fb) fb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+            if (tw) tw.href = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text;
+            if (wa) wa.href = 'https://wa.me/?text=' + text + '%20' + url;
+            // Cargar script de Instagram si hay embeds
+            if (body && body.innerHTML.includes('instagram-media')) {
+                const script = document.createElement('script');
+                script.src = '//www.instagram.com/embed.js';
+                script.async = true;
+                document.body.appendChild(script);
+            }
+            document.getElementById('article-loading').style.display = 'none';
+            document.getElementById('article-content').style.display = 'block';
+        }
+        function showError() {
+            document.getElementById('article-loading').style.display = 'none';
+            document.getElementById('article-error').style.display = 'block';
+        }
+    })();
+    </script>
+</body>
+</html>

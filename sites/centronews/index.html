@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>CentroNews - Noticias Corporativas</title>
+    <meta content="Noticias corporativas, economía y negocios." name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="style-custom.css" rel="stylesheet"/>
+    <link rel="alternate" type="application/rss+xml" title="CentroNews RSS" href="/rss.xml"/>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0056b3">
+</head>
+<body>
+    <div id="site-preloader"><div class="loader"></div></div>
+    <div id="site-header"></div>
+    
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="latest-container" data-api="https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=centronews&limit=12">
+            <!-- Injected by JS -->
+        </section>
+
+        <!-- News List Section -->
+        <section class="news-section">
+            <h2 style="text-align:center; margin-bottom:30px; font-size:2em; color:var(--site-accent);">Más Noticias</h2>
+            <div id="news-container" class="news-grid">
+                <!-- Injected by JS -->
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+    
+    <script src="pwa-manager.js"></script>
+    <script src="script.js"></script>
+    <script src="components.js"></script>
+    <script>
+    (async function(){
+        const apiUrl = document.querySelector('#latest-container')?.dataset.api || '/api/articles?limit=12';
+        let articles = [];
+        try {
+            const res = await fetch(apiUrl);
+            if(!res.ok) throw new Error('Network');
+            const data = await res.json();
+            articles = data.articles || [];
+        } catch(e) {
+            console.log('API Offline, intentando recuperar de respaldo local...');
+            if (window.PWAManager) {
+                articles = await PWAManager.getLocalArticles();
+            }
+        }
+
+        if(!articles?.length) return;
+
+        const heroArticles = articles.slice(0, 2);
+        const listArticles = articles.slice(2);
+
+        const heroContainer = document.getElementById('latest-container');
+        if(heroContainer) {
+            heroContainer.innerHTML = '';
+            heroArticles.forEach(a => {
+                const card = document.createElement('a');
+                card.href = '/articulo/' + a.slug;
+                card.className = 'hero-card';
+                card.innerHTML = `
+                    <img src="${a.image || 'https://placehold.co/800x600/0056b3/ffffff?text=News'}" alt="${a.title}">
+                    <div class="hero-content">
+                        <h2>${a.title}</h2>
+                        <p>${a.desc ? a.desc.substring(0, 100) + '...' : ''}</p>
+                    </div>
+                `;
+                heroContainer.appendChild(card);
+            });
+        }
+
+        const newsContainer = document.getElementById('news-container');
+        if(newsContainer) {
+            newsContainer.innerHTML = '';
+            listArticles.forEach(a => {
+                const card = document.createElement('a');
+                card.href = '/articulo/' + a.slug;
+                card.className = 'news-card';
+                card.innerHTML = `
+                    <img src="${a.image || 'https://placehold.co/300x200/0056b3/ffffff?text=News'}" alt="${a.title}">
+                    <div class="news-content">
+                        <div class="news-category">${a.category || 'Noticias'}</div>
+                        <h3 class="news-title">${a.title}</h3>
+                        <p class="news-desc">${a.desc ? a.desc.substring(0, 120) + '...' : ''}</p>
+                    </div>
+                `;
+                newsContainer.appendChild(card);
+            });
+        }
+    })();
+    </script>
+</body>
+</html>

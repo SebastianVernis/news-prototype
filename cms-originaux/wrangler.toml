@@ -1,0 +1,34 @@
+name = "cms-originaux"
+main = "src/index.js"
+compatibility_date = "2023-12-01"
+workers_dev = true
+
+[vars]
+ENVIRONMENT = "production"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "news_db_cms_originaux"
+database_id = "f9012ebc-7a9d-4b93-81d9-4eac600c40d2"
+
+[[kv_namespaces]]
+binding = "ARTICLES_KV"
+id = "e6ceb0a1487d425f9c3dc69e3fed9145"
+
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "cms-uploads-originaux"
+
+[triggers]
+crons = ["*/30 * * * *"]
+
+[observability]
+enabled = false
+
+[observability.logs]
+enabled = true
+persist = true
+invocation_logs = true
+
+[ai]
+binding = "AI"

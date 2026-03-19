@@ -1,0 +1,100 @@
+/* ============================================
+   SOCIALMEXICO - Custom Theme
+   ============================================ */
+:root {
+    --site-primary: #8e24aa;
+    --site-secondary: #e91e63;
+    --site-bg: #fce4ec;
+    --site-text: #4a148c;
+    --site-accent: #c2185b;
+    --site-white: #ffffff;
+    --site-border: #e0e0e0;
+}
+body {
+    font-family: "Comic Sans MS", "Marker Felt", sans-serif;
+    background-color: var(--site-bg);
+    color: var(--site-text);
+    line-height: 1.6;
+    margin: 0; padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Trebuchet MS", sans-serif;
+    color: var(--site-accent);
+}
+a { text-decoration: none; color: inherit; }
+/* HEADER */
+.site-header {
+    background-color: var(--site-primary);
+    color: var(--site-white);
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 5px solid var(--site-secondary);
+}
+.header-container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.logo-section img { height: 70px; }
+.main-nav { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+.main-nav a { color: var(--site-white); font-weight: bold; text-transform: uppercase; padding: 5px 10px; }
+.main-nav a:hover { color: var(--site-secondary); }
+/* LAYOUTS */
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+/* FOOTER */
+.site-footer {
+    background-color: var(--site-accent);
+    color: var(--site-white);
+    padding: 40px 20px;
+    text-align: center;
+    margin-top: 60px;
+}
+.footer-logo img { height: 50px; margin-bottom: 20px; }
+.footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+.footer-links a { color: var(--site-white); }
+/* EXTRA CSS */
+
+      .hero-card.viral-main { position: relative; display: block; height: 450px; border-radius: 20px; overflow: hidden; }
+      .hero-card.viral-main img { width: 100%; height: 100%; object-fit: cover; }
+      .hero-content { position: absolute; bottom: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, #8e24aa); color: white; }
+      .viral-sidebar { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 20px rgba(233,30,99,0.15); }
+      .trending-item { display: flex; gap: 10px; align-items: center; margin-top: 15px; text-decoration: none; color: var(--site-text); }
+      .trending-item img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+      .news-card { display: flex; flex-direction: column; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(233,30,99,0.15); }
+      .news-card img { width: 100%; height: 300px; object-fit: cover; }
+      .news-content { padding: 25px; text-align: center; }
+    
+@media (max-width: 768px) {
+    #latest-container, .news-grid { grid-template-columns: 1fr !important; }
+}
+
+/* --- HERO GRID FIXES --- */
+
+      #latest-container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+      .hero-card.viral-main { position: relative; display: block; height: 450px; border-radius: 20px; overflow: hidden; }
+      .hero-card.viral-main img { width: 100%; height: 100%; object-fit: cover; }
+      .hero-content { position: absolute; bottom: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, #8e24aa); color: white; box-sizing: border-box; }
+      .viral-sidebar { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 20px rgba(233,30,99,0.15); display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
+      @media (max-width: 768px) { #latest-container { grid-template-columns: 1fr; } }
+    
+
+/* --- PRELOADER --- */
+#site-preloader {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--site-bg); display: flex; justify-content: center; align-items: center;
+    z-index: 9999; transition: opacity 0.5s ease;
+}
+#site-preloader.hidden { opacity: 0; pointer-events: none; }
+
+.loader { height: 150px; position: relative; }
+  .loader:before, .loader:after {
+    content: ''; width: 15px; height: 15px; display: block; position: relative; margin: 10px auto;
+    border-radius: 50%; color: var(--site-primary); background: currentColor;
+    box-shadow: 0 50px var(--site-secondary), 0 100px var(--site-accent); animation: left 1s infinite ease-in-out;
+  }
+  .loader:after { animation: right 1.1s infinite ease-in-out; }
+  @keyframes right { 0%, 100% { transform: translate(-15px) } 50% { transform: translate(15px) } }
+  @keyframes left { 0%, 100% { transform: translate(15px) } 50% { transform: translate(-15px) } }

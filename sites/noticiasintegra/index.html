@@ -8,6 +8,7 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+    <div id="site-preloader"><div class="loader"></div></div>
     <div id="site-header"></div>
     <main class="main-content">
         <section id="latest-container" data-api="https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=noticiasintegra&limit=12"></section>
@@ -45,7 +46,7 @@
       }
       if(heroArticles[0]) {
         heroContainer.innerHTML += '<a href="/articulo/' + heroArticles[0].slug + '" class="hero-card investigative">' +
-            '<img src="' + (heroArticles[0].image || 'https://placehold.co/800x500/2e8b57/ffffff?text=INVESTIGACION') + '" alt="Hero">' +
+            '<img src="' + (heroArticles[0].imageUrl || 'https://placehold.co/800x500/2e8b57/ffffff?text=INVESTIGACION') + '" alt="Hero">' +
             '<div class="hero-content">' +
               '<span class="tag">REPORTAJE ESPECIAL</span>' +
               '<h2>' + heroArticles[0].title + '</h2>' +
@@ -60,7 +61,7 @@
             newsContainer.innerHTML = '';
             listArticles.forEach(a => {
                 newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
-                    '<img src="' + (a.image || 'https://placehold.co/300x200/2e8b57/ffffff?text=News') + '" alt="' + a.title + '">' +
+                    '<img src="' + (a.imageUrl || 'https://placehold.co/300x200/2e8b57/ffffff?text=News') + '" alt="' + a.title + '">' +
                     '<div class="news-content">' +
                         '<h3 class="news-title">' + a.title + '</h3>' +
                         '<p class="news-desc">' + (a.desc ? a.desc.substring(0, 100) + '...' : '') + '</p>' +

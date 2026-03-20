@@ -8,6 +8,7 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+    <div id="site-preloader"><div class="loader"></div></div>
     <div id="site-header"></div>
     <main class="main-content">
         <section id="latest-container" data-api="https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=noticias123&limit=12"></section>
@@ -36,7 +37,7 @@
       heroContainer.innerHTML = '';
       if(heroArticles[0]) {
         heroContainer.innerHTML = '<a href="/articulo/' + heroArticles[0].slug + '" class="hero-card giant">' +
-            '<img src="' + (heroArticles[0].image || 'https://placehold.co/1200x600/d32f2f/ffffff?text=BREAKING') + '" alt="Hero">' +
+            '<img src="' + (heroArticles[0].imageUrl || 'https://placehold.co/1200x600/d32f2f/ffffff?text=BREAKING') + '" alt="Hero">' +
             '<div class="hero-content">' +
               '<span class="breaking-badge">ÚLTIMA HORA</span>' +
               '<h2>' + heroArticles[0].title + '</h2>' +
@@ -50,7 +51,7 @@
             newsContainer.innerHTML = '';
             listArticles.forEach(a => {
                 newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
-                    '<img src="' + (a.image || 'https://placehold.co/300x200/d32f2f/ffffff?text=News') + '" alt="' + a.title + '">' +
+                    '<img src="' + (a.imageUrl || 'https://placehold.co/300x200/d32f2f/ffffff?text=News') + '" alt="' + a.title + '">' +
                     '<div class="news-content">' +
                         '<h3 class="news-title">' + a.title + '</h3>' +
                         '<p class="news-desc">' + (a.desc ? a.desc.substring(0, 100) + '...' : '') + '</p>' +

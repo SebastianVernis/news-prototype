@@ -67,7 +67,7 @@
                 card.href = '/articulo/' + a.slug;
                 card.className = 'hero-card';
                 card.innerHTML = `
-                    <img src="${a.image || 'https://placehold.co/800x600/0056b3/ffffff?text=News'}" alt="${a.title}">
+                    <img src="${a.imageUrl || 'https://placehold.co/800x600/0056b3/ffffff?text=News'}" alt="${a.title}">
                     <div class="hero-content">
                         <h2>${a.title}</h2>
                         <p>${a.desc ? a.desc.substring(0, 100) + '...' : ''}</p>
@@ -85,7 +85,7 @@
                 card.href = '/articulo/' + a.slug;
                 card.className = 'news-card';
                 card.innerHTML = `
-                    <img src="${a.image || 'https://placehold.co/300x200/0056b3/ffffff?text=News'}" alt="${a.title}">
+                    <img src="${a.imageUrl || 'https://placehold.co/300x200/0056b3/ffffff?text=News'}" alt="${a.title}">
                     <div class="news-content">
                         <div class="news-category">${a.category || 'Noticias'}</div>
                         <h3 class="news-title">${a.title}</h3>

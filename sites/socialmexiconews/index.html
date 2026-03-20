@@ -8,6 +8,7 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+    <div id="site-preloader"><div class="loader"></div></div>
     <div id="site-header"></div>
     <main class="main-content">
         <section id="latest-container" data-api="https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=socialmexiconews&limit=12"></section>
@@ -36,7 +37,7 @@
       heroContainer.innerHTML = '';
       if(heroArticles[0]) {
         heroContainer.innerHTML += '<a href="/articulo/' + heroArticles[0].slug + '" class="hero-card viral-main">' +
-            '<img src="' + (heroArticles[0].image || 'https://placehold.co/800x600/8e24aa/ffffff?text=VIRAL') + '" alt="Hero">' +
+            '<img src="' + (heroArticles[0].imageUrl || 'https://placehold.co/800x600/8e24aa/ffffff?text=VIRAL') + '" alt="Hero">' +
             '<div class="hero-content"><h2>🔥 ' + heroArticles[0].title + '</h2></div>' +
           '</a>';
       }
@@ -44,7 +45,7 @@
         heroContainer.innerHTML += '<div class="viral-sidebar">' +
             '<h3>Tendencias</h3>' +
             '<a href="/articulo/' + heroArticles[1].slug + '" class="trending-item">' +
-              '<img src="' + (heroArticles[1].image || 'https://placehold.co/100x100/e91e63/ffffff?text=#') + '" alt="Trend">' +
+              '<img src="' + (heroArticles[1].imageUrl || 'https://placehold.co/100x100/e91e63/ffffff?text=#') + '" alt="Trend">' +
               '<span>' + heroArticles[1].title + '</span>' +
             '</a>' +
           '</div>';
@@ -56,7 +57,7 @@
             newsContainer.innerHTML = '';
             listArticles.forEach(a => {
                 newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
-                    '<img src="' + (a.image || 'https://placehold.co/300x200/8e24aa/ffffff?text=News') + '" alt="' + a.title + '">' +
+                    '<img src="' + (a.imageUrl || 'https://placehold.co/300x200/8e24aa/ffffff?text=News') + '" alt="' + a.title + '">' +
                     '<div class="news-content">' +
                         '<h3 class="news-title">' + a.title + '</h3>' +
                         '<p class="news-desc">' + (a.desc ? a.desc.substring(0, 100) + '...' : '') + '</p>' +

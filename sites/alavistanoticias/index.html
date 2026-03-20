@@ -8,6 +8,7 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+    <div id="site-preloader"><div class="loader"></div></div>
     <div id="site-header"></div>
     <main class="main-content">
         <section id="latest-container" data-api="https://cms-nuevos2.sebastianvernis.workers.dev/api/articles?site=alavistanoticias&limit=12"></section>
@@ -38,7 +39,7 @@
       heroArticles.slice(0,3).forEach((a, i) => {
         const isMain = layout[i] === 'main';
         heroContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="hero-card ' + (isMain ? 'main-focus' : 'side-focus') + '">' +
-            '<img src="' + (a.image || 'https://placehold.co/600x600/008080/ffffff?text=ALV') + '" alt="Hero">' +
+            '<img src="' + (a.imageUrl || 'https://placehold.co/600x600/008080/ffffff?text=ALV') + '" alt="Hero">' +
             '<div class="hero-content">' +
               (isMain ? '<h2>'+a.title+'</h2>' : '<h4>'+a.title+'</h4>') +
             '</div>' +
@@ -51,7 +52,7 @@
             newsContainer.innerHTML = '';
             listArticles.forEach(a => {
                 newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
-                    '<img src="' + (a.image || 'https://placehold.co/300x200/008080/ffffff?text=News') + '" alt="' + a.title + '">' +
+                    '<img src="' + (a.imageUrl || 'https://placehold.co/300x200/008080/ffffff?text=News') + '" alt="' + a.title + '">' +
                     '<div class="news-content">' +
                         '<h3 class="news-title">' + a.title + '</h3>' +
                         '<p class="news-desc">' + (a.desc ? a.desc.substring(0, 100) + '...' : '') + '</p>' +

@@ -6,6 +6,26 @@ import { articleSlugify, parseArticleRow } from '../utils/helpers.js';
 
 const articles = new Hono();
 
+const isValidSiteSlug = (s) => typeof s === 'string' && /^[a-z0-9_]+$/i.test(s);
+
+const splitSiteSlugs = (value) => {
+  if (Array.isArray(value)) return value;
+  if (typeof value !== 'string') return [];
+  return value.split(',');
+};
+
+const normalizeTargetSites = ({ value, allowedSet, fallbackSite }) => {
+  const candidates = splitSiteSlugs(value)
+    .map((s) => (typeof s === 'string' ? s.trim().toLowerCase() : ''))
+    .filter(Boolean)
+    .filter(isValidSiteSlug)
+    .filter((s) => allowedSet.has(s));
+
+  const unique = [...new Set(candidates)];
+  if (unique.length > 0) return unique;
+  return fallbackSite ? [fallbackSite] : [];
+};
+
 // ── GET /articles — Listado con filtros ──────────────────────
 articles.get('/', async (c) => {
   const { site, limit = 20, offset = 0, category } = c.req.query();
@@ -209,27 +229,51 @@ articles.post('/', async (c) => {
     const now       = new Date().toISOString();
     const articleId = crypto.randomUUID();
 
-    await c.env.DB.prepare(`
-      INSERT INTO ARTICULOS_PARAFRASEADOS (
-        ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
-        CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SITIO_DESTINO,
-        DESTACADO, VISTAS, ESTADO
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(
-      articleId,
-      article.title,
-      slug,
-      article.content,
-      article.excerpt || article.content.substring(0, 200) + '...',
-      (article.category || 'NACIONAL').toUpperCase(),
-      article.author || 'Editorial',
-      article.publishedAt || now,
-      article.imageUrl || '',
-      article.site || 'cbnnoticias',
-      article.featured ? 1 : 0,
-      0,
-      'PUBLICADO'
-    ).run();
+    const { SITIOS_LIST } = await import('../config.js');
+    const allowedSet = new Set((SITIOS_LIST || []).map((s) => (typeof s === 'string' ? s.toLowerCase() : '')).filter(Boolean));
+    const fallbackSite = allowedSet.has('cbnnoticias') ? 'cbnnoticias' : (SITIOS_LIST?.[0]?.toLowerCase() || null);
+    const targetSites = normalizeTargetSites({ value: article.sites ?? article.site, allowedSet, fallbackSite });
+    if (targetSites.length === 0) return c.json({ error: 'Sitio destino inválido o no configurado' }, 400);
+
+    const sitiosDestino = targetSites.join(',');
+    const statements = [];
+
+    statements.push(
+      c.env.DB.prepare(`
+        INSERT INTO ARTICULOS_PARAFRASEADOS (
+          ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
+          CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SITIO_DESTINO,
+          DESTACADO, VISTAS, ESTADO
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).bind(
+        articleId,
+        article.title,
+        slug,
+        article.content,
+        article.excerpt || article.content.substring(0, 200) + '...',
+        (article.category || 'NACIONAL').toUpperCase(),
+        article.author || 'Editorial',
+        article.publishedAt || now,
+        article.imageUrl || '',
+        sitiosDestino,
+        article.featured ? 1 : 0,
+        0,
+        'PUBLICADO'
+      )
+    );
+
+    for (const siteSlug of targetSites) {
+      const siteId = crypto.randomUUID();
+      const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
+      statements.push(
+        c.env.DB.prepare(`
+          INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
+          VALUES (?, ?, datetime('now'), 0, NULL, NULL)
+        `).bind(siteId, articleId)
+      );
+    }
+
+    await c.env.DB.batch(statements);
 
     return c.json({ success: true, article: { id: articleId, slug, title: article.title, wordCount } });
   } catch (e) {
@@ -258,27 +302,56 @@ articles.post('/bulk', async (c) => {
 
         const slug = article.slug || articleSlugify(article.title);
         const now  = new Date().toISOString();
+        const articleId = crypto.randomUUID();
 
-        await c.env.DB.prepare(`
-          INSERT INTO ARTICULOS_PARAFRASEADOS (
-            TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
-            CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SITIO_DESTINO,
-            DESTACADO, VISTAS, ESTADO
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).bind(
-          article.title,
-          slug,
-          article.content,
-          article.excerpt || article.description || article.content.substring(0, 200) + '...',
-          article.category.toUpperCase(),
-          article.author || 'Redacción',
-          article.publishedAt || now,
-          article.imageUrl || '',
-          article.sites || 'cbnnoticias',
-          article.featured ? 1 : 0,
-          0,
-          'PUBLICADO'
-        ).run();
+        const { SITIOS_LIST } = await import('../config.js');
+        const allowedSet = new Set((SITIOS_LIST || []).map((s) => (typeof s === 'string' ? s.toLowerCase() : '')).filter(Boolean));
+        const fallbackSite = allowedSet.has('cbnnoticias') ? 'cbnnoticias' : (SITIOS_LIST?.[0]?.toLowerCase() || null);
+        const targetSites = normalizeTargetSites({ value: article.sites ?? article.site, allowedSet, fallbackSite });
+        if (targetSites.length === 0) {
+          errors.push({ article: article.title || 'sin-titulo', error: 'Sitio destino inválido o no configurado' });
+          continue;
+        }
+
+        const sitiosDestino = targetSites.join(',');
+        const statements = [];
+
+        statements.push(
+          c.env.DB.prepare(`
+            INSERT INTO ARTICULOS_PARAFRASEADOS (
+              ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
+              CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SITIO_DESTINO,
+              DESTACADO, VISTAS, ESTADO
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `).bind(
+            articleId,
+            article.title,
+            slug,
+            article.content,
+            article.excerpt || article.description || article.content.substring(0, 200) + '...',
+            article.category.toUpperCase(),
+            article.author || 'Redacción',
+            article.publishedAt || now,
+            article.imageUrl || '',
+            sitiosDestino,
+            article.featured ? 1 : 0,
+            0,
+            'PUBLICADO'
+          )
+        );
+
+        for (const siteSlug of targetSites) {
+          const siteId = crypto.randomUUID();
+          const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
+          statements.push(
+            c.env.DB.prepare(`
+              INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
+              VALUES (?, ?, datetime('now'), 0, NULL, NULL)
+            `).bind(siteId, articleId)
+          );
+        }
+
+        await c.env.DB.batch(statements);
 
         results.push({ title: article.title, slug, status: 'inserted' });
       } catch (e) {
@@ -302,7 +375,7 @@ articles.put('/:id', async (c) => {
   if (!await checkAuth(c)) return c.json({ error: 'Unauthorized' }, 401);
   const id = c.req.param('id');
   try {
-    const { title, slug, content, excerpt, category, author, imageUrl, featured, site, status } =
+    const { title, slug, content, excerpt, category, author, imageUrl, featured, site, sites, status } =
       await c.req.json();
 
     if (!title) return c.json({ error: 'Título requerido' }, 400);
@@ -312,22 +385,58 @@ articles.put('/:id', async (c) => {
 
     // Intentar actualizar en PARAFRASEADOS primero
     const existingPara = await c.env.DB.prepare(
-      'SELECT ID, SLUG FROM ARTICULOS_PARAFRASEADOS WHERE ID = ?'
+      'SELECT ID, SLUG, SITIO_DESTINO FROM ARTICULOS_PARAFRASEADOS WHERE ID = ?'
     ).bind(id).first();
 
     if (existingPara) {
-      await c.env.DB.prepare(`
-        UPDATE ARTICULOS_PARAFRASEADOS SET
-          TITULO_PARAFRASEADO = ?, SLUG = ?, CONTENIDO = ?,
-          DESCRIPCION_PARAFRASEADA = ?, CATEGORIA = ?, AUTOR = ?,
-          FECHA_PUBLICACION = ?, URL_IMAGEN = ?, SITIO_DESTINO = ?, DESTACADO = ?,
-          LEGACY_SLUG = CASE WHEN SLUG IS NOT NULL AND SLUG != ? THEN SLUG ELSE LEGACY_SLUG END
-        WHERE ID = ?
-      `).bind(
-        title, articleSlug, content || '', excerpt || '',
-        (category || 'NACIONAL').toUpperCase(), author || 'Redacción',
-        now, imageUrl || '', site || '', featured ? 1 : 0, articleSlug, id
-      ).run();
+      const { SITIOS_LIST } = await import('../config.js');
+      const allowedSet = new Set((SITIOS_LIST || []).map((s) => (typeof s === 'string' ? s.toLowerCase() : '')).filter(Boolean));
+      const fallbackSite = allowedSet.has('cbnnoticias') ? 'cbnnoticias' : (SITIOS_LIST?.[0]?.toLowerCase() || null);
+
+      const hasSitesInput = (sites !== undefined && sites !== null) || (site !== undefined && site !== null);
+      const targetSites = hasSitesInput
+        ? normalizeTargetSites({ value: sites ?? site, allowedSet, fallbackSite })
+        : null;
+
+      if (hasSitesInput && (!targetSites || targetSites.length === 0)) {
+        return c.json({ error: 'Sitio destino inválido o no configurado' }, 400);
+      }
+
+      const sitiosDestino = targetSites ? targetSites.join(',') : null;
+      const statements = [];
+
+      statements.push(
+        c.env.DB.prepare(`
+          UPDATE ARTICULOS_PARAFRASEADOS SET
+            TITULO_PARAFRASEADO = ?, SLUG = ?, CONTENIDO = ?,
+            DESCRIPCION_PARAFRASEADA = ?, CATEGORIA = ?, AUTOR = ?,
+            FECHA_PUBLICACION = ?, URL_IMAGEN = ?, SITIO_DESTINO = COALESCE(?, SITIO_DESTINO), DESTACADO = ?,
+            LEGACY_SLUG = CASE WHEN SLUG IS NOT NULL AND SLUG != ? THEN SLUG ELSE LEGACY_SLUG END
+          WHERE ID = ?
+        `).bind(
+          title, articleSlug, content || '', excerpt || '',
+          (category || 'NACIONAL').toUpperCase(), author || 'Redacción',
+          now, imageUrl || '', sitiosDestino, featured ? 1 : 0, articleSlug, id
+        )
+      );
+
+      if (targetSites) {
+        for (const siteSlug of targetSites) {
+          const siteId = crypto.randomUUID();
+          const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
+          statements.push(
+            c.env.DB.prepare(`
+              INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
+              SELECT ?, ?, datetime('now'), 0, NULL, NULL
+              WHERE NOT EXISTS (
+                SELECT 1 FROM ${tableName} WHERE ID_PARAFRASEADO = ?
+              )
+            `).bind(siteId, id, id)
+          );
+        }
+      }
+
+      await c.env.DB.batch(statements);
       return c.json({ success: true, id, source: 'PARAFRASEADOS' });
     }
 

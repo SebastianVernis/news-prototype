@@ -8,6 +8,8 @@ const RSS_LOG = (...args) => log('[RSS INGEST]', ...args);
 const RSS_ERR = (...args) => error('[RSS INGEST]', ...args);
 const RSS_WARN = (...args) => warn('[RSS]', ...args);
 
+const isValidSiteSlug = (s) => typeof s === 'string' && /^[a-z0-9_]+$/i.test(s);
+
 // ============================================================
 // cleanArticleContent — Limpieza profunda de contenido
 // ============================================================
@@ -207,15 +209,16 @@ export async function runRSSIngest(env) {
     'https://expansion.mx/rss',
   ];
 
-  const totalSites = SITIOS_LIST.length;
-  const MAX_ARTICLES = 3; // Artículos máximos a ingestar por ejecución
+  const validSites = (SITIOS_LIST || []).filter(isValidSiteSlug);
+  const totalSites = validSites.length;
+  const MAX_ARTICLES = 4;
+
+  if (totalSites === 0) {
+    console.log('[RSS INGEST] No valid sites configured; skipping ingestion');
+    return 0;
+  }
   
-  // Calcular cuántos sitios por artículo para distribuir proporcionalmente
-  // Si hay 27 sitios y 3 artículos, cada artículo va a 9 sitios (27/3 = 9)
-  // Si hay 27 sitios y 1 artículo, el artículo va a todos los sitios (27/1 = 27)
-  const sitesPerArticle = Math.ceil(totalSites / MAX_ARTICLES);
-  
-  console.log(`[RSS INGEST] Total sites: ${totalSites}, Articles: ${MAX_ARTICLES}, Sites per article: ${sitesPerArticle}`);
+  console.log(`[RSS INGEST] Total sites: ${totalSites}, Max articles per run: ${MAX_ARTICLES}`);
 
   let articlesPublished = 0;
   let sitesAssigned = 0;
@@ -305,32 +308,52 @@ export async function runRSSIngest(env) {
             console.log(`[RSS INGEST] Generated fallback slug for article: ${slug}`);
           }
 
-          await env.DB.prepare(`
-            INSERT INTO ARTICULOS_PARAFRASEADOS
-              (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
-               CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO)
-            VALUES (?, ?, ?, ?, ?, 'NACIONAL', ?, ?, ?, ?, 'PUBLICADO')
-          `).bind(paraId, title, slug, content, content.substring(0, 200), 'NexoPress', now, finalImageUrl, link).run();
+          const sitesToAssign = validSites;
+          if (sitesToAssign.length === 0) continue;
 
-          // Seleccionar sitios aleatorios para este artículo
-          const shuffledSites = shuffleArray(SITIOS_LIST);
-          
-          // Asignar a los sitios calculados (puede ser todos o una parte)
-          const sitesToAssign = shuffledSites.slice(0, sitesPerArticle);
-          
-          console.log(`[RSS INGEST] Assigning article to ${sitesToAssign.length} sites: ${sitesToAssign.join(', ')}`);
+          const sitiosDestino = sitesToAssign.join(',');
+          console.log(`[RSS INGEST] Assigning article to ALL ${sitesToAssign.length} sites`);
+
+          const statements = [];
+          statements.push(
+            env.DB.prepare(`
+              INSERT INTO ARTICULOS_PARAFRASEADOS
+                (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
+                 CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO, SITIO_DESTINO)
+              VALUES (?, ?, ?, ?, ?, 'NACIONAL', ?, ?, ?, ?, 'PUBLICADO', ?)
+            `).bind(paraId, title, slug, content, content.substring(0, 200), 'NexoPress', now, finalImageUrl, link, sitiosDestino)
+          );
 
           for (const siteSlug of sitesToAssign) {
             const siteId = crypto.randomUUID();
             const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
-
-            await env.DB.prepare(`
-              INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
-              VALUES (?, ?, datetime('now'), 0, NULL, NULL)
-            `).bind(siteId, paraId).run();
-            
-            sitesAssigned++;
+            statements.push(
+              env.DB.prepare(`
+                INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
+                VALUES (?, ?, datetime('now'), 0, NULL, NULL)
+              `).bind(siteId, paraId)
+            );
           }
+
+          try {
+            await env.DB.batch(statements);
+          } catch (batchErr) {
+            console.error('[RSS INGEST] DB batch error (cleanup attempt):', batchErr?.message || batchErr);
+            try {
+              const cleanup = [];
+              cleanup.push(env.DB.prepare('DELETE FROM ARTICULOS_PARAFRASEADOS WHERE ID = ?').bind(paraId));
+              for (const siteSlug of sitesToAssign) {
+                const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
+                cleanup.push(env.DB.prepare(`DELETE FROM ${tableName} WHERE ID_PARAFRASEADO = ?`).bind(paraId));
+              }
+              await env.DB.batch(cleanup);
+            } catch (cleanupErr) {
+              console.error('[RSS INGEST] Cleanup failed:', cleanupErr?.message || cleanupErr);
+            }
+            throw batchErr;
+          }
+
+          sitesAssigned += sitesToAssign.length;
 
           console.log(`[RSS INGEST] Published: "${title.substring(0, 40)}..." to ${sitesToAssign.length} sites`);
           articlesPublished++;

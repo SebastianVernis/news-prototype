@@ -1,8 +1,8 @@
-// src/cron/facebook.js — Publicación automática a Facebook con timer de 3 horas
+// src/cron/facebook.js — Publicación automática a Facebook (6 posts/día/página, timer 4h)
 
 import { SITIOS_LIST, SITE_DOMAIN_MAP } from '../config.js';
 
-const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
+const FB_INTERVAL_MS = 4 * 60 * 60 * 1000; // 4 horas entre posts = 6 posts/día por página
 
 // ============================================================
 // publishToFBIndividual — Publica un artículo a Facebook
@@ -71,8 +71,7 @@ export async function publishToFBIndividual(env, article, siteSlug) {
 }
 
 // ============================================================
-// processFBTimer — Procesa publicaciones a Facebook para todos los sitios
-// Publica máximo 1 artículo por sitio cada 3 horas
+// processFBTimer — 1 artículo por sitio cada 4 horas (= 6/día)
 // ============================================================
 export async function processFBTimer(env) {
   console.log('[FB TIMER] Starting Facebook timer processing...');
@@ -95,9 +94,8 @@ export async function processFBTimer(env) {
       const now = Date.now();
       const elapsed = now - lastPostTime;
 
-      // Skip if less than 3 hours passed
-      if (elapsed < THREE_HOURS_MS && lastPostTime !== 0) {
-        const remainingMin = Math.ceil((THREE_HOURS_MS - elapsed) / 60000);
+      if (elapsed < FB_INTERVAL_MS && lastPostTime !== 0) {
+        const remainingMin = Math.ceil((FB_INTERVAL_MS - elapsed) / 60000);
         console.log(`[FB TIMER] ${siteSlug}: skipped (timer active, ${remainingMin} min remaining)`);
         stats.skipped++;
         continue;

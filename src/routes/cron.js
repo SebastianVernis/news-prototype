@@ -5,6 +5,8 @@ import { checkAuth } from '../middleware/auth.js';
 import { runMasterCron } from '../cron/master.js';
 import { processFBTimer } from '../cron/facebook.js';
 
+const isValidSiteSlug = (s) => typeof s === 'string' && /^[a-z0-9_]+$/i.test(s);
+
 const cron = new Hono();
 
 // ── GET /cron/status — Estado del último cron ejecutado ──────
@@ -88,10 +90,10 @@ cron.get('/diagnostic', async (c) => {
       
       // Obtener timer de DB
       const lastPostRow = await c.env.DB.prepare(
-        'SELECT LAST_POST FROM FB_TIMERS WHERE SITE_SLUG = ?'
+        'SELECT LAST_POST_MS FROM FB_TIMERS WHERE SITE_SLUG = ?'
       ).bind(siteSlug).first();
       
-      const lastPostTime = lastPostRow?.LAST_POST ? new Date(lastPostRow.LAST_POST).getTime() : 0;
+      const lastPostTime = lastPostRow?.LAST_POST_MS ? Number(lastPostRow.LAST_POST_MS) : 0;
       const elapsed = now - lastPostTime;
       const elapsedMin = Math.floor(elapsed / 60000);
       const shouldPublish = elapsed >= THREE_HOURS_MS || lastPostTime === 0;
@@ -347,6 +349,11 @@ cron.post('/scrape', async (c) => {
     const { getOGImage, uploadToR2 } = await import('../utils/html.js');
     const { articleSlugify } = await import('../utils/helpers.js');
 
+    const validSites = (SITIOS_LIST || []).filter(isValidSiteSlug);
+    if (validSites.length === 0) {
+      return c.json({ error: 'No hay sitios válidos configurados' }, 500);
+    }
+
     const results = [];
 
     for (const url of urls) {
@@ -430,29 +437,38 @@ cron.post('/scrape', async (c) => {
           console.log(`[CRON INGEST] Generated fallback slug for article: ${slug}`);
         }
         
-        await c.env.DB.prepare(`
-          INSERT INTO ARTICULOS_PARAFRASEADOS
-            (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
-             CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO)
-          VALUES (?, ?, ?, ?, ?, 'NACIONAL', 'NexoPress', datetime('now'), ?, ?, 'PUBLICADO')
-        `).bind(paraId, title, slug, content, content.substring(0, 200), finalImageUrl, url).run();
+        const sitiosDestino = validSites.join(',');
+        const statements = [];
+
+        statements.push(
+          c.env.DB.prepare(`
+            INSERT INTO ARTICULOS_PARAFRASEADOS
+              (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
+               CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO, SITIO_DESTINO)
+            VALUES (?, ?, ?, ?, ?, 'NACIONAL', 'NexoPress', datetime('now'), ?, ?, 'PUBLICADO', ?)
+          `).bind(paraId, title, slug, content, content.substring(0, 200), finalImageUrl, url, sitiosDestino)
+        );
 
         // Asignar a todos los sitios
-        for (const siteSlug of SITIOS_LIST) {
+        for (const siteSlug of validSites) {
           const siteId = crypto.randomUUID();
           const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
-          
-          await c.env.DB.prepare(`
-            INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
-            VALUES (?, ?, datetime('now'), 0, NULL, NULL)
-          `).bind(siteId, paraId).run();
+
+          statements.push(
+            c.env.DB.prepare(`
+              INSERT INTO ${tableName} (ID, ID_PARAFRASEADO, FECHA_ASIGNACION, FB_PUBLICADO, FB_FECHA, FB_POST_ID)
+              VALUES (?, ?, datetime('now'), 0, NULL, NULL)
+            `).bind(siteId, paraId)
+          );
         }
+
+        await c.env.DB.batch(statements);
 
         results.push({ 
           url, 
           title: title.substring(0, 50) + '...', 
           success: true, 
-          sitesAssigned: SITIOS_LIST.length 
+          sitesAssigned: validSites.length 
         });
 
       } catch (e) {

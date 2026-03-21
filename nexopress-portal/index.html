@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexoPress - Portal de Administración</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .total-sites {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .cms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .cms-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cms-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--accent-color, #2563eb);
+        }
+        
+        .cms-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+        
+        .cms-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .cms-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            background: var(--accent-color, #2563eb);
+        }
+        
+        .cms-title {
+            flex: 1;
+        }
+        
+        .cms-title h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .cms-title span {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .site-count {
+            background: var(--light);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+        
+        .sites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 12px;
+            margin: 25px 0;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 12px;
+        }
+        
+        .site-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 10px 5px;
+            border-radius: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: white;
+        }
+        
+        .site-item:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .site-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+        }
+        
+        .site-name {
+            font-size: 0.65rem;
+            color: var(--dark);
+            font-weight: 600;
+            line-height: 1.2;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .cms-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--accent-color, #2563eb);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-dark, #1d4ed8);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            margin-top: 40px;
+        }
+        
+        footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .cms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-newspaper"></i> NexoPress</h1>
+            <p>Portal de Administración - Gestiona tus sitios de noticias</p>
+            <div class="total-sites">
+                <i class="fas fa-globe"></i> 35 Sitios Activos
+            </div>
+        </header>
+        
+        <div class="cms-grid">
+            <!-- CMS Originaux - 10 sitios -->
+            <div class="cms-card" style="--accent-color: #3b82f6; --accent-dark: #2563eb;">
+                <div class="cms-header">
+                    <div class="cms-icon" style="background: #3b82f6;">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="cms-title">
+                        <h2>CMS Originaux</h2>
+                        <span>Sistema Principal</span>
+                    </div>
+                    <div class="site-count">10 sitios</div>
+                </div>
+                
+                <div class="sites-grid" id="sites-originaux">
+                    <!-- Sitios se cargarán aquí -->
+                </div>
+                
+                <div class="cms-actions">
+                    <a href="https://news-api.sebastianvernis.workers.dev/admin" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-sign-in-alt"></i> Acceder al CMS
+                    </a>
+                </div>
+            </div>
+            
+            <!-- CMS Nuevos - 17 sitios -->
+            <div class="cms-card" style="--accent-color: #10b981; --accent-dark: #059669;">
+                <div class="cms-header">
+                    <div class="cms-icon" style="background: #10b981;">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="cms-title">
+                        <h2>CMS Nuevos</h2>
+                        <span>Segunda Generación</span>
+                    </div>
+                    <div class="site-count">17 sitios</div>
+                </div>
+                
+                <div class="sites-grid" id="sites-nuevos">
+                    <!-- Sitios se cargarán aquí -->
+                </div>
+                
+                <div class="cms-actions">
+                    <a href="https://cms-nuevos.sebastianvernis.workers.dev/admin" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-sign-in-alt"></i> Acceder al CMS
+                    </a>
+                </div>
+            </div>
+            
+            <!-- CMS Nuevos 2 - 8 sitios -->
+            <div class="cms-card" style="--accent-color: #f59e0b; --accent-dark: #d97706;">
+                <div class="cms-header">
+                    <div class="cms-icon" style="background: #f59e0b;">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="cms-title">
+                        <h2>CMS Nuevos 2</h2>
+                        <span>Tercera Generación</span>
+                    </div>
+                    <div class="site-count">8 sitios</div>
+                </div>
+                
+                <div class="sites-grid" id="sites-nuevos2">
+                    <!-- Sitios se cargarán aquí -->
+                </div>
+                
+                <div class="cms-actions">
+                    <a href="https://cms-nuevos2.sebastianvernis.workers.dev/admin" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-sign-in-alt"></i> Acceder al CMS
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p><i class="fas fa-copyright"></i> 2026 NexoPress Network. Todos los derechos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Gestión multi-sitio de noticias - 35 sitios en 3 CMS</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Datos de los sitios organizados por CMS
+        const sitesData = {
+            originaux: [
+                { name: "Noticias Objetivo", icon: "🎯" },
+                { name: "México Informado", icon: "🇲🇽" },
+                { name: "Bitácora Urbana", icon: "📖" },
+                { name: "Nodo Informativo", icon: "📡" },
+                { name: "CBN Noticias", icon: "📺" },
+                { name: "Radio Cinco Noticias", icon: "📻" },
+                { name: "Central México", icon: "🏛️" },
+                { name: "Reporte Central MX", icon: "📢" },
+                { name: "TV México", icon: "📺" },
+                { name: "Vértice Noticias", icon: "🔺" }
+            ],
+            nuevos: [
+                { name: "Boom Informativo", icon: "💥" },
+                { name: "Capital Press", icon: "🏢" },
+                { name: "Diario Express", icon: "📰" },
+                { name: "El Pulso Mexicano", icon: "💓" },
+                { name: "Enfoque Capital", icon: "🎯" },
+                { name: "Enfoque Directo", icon: "👁️" },
+                { name: "Fórmula CDMX", icon: "🌆" },
+                { name: "M Radio", icon: "🎙️" },
+                { name: "Mexican Times", icon: "🌎" },
+                { name: "México 360 Noticias", icon: "🌐" },
+                { name: "Noticias Horizonte", icon: "🌅" },
+                { name: "Pulso Diario", icon: "📊" },
+                { name: "Punto Clave", icon: "🔑" },
+                { name: "Punto Noticias", icon: "📍" },
+                { name: "Radar Informativo", icon: "📡" },
+                { name: "Reporte Diario", icon: "📋" },
+                { name: "Televisión ABC", icon: "📺" }
+            ],
+            nuevos2: [
+                { name: "Centro News", icon: "🏢" },
+                { name: "Noticias 123", icon: "🔢" },
+                { name: "Breaking Center News México", icon: "🚨" },
+                { name: "A la Vista Noticias", icon: "👁️" },
+                { name: "Social Mexico News", icon: "👥" },
+                { name: "TMZ News México", icon: "⭐" },
+                { name: "Radio ABC", icon: "📻" },
+                { name: "Noticias Integra", icon: "🔍" }
+            ]
+        };
+        
+        // Renderizar sitios
+        function renderSites() {
+            Object.keys(sitesData).forEach(cmsKey => {
+                const container = document.getElementById(`sites-${cmsKey}`);
+                if (container) {
+                    sitesData[cmsKey].forEach(site => {
+                        const siteEl = document.createElement('div');
+                        siteEl.className = 'site-item';
+                        siteEl.title = site.name;
+                        siteEl.innerHTML = `
+                            <div class="site-logo">${site.icon}</div>
+                            <div class="site-name">${site.name}</div>
+                        `;
+                        container.appendChild(siteEl);
+                    });
+                }
+            });
+        }
+        
+        // Inicializar
+        renderSites();
+    </script>
+</body>
+</html>

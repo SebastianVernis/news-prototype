@@ -44,7 +44,7 @@
                         height: 32px;
                         width: auto;
                         object-fit: contain;
-                        filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.5));
+                        filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.5));
                     "
                     onerror="
                         this.style.display = 'none';
@@ -55,7 +55,7 @@
                     style="
                         display: none;
                         font-weight: 800;
-                        background: linear-gradient(135deg, #67e8f9, #0891b2);
+                        background: linear-gradient(135deg, #6ee7b7, #059669);
                         -webkit-background-clip: text;
                         -webkit-text-fill-color: transparent;
                         background-clip: text;
@@ -78,8 +78,8 @@
                         style="
                             display: none;
                             font-size: 1.3rem;
-                            color: #06b6d4;
-                            filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.5));
+                            color: #10b981;
+                            filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.5));
                         "
                     ></i>
                     <!-- Logo completo -->
@@ -92,7 +92,7 @@
                             height: 40px;
                             object-fit: contain;
                             filter: drop-shadow(
-                                0 0 8px rgba(6, 182, 212, 0.45)
+                                0 0 8px rgba(16, 185, 129, 0.45)
                             );
                         "
                         onerror="
@@ -109,7 +109,7 @@
                             gap: 0.5rem;
                         "
                     >
-                        <i class="fas fa-bolt" style="color: #06b6d4"></i>
+                        <i class="fas fa-bolt" style="color: #10b981"></i>
                         NexoPress
                     </h1>
                     <!-- Botón colapso -->
@@ -335,7 +335,7 @@
                         <label class="form-label" for="username">
                             <i
                                 class="fas fa-user"
-                                style="margin-right: 5px; color: #06b6d4"
+                                style="margin-right: 5px; color: #10b981"
                             ></i
                             >Usuario
                         </label>
@@ -357,7 +357,7 @@
                         <label class="form-label" for="password">
                             <i
                                 class="fas fa-lock"
-                                style="margin-right: 5px; color: #06b6d4"
+                                style="margin-right: 5px; color: #10b981"
                             ></i
                             >Contraseña
                         </label>
@@ -403,7 +403,7 @@
         <!-- Modal de Carga Global -->
         <div id="global-loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; flex-direction: column; justify-content: center; align-items: center; color: white;">
             <div class="loader-content" style="text-align: center;">
-                <i class="fas fa-circle-notch fa-spin fa-3x" style="color: #06b6d4; margin-bottom: 15px;"></i>
+                <i class="fas fa-circle-notch fa-spin fa-3x" style="color: #10b981; margin-bottom: 15px;"></i>
                 <h3 id="loader-message" style="font-weight: 600; letter-spacing: 0.5px;">Procesando publicación...</h3>
                 <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 8px;">Por favor, no cierres esta ventana.</p>
             </div>
@@ -413,7 +413,7 @@
         <script>
             // Configure the base URL for the admin API.
             window.ADMIN_API_BASE_URL =
-                "https://cms-api.sebastianvernis.space/api";
+                "https://cms-nuevos2.sebastianvernis.workers.dev/api";
         </script>
         <script src="js/api.js"></script>
         <script src="js/auth.js"></script>

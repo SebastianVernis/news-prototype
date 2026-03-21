@@ -10,6 +10,9 @@ RSS Ingesta (3 artículos/30min) → Distribución Aleatoria (9 sitios/artículo
 
 ## Documentación Principal
 
+- [README.md](../README.md)
+- [README_DEPLOY.md](../README_DEPLOY.md)
+
 | Guía | Descripción |
 |------|-------------|
 | [Monitor del Sistema](./SYSTEM_MONITOR.md) | Diagnóstico de crons, ingesta y Facebook |

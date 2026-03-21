@@ -20,6 +20,9 @@ secrets.toml
 # Facebook Tokens & Sensitive Data
 FB_TOKEN_*
 *fb_tokens*
+tokens_*.txt
+tokens_*.sh
+FACEBOOK_TOKENS_ANALYSIS.md
 meta.json
 text.txt
 scripts/setup_fb_tokens.py
@@ -35,6 +38,18 @@ backups/archive/
 *.json
 !package.json
 !package-lock.json
+
+# Local/agent artifacts
+.claude/
+auto/
+generated_images/
+
+# Local screenshots (repo root)
+/*.png
+
+# Python bytecode
+__pycache__/
+*.pyc
 
 # Cloudflare & Build
 .wrangler/

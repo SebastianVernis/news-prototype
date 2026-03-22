@@ -1,5 +1,5 @@
 # Proxy /api/* al worker de noticias
-/api/* https://news-api.sebastianvernis.workers.dev/api/:splat 200
+/api/* https://cms-nuevos.sebastianvernis.workers.dev/api/:splat 200
 
 # RSS Feed
 /rss.xml  /api/rss/puntoclave  200

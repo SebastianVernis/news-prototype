@@ -65,7 +65,7 @@ async function loadCronStatus() {
 
 /**
  * Verifica si los tokens de los sitios están presentes en los secretos.
- * Con paginación para manejar 27 sitios.
+ * Con paginación para manejar 17 sitios.
  */
 let tokenPage = 1;
 const tokensPerPage = 10;

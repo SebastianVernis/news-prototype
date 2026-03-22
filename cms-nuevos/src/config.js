@@ -10,7 +10,7 @@ export const LOG_PREFIXES = {
   CACHE: '[CACHE]', AUTH: '[Auth]', DB: '[DB]',
 };
 
-// CORS — Dominios permitidos (17 sitios nuevos)
+// CORS — Dominios permitidos (17 sitios nuevos + pages.dev + admin)
 export const ALLOWED_ORIGINS = [
   'https://www.boominformativo.top',
   'https://www.capitalpress.lat',
@@ -22,7 +22,7 @@ export const ALLOWED_ORIGINS = [
   'https://www.mradio.lat',
   'https://www.mexicantimes.top',
   'https://www.mexico360noticias.click',
-  'https://www.noticiashoronte.click',
+  'https://www.noticiashorizonte.click',
   'https://www.pulsodiario.lat',
   'https://www.puntoclave.lat',
   'https://www.puntonoticias.website',
@@ -46,7 +46,25 @@ export const ALLOWED_ORIGINS = [
   'https://radarinformativo.online',
   'https://reportediario.online',
   'https://televisionabc.lat',
+  'https://boominformativo.pages.dev',
+  'https://capitalpress.pages.dev',
+  'https://diarioexpress.pages.dev',
+  'https://elpulsomexicano.pages.dev',
+  'https://enfoquecapital.pages.dev',
+  'https://enfoquedirecto.pages.dev',
+  'https://formulacdmx.pages.dev',
+  'https://mexicantimes.pages.dev',
+  'https://mexico360noticias.pages.dev',
+  'https://mradio.pages.dev',
+  'https://noticiashorizonte.pages.dev',
+  'https://pulsodiario.pages.dev',
+  'https://puntoclave.pages.dev',
+  'https://puntonoticias.pages.dev',
+  'https://radarinformativo.pages.dev',
+  'https://reportediario.pages.dev',
+  'https://televisionabc.pages.dev',
   'https://cms.sebastianvernis.space',
+  'https://cms-admin-nuevos.pages.dev',
 ];
 
 // SITIOS_LIST — 17 sitios nuevos

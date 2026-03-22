@@ -10,7 +10,7 @@ export const LOG_PREFIXES = {
   CACHE: '[CACHE]', AUTH: '[Auth]', DB: '[DB]',
 };
 
-// CORS — Dominios permitidos (8 sitios nuevos fase 2 - placeholders)
+// CORS — Dominios permitidos (8 sitios nuevos fase 2 + pages.dev + admin)
 export const ALLOWED_ORIGINS = [
   'https://www.centronews.click',
   'https://www.noticias123.click',
@@ -28,7 +28,16 @@ export const ALLOWED_ORIGINS = [
   'https://tmznews.click',
   'https://radioabc.click',
   'https://noticiasintegra.click',
+  'https://centronews.pages.dev',
+  'https://noticias123.pages.dev',
+  'https://breakingcentermexico.pages.dev',
+  'https://alavistanoticias.pages.dev',
+  'https://socialmexiconews.pages.dev',
+  'https://tmznews.pages.dev',
+  'https://radioabc.pages.dev',
+  'https://noticiasintegra.pages.dev',
   'https://cms.sebastianvernis.space',
+  'https://cms-admin-nuevos2.pages.dev',
 ];
 
 // SITIOS_LIST — 8 sitios nuevos fase 2

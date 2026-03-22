@@ -17,7 +17,7 @@ id = "c90aab3a89054141933a28d232e87b6c"
 
 [[r2_buckets]]
 binding = "UPLOADS"
-bucket_name = "cms-uploads-nuevos"
+bucket_name = "cms-news"
 
 [triggers]
 crons = ["*/30 * * * *"]

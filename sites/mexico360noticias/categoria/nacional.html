@@ -25,7 +25,7 @@
 <script src="../components.js"></script>
 <script>
 (function(){
-    fetch("https://news-api.sebastianvernis.workers.dev/api/articles?site=mexico360noticias&category=nacional&limit=20")
+    fetch("https://cms-nuevos.sebastianvernis.workers.dev/api/articles?site=mexico360noticias&category=nacional&limit=20")
     .then(function(r){return r.json();})
     .then(function(d){
         var arts=d.articles;

@@ -1,7 +1,7 @@
 // users.js - Gestión de Usuarios y Generación de Links de Contraseña
 
 const UsersModule = (function () {
-    const API_BASE = window.ADMIN_API_BASE_URL || 'https://news-api.sebastianvernis.workers.dev/api';
+    const API_BASE = window.ADMIN_API_BASE_URL || 'https://cms-originaux.sebastianvernis.workers.dev/api';
 
     // Obtener token de autenticación
     function getAuthToken() {

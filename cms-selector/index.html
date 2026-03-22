@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexoPress — Administracion de CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      max-width: 700px;
+    }
+    .header h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    /* Cards grid */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+      padding: 0 1.5rem 3rem;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    /* Single card */
+    .card {
+      background: #1e293b;
+      border-radius: 16px;
+      border: 1px solid #334155;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(6, 182, 212, 0.15);
+      border-color: #06b6d4;
+    }
+
+    .card-header {
+      padding: 1.75rem 1.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .card-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+    .badge {
+      background: rgba(6, 182, 212, 0.15);
+      color: #06b6d4;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    /* Marquee */
+    .marquee-wrapper {
+      overflow: hidden;
+      position: relative;
+      padding: 1.25rem 0;
+      background: #0f172a;
+    }
+    .marquee-wrapper::before,
+    .marquee-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 48px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .marquee-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, #0f172a, transparent);
+    }
+    .marquee-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, #0f172a, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee-scroll var(--duration, 30s) linear infinite;
+    }
+    .card:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .logo-item {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      min-width: 110px;
+    }
+    .logo-item img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 6px;
+    }
+    .logo-item span {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      text-align: center;
+      line-height: 1.3;
+      max-width: 110px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Card footer */
+    .card-footer {
+      padding: 1rem 1.5rem 1.5rem;
+      margin-top: auto;
+    }
+    .btn-acceder {
+      display: block;
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-acceder:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+    .btn-acceder i {
+      margin-right: 0.4rem;
+    }
+
+    /* Footer */
+    .page-footer {
+      padding: 1.5rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.8rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header h1 { font-size: 1.6rem; }
+      .cards { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1><i class="fas fa-newspaper" style="-webkit-text-fill-color: #06b6d4; margin-right: 0.4rem;"></i> NexoPress</h1>
+    <p>Selecciona el panel de administracion</p>
+  </div>
+
+  <div class="cards">
+
+    <!-- CMS Originaux -->
+    <div class="card">
+      <div class="card-header">
+        <h2>CMS Originaux</h2>
+        <span class="badge">10 sitios</span>
+      </div>
+      <div class="marquee-wrapper">
+        <div class="marquee-track" style="--duration: 25s;">
+          <!-- Set 1 -->
+          <div class="logo-item"><img src="https://www.radiocinconoticias.click/logo.png" alt="Radio Cinco Noticias" loading="lazy"><span>Radio Cinco Noticias</span></div>
+          <div class="logo-item"><img src="https://www.centralmexico.online/logo.png" alt="Central Mexico" loading="lazy"><span>Central Mexico</span></div>
+          <div class="logo-item"><img src="https://www.tvmexiconews.site/logo.png" alt="TV Mexico" loading="lazy"><span>TV Mexico</span></div>
+          <div class="logo-item"><img src="https://www.cbnnoticias.click/logo.png" alt="CBN Noticias" loading="lazy"><span>CBN Noticias</span></div>
+          <div class="logo-item"><img src="https://www.mexicoinformado.lat/logo.png" alt="Mexico Informado" loading="lazy"><span>Mexico Informado</span></div>
+          <div class="logo-item"><img src="https://www.nodoinformativo.lat/logo.png" alt="Nodo Informativo" loading="lazy"><span>Nodo Informativo</span></div>
+          <div class="logo-item"><img src="https://www.bitacoraurbana.lat/logo.png" alt="Bitacora Urbana" loading="lazy"><span>Bitacora Urbana</span></div>
+          <div class="logo-item"><img src="https://www.reportecentral.site/logo.png" alt="Reporte Central MX" loading="lazy"><span>Reporte Central MX</span></div>
+          <div class="logo-item"><img src="https://www.verticenoticias.today/logo.png" alt="Vertice Noticias" loading="lazy"><span>Vertice Noticias</span></div>
+          <div class="logo-item"><img src="https://www.noticiasobjetivo.click/logo.png" alt="Noticias Objetivo" loading="lazy"><span>Noticias Objetivo</span></div>
+          <!-- Set 2 (duplicate for seamless loop) -->
+          <div class="logo-item"><img src="https://www.radiocinconoticias.click/logo.png" alt="Radio Cinco Noticias" loading="lazy"><span>Radio Cinco Noticias</span></div>
+          <div class="logo-item"><img src="https://www.centralmexico.online/logo.png" alt="Central Mexico" loading="lazy"><span>Central Mexico</span></div>
+          <div class="logo-item"><img src="https://www.tvmexiconews.site/logo.png" alt="TV Mexico" loading="lazy"><span>TV Mexico</span></div>
+          <div class="logo-item"><img src="https://www.cbnnoticias.click/logo.png" alt="CBN Noticias" loading="lazy"><span>CBN Noticias</span></div>
+          <div class="logo-item"><img src="https://www.mexicoinformado.lat/logo.png" alt="Mexico Informado" loading="lazy"><span>Mexico Informado</span></div>
+          <div class="logo-item"><img src="https://www.nodoinformativo.lat/logo.png" alt="Nodo Informativo" loading="lazy"><span>Nodo Informativo</span></div>
+          <div class="logo-item"><img src="https://www.bitacoraurbana.lat/logo.png" alt="Bitacora Urbana" loading="lazy"><span>Bitacora Urbana</span></div>
+          <div class="logo-item"><img src="https://www.reportecentral.site/logo.png" alt="Reporte Central MX" loading="lazy"><span>Reporte Central MX</span></div>
+          <div class="logo-item"><img src="https://www.verticenoticias.today/logo.png" alt="Vertice Noticias" loading="lazy"><span>Vertice Noticias</span></div>
+          <div class="logo-item"><img src="https://www.noticiasobjetivo.click/logo.png" alt="Noticias Objetivo" loading="lazy"><span>Noticias Objetivo</span></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="https://cms-admin-originaux.pages.dev" class="btn-acceder"><i class="fas fa-arrow-right-to-bracket"></i>Acceder</a>
+      </div>
+    </div>
+
+    <!-- CMS Nuevos -->
+    <div class="card">
+      <div class="card-header">
+        <h2>CMS Nuevos</h2>
+        <span class="badge">17 sitios</span>
+      </div>
+      <div class="marquee-wrapper">
+        <div class="marquee-track" style="--duration: 40s;">
+          <!-- Set 1 -->
+          <div class="logo-item"><img src="https://www.boominformativo.top/logo.png" alt="Boominformativo" loading="lazy"><span>Boominformativo</span></div>
+          <div class="logo-item"><img src="https://www.capitalpress.lat/logo.png" alt="Capital Press" loading="lazy"><span>Capital Press</span></div>
+          <div class="logo-item"><img src="https://www.diarioexpress.click/logo.png" alt="Diario Express" loading="lazy"><span>Diario Express</span></div>
+          <div class="logo-item"><img src="https://www.elpulsomexicano.lat/logo.png" alt="El Pulso Mexicano" loading="lazy"><span>El Pulso Mexicano</span></div>
+          <div class="logo-item"><img src="https://www.enfoquecapital.top/logo.png" alt="Enfoque Capital" loading="lazy"><span>Enfoque Capital</span></div>
+          <div class="logo-item"><img src="https://www.enfoquedirecto.lat/logo.png" alt="Enfoque Directo" loading="lazy"><span>Enfoque Directo</span></div>
+          <div class="logo-item"><img src="https://www.formulacdmx.top/logo.png" alt="Formula CDMX" loading="lazy"><span>Formula CDMX</span></div>
+          <div class="logo-item"><img src="https://www.mexicantimes.top/logo.png" alt="The Mexican Times" loading="lazy"><span>The Mexican Times</span></div>
+          <div class="logo-item"><img src="https://www.mexico360noticias.click/logo.png" alt="Mexico 360 Noticias" loading="lazy"><span>Mexico 360 Noticias</span></div>
+          <div class="logo-item"><img src="https://www.mradio.lat/logo.png" alt="M Radio" loading="lazy"><span>M Radio</span></div>
+          <div class="logo-item"><img src="https://www.noticiashorizonte.click/logo.png" alt="Noticias Horizonte" loading="lazy"><span>Noticias Horizonte</span></div>
+          <div class="logo-item"><img src="https://www.pulsodiario.lat/logo.png" alt="Pulso Diario" loading="lazy"><span>Pulso Diario</span></div>
+          <div class="logo-item"><img src="https://www.puntoclave.lat/logo.png" alt="Punto Clave" loading="lazy"><span>Punto Clave</span></div>
+          <div class="logo-item"><img src="https://www.puntonoticias.website/logo.png" alt="Punto Noticias" loading="lazy"><span>Punto Noticias</span></div>
+          <div class="logo-item"><img src="https://www.radarinformativo.online/logo.png" alt="Radar Informativo" loading="lazy"><span>Radar Informativo</span></div>
+          <div class="logo-item"><img src="https://www.reportediario.online/logo.png" alt="Reporte Diario" loading="lazy"><span>Reporte Diario</span></div>
+          <div class="logo-item"><img src="https://www.televisionabc.lat/logo.png" alt="Television ABC" loading="lazy"><span>Television ABC</span></div>
+          <!-- Set 2 (duplicate for seamless loop) -->
+          <div class="logo-item"><img src="https://www.boominformativo.top/logo.png" alt="Boominformativo" loading="lazy"><span>Boominformativo</span></div>
+          <div class="logo-item"><img src="https://www.capitalpress.lat/logo.png" alt="Capital Press" loading="lazy"><span>Capital Press</span></div>
+          <div class="logo-item"><img src="https://www.diarioexpress.click/logo.png" alt="Diario Express" loading="lazy"><span>Diario Express</span></div>
+          <div class="logo-item"><img src="https://www.elpulsomexicano.lat/logo.png" alt="El Pulso Mexicano" loading="lazy"><span>El Pulso Mexicano</span></div>
+          <div class="logo-item"><img src="https://www.enfoquecapital.top/logo.png" alt="Enfoque Capital" loading="lazy"><span>Enfoque Capital</span></div>
+          <div class="logo-item"><img src="https://www.enfoquedirecto.lat/logo.png" alt="Enfoque Directo" loading="lazy"><span>Enfoque Directo</span></div>
+          <div class="logo-item"><img src="https://www.formulacdmx.top/logo.png" alt="Formula CDMX" loading="lazy"><span>Formula CDMX</span></div>
+          <div class="logo-item"><img src="https://www.mexicantimes.top/logo.png" alt="The Mexican Times" loading="lazy"><span>The Mexican Times</span></div>
+          <div class="logo-item"><img src="https://www.mexico360noticias.click/logo.png" alt="Mexico 360 Noticias" loading="lazy"><span>Mexico 360 Noticias</span></div>
+          <div class="logo-item"><img src="https://www.mradio.lat/logo.png" alt="M Radio" loading="lazy"><span>M Radio</span></div>
+          <div class="logo-item"><img src="https://www.noticiashorizonte.click/logo.png" alt="Noticias Horizonte" loading="lazy"><span>Noticias Horizonte</span></div>
+          <div class="logo-item"><img src="https://www.pulsodiario.lat/logo.png" alt="Pulso Diario" loading="lazy"><span>Pulso Diario</span></div>
+          <div class="logo-item"><img src="https://www.puntoclave.lat/logo.png" alt="Punto Clave" loading="lazy"><span>Punto Clave</span></div>
+          <div class="logo-item"><img src="https://www.puntonoticias.website/logo.png" alt="Punto Noticias" loading="lazy"><span>Punto Noticias</span></div>
+          <div class="logo-item"><img src="https://www.radarinformativo.online/logo.png" alt="Radar Informativo" loading="lazy"><span>Radar Informativo</span></div>
+          <div class="logo-item"><img src="https://www.reportediario.online/logo.png" alt="Reporte Diario" loading="lazy"><span>Reporte Diario</span></div>
+          <div class="logo-item"><img src="https://www.televisionabc.lat/logo.png" alt="Television ABC" loading="lazy"><span>Television ABC</span></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="https://cms-admin-nuevos.pages.dev" class="btn-acceder"><i class="fas fa-arrow-right-to-bracket"></i>Acceder</a>
+      </div>
+    </div>
+
+    <!-- CMS Nuevos 2 -->
+    <div class="card">
+      <div class="card-header">
+        <h2>CMS Nuevos 2</h2>
+        <span class="badge">8 sitios</span>
+      </div>
+      <div class="marquee-wrapper">
+        <div class="marquee-track" style="--duration: 20s;">
+          <!-- Set 1 -->
+          <div class="logo-item"><img src="logos/centronews.png" alt="Centro News" loading="lazy"><span>Centro News</span></div>
+          <div class="logo-item"><img src="https://www.noticias123.click/logo.png" alt="Noticias 123" loading="lazy"><span>Noticias 123</span></div>
+          <div class="logo-item"><img src="logos/breakingcentermexico.png" alt="Breaking Center Mexico" loading="lazy"><span>Breaking Center MX</span></div>
+          <div class="logo-item"><img src="logos/alavistanoticias.png" alt="A la Vista Noticias" loading="lazy"><span>A la Vista Noticias</span></div>
+          <div class="logo-item"><img src="logos/socialmexiconews.png" alt="Social Mexico News" loading="lazy"><span>Social Mexico News</span></div>
+          <div class="logo-item"><img src="logos/tmznews.png" alt="TMZ News Mexico" loading="lazy"><span>TMZ News Mexico</span></div>
+          <div class="logo-item"><img src="logos/radioabc.png" alt="Radio ABC" loading="lazy"><span>Radio ABC</span></div>
+          <div class="logo-item"><img src="logos/noticiasintegra.png" alt="Noticias Integra" loading="lazy"><span>Noticias Integra</span></div>
+          <!-- Set 2 (duplicate for seamless loop) -->
+          <div class="logo-item"><img src="logos/centronews.png" alt="Centro News" loading="lazy"><span>Centro News</span></div>
+          <div class="logo-item"><img src="https://www.noticias123.click/logo.png" alt="Noticias 123" loading="lazy"><span>Noticias 123</span></div>
+          <div class="logo-item"><img src="logos/breakingcentermexico.png" alt="Breaking Center Mexico" loading="lazy"><span>Breaking Center MX</span></div>
+          <div class="logo-item"><img src="logos/alavistanoticias.png" alt="A la Vista Noticias" loading="lazy"><span>A la Vista Noticias</span></div>
+          <div class="logo-item"><img src="logos/socialmexiconews.png" alt="Social Mexico News" loading="lazy"><span>Social Mexico News</span></div>
+          <div class="logo-item"><img src="logos/tmznews.png" alt="TMZ News Mexico" loading="lazy"><span>TMZ News Mexico</span></div>
+          <div class="logo-item"><img src="logos/radioabc.png" alt="Radio ABC" loading="lazy"><span>Radio ABC</span></div>
+          <div class="logo-item"><img src="logos/noticiasintegra.png" alt="Noticias Integra" loading="lazy"><span>Noticias Integra</span></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="https://cms-admin-nuevos2.pages.dev" class="btn-acceder"><i class="fas fa-arrow-right-to-bracket"></i>Acceder</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    NexoPress Network &mdash; 35 sitios en 3 instancias CMS
+  </div>
+
+</body>
+</html>

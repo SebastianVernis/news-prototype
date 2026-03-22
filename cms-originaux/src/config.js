@@ -10,7 +10,7 @@ export const LOG_PREFIXES = {
   CACHE: '[CACHE]', AUTH: '[Auth]', DB: '[DB]',
 };
 
-// CORS — Dominios permitidos (10 sitios originales)
+// CORS — Dominios permitidos (10 sitios originales + pages.dev + admin)
 export const ALLOWED_ORIGINS = [
   'https://www.noticiasobjetivo.click',
   'https://www.mexicoinformado.lat',
@@ -32,7 +32,18 @@ export const ALLOWED_ORIGINS = [
   'https://radiocinconoticias.click',
   'https://reportecentral.site',
   'https://tvmexiconews.site',
+  'https://radiocinconoticias.pages.dev',
+  'https://centralmexico.pages.dev',
+  'https://tvmexico.pages.dev',
+  'https://cbnnoticias.pages.dev',
+  'https://mexicoinformado.pages.dev',
+  'https://nodoinformativo.pages.dev',
+  'https://bitacoraurbana.pages.dev',
+  'https://reportecentralmx.pages.dev',
+  'https://verticenoticias.pages.dev',
+  'https://noticiasobjetivo.pages.dev',
   'https://cms.sebastianvernis.space',
+  'https://cms-admin-originaux.pages.dev',
 ];
 
 // SITIOS_LIST — 10 sitios originales

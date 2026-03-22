@@ -77,8 +77,8 @@ auth.post('/generate-password-token', async (c) => {
       VALUES (?, ?, ?, ?, ?)
     `).bind(crypto.randomUUID(), user.ID, tempToken, expiresAt, new Date().toISOString()).run();
 
-    const baseUrl  = c.env.SITE_URL || 'https://news-admin-cms.pages.dev';
-    const setupUrl = `${baseUrl}/admin/setup-password.html?user=${encodeURIComponent(username)}&t=${tempToken}`;
+    const baseUrl  = c.env.SITE_URL || 'https://cms-admin-originaux.pages.dev';
+    const setupUrl = `${baseUrl}/setup-password.html?user=${encodeURIComponent(username)}&t=${tempToken}`;
 
     return c.json({
       success: true,

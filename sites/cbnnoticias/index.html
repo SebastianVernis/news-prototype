@@ -21,7 +21,7 @@
     <div class="container">
         <!-- Sección destacada - carga dinámica -->
         <section class="featured-section">
-            <div id="featured-container" data-api="https://news-api.sebastianvernis.workers.dev/api/articles?site=cbnnoticias&limit=20">
+            <div id="featured-container" data-api="https://cms-originaux.sebastianvernis.workers.dev/api/articles?site=cbnnoticias&limit=20">
                 <div style="text-align:center;padding:40px;color:#5A7A8A;">Cargando noticias...</div>
             </div>
         </section>
@@ -40,7 +40,7 @@
 <script src="script.js"></script>
 <script>
 (function() {
-    const apiUrl = 'https://news-api.sebastianvernis.workers.dev/api/articles?site=cbnnoticias&limit=20';
+    const apiUrl = 'https://cms-originaux.sebastianvernis.workers.dev/api/articles?site=cbnnoticias&limit=20';
 
     async function loadArticles() {
         try {

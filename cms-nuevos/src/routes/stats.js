@@ -51,9 +51,10 @@ stats.get('/dashboard', async (c) => {
     }
 
     // Artículos web publicados hoy (usando FECHA_PUBLICACION de ARTICULOS_PARAFRASEADOS)
+    const firstSiteTable = `ARTICULOS_SITIO_${SITIOS_LIST[0].toUpperCase()}`;
     const webToday = await c.env.DB.prepare(`
       SELECT COUNT(*) as count FROM ARTICULOS_PARAFRASEADOS ap
-      JOIN ARTICULOS_SITIO_RADIOCINCONOTICIAS s ON s.ID_PARAFRASEADO = ap.ID
+      JOIN ${firstSiteTable} s ON s.ID_PARAFRASEADO = ap.ID
       WHERE ap.ESTADO = 'PUBLICADO' AND DATE(ap.FECHA_PUBLICACION) = DATE('now')
     `).first();
 

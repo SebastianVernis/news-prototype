@@ -347,7 +347,7 @@ font-family:'Noto Sans',Arial,sans-serif;font-size:0.74rem;white-space:nowrap;}
             return '🌤';
         }
 
-        fetch('https://news-api.sebastianvernis.workers.dev/api/weather')
+        fetch('https://cms-originaux.sebastianvernis.workers.dev/api/weather')
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 if (!data) return;
@@ -359,7 +359,7 @@ font-family:'Noto Sans',Arial,sans-serif;font-size:0.74rem;white-space:nowrap;}
     }
 
     function initBreakingTicker() {
-        var tickerUrl = 'https://news-api.sebastianvernis.workers.dev/api/ticker/headlines?limit=10&_ts=' + Date.now();
+        var tickerUrl = 'https://cms-originaux.sebastianvernis.workers.dev/api/ticker/headlines?limit=10&_ts=' + Date.now();
         fetch(tickerUrl, { cache: 'no-store' })
             .then(function(r) { return r.json(); })
             .then(function(data) {

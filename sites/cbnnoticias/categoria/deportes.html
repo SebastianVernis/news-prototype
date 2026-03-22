@@ -39,7 +39,7 @@
     (async function() {
         const site = 'cbnnoticias', category = 'deportes';
         try {
-            const res = await fetch('https://news-api.sebastianvernis.workers.dev/api/articles?site=' + site + '&category=' + category + '&limit=30');
+            const res = await fetch('https://cms-originaux.sebastianvernis.workers.dev/api/articles?site=' + site + '&category=' + category + '&limit=30');
             if (!res.ok) throw new Error('fetch error');
             const {articles} = await res.json();
             if (!articles?.length) {

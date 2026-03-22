@@ -195,8 +195,8 @@
 
         try {
             const [finRes, newsRes] = await Promise.all([
-                fetch('https://news-api.sebastianvernis.workers.dev/api/ticker/financials'),
-                fetch('https://news-api.sebastianvernis.workers.dev/api/ticker/headlines?limit=10')
+                fetch('https://cms-nuevos.sebastianvernis.workers.dev/api/ticker/financials'),
+                fetch('https://cms-nuevos.sebastianvernis.workers.dev/api/ticker/headlines?limit=10')
             ]);
 
             const financials = await finRes.json();
@@ -233,7 +233,7 @@
         if (!cityEl) return;
 
         try {
-            const res = await fetch('https://news-api.sebastianvernis.workers.dev/api/weather');
+            const res = await fetch('https://cms-nuevos.sebastianvernis.workers.dev/api/weather');
             const data = await res.json();
             if (data) {
                 cityEl.textContent = data.city || 'CDMX';

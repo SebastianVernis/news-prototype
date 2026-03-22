@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", initCarousel);
    ======================================== */
 (function() {
     const SITE_SLUG = 'radarinformativo';
-    const API_URL = `https://news-api.sebastianvernis.workers.dev/api/articles?site=${SITE_SLUG}&limit=20`;
+    const API_URL = `https://cms-nuevos.sebastianvernis.workers.dev/api/articles?site=${SITE_SLUG}&limit=20`;
     
     // Función para escapar HTML
     function esc(t) {

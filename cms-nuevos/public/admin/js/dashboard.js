@@ -19,8 +19,9 @@ async function loadCronStatus() {
             const secs = status.nextRunInSeconds || 0;
             nextTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
             
-            // Auto-refresh
-            setTimeout(loadCronStatus, 10000);
+            if (typeof Auth !== 'undefined' && Auth.isAuthenticated()) {
+                setTimeout(loadCronStatus, 10000);
+            }
         }
     } catch (e) {
         console.error('Cron status error:', e);
@@ -97,8 +98,9 @@ async function loadLiveMetrics() {
         console.error('Live metrics error:', e);
     }
     
-    // Auto-actualizar cada 30 segundos
-    setTimeout(loadLiveMetrics, 30000);
+    if (typeof Auth !== 'undefined' && Auth.isAuthenticated()) {
+        setTimeout(loadLiveMetrics, 30000);
+    }
 }
 
 async function loadRecentArticles() {

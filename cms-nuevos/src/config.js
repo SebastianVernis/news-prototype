@@ -10,8 +10,9 @@ export const LOG_PREFIXES = {
   CACHE: '[CACHE]', AUTH: '[Auth]', DB: '[DB]',
 };
 
-// CORS — Dominios permitidos (17 sitios nuevos + pages.dev + admin)
+// CORS — Dominios permitidos (17 sitios nuevos + pages.dev + admin + nuevos dominios custom)
 export const ALLOWED_ORIGINS = [
+  // Dominios www con TLDs originales (HTTPS)
   'https://www.boominformativo.top',
   'https://www.capitalpress.lat',
   'https://www.diarioexpress.click',
@@ -29,6 +30,7 @@ export const ALLOWED_ORIGINS = [
   'https://www.radarinformativo.online',
   'https://www.reportediario.online',
   'https://www.televisionabc.lat',
+  // Dominios sin www con TLDs originales (HTTPS)
   'https://boominformativo.top',
   'https://capitalpress.lat',
   'https://diarioexpress.click',
@@ -46,6 +48,7 @@ export const ALLOWED_ORIGINS = [
   'https://radarinformativo.online',
   'https://reportediario.online',
   'https://televisionabc.lat',
+  // Dominios pages.dev
   'https://boominformativo.pages.dev',
   'https://capitalpress.pages.dev',
   'https://diarioexpress.pages.dev',
@@ -63,8 +66,45 @@ export const ALLOWED_ORIGINS = [
   'https://radarinformativo.pages.dev',
   'https://reportediario.pages.dev',
   'https://televisionabc.pages.dev',
+  // Admin
   'https://cms.sebastianvernis.space',
   'https://cms-admin-nuevos.pages.dev',
+  // Nuevos dominios custom (HTTPS)
+  'https://boominformativo.top',
+  'https://capitalpress.lat',
+  'https://diarioexpress.click',
+  'https://elpulsomexicano.lat',
+  'https://enfoquecapital.top',
+  'https://enfoquedirecto.lat',
+  'https://formulacdmx.top',
+  'https://mradio.lat',
+  'https://mexicantimes.top',
+  'https://mexico360noticias.click',
+  'https://noticiashorizonte.click',
+  'https://pulsodiario.lat',
+  'https://puntoclave.lat',
+  'https://puntonoticias.website',
+  'https://radarinformativo.online',
+  'https://reportediario.online',
+  'https://televisionabc.lat',
+  // Nuevos dominios custom (HTTP)
+  'http://boominformativo.top',
+  'http://capitalpress.lat',
+  'http://diarioexpress.click',
+  'http://elpulsomexicano.lat',
+  'http://enfoquecapital.top',
+  'http://enfoquedirecto.lat',
+  'http://formulacdmx.top',
+  'http://mradio.lat',
+  'http://mexicantimes.top',
+  'http://mexico360noticias.click',
+  'http://noticiashorizonte.click',
+  'http://pulsodiario.lat',
+  'http://puntoclave.lat',
+  'http://puntonoticias.website',
+  'http://radarinformativo.online',
+  'http://reportediario.online',
+  'http://televisionabc.lat',
 ];
 
 // SITIOS_LIST — 17 sitios nuevos

@@ -5,9 +5,9 @@
 
 :root {
     --text-color: #e0e0e0;
-    --text-muted: #666666;
-    --border-color: #e8e8e8;
-    --card-bg: #ffffff;
+    --text-muted: #999999;
+    --border-color: #333333;
+    --card-bg: #1e1e1e;
     --background-color: #121212;
     
     --font-primary: 'Playfair Display', serif;

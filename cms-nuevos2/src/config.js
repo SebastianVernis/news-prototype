@@ -10,8 +10,9 @@ export const LOG_PREFIXES = {
   CACHE: '[CACHE]', AUTH: '[Auth]', DB: '[DB]',
 };
 
-// CORS — Dominios permitidos (8 sitios nuevos fase 2 + pages.dev + admin)
+// CORS — Dominios permitidos (8 sitios nuevos fase 2 + pages.dev + admin + nuevos dominios custom)
 export const ALLOWED_ORIGINS = [
+  // Dominios .click (originales)
   'https://www.centronews.click',
   'https://www.noticias123.click',
   'https://www.breakingcentermexico.click',
@@ -28,6 +29,7 @@ export const ALLOWED_ORIGINS = [
   'https://tmznews.click',
   'https://radioabc.click',
   'https://noticiasintegra.click',
+  // Dominios pages.dev
   'https://centronews.pages.dev',
   'https://noticias123.pages.dev',
   'https://breakingcentermexico.pages.dev',
@@ -36,8 +38,27 @@ export const ALLOWED_ORIGINS = [
   'https://tmznews.pages.dev',
   'https://radioabc.pages.dev',
   'https://noticiasintegra.pages.dev',
+  // Admin
   'https://cms.sebastianvernis.space',
   'https://cms-admin-nuevos2.pages.dev',
+  // Nuevos dominios custom (HTTPS)
+  'https://centronews.buzz',
+  'https://noticias123.click',
+  'https://breakingcenter.site',
+  'https://alavistanoticias.online',
+  'https://socialmexico.top',
+  'https://tmznews.lat',
+  'https://radioabc.space',
+  'https://noticiasintegra.lat',
+  // Nuevos dominios custom (HTTP)
+  'http://centronews.buzz',
+  'http://noticias123.click',
+  'http://breakingcenter.site',
+  'http://alavistanoticias.online',
+  'http://socialmexico.top',
+  'http://tmznews.lat',
+  'http://radioabc.space',
+  'http://noticiasintegra.lat',
 ];
 
 // SITIOS_LIST — 8 sitios nuevos fase 2

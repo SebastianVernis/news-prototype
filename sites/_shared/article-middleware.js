@@ -31,6 +31,13 @@ async function resolveArticleBySlug(db, slug) {
 export async function handleArticleRequest(context, siteSlug) {
   const { request, env, next } = context;
   const url = new URL(request.url);
+  
+  // Skip non-HTML requests (CSS, JS, images, etc.)
+  const pathname = url.pathname;
+  if (/\.(css|js|json|png|jpg|jpeg|gif|svg|webp|ico|woff|woff2|ttf|eot)$/i.test(pathname)) {
+    return await next();
+  }
+  
   const requestedSlug = url.searchParams.get('slug');
   const canonicalUrl = url.toString();
 

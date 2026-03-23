@@ -97,9 +97,6 @@ const Router = {
         case "cms":
           if (window.initCMS) initCMS();
           break;
-        case "revision":
-          if (window.initRevision) initRevision();
-          break;
         case "sites":
           if (window.initSites) initSites();
           break;

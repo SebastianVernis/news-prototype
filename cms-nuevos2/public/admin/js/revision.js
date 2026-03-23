@@ -2,7 +2,8 @@
 let currentRevisionList = [];
 
 async function initRevision() {
-    await loadRevisionTable();
+    const tbody = document.getElementById('revision-pending-table');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="5">La revisión está deshabilitada.</td></tr>';
 }
 
 async function loadRevisionTable() {
@@ -43,6 +44,11 @@ async function loadRevisionTable() {
 
 // Función global para abrir editor de revisión
 window.openRevisionEditorUnified = function(id) {
+    if (typeof showErrorToast === 'function') {
+        showErrorToast('Deshabilitado', 'La revisión está deshabilitada. Usa Redacción Interna.', 3000);
+    }
+    return;
+
     console.log('Abriendo revisión para ID:', id);
     const rev = currentRevisionList.find(r => String(r.ID) === String(id));
     if (!rev) {

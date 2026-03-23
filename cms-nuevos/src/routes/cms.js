@@ -32,8 +32,14 @@ cms.post('/articles', async (c) => {
     const descripcion = body.descripcion || body.excerpt;
     const categoria  = body.categoria  || body.category;
     const url_imagen = body.url_imagen || body.imageUrl;
+    const sitiosDestino = body.sitios_destino || body.site || body.sitios;
     const destacado  = body.destacado !== undefined ? body.destacado : (body.featured ? 1 : 0);
     const estado     = body.estado     || body.status;
+    const fbRequerido = body.fb_requerido !== undefined ? body.fb_requerido : body.fbRequired;
+
+    const sitiosStr = Array.isArray(sitiosDestino)
+      ? sitiosDestino.map((s) => `${s}`.trim()).filter(Boolean).join(',')
+      : `${sitiosDestino || ''}`.split(',').map((s) => s.trim()).filter(Boolean).join(',');
 
     if (!titulo) return c.json({ error: 'Título requerido' }, 400);
 
@@ -60,22 +66,22 @@ cms.post('/articles', async (c) => {
           await c.env.DB.prepare(`
             UPDATE ARTICULOS_CMS SET
               TITULO = ?, SLUG = ?, CONTENIDO = ?, DESCRIPCION = ?,
-              CATEGORIA = ?, URL_IMAGEN = ?, DESTACADO = ?, ESTADO = ?,
+              CATEGORIA = ?, URL_IMAGEN = ?, SITIOS_DESTINO = ?, DESTACADO = ?, ESTADO = ?, FB_REQUERIDO = ?,
               LEGACY_SLUG = CASE WHEN SLUG IS NOT NULL AND SLUG != ? THEN SLUG ELSE LEGACY_SLUG END
             WHERE ID = ?
           `).bind(
             titulo, slug, contenido || '', descripcion || '',
-            (categoria || 'NACIONAL').toUpperCase(), url_imagen || '',
-            destacado || 0, estado || 'BORRADOR', slug, id
+            (categoria || 'NACIONAL').toUpperCase(), url_imagen || '', sitiosStr,
+            destacado || 0, estado || 'BORRADOR', fbRequerido ? 1 : 0, slug, id
           ).run();
         } else {
           await c.env.DB.prepare(`
-            INSERT INTO ARTICULOS_CMS (ID, TITULO, SLUG, CONTENIDO, DESCRIPCION, CATEGORIA, URL_IMAGEN, DESTACADO, ESTADO, FECHA_CREACION)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO ARTICULOS_CMS (ID, TITULO, SLUG, CONTENIDO, DESCRIPCION, CATEGORIA, URL_IMAGEN, SITIOS_DESTINO, DESTACADO, ESTADO, FECHA_CREACION, FB_REQUERIDO)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           `).bind(
             articleId, titulo, slug, contenido || '', descripcion || '',
-            (categoria || 'NACIONAL').toUpperCase(), url_imagen || '',
-            destacado || 0, estado || 'BORRADOR', now
+            (categoria || 'NACIONAL').toUpperCase(), url_imagen || '', sitiosStr,
+            destacado || 0, estado || 'BORRADOR', now, fbRequerido ? 1 : 0
           ).run();
         }
 
@@ -157,6 +163,7 @@ cms.post('/publish', async (c) => {
     if (existingPara) {
       const now       = new Date().toISOString();
       const sitiosStr = sitios.join(',');
+      const shouldPublishToFB = Boolean(fb_requerido);
       const isFeatured = (article.DESTACADO || 0) === 1 &&
         (article.URL_IMAGEN && article.URL_IMAGEN.trim() !== '');
 
@@ -164,30 +171,31 @@ cms.post('/publish', async (c) => {
         UPDATE ARTICULOS_PARAFRASEADOS SET
           TITULO_PARAFRASEADO = ?, CONTENIDO = ?, DESCRIPCION_PARAFRASEADA = ?,
           CATEGORIA = ?, FECHA_PUBLICACION = ?, URL_IMAGEN = ?,
-          SITIO_DESTINO = ?, DESTACADO = ?
+          SITIO_DESTINO = ?, DESTACADO = ?, FB_REQUERIDO = ?
         WHERE ID = ?
       `).bind(
         article.TITULO, article.CONTENIDO || '', article.DESCRIPCION || '',
         (article.CATEGORIA || 'NACIONAL').toUpperCase(), now,
-        article.URL_IMAGEN || '', sitiosStr, isFeatured ? 1 : 0, existingPara.ID
+        article.URL_IMAGEN || '', sitiosStr, isFeatured ? 1 : 0, shouldPublishToFB ? 1 : 0, existingPara.ID
       ).run();
 
       await c.env.DB.prepare(
-        "UPDATE ARTICULOS_CMS SET ESTADO = 'PUBLICADO', SITIOS_DESTINO = ?, FECHA_PUBLICACION = ?, DESTACADO = ? WHERE ID = ?"
-      ).bind(sitiosStr, now, isFeatured ? 1 : 0, id).run();
+        "UPDATE ARTICULOS_CMS SET ESTADO = 'PUBLICADO', SITIOS_DESTINO = ?, FECHA_PUBLICACION = ?, DESTACADO = ?, FB_REQUERIDO = ? WHERE ID = ?"
+      ).bind(sitiosStr, now, isFeatured ? 1 : 0, shouldPublishToFB ? 1 : 0, id).run();
 
       return c.json({ success: true, published: 0, updated: 1, siteCount: sitios.length, message: 'Artículo actualizado (ya existía)' });
     }
 
     const now       = new Date().toISOString();
     const sitiosStr = sitios.join(',');
+    const shouldPublishToFB = Boolean(fb_requerido);
     const isFeatured = (article.DESTACADO || 0) === 1 &&
       (article.URL_IMAGEN && article.URL_IMAGEN.trim() !== '');
 
     // Marcar CMS como publicado
     await c.env.DB.prepare(
-      "UPDATE ARTICULOS_CMS SET ESTADO = 'PUBLICADO', SITIOS_DESTINO = ?, FECHA_PUBLICACION = ?, DESTACADO = ? WHERE ID = ?"
-    ).bind(sitiosStr, now, isFeatured ? 1 : 0, id).run();
+      "UPDATE ARTICULOS_CMS SET ESTADO = 'PUBLICADO', SITIOS_DESTINO = ?, FECHA_PUBLICACION = ?, DESTACADO = ?, FB_REQUERIDO = ? WHERE ID = ?"
+    ).bind(sitiosStr, now, isFeatured ? 1 : 0, shouldPublishToFB ? 1 : 0, id).run();
 
     // Insertar en ARTICULOS_PARAFRASEADOS
     const paraId = crypto.randomUUID();
@@ -195,13 +203,13 @@ cms.post('/publish', async (c) => {
       INSERT INTO ARTICULOS_PARAFRASEADOS
         (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
          CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SITIO_DESTINO,
-         DESTACADO, VISTAS, ESTADO)
-      VALUES (?, ?, ?, ?, ?, ?, 'Redacción CMS', ?, ?, ?, ?, 0, 'PUBLICADO')
+         DESTACADO, VISTAS, ESTADO, FB_REQUERIDO)
+      VALUES (?, ?, ?, ?, ?, ?, 'Redacción CMS', ?, ?, ?, ?, 0, 'PUBLICADO', ?)
     `).bind(
       paraId, article.TITULO, baseSlug,
       article.CONTENIDO || '', article.DESCRIPCION || '',
       (article.CATEGORIA || 'NACIONAL').toUpperCase(), now,
-      article.URL_IMAGEN || '', sitiosStr, isFeatured ? 1 : 0
+      article.URL_IMAGEN || '', sitiosStr, isFeatured ? 1 : 0, shouldPublishToFB ? 1 : 0
     ).run();
 
     // DISTRIBUCIÓN: Insertar en cada tabla ARTICULOS_SITIO_{SLUG}
@@ -217,31 +225,31 @@ cms.post('/publish', async (c) => {
           ) VALUES (?, ?, datetime('now'), 0, NULL, NULL)
         `).bind(siteId, paraId).run();
 
-        // PUBLICACIÓN INMEDIATA EN FACEBOOK para artículos CMS
-        console.log(`[FB] Publishing CMS article ${paraId} to ${siteSlug} immediately...`);
-        
-        try {
-          const fbResult = await publishToFBIndividual(c.env, {
-            SITIO_ID: siteId,
-            ID_PARAFRASEADO: paraId,
-            TITULO: article.TITULO,
-            SLUG: baseSlug,
-            URL_IMAGEN: article.URL_IMAGEN || ''
-          }, siteSlug);
-          
-          if (fbResult.success) {
-            // Actualizar con FB_POST_ID real
-            await c.env.DB.prepare(`
-              UPDATE ${tableName}
-              SET FB_PUBLICADO = 1, FB_FECHA = datetime('now'), FB_POST_ID = ?
-              WHERE ID = ?
-            `).bind(fbResult.post_id, siteId).run();
-            console.log(`[FB] ${siteSlug} SUCCESS: ${fbResult.post_id}`);
-          } else {
-            console.error(`[FB] ${siteSlug} FAILED: ${JSON.stringify(fbResult.error)}`);
+        if (shouldPublishToFB) {
+          console.log(`[FB] Publishing CMS article ${paraId} to ${siteSlug} immediately...`);
+
+          try {
+            const fbResult = await publishToFBIndividual(c.env, {
+              SITIO_ID: siteId,
+              ID_PARAFRASEADO: paraId,
+              TITULO: article.TITULO,
+              SLUG: baseSlug,
+              URL_IMAGEN: article.URL_IMAGEN || ''
+            }, siteSlug);
+
+            if (fbResult.success) {
+              await c.env.DB.prepare(`
+                UPDATE ${tableName}
+                SET FB_PUBLICADO = 1, FB_FECHA = datetime('now'), FB_POST_ID = ?
+                WHERE ID = ?
+              `).bind(fbResult.post_id, siteId).run();
+              console.log(`[FB] ${siteSlug} SUCCESS: ${fbResult.post_id}`);
+            } else {
+              console.error(`[FB] ${siteSlug} FAILED: ${JSON.stringify(fbResult.error)}`);
+            }
+          } catch (fbErr) {
+            console.error(`[FB] ${siteSlug} EXCEPTION: ${fbErr.message}`);
           }
-        } catch (fbErr) {
-          console.error(`[FB] ${siteSlug} EXCEPTION: ${fbErr.message}`);
         }
 
         console.log(`[DISTRIBUTION] Article ${paraId} assigned to ${siteSlug}`);

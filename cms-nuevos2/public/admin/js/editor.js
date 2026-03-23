@@ -69,20 +69,8 @@ async function setupEditorUI(mode, data = {}) {
     } else {
         if (fbSection) fbSection.style.display = 'none';
         if (fbPlaceholder) fbPlaceholder.style.display = 'block';
-        
-        if (mode === 'revision') {
-            if (titleEl) titleEl.textContent = 'Mesa de Revisión';
-            if (actionsContainer) {
-                actionsContainer.innerHTML = `
-                    <button type="button" class="btn btn-outline" onclick="saveUniversal('revision_save')">
-                        <i class="fas fa-save"></i> Guardar Cambios
-                    </button>
-                    <button type="button" class="btn btn-success" onclick="saveUniversal('revision_approve')">
-                        <i class="fas fa-check"></i> Aprobar y Publicar
-                    </button>
-                `;
-            }
-        } else if (mode === 'live') {
+
+        if (mode === 'live') {
             if (titleEl) titleEl.textContent = 'Editar Artículo Publicado';
             if (actionsContainer) {
                 actionsContainer.innerHTML = `
@@ -166,7 +154,7 @@ async function setupEditorUI(mode, data = {}) {
 
 function closeUniversalEditor() {
     const mode = document.getElementById('uni-mode').value;
-    Router.navigate(mode === 'cms' ? 'cms' : 'articles');
+    Router.navigate(mode === 'live' ? 'articles' : 'cms');
 }
 
 // Toggle Seleccionar todos los sitios
@@ -431,12 +419,6 @@ async function saveUniversal(action) {
             
             if (action === 'publish' && payload.fbRequired) {
                 console.log("Artículo marcado para Facebook");
-            }
-        } else if (mode === 'revision') {
-            if (action === 'revision_approve') {
-                await apiFetch('/cms/publish', { method: 'POST', body: JSON.stringify({ id, ...payload }) });
-            } else {
-                await apiFetch('/revision/' + id, { method: 'PUT', body: JSON.stringify(payload) });
             }
         } else if (mode === 'live') {
             await apiFetch('/articles/' + id, { method: 'PUT', body: JSON.stringify(payload) });

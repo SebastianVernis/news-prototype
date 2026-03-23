@@ -1,7 +1,7 @@
 /**
  * NexoPress CMS Service Worker
  */
-const CACHE_NAME = 'nexopress-cms-v1';
+const CACHE_NAME = 'nexopress-cms-v2';
 const ASSETS = [
     './',
     './index.html',

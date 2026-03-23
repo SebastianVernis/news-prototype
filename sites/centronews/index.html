@@ -59,31 +59,31 @@
         const heroArticles = articles.slice(0, 2);
         const listArticles = articles.slice(2);
 
-        const heroContainer = document.getElementById('latest-container');
-        if(heroContainer) {
-            heroContainer.innerHTML = '';
-            heroArticles.forEach(a => {
-                const card = document.createElement('a');
-                card.href = '/articulo/' + a.slug;
-                card.className = 'hero-card';
-                card.innerHTML = `
-                    <img src="${a.imageUrl || 'https://placehold.co/800x600/0056b3/ffffff?text=News'}" alt="${a.title}">
-                    <div class="hero-content">
-                        <h2>${a.title}</h2>
-                        <p>${a.desc ? a.desc.substring(0, 100) + '...' : ''}</p>
-                    </div>
-                `;
-                heroContainer.appendChild(card);
-            });
-        }
+         const heroContainer = document.getElementById('latest-container');
+         if(heroContainer) {
+             heroContainer.innerHTML = '';
+             heroArticles.forEach(a => {
+                 const card = document.createElement('a');
+                 card.href = '/articulo/?slug=' + a.slug;
+                 card.className = 'hero-card';
+                 card.innerHTML = `
+                     <img src="${a.imageUrl || 'https://placehold.co/800x600/0056b3/ffffff?text=News'}" alt="${a.title}">
+                     <div class="hero-content">
+                         <h2>${a.title}</h2>
+                         <p>${a.desc ? a.desc.substring(0, 100) + '...' : ''}</p>
+                     </div>
+                 `;
+                 heroContainer.appendChild(card);
+             });
+         }
 
-        const newsContainer = document.getElementById('news-container');
-        if(newsContainer) {
-            newsContainer.innerHTML = '';
-            listArticles.forEach(a => {
-                const card = document.createElement('a');
-                card.href = '/articulo/' + a.slug;
-                card.className = 'news-card';
+         const newsContainer = document.getElementById('news-container');
+         if(newsContainer) {
+             newsContainer.innerHTML = '';
+             listArticles.forEach(a => {
+                 const card = document.createElement('a');
+                 card.href = '/articulo/?slug=' + a.slug;
+                 card.className = 'news-card';
                 card.innerHTML = `
                     <img src="${a.imageUrl || 'https://placehold.co/300x200/0056b3/ffffff?text=News'}" alt="${a.title}">
                     <div class="news-content">

@@ -36,15 +36,15 @@
         if(heroContainer) {
             
       heroContainer.innerHTML = '';
-      if(heroArticles[0]) {
-        heroContainer.innerHTML = '<a href="/articulo/' + heroArticles[0].slug + '" class="hero-card giant">' +
-            '<img src="' + (heroArticles[0].imageUrl || 'https://placehold.co/1200x600/d32f2f/ffffff?text=BREAKING') + '" alt="Hero">' +
-            '<div class="hero-content">' +
-              '<span class="breaking-badge">ÚLTIMA HORA</span>' +
-              '<h2>' + heroArticles[0].title + '</h2>' +
-            '</div>' +
-          '</a>';
-      }
+       if(heroArticles[0]) {
+         heroContainer.innerHTML = '<a href="/articulo/?slug=' + heroArticles[0].slug + '" class="hero-card giant">' +
+             '<img src="' + (heroArticles[0].imageUrl || 'https://placehold.co/1200x600/d32f2f/ffffff?text=BREAKING') + '" alt="Hero">' +
+             '<div class="hero-content">' +
+               '<span class="breaking-badge">ÚLTIMA HORA</span>' +
+               '<h2>' + heroArticles[0].title + '</h2>' +
+             '</div>' +
+           '</a>';
+       }
     
         }
         const newsContainer = document.getElementById('news-container');

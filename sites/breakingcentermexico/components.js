@@ -209,7 +209,6 @@ font-family:'Noto Sans',Arial,sans-serif;font-size:0.74rem;white-space:nowrap;}
                     <img src="${base}logo6.png" alt="BreakingCenter México">
                     <h3>BreakingCenter México</h3>
                 </div>
-                <p class="footer-about" style="font-size:0.82rem;line-height:1.5;margin:8px 0 10px;">Noticias de último minuto desde México. Cobertura en tiempo real.</p>
                 <div class="social-links">
                     <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>

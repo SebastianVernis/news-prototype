@@ -10,8 +10,9 @@ export const LOG_PREFIXES = {
   CACHE: '[CACHE]', AUTH: '[Auth]', DB: '[DB]',
 };
 
-// CORS — Dominios permitidos (10 sitios originales + pages.dev + admin)
+// CORS — Dominios permitidos (10 sitios originales + pages.dev + admin + nuevos dominios custom)
 export const ALLOWED_ORIGINS = [
+  // Dominios www con TLDs originales (HTTPS)
   'https://www.noticiasobjetivo.click',
   'https://www.mexicoinformado.lat',
   'https://www.bitacoraurbana.lat',
@@ -22,6 +23,7 @@ export const ALLOWED_ORIGINS = [
   'https://www.radiocinconoticias.click',
   'https://www.reportecentral.site',
   'https://www.tvmexiconews.site',
+  // Dominios sin www con TLDs originales (HTTPS)
   'https://noticiasobjetivo.click',
   'https://mexicoinformado.lat',
   'https://bitacoraurbana.lat',
@@ -32,6 +34,7 @@ export const ALLOWED_ORIGINS = [
   'https://radiocinconoticias.click',
   'https://reportecentral.site',
   'https://tvmexiconews.site',
+  // Dominios pages.dev
   'https://radiocinconoticias.pages.dev',
   'https://centralmexico.pages.dev',
   'https://tvmexico.pages.dev',
@@ -42,8 +45,31 @@ export const ALLOWED_ORIGINS = [
   'https://reportecentralmx.pages.dev',
   'https://verticenoticias.pages.dev',
   'https://noticiasobjetivo.pages.dev',
+  // Admin
   'https://cms.sebastianvernis.space',
   'https://cms-admin-originaux.pages.dev',
+  // Nuevos dominios custom (HTTPS)
+  'https://noticiasobjetivo.click',
+  'https://mexicoinformado.lat',
+  'https://bitacoraurbana.lat',
+  'https://nodoinformativo.lat',
+  'https://cbnnoticias.click',
+  'https://radiocinconoticias.click',
+  'https://centralmexico.online',
+  'https://reportecentral.site',
+  'https://tvmexiconews.site',
+  'https://verticenoticias.today',
+  // Nuevos dominios custom (HTTP)
+  'http://noticiasobjetivo.click',
+  'http://mexicoinformado.lat',
+  'http://bitacoraurbana.lat',
+  'http://nodoinformativo.lat',
+  'http://cbnnoticias.click',
+  'http://radiocinconoticias.click',
+  'http://centralmexico.online',
+  'http://reportecentral.site',
+  'http://tvmexiconews.site',
+  'http://verticenoticias.today',
 ];
 
 // SITIOS_LIST — 10 sitios originales

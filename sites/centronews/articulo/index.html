@@ -110,7 +110,7 @@
                 img.alt = a.title || '';
                 // Fallback a logo si la imagen falla (hotlink protection)
                 img.onerror = function() {
-                    this.src = 'https://placehold.co/200x200/0056b3/ffffff?text=CN';
+                    this.src = '../logo.png';
                     this.alt = 'Imagen no disponible';
                 };
             }

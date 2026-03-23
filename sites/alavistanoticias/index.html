@@ -39,7 +39,7 @@
       const layout = ['side', 'main', 'side'];
       heroArticles.slice(0,3).forEach((a, i) => {
         const isMain = layout[i] === 'main';
-        heroContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="hero-card ' + (isMain ? 'main-focus' : 'side-focus') + '">' +
+        heroContainer.innerHTML += '<a href="/articulo/?slug=' + a.slug + '" class="hero-card ' + (isMain ? 'main-focus' : 'side-focus') + '">' +
             '<img src="' + (a.imageUrl || 'https://placehold.co/600x600/008080/ffffff?text=ALV') + '" alt="Hero">' +
             '<div class="hero-content">' +
               (isMain ? '<h2>'+a.title+'</h2>' : '<h4>'+a.title+'</h4>') +
@@ -52,7 +52,7 @@
         if(newsContainer) {
             newsContainer.innerHTML = '';
             listArticles.forEach(a => {
-                newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
+                newsContainer.innerHTML += '<a href="/articulo/?slug=' + a.slug + '" class="news-card">' +
                     '<img src="' + (a.imageUrl || 'https://placehold.co/300x200/008080/ffffff?text=News') + '" alt="' + a.title + '">' +
                     '<div class="news-content">' +
                         '<h3 class="news-title">' + a.title + '</h3>' +

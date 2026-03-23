@@ -37,7 +37,7 @@
             
       heroContainer.innerHTML = '';
       heroArticles.slice(0,2).forEach(a => {
-        heroContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="hero-card split">' +
+        heroContainer.innerHTML += '<a href="/articulo/?slug=' + a.slug + '" class="hero-card split">' +
             '<img src="' + (a.imageUrl || 'https://placehold.co/500x500/39ff14/000000?text=GOSSIP') + '" alt="Hero">' +
             '<div class="hero-content"><h2>' + a.title + '</h2></div>' +
           '</a>';
@@ -48,7 +48,7 @@
         if(newsContainer) {
             newsContainer.innerHTML = '';
             listArticles.forEach(a => {
-                newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
+                newsContainer.innerHTML += '<a href="/articulo/?slug=' + a.slug + '" class="news-card">' +
                     '<img src="' + (a.imageUrl || 'https://placehold.co/300x200/39ff14/ffffff?text=News') + '" alt="' + a.title + '">' +
                     '<div class="news-content">' +
                         '<h3 class="news-title">' + a.title + '</h3>' +

@@ -37,7 +37,7 @@
             
       heroContainer.innerHTML = '';
       heroArticles.slice(0,3).forEach((a, i) => {
-        heroContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="hero-card ' + (i===0 ? 'main' : 'sub') + '">' +
+        heroContainer.innerHTML += '<a href="/articulo/?slug=' + a.slug + '" class="hero-card ' + (i===0 ? 'main' : 'sub') + '">' +
             '<img src="' + (a.imageUrl || 'https://placehold.co/600x400/000080/ffffff?text=RADIO') + '" alt="Hero">' +
             '<div class="hero-content">' +
               (i===0 ? '<h2>'+a.title+'</h2>' : '<h3>'+a.title+'</h3>') +
@@ -50,7 +50,7 @@
         if(newsContainer) {
             newsContainer.innerHTML = '';
             listArticles.forEach(a => {
-                newsContainer.innerHTML += '<a href="/articulo/' + a.slug + '" class="news-card">' +
+                newsContainer.innerHTML += '<a href="/articulo/?slug=' + a.slug + '" class="news-card">' +
                     '<img src="' + (a.imageUrl || 'https://placehold.co/300x200/000080/ffffff?text=News') + '" alt="' + a.title + '">' +
                     '<div class="news-content">' +
                         '<h3 class="news-title">' + a.title + '</h3>' +

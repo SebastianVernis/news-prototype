@@ -3,15 +3,17 @@
 import { Hono } from 'hono';
 import { checkAuth } from '../middleware/auth.js';
 import { slugify } from '../utils/helpers.js';
+import { SITIOS_LIST } from '../config.js';
 
 const sites = new Hono();
 
-// ── GET /sites — Listar todos los sitios ─────────────────────
+// ── GET /sites — Listar sitios del CMS (filtrado por SITIOS_LIST) ──
 sites.get('/', async (c) => {
   try {
+    const placeholders = SITIOS_LIST.map(() => '?').join(',');
     const res = await c.env.DB.prepare(
-      'SELECT * FROM SITIOS ORDER BY NOMBRE'
-    ).all();
+      `SELECT * FROM SITIOS WHERE SLUG IN (${placeholders}) ORDER BY NOMBRE`
+    ).bind(...SITIOS_LIST).all();
     return c.json(res.results || []);
   } catch (e) {
     return c.json({ error: e.message }, 500);
@@ -82,12 +84,13 @@ sites.get('/menus/:id', async (c) => {
   }
 });
 
-// ── GET /sites/stats — Estadísticas por sitio (tablas ARTICULOS_SITIO_*) ──
+// ── GET /sites/stats — Estadísticas por sitio del CMS (filtrado) ──
 sites.get('/stats', async (c) => {
   try {
+    const placeholders = SITIOS_LIST.map(() => '?').join(',');
     const sitesRes = await c.env.DB.prepare(
-      'SELECT SLUG, NOMBRE FROM SITIOS WHERE ACTIVO = 1 ORDER BY NOMBRE'
-    ).all();
+      `SELECT SLUG, NOMBRE FROM SITIOS WHERE SLUG IN (${placeholders}) AND ACTIVO = 1 ORDER BY NOMBRE`
+    ).bind(...SITIOS_LIST).all();
 
     const statsArr = [];
     for (const site of (sitesRes.results || [])) {

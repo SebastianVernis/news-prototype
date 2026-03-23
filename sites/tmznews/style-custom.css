@@ -121,6 +121,8 @@ a { text-decoration: none; color: inherit; }
     font-size: 1.4rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    color: #000000;
+    text-shadow: none;
 }
 
 /* ===== NEWS GRID ===== */

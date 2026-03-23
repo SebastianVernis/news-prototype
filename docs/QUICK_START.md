@@ -1,6 +1,6 @@
-# 🚀 Quick Start - NexoPress
+# Quick Start - NexoPress
 
-Guía rápida para comenzar a trabajar con el proyecto NexoPress (28 sitios de noticias).
+Guia rapida para comenzar a trabajar con el proyecto NexoPress (35 sitios de noticias en 3 CMS).
 
 ## 📁 Ubicación del Proyecto
 
@@ -34,7 +34,8 @@ cloudflare-news-project/
 │   ├── centralmexico/
 │   ├── tvmexico/
 │   └── ... (27 sitios más)
-├── public/admin/          # CMS Dashboard (SPA)
+├── public/admin/          # CMS Dashboard (SPA) — compartido entre los 3 CMS
+├── nexopress-portal/      # Portal de acceso a los 3 CMS
 ├── scripts/               # Scripts de utilidad
 └── docs/                  # Documentación
 ```
@@ -90,17 +91,22 @@ npm run dev
 npm start
 ```
 
-## 🌐 URLs Importantes
+## URLs Importantes
 
-| Servicio | Producción | Local |
+| Servicio | Produccion | Local |
 |----------|------------|-------|
-| API Worker | `https://news-api.sebastianvernis.workers.dev/api` | `http://localhost:8781/api` |
-| CMS Admin | `https://cms.sebastianvernis.space/admin/` | `http://localhost:8888/admin/` |
+| Portal NexoPress | `https://nexopress.sebastianvernis.space` | - |
+| API Originaux | `https://news-api.sebastianvernis.workers.dev/api` | `http://localhost:8781/api` |
+| CMS Originaux | `https://news-api.sebastianvernis.workers.dev/admin/` | `http://localhost:8888/admin/` |
+| API Nuevos | `https://cms-nuevos.sebastianvernis.workers.dev/api` | - |
+| CMS Nuevos | `https://cms-nuevos.sebastianvernis.workers.dev/admin/` | - |
+| API Nuevos 2 | `https://cms-nuevos2.sebastianvernis.workers.dev/api` | - |
+| CMS Nuevos 2 | `https://cms-nuevos2.sebastianvernis.workers.dev/admin/` | - |
 | Uploads R2 | `https://uploads.sebastianvernis.space/` | - |
 
 ## 📤 Despliegue a Producción
 
-### Deploy Worker API
+### Deploy Worker API (CMS Originaux)
 
 ```bash
 cd /mnt/hdd/Multimedia/Datasets/cloudflare-news-project/src

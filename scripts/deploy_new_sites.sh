@@ -1,10 +1,11 @@
 #!/bin/bash
-# Script para desplegar los 17 nuevos sitios a Cloudflare Pages
 # Uso: ./deploy_new_sites.sh
 
-set -e
+set -euo pipefail
 
-cd /home/sebastianvernis/cloudflare-news-project/sites/Nuevos
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+SITES_DIR="$ROOT_DIR/sites"
 
 # Lista de sitios nuevos
 SITES=(
@@ -32,19 +33,28 @@ echo "Despliegue de 17 Nuevos Sitios"
 echo "=========================================="
 echo ""
 
+if [ ! -d "$SITES_DIR" ]; then
+  echo "❌ No existe el directorio de sitios: $SITES_DIR"
+  exit 1
+fi
+
 for site in "${SITES[@]}"; do
   echo "----------------------------------------"
   echo "Desplegando: $site"
   echo "----------------------------------------"
-  cd "$site"
+
+  SITE_DIR="$SITES_DIR/$site"
+  if [ ! -d "$SITE_DIR" ]; then
+    echo "⚠️  Directorio no encontrado, se omite: $SITE_DIR"
+    echo ""
+    continue
+  fi
   
   # Deploy a Cloudflare Pages
-  wrangler pages deploy . --project-name="$site" --branch=main
+  (cd "$SITE_DIR" && wrangler pages deploy . --project-name="$site" --branch=main)
   
   echo "✅ $site desplegado exitosamente"
   echo ""
-  
-  cd ..
 done
 
 echo "=========================================="

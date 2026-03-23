@@ -2,6 +2,7 @@ export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
   const slug = url.searchParams.get('slug');
+  const canonicalUrl = url.toString();
 
   if (!slug) return await next();
 
@@ -27,33 +28,70 @@ export async function onRequest(context) {
 
     const title = article.title;
     const description = (article.desc || "").substring(0, 200);
-    let image = article.image || "/logo.png";
-    
-    // Forzar URL absoluta para Facebook
-    if (image.startsWith('/')) {
-      image = `${url.origin}${image}`;
-    }
+    const normalizeImageUrl = (value) => {
+      if (!value || typeof value !== 'string') return `${url.origin}/logo.png`;
+
+      let normalized = value.trim();
+
+      if (!normalized || normalized.includes('undefined')) {
+        return `${url.origin}/logo.png`;
+      }
+
+      if (normalized.startsWith('//')) {
+        normalized = `https:${normalized}`;
+      } else if (normalized.startsWith('/')) {
+        normalized = `${url.origin}${normalized}`;
+      } else if (normalized.includes('uploads.sebastianvernis.space') && !/^https?:\/\//i.test(normalized)) {
+        normalized = `https://${normalized.replace(/^\/+/, '')}`;
+      }
+
+      if (/^http:\/\//i.test(normalized)) {
+        normalized = normalized.replace(/^http:\/\//i, 'https://');
+      }
+
+      if (!/^https:\/\//i.test(normalized)) {
+        return `${url.origin}/logo.png`;
+      }
+
+      return normalized;
+    };
+
+    const image = normalizeImageUrl(article.image || '/logo.png');
+    const escapeHtml = (text) => (text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
+    const escapedTitle = escapeHtml(title);
+    const escapedDescription = escapeHtml(description);
+    const escapedImage = escapeHtml(image);
+    const escapedCanonicalUrl = escapeHtml(canonicalUrl);
 
     // 3. Inyectar Meta Tags
     return new HTMLRewriter()
       .on('title', { element(el) { el.setInnerContent(title); } })
-      .on('meta[property^="og:"]', { element(el) { el.remove(); } })
-      .on('meta[name^="twitter:"]', { element(el) { el.remove(); } })
-      .on('meta[name="description"]', { element(el) { el.remove(); } })
+      .on('meta#page-desc', { element(el) { el.setAttribute('content', description); } })
+      .on('meta#og-title', { element(el) { el.setAttribute('content', title); } })
+      .on('meta#og-desc', { element(el) { el.setAttribute('content', description); } })
+      .on('meta#og-image', { element(el) { el.setAttribute('content', image); } })
+      .on('meta#og-url', { element(el) { el.setAttribute('content', canonicalUrl); } })
+      .on('meta[property="og:type"]', { element(el) { el.setAttribute('content', 'article'); } })
       .on('head', {
         element(el) {
-          el.prepend(`<meta name="description" content="${description.replace(/"/g, '&quot;')}" />`, { html: true });
+          el.prepend(`<meta name="description" content="${escapedDescription}" />`, { html: true });
           el.prepend(`<meta property="og:type" content="article" />`, { html: true });
-          el.prepend(`<meta property="og:title" content="${title.replace(/"/g, '&quot;')}" />`, { html: true });
-          el.prepend(`<meta property="og:description" content="${description.replace(/"/g, '&quot;')}" />`, { html: true });
-          el.prepend(`<meta property="og:image" content="${image}" />`, { html: true });
-          el.prepend(`<meta property="og:image:secure_url" content="${image}" />`, { html: true });
+          el.prepend(`<meta property="og:title" content="${escapedTitle}" />`, { html: true });
+          el.prepend(`<meta property="og:description" content="${escapedDescription}" />`, { html: true });
+          el.prepend(`<meta property="og:image" content="${escapedImage}" />`, { html: true });
+          el.prepend(`<meta property="og:image:secure_url" content="${escapedImage}" />`, { html: true });
           el.prepend(`<meta property="og:image:width" content="1200" />`, { html: true });
           el.prepend(`<meta property="og:image:height" content="630" />`, { html: true });
-          el.prepend(`<meta property="og:url" content="${url.href}" />`, { html: true });
+          el.prepend(`<meta property="og:url" content="${escapedCanonicalUrl}" />`, { html: true });
           el.prepend(`<meta name="twitter:card" content="summary_large_image" />`, { html: true });
-          el.prepend(`<meta name="twitter:title" content="${title.replace(/"/g, '&quot;')}" />`, { html: true });
-          el.prepend(`<meta name="twitter:image" content="${image}" />`, { html: true });
+          el.prepend(`<meta name="twitter:title" content="${escapedTitle}" />`, { html: true });
+          el.prepend(`<meta name="twitter:image" content="${escapedImage}" />`, { html: true });
         }
       })
       .transform(response);

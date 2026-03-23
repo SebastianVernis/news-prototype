@@ -32,6 +32,7 @@ export async function handleArticleRequest(context, siteSlug) {
   const { request, env, next } = context;
   const url = new URL(request.url);
   const requestedSlug = url.searchParams.get('slug');
+  const canonicalUrl = url.toString();
 
   if (!requestedSlug) {
     return Response.redirect(url.origin, 302);
@@ -54,19 +55,35 @@ export async function handleArticleRequest(context, siteSlug) {
     const response = await next();
     const title = article.title;
     const description = (article.desc || '').substring(0, 200);
-    let image = article.image || '/logo.png';
+    const normalizeImageUrl = (value) => {
+      if (!value || typeof value !== 'string') return `${url.origin}/logo.png`;
 
-    if (image.startsWith('/')) {
-      image = `${url.origin}${image}`;
-    }
+      let normalized = value.trim();
 
-    if (image.includes('uploads.sebastianvernis.space') && !image.startsWith('https://')) {
-      image = `https://${image}`;
-    }
+      if (!normalized || normalized.includes('undefined')) {
+        return `${url.origin}/logo.png`;
+      }
 
-    if (!image || image.includes('undefined') || image.trim() === '') {
-      image = `${url.origin}/logo.png`;
-    }
+      if (normalized.startsWith('//')) {
+        normalized = `https:${normalized}`;
+      } else if (normalized.startsWith('/')) {
+        normalized = `${url.origin}${normalized}`;
+      } else if (normalized.includes('uploads.sebastianvernis.space') && !/^https?:\/\//i.test(normalized)) {
+        normalized = `https://${normalized.replace(/^\/+/, '')}`;
+      }
+
+      if (/^http:\/\//i.test(normalized)) {
+        normalized = normalized.replace(/^http:\/\//i, 'https://');
+      }
+
+      if (!/^https:\/\//i.test(normalized)) {
+        return `${url.origin}/logo.png`;
+      }
+
+      return normalized;
+    };
+
+    const image = normalizeImageUrl(article.image || '/logo.png');
 
     const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
 
@@ -90,31 +107,36 @@ export async function handleArticleRequest(context, siteSlug) {
 
     const escapedTitle = escapeHtml(title);
     const escapedDescription = escapeHtml(description);
+    const escapedImage = escapeHtml(image);
+    const escapedCanonicalUrl = escapeHtml(canonicalUrl);
 
     return new HTMLRewriter()
       .on('title', { element(el) { el.setInnerContent(title); } })
-      .on('meta[property^="og:"]', { element(el) { el.remove(); } })
-      .on('meta[name^="twitter:"]', { element(el) { el.remove(); } })
-      .on('meta[name="description"]', { element(el) { el.remove(); } })
+      .on('meta#page-desc', { element(el) { el.setAttribute('content', description); } })
+      .on('meta#og-title', { element(el) { el.setAttribute('content', title); } })
+      .on('meta#og-desc', { element(el) { el.setAttribute('content', description); } })
+      .on('meta#og-image', { element(el) { el.setAttribute('content', image); } })
+      .on('meta#og-url', { element(el) { el.setAttribute('content', canonicalUrl); } })
+      .on('meta[property="og:type"]', { element(el) { el.setAttribute('content', 'article'); } })
       .on('head', {
         element(el) {
           el.prepend(`
             <meta property="og:type" content="article" />
             <meta property="og:title" content="${escapedTitle}" />
             <meta property="og:description" content="${escapedDescription}" />
-            <meta property="og:image" content="${image}" />
-            <meta property="og:image:secure_url" content="${image}" />
+            <meta property="og:image" content="${escapedImage}" />
+            <meta property="og:image:secure_url" content="${escapedImage}" />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
             <meta property="og:image:alt" content="${escapedTitle}" />
-            <meta property="og:url" content="${url.href}" />
+            <meta property="og:url" content="${escapedCanonicalUrl}" />
             <meta property="og:site_name" content="NexoPress" />
             <meta property="og:locale" content="es_MX" />
             <meta property="og:updated_time" content="${new Date().toISOString()}" />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content="${escapedTitle}" />
             <meta name="twitter:description" content="${escapedDescription}" />
-            <meta name="twitter:image" content="${image}" />
+            <meta name="twitter:image" content="${escapedImage}" />
             <meta name="twitter:image:alt" content="${escapedTitle}" />
             <meta name="description" content="${escapedDescription}" />
             <meta name="robots" content="index, follow" />

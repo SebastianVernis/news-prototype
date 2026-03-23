@@ -17,11 +17,14 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Cascading Wave Bars ──────────────────────────────────────
     const PRELOADER_HTML = `
 <div id="site-preloader" class="alv-preloader">
-    <div class="alv-curtain alv-curtain-top"></div>
-    <div class="alv-curtain alv-curtain-bottom"></div>
+    <div class="alv-bar" style="--i:0"></div>
+    <div class="alv-bar" style="--i:1"></div>
+    <div class="alv-bar" style="--i:2"></div>
+    <div class="alv-bar" style="--i:3"></div>
+    <div class="alv-bar" style="--i:4"></div>
     <div class="alv-preloader-logo">
         <img src="${base}logo8.png" alt="A La Vista Noticias">
     </div>
@@ -34,37 +37,36 @@
     z-index: 99999;
     pointer-events: all;
 }
-.alv-curtain {
+.alv-bar {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #006666 0%, #008080 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    height: 20%;
+    top: calc(var(--i) * 20%);
+    background: linear-gradient(90deg, #006666 0%, #008080 50%, #00a3a3 100%);
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    transition-delay: calc(var(--i) * 0.08s);
 }
-.alv-curtain-top  { top: 0; }
-.alv-curtain-bottom { bottom: 0; }
-.alv-preloader.loaded .alv-curtain-top    { transform: translateY(-100%); }
-.alv-preloader.loaded .alv-curtain-bottom { transform: translateY(100%); }
+.alv-preloader.loaded .alv-bar { transform: translateX(105%); }
 .alv-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s ease, transform 0.3s ease;
     text-align: center;
 }
-.alv-preloader.loaded .alv-preloader-logo { opacity: 0; }
+.alv-preloader.loaded .alv-preloader-logo { opacity: 0; transform: translate(-50%, -50%) translateX(30px); }
 .alv-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
     filter: brightness(0) invert(1);
-    animation: alv-pulse 1.5s ease-in-out infinite;
+    animation: alv-float 2s ease-in-out infinite;
 }
-@keyframes alv-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+@keyframes alv-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
 }
 </style>`;
 

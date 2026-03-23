@@ -17,11 +17,10 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Circle Iris Close ────────────────────────────────────────
     const PRELOADER_HTML = `
 <div id="site-preloader" class="ni-preloader">
-    <div class="ni-curtain ni-curtain-top"></div>
-    <div class="ni-curtain ni-curtain-bottom"></div>
+    <div class="ni-iris"></div>
     <div class="ni-preloader-logo">
         <img src="${base}logo2.png" alt="Noticias Integra">
     </div>
@@ -34,37 +33,35 @@
     z-index: 99999;
     pointer-events: all;
 }
-.ni-curtain {
+.ni-iris {
     position: absolute;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #006400 0%, #2e8b57 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(145deg, #1a4d2e 0%, #2e8b57 40%, #1a6b3c 100%);
+    clip-path: circle(150% at 50% 50%);
+    transition: clip-path 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.ni-curtain-top  { top: 0; }
-.ni-curtain-bottom { bottom: 0; }
-.ni-preloader.loaded .ni-curtain-top    { transform: translateY(-100%); }
-.ni-preloader.loaded .ni-curtain-bottom { transform: translateY(100%); }
+.ni-preloader.loaded .ni-iris { clip-path: circle(0% at 50% 50%); }
 .ni-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.4s ease;
     text-align: center;
 }
-.ni-preloader.loaded .ni-preloader-logo { opacity: 0; }
+.ni-preloader.loaded .ni-preloader-logo { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
 .ni-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
     filter: brightness(0) invert(1);
-    animation: ni-pulse 1.5s ease-in-out infinite;
+    animation: ni-leaf 2.5s ease-in-out infinite;
 }
-@keyframes ni-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+@keyframes ni-leaf {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25%      { transform: rotate(2deg) scale(1.03); }
+    75%      { transform: rotate(-2deg) scale(1.03); }
 }
 </style>`;
 

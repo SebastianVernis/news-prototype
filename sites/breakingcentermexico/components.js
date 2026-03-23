@@ -17,54 +17,53 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Cinematic Zoom Blast ─────────────────────────────────────
     const PRELOADER_HTML = `
-<div id="site-preloader" class="bc-preloader">
-    <div class="bc-curtain bc-curtain-top"></div>
-    <div class="bc-curtain bc-curtain-bottom"></div>
-    <div class="bc-preloader-logo">
-        <img src="${base}logo6.png" alt="BreakingCenter México">
+<div id="site-preloader" class="bcm-preloader">
+    <div class="bcm-backdrop"></div>
+    <div class="bcm-preloader-logo">
+        <img src="${base}logo6.png" alt="Breaking Center México">
     </div>
 </div>
 <style>
-.bc-preloader {
+.bcm-preloader {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     z-index: 99999;
     pointer-events: all;
+    overflow: hidden;
 }
-.bc-curtain {
+.bcm-backdrop {
     position: absolute;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #121212 0%, #8b0000 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 50%, #1a0000 0%, #0d0000 40%, #000000 100%);
+    transition: transform 1s cubic-bezier(0.4, 0, 0, 1), opacity 0.8s ease 0.2s;
+    transform-origin: center center;
 }
-.bc-curtain-top  { top: 0; }
-.bc-curtain-bottom { bottom: 0; }
-.bc-preloader.loaded .bc-curtain-top    { transform: translateY(-100%); }
-.bc-preloader.loaded .bc-curtain-bottom { transform: translateY(100%); }
-.bc-preloader-logo {
+.bcm-preloader.loaded .bcm-backdrop { transform: scale(5); opacity: 0; }
+.bcm-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.4, 0, 0, 1);
     text-align: center;
 }
-.bc-preloader.loaded .bc-preloader-logo { opacity: 0; }
-.bc-preloader-logo img {
+.bcm-preloader.loaded .bcm-preloader-logo { opacity: 0; transform: translate(-50%, -50%) scale(2.5); }
+.bcm-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1);
-    animation: bc-pulse 1.5s ease-in-out infinite;
+    filter: brightness(0) invert(1) drop-shadow(0 0 20px rgba(139,0,0,0.6));
+    animation: bcm-flicker 2.5s ease-in-out infinite;
 }
-@keyframes bc-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+@keyframes bcm-flicker {
+    0%, 100% { opacity: 1; }
+    30%      { opacity: 0.85; }
+    50%      { opacity: 1; }
+    70%      { opacity: 0.9; }
 }
 </style>`;
 

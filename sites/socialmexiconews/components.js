@@ -17,11 +17,18 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Grid Dissolve ────────────────────────────────────────────
     const PRELOADER_HTML = `
 <div id="site-preloader" class="smn-preloader">
-    <div class="smn-curtain smn-curtain-top"></div>
-    <div class="smn-curtain smn-curtain-bottom"></div>
+    <div class="smn-tile" style="--r:0;--c:0"></div>
+    <div class="smn-tile" style="--r:0;--c:1"></div>
+    <div class="smn-tile" style="--r:0;--c:2"></div>
+    <div class="smn-tile" style="--r:1;--c:0"></div>
+    <div class="smn-tile" style="--r:1;--c:1"></div>
+    <div class="smn-tile" style="--r:1;--c:2"></div>
+    <div class="smn-tile" style="--r:2;--c:0"></div>
+    <div class="smn-tile" style="--r:2;--c:1"></div>
+    <div class="smn-tile" style="--r:2;--c:2"></div>
     <div class="smn-preloader-logo">
         <img src="${base}logo7.png" alt="SocialMexico News">
     </div>
@@ -34,37 +41,36 @@
     z-index: 99999;
     pointer-events: all;
 }
-.smn-curtain {
+.smn-tile {
     position: absolute;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #c2185b 0%, #8e24aa 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    left: calc(var(--c) * 33.334%);
+    top: calc(var(--r) * 33.334%);
+    width: 33.334%;
+    height: 33.334%;
+    background: linear-gradient(135deg, #c2185b 0%, #8e24aa 50%, #7b1fa2 100%);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0, 1), opacity 0.4s ease;
+    transition-delay: calc((var(--r) + var(--c)) * 0.07s);
 }
-.smn-curtain-top  { top: 0; }
-.smn-curtain-bottom { bottom: 0; }
-.smn-preloader.loaded .smn-curtain-top    { transform: translateY(-100%); }
-.smn-preloader.loaded .smn-curtain-bottom { transform: translateY(100%); }
+.smn-preloader.loaded .smn-tile { transform: scale(0) rotate(45deg); opacity: 0; }
 .smn-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s ease, transform 0.3s ease;
     text-align: center;
 }
-.smn-preloader.loaded .smn-preloader-logo { opacity: 0; }
+.smn-preloader.loaded .smn-preloader-logo { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
 .smn-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
     filter: brightness(0) invert(1);
-    animation: smn-pulse 1.5s ease-in-out infinite;
+    animation: smn-spin 3s linear infinite;
 }
-@keyframes smn-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+@keyframes smn-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>`;
 

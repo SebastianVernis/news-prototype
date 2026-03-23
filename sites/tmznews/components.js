@@ -17,11 +17,15 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Glitch Wipe ──────────────────────────────────────────────
     const PRELOADER_HTML = `
 <div id="site-preloader" class="tmz-preloader">
-    <div class="tmz-curtain tmz-curtain-top"></div>
-    <div class="tmz-curtain tmz-curtain-bottom"></div>
+    <div class="tmz-slice" style="--i:0"></div>
+    <div class="tmz-slice" style="--i:1"></div>
+    <div class="tmz-slice" style="--i:2"></div>
+    <div class="tmz-slice" style="--i:3"></div>
+    <div class="tmz-slice" style="--i:4"></div>
+    <div class="tmz-slice" style="--i:5"></div>
     <div class="tmz-preloader-logo">
         <img src="${base}logo1.png" alt="TMZNews">
     </div>
@@ -33,38 +37,43 @@
     width: 100%; height: 100%;
     z-index: 99999;
     pointer-events: all;
+    overflow: hidden;
 }
-.tmz-curtain {
+.tmz-slice {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #111111 0%, #39ff14 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    height: calc(100% / 6);
+    top: calc(var(--i) * (100% / 6));
+    background: linear-gradient(90deg, #111111 0%, #1a1a1a 50%, #111111 100%);
+    border-bottom: 1px solid rgba(57,255,20,0.15);
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.3s ease 0.2s;
+    transition-delay: calc(var(--i) * 0.04s);
 }
-.tmz-curtain-top  { top: 0; }
-.tmz-curtain-bottom { bottom: 0; }
-.tmz-preloader.loaded .tmz-curtain-top    { transform: translateY(-100%); }
-.tmz-preloader.loaded .tmz-curtain-bottom { transform: translateY(100%); }
+.tmz-preloader.loaded .tmz-slice:nth-child(odd)  { transform: translateX(-110%); opacity: 0; }
+.tmz-preloader.loaded .tmz-slice:nth-child(even) { transform: translateX(110%); opacity: 0; }
 .tmz-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.15s ease, transform 0.2s ease;
     text-align: center;
 }
-.tmz-preloader.loaded .tmz-preloader-logo { opacity: 0; }
+.tmz-preloader.loaded .tmz-preloader-logo { opacity: 0; transform: translate(-50%, -50%) skewX(-20deg); }
 .tmz-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1);
-    animation: tmz-pulse 1.5s ease-in-out infinite;
+    filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(57,255,20,0.5));
+    animation: tmz-glitch 0.8s steps(4) infinite;
 }
-@keyframes tmz-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+@keyframes tmz-glitch {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-2px, 1px); }
+    50%  { transform: translate(2px, -1px); }
+    75%  { transform: translate(-1px, -1px); }
+    100% { transform: translate(0, 0); }
 }
 </style>`;
 

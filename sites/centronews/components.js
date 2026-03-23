@@ -17,11 +17,12 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Triple Panel Slide ───────────────────────────────────────
     const PRELOADER_HTML = `
 <div id="site-preloader" class="cn-preloader">
-    <div class="cn-curtain cn-curtain-top"></div>
-    <div class="cn-curtain cn-curtain-bottom"></div>
+    <div class="cn-panel cn-panel-left"></div>
+    <div class="cn-panel cn-panel-center"></div>
+    <div class="cn-panel cn-panel-right"></div>
     <div class="cn-preloader-logo">
         <img src="${base}logo5.png" alt="CentroNews">
     </div>
@@ -34,37 +35,38 @@
     z-index: 99999;
     pointer-events: all;
 }
-.cn-curtain {
+.cn-panel {
     position: absolute;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #003d82 0%, #0056b3 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    top: 0;
+    width: 33.334%;
+    height: 100%;
+    background: linear-gradient(180deg, #003d82 0%, #0056b3 50%, #003d82 100%);
 }
-.cn-curtain-top  { top: 0; }
-.cn-curtain-bottom { bottom: 0; }
-.cn-preloader.loaded .cn-curtain-top    { transform: translateY(-100%); }
-.cn-preloader.loaded .cn-curtain-bottom { transform: translateY(100%); }
+.cn-panel-left   { left: 0;       transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1) 0.05s; }
+.cn-panel-center { left: 33.333%; transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1) 0.15s; }
+.cn-panel-right  { left: 66.666%; transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1) 0.25s; }
+.cn-preloader.loaded .cn-panel-left   { transform: translateX(-110%); }
+.cn-preloader.loaded .cn-panel-center { transform: translateY(-110%); }
+.cn-preloader.loaded .cn-panel-right  { transform: translateX(110%); }
 .cn-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease, transform 0.25s ease;
     text-align: center;
 }
-.cn-preloader.loaded .cn-preloader-logo { opacity: 0; }
+.cn-preloader.loaded .cn-preloader-logo { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
 .cn-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
     filter: brightness(0) invert(1);
-    animation: cn-pulse 1.5s ease-in-out infinite;
+    animation: cn-breathe 2s ease-in-out infinite;
 }
-@keyframes cn-pulse {
+@keyframes cn-breathe {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+    50%       { opacity: 0.75; transform: scale(1.06); }
 }
 </style>`;
 

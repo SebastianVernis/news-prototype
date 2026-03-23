@@ -17,11 +17,11 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Elegant Blur Fade ────────────────────────────────────────
     const PRELOADER_HTML = `
 <div id="site-preloader" class="rab-preloader">
-    <div class="rab-curtain rab-curtain-top"></div>
-    <div class="rab-curtain rab-curtain-bottom"></div>
+    <div class="rab-backdrop"></div>
+    <div class="rab-gold-line"></div>
     <div class="rab-preloader-logo">
         <img src="${base}logo4.png" alt="RadioABC">
     </div>
@@ -33,38 +33,44 @@
     width: 100%; height: 100%;
     z-index: 99999;
     pointer-events: all;
+    overflow: hidden;
 }
-.rab-curtain {
+.rab-backdrop {
     position: absolute;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #0000cd 0%, #000080 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, #000033 0%, #000080 40%, #00004d 100%);
+    transition: opacity 0.9s ease, filter 0.9s ease, transform 0.9s ease;
 }
-.rab-curtain-top  { top: 0; }
-.rab-curtain-bottom { bottom: 0; }
-.rab-preloader.loaded .rab-curtain-top    { transform: translateY(-100%); }
-.rab-preloader.loaded .rab-curtain-bottom { transform: translateY(100%); }
+.rab-gold-line {
+    position: absolute;
+    top: 50%; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    transform: translateY(-50%);
+    transition: opacity 0.4s ease;
+}
+.rab-preloader.loaded .rab-backdrop { opacity: 0; filter: blur(20px); transform: scale(1.08); }
+.rab-preloader.loaded .rab-gold-line { opacity: 0; }
 .rab-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.4, 0, 0, 1);
     text-align: center;
 }
-.rab-preloader.loaded .rab-preloader-logo { opacity: 0; }
+.rab-preloader.loaded .rab-preloader-logo { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
 .rab-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1);
-    animation: rab-pulse 1.5s ease-in-out infinite;
+    filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,215,0,0.4));
+    animation: rab-glow 2s ease-in-out infinite;
 }
-@keyframes rab-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+@keyframes rab-glow {
+    0%, 100% { filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,215,0,0.4)); }
+    50%      { filter: brightness(0) invert(1) drop-shadow(0 0 24px rgba(255,215,0,0.7)); }
 }
 </style>`;
 

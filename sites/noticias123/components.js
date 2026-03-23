@@ -17,13 +17,13 @@
     const isHome       = !isNacional && !isPolitica && !isEconomia && !isDeportes && !isCultura && !isTecnologia;
     function cls(cond) { return cond ? ' active' : ''; }
 
-    // ── PRELOADER: slide-down (cortinas) ─────────────────────────────────────
+    // ── PRELOADER: Diagonal Slash ───────────────────────────────────────────
     const PRELOADER_HTML = `
 <div id="site-preloader" class="n123-preloader">
-    <div class="n123-curtain n123-curtain-top"></div>
-    <div class="n123-curtain n123-curtain-bottom"></div>
+    <div class="n123-slash n123-slash-top"></div>
+    <div class="n123-slash n123-slash-bottom"></div>
     <div class="n123-preloader-logo">
-        <img src="${base}logo3.png" alt="Noticias123">
+        <img src="${base}logo3.png" alt="Noticias 123">
     </div>
 </div>
 <style>
@@ -34,37 +34,41 @@
     z-index: 99999;
     pointer-events: all;
 }
-.n123-curtain {
+.n123-slash {
     position: absolute;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%);
-    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 60%, #e53935 100%);
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
 }
-.n123-curtain-top  { top: 0; }
-.n123-curtain-bottom { bottom: 0; }
-.n123-preloader.loaded .n123-curtain-top    { transform: translateY(-100%); }
-.n123-preloader.loaded .n123-curtain-bottom { transform: translateY(100%); }
+.n123-slash-top {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.n123-slash-bottom {
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.n123-preloader.loaded .n123-slash-top    { transform: translate(-100%, -100%); }
+.n123-preloader.loaded .n123-slash-bottom { transform: translate(100%, 100%); }
 .n123-preloader-logo {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s ease, transform 0.3s ease;
     text-align: center;
 }
-.n123-preloader.loaded .n123-preloader-logo { opacity: 0; }
+.n123-preloader.loaded .n123-preloader-logo { opacity: 0; transform: translate(-50%, -50%) rotate(10deg) scale(0.7); }
 .n123-preloader-logo img {
     height: 80px;
     width: auto;
     object-fit: contain;
     filter: brightness(0) invert(1);
-    animation: n123-pulse 1.5s ease-in-out infinite;
+    animation: n123-rock 1.2s ease-in-out infinite;
 }
-@keyframes n123-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.7; transform: scale(1.05); }
+@keyframes n123-rock {
+    0%, 100% { transform: rotate(0deg); }
+    25%      { transform: rotate(3deg); }
+    75%      { transform: rotate(-3deg); }
 }
 </style>`;
 

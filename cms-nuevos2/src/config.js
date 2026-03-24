@@ -67,6 +67,9 @@ export const SITIOS_LIST = [
   'socialmexiconews', 'tmznews', 'radioabc', 'noticiasintegra',
 ];
 
+// Admin UI URL para password reset links
+export const ADMIN_UI_URL = 'https://cms-admin-nuevos2.pages.dev';
+
 export const SITE_DOMAIN_MAP = {
   centronews:             'https://www.centronews.click',
   noticias123:            'https://www.noticias123.click',

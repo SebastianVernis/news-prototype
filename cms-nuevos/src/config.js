@@ -116,6 +116,9 @@ export const SITIOS_LIST = [
   'televisionabc',
 ];
 
+// Admin UI URL para password reset links
+export const ADMIN_UI_URL = 'https://cms-admin-nuevos.pages.dev';
+
 export const SITE_DOMAIN_MAP = {
   boominformativo:    'https://www.boominformativo.top',
   capitalpress:       'https://www.capitalpress.lat',

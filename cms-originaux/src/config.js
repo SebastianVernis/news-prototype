@@ -74,10 +74,13 @@ export const ALLOWED_ORIGINS = [
 
 // SITIOS_LIST — 10 sitios originales
 export const SITIOS_LIST = [
-  'radiocinconoticias', 'centralmexico', 'tvmexico', 'cbnnoticias',
-  'mexicoinformado', 'nodoinformativo', 'bitacoraurbana',
-  'reportecentralmx', 'verticenoticias', 'noticiasobjetivo',
+  'bitacoraurbana', 'cbnnoticias', 'centralmexico', 'mexicoinformado',
+  'nodoinformativo', 'noticiasObjetivo', 'radiocinconoticias', 'reportecentralmx',
+  'tvmexico', 'verticenoticias',
 ];
+
+// Admin UI URL para password reset links
+export const ADMIN_UI_URL = 'https://cms-admin-originaux.pages.dev';
 
 export const SITE_DOMAIN_MAP = {
   radiocinconoticias: 'https://www.radiocinconoticias.click',

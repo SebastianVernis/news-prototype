@@ -2,6 +2,7 @@
 
 import { Hono } from 'hono';
 import { checkAuth } from '../middleware/auth.js';
+import { ADMIN_UI_URL } from '../config.js';
 
 const auth = new Hono();
 
@@ -77,7 +78,7 @@ auth.post('/generate-password-token', async (c) => {
       VALUES (?, ?, ?, ?, ?)
     `).bind(crypto.randomUUID(), user.ID, tempToken, expiresAt, new Date().toISOString()).run();
 
-    const baseUrl  = c.env.SITE_URL || 'https://cms-admin-nuevos.pages.dev';
+    const baseUrl  = c.env.SITE_URL || ADMIN_UI_URL;
     const setupUrl = `${baseUrl}/setup-password.html?user=${encodeURIComponent(username)}&t=${tempToken}`;
 
     return c.json({

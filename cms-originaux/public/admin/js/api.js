@@ -53,8 +53,14 @@ async function apiFetch(path, options = {}) {
 
     const url = `${API_CONFIG.base}/${cleanPath}`;
 
+    // Para endpoints de datos sensibles a cambios, no cachear
+    const fetchOptions = { ...options, headers };
+    if (cleanPath === 'sites' || cleanPath.includes('/sites')) {
+        fetchOptions.cache = 'no-store';
+    }
+
     try {
-        const response = await fetch(url, { ...options, headers });
+        const response = await fetch(url, fetchOptions);
 
         if (response.status === 401 || response.status === 403) {
             console.warn('[API] Sesión expirada o no autorizada (401/403)');

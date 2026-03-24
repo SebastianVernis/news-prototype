@@ -197,16 +197,285 @@ function shuffleArray(array) {
 }
 
 // ============================================================
+// scrapeArticleFromURL — Scraping completo desde URL directa
+// ============================================================
+export async function scrapeArticleFromURL(url, env) {
+  console.log('[SCRAPE ARTICLE] Fetching:', url);
+  
+  try {
+    const res = await fetch(url, { 
+      headers: { 
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'es-MX,es;q=0.9,en;q=0.8',
+      } 
+    });
+    
+    if (!res.ok) {
+      console.log('[SCRAPE ARTICLE] HTTP error:', res.status);
+      return null;
+    }
+    
+    const html = await res.text();
+    
+    // Extraer título
+    let title = null;
+    
+    // Método 1: OG Title
+    const ogTitleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i);
+    if (ogTitleMatch) title = ogTitleMatch[1];
+    
+    // Método 2: Title tag
+    if (!title) {
+      const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+      if (titleMatch) title = titleMatch[1].trim();
+    }
+    
+    // Método 3: JSON-LD
+    if (!title) {
+      const jsonLdMatch = html.match(/"headline"\s*:\s*"([^"]+)"/i);
+      if (jsonLdMatch) {
+        title = jsonLdMatch[1].replace(/\\u00e1/g, 'á').replace(/\\u00e9/g, 'é')
+                               .replace(/\\u00ed/g, 'í').replace(/\\u00f3/g, 'ó')
+                               .replace(/\\u00fa/g, 'ú').replace(/\\u00f1/g, 'ñ');
+      }
+    }
+    
+    if (!title) {
+      console.log('[SCRAPE ARTICLE] No title found');
+      return null;
+    }
+    
+    title = cleanTitle(title);
+    console.log('[SCRAPE ARTICLE] Title:', title.substring(0, 60));
+    
+    // Extraer imagen
+    let imageUrl = null;
+    
+    // Método 1: OG Image
+    const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
+    if (ogImageMatch) imageUrl = ogImageMatch[1];
+    
+    // Método 2: Twitter Card Image
+    if (!imageUrl) {
+      const twitterImageMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+      if (twitterImageMatch) imageUrl = twitterImageMatch[1];
+    }
+    
+    // Método 3: JSON-LD Image
+    if (!imageUrl) {
+      const jsonLdImageMatch = html.match(/"image"\s*:\s*\[\s*\{\s*"url"\s*:\s*"([^"]+)"/i);
+      if (jsonLdImageMatch) imageUrl = jsonLdImageMatch[1];
+    }
+    
+    // Método 4: Primer <img> grande en el artículo
+    if (!imageUrl) {
+      // Buscar selectores específicos por medio
+      const imgSelectors = [
+        /<img[^>]+class=["'][^"']*(?:figure|main|featured|hero|article)[^"']*["'][^>]+src=["']([^"']+\.(jpg|jpeg|png|webp|avif))["']/i,
+        /<div[^>]+class=["'][^"']*(?:figure|image-container)[^"']*["'][^>]*<img[^>]+src=["']([^"']+\.(jpg|jpeg|png|webp|avif))["']/i,
+        /<img[^>]+src=["']([^"']+\.(jpg|jpeg|png|webp|avif))["'][^>]+(?:width|height)=["'][^"']*[5-9]\d{2,}/i,
+        /<img[^>]+src=["']([^"']+\.(jpg|jpeg|png|webp|avif))["']/i,
+      ];
+      
+      for (const selector of imgSelectors) {
+        const match = html.match(selector);
+        if (match) {
+          imageUrl = match[1];
+          console.log('[SCRAPE ARTICLE] Found image with selector');
+          break;
+        }
+      }
+    }
+    
+    // Método 5: data-src (lazy loading)
+    if (!imageUrl) {
+      const dataSrcMatch = html.match(/<img[^>]+data-src=["']([^"']+\.(jpg|jpeg|png|webp|avif))["']/i);
+      if (dataSrcMatch) imageUrl = dataSrcMatch[1];
+    }
+    
+    // Método 6: srcset (tomar la imagen más grande)
+    if (!imageUrl) {
+      const srcsetMatch = html.match(/srcset=["']([^"']+)["']/i);
+      if (srcsetMatch) {
+        const sources = srcsetMatch[1].split(',').map(s => s.trim());
+        // Tomar la última (generalmente la más grande)
+        const largestSource = sources[sources.length - 1];
+        const urlMatch = largestSource.match(/([^ ]+)/);
+        if (urlMatch) imageUrl = urlMatch[1];
+      }
+    }
+    
+    if (!imageUrl) {
+      console.log('[SCRAPE ARTICLE] No image found');
+      return null;
+    }
+    
+    console.log('[SCRAPE ARTICLE] Image found:', imageUrl.substring(0, 60));
+    
+    // Verificar imagen
+    try {
+      const imgCheck = await fetch(imageUrl, { 
+        method: 'GET', 
+        redirect: 'follow',
+        headers: { 'User-Agent': 'Mozilla/5.0' }
+      });
+      if (!imgCheck.ok || !imgCheck.headers.get('content-type')?.startsWith('image/')) {
+        console.log('[SCRAPE ARTICLE] Image not valid:', imgCheck.status);
+        return null;
+      }
+    } catch (e) {
+      console.log('[SCRAPE ARTICLE] Image check failed:', e.message);
+      return null;
+    }
+    
+    // Subir imagen a R2
+    let finalImageUrl = null;
+    try {
+      const r2Url = await uploadToR2(imageUrl, env);
+      if (r2Url) {
+        finalImageUrl = r2Url;
+        console.log('[SCRAPE ARTICLE] Image uploaded to R2');
+      }
+    } catch (r2Err) {
+      console.log('[SCRAPE ARTICLE] R2 upload failed:', r2Err.message);
+    }
+    
+    if (!finalImageUrl) {
+      console.log('[SCRAPE ARTICLE] Failed to get final image URL');
+      return null;
+    }
+    
+    // Extraer contenido - Selectores específicos por medio
+    let content = '';
+    const urlLower = url.toLowerCase();
+    
+    // La Jornada
+    if (urlLower.includes('jornada.com.mx')) {
+      const articleMatch = html.match(/<div[^>]+id=["']cuerpoNota["'][^>]*>([\s\S]*?)<\/div>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // El Informador
+    else if (urlLower.includes('informador.mx')) {
+      const articleMatch = html.match(/<div[^>]+class=["'][^"']*field-name-body[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // Proceso
+    else if (urlLower.includes('proceso.com.mx')) {
+      const articleMatch = html.match(/<div[^>]+class=["'][^"']*entry-content[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // Expansión
+    else if (urlLower.includes('expansion.mx')) {
+      const articleMatch = html.match(/<div[^>]+class=["'][^"']*article-body[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // Infobae
+    else if (urlLower.includes('infobae.com')) {
+      const articleMatch = html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // Reforma
+    else if (urlLower.includes('reforma.com')) {
+      const articleMatch = html.match(/<div[^>]+id=["']cuerpoNota["'][^>]*>([\s\S]*?)<\/div>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // Aristegui
+    else if (urlLower.includes('aristeguinoticias.com')) {
+      const articleMatch = html.match(/<div[^>]+class=["'][^"']*entry-content[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // DW
+    else if (urlLower.includes('dw.com')) {
+      const articleMatch = html.match(/<div[^>]+class=["'][^"']*longText[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    // France 24
+    else if (urlLower.includes('france24.com')) {
+      const articleMatch = html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    
+    // Método genérico si no coincide ningún selector específico
+    if (!content) {
+      const articleMatch = html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
+      if (articleMatch) {
+        const pMatches = articleMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+        content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+      }
+    }
+    
+    // Método fallback: todos los <p>
+    if (!content) {
+      const pMatches = html.match(/<p[^>]*>([\s\S]*?)<\/p>/g) || [];
+      content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 30).join('\n\n');
+    }
+    
+    content = cleanArticleContent(content);
+    
+    if (content.length < 200) {
+      console.log('[SCRAPE ARTICLE] Content too short:', content.length);
+      return null;
+    }
+    
+    console.log('[SCRAPE ARTICLE] Content length:', content.length);
+    
+    return {
+      title,
+      content,
+      imageUrl: finalImageUrl,
+      url
+    };
+    
+  } catch (e) {
+    console.log('[SCRAPE ARTICLE] Error:', e.message);
+    return null;
+  }
+}
+
+// ============================================================
 // runRSSIngest — Ingesta artículos y distribuye proporcionalmente
 // ============================================================
 export async function runRSSIngest(env) {
   console.log('[RSS INGEST] Starting RSS ingestion...');
-  
+
   const FEEDS = [
     'https://www.jornada.com.mx/rss/edicion.xml?v=1',
     'https://www.informador.mx/rss/mexico.xml',
-    'https://www.proceso.com.mx/rss/feed.html?id=12',
+    'https://www.proceso.com.mx/rss/feed.html',
     'https://expansion.mx/rss',
+    'https://www.reforma.com/rss/portada.xml',
+    'https://aristeguinoticias.com/feed/',
+    'https://www.infobae.com/arc/outboundfeeds/rss/?outputType=xml&section=mexico',
+    'https://rss.dw.com/xml/rss-esp-all',
+    'https://www.france24.com/es/rss',
   ];
 
   const validSites = (SITIOS_LIST || []).filter(isValidSiteSlug);
@@ -222,17 +491,21 @@ export async function runRSSIngest(env) {
 
   let articlesPublished = 0;
   let sitesAssigned = 0;
+  let urlsProcessed = 0;
+  let urlsSkippedDuplicate = 0;
+  let urlsSkippedNoImage = 0;
+  let urlsSkippedShortContent = 0;
 
   for (const feedUrl of FEEDS) {
     if (articlesPublished >= MAX_ARTICLES) break;
-    
+
     try {
-      console.log('Fetching feed:', feedUrl);
+      console.log('[RSS INGEST] Fetching feed:', feedUrl);
       const res = await fetch(feedUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
       const xml = await res.text();
       const normalizedXml = xml.replace(/[\r\n]+/g, ' ');
       const items = normalizedXml.match(/<(item|entry)>([\s\S]*?)<\/\1>/gi) || [];
-      console.log('Items found:', items.length);
+      console.log('[RSS INGEST] Items found in feed:', items.length);
 
       for (const item of items) {
         if (articlesPublished >= MAX_ARTICLES) break;
@@ -242,60 +515,30 @@ export async function runRSSIngest(env) {
 
         if (!titleMatch || !linkMatch) continue;
 
-        let title = titleMatch[1].trim();
-        title = title.replace(/^<!\[CDATA\[/, '').replace(/\]\]>$/, '').trim();
         const link = linkMatch[1].trim();
+        urlsProcessed++;
 
         // Check duplicate
         const urlExists = await env.DB.prepare('SELECT ID FROM ARTICULOS_PARAFRASEADOS WHERE SOURCE_URL = ?').bind(link).first();
-        if (urlExists) continue;
-
-        // Fetch article
-        const articleRes = await fetch(link, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-        const html = await articleRes.text();
-
-        // OG Image
-        const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/);
-        const imageUrl = ogImageMatch ? ogImageMatch[1] : null;
-
-        if (!imageUrl) continue;
-
-        // Verificar que la imagen sea accesible antes de procesarla
-        try {
-          const imgCheck = await fetch(imageUrl, { method: 'HEAD', headers: { 'User-Agent': 'Mozilla/5.0' } });
-          if (!imgCheck.ok || !imgCheck.headers.get('content-type')?.startsWith('image/')) {
-            console.log('[RSS INGEST] Skip: Image not accessible or not image:', imageUrl.substring(0, 50));
-            continue;
-          }
-        } catch (e) {
-          console.log('[RSS INGEST] Skip: Image check failed:', e.message);
+        if (urlExists) {
+          urlsSkippedDuplicate++;
           continue;
         }
 
-        // Paywall
-        const isPaywall = html.toLowerCase().includes('suscripción') || html.toLowerCase().includes('premium');
-        if (isPaywall) continue;
+        // Scraping completo del artículo usando la función exportada
+        const scrapedArticle = await scrapeArticleFromURL(link, env);
+        
+        if (!scrapedArticle) {
+          urlsSkippedNoImage++;
+          continue;
+        }
 
-        // Content
-        const pMatches = html.match(/<p>([\s\S]*?)<\/p>/g) || [];
-        let content = pMatches.map(p => p.replace(/<[^>]*>/g, '').trim()).filter(p => p.length > 40).join('\n\n');
-        content = cleanArticleContent(content);
+        const { title, content, imageUrl, url } = scrapedArticle;
 
-        if (content.length < 300) continue;
-
-        // Upload imagen a R2
-        let finalImageUrl = imageUrl;
-        try {
-          console.log('[RSS INGEST] Attempting R2 upload for:', imageUrl.substring(0, 50));
-          const r2Url = await uploadToR2(imageUrl, env);
-          if (r2Url) {
-            finalImageUrl = r2Url;
-            console.log('[RSS INGEST] ✓ Image uploaded to R2:', finalImageUrl.substring(0, 50));
-          } else {
-            console.log('[RSS INGEST] ✗ R2 upload returned null, using original');
-          }
-        } catch (r2Err) {
-          console.log('[RSS INGEST] ✗ R2 upload failed:', r2Err.message);
+        if (content.length < 200) {
+          console.log('[RSS INGEST] Skip: Content too short');
+          urlsSkippedShortContent++;
+          continue;
         }
 
         // Insert article into DB
@@ -320,8 +563,8 @@ export async function runRSSIngest(env) {
               INSERT INTO ARTICULOS_PARAFRASEADOS
                 (ID, TITULO_PARAFRASEADO, SLUG, CONTENIDO, DESCRIPCION_PARAFRASEADA,
                  CATEGORIA, AUTOR, FECHA_PUBLICACION, URL_IMAGEN, SOURCE_URL, ESTADO, SITIO_DESTINO)
-              VALUES (?, ?, ?, ?, ?, 'NACIONAL', ?, ?, ?, ?, 'PUBLICADO', ?)
-            `).bind(paraId, title, slug, content, content.substring(0, 200), 'NexoPress', now, finalImageUrl, link, sitiosDestino)
+              VALUES (?, ?, ?, ?, ?, 'NACIONAL', 'NexoPress', ?, ?, ?, 'PUBLICADO', ?)
+            `).bind(paraId, title, slug, content, content.substring(0, 200), now, imageUrl, url, sitiosDestino)
           );
 
           for (const siteSlug of sitesToAssign) {
@@ -335,27 +578,10 @@ export async function runRSSIngest(env) {
             );
           }
 
-          try {
-            await env.DB.batch(statements);
-          } catch (batchErr) {
-            console.error('[RSS INGEST] DB batch error (cleanup attempt):', batchErr?.message || batchErr);
-            try {
-              const cleanup = [];
-              cleanup.push(env.DB.prepare('DELETE FROM ARTICULOS_PARAFRASEADOS WHERE ID = ?').bind(paraId));
-              for (const siteSlug of sitesToAssign) {
-                const tableName = `ARTICULOS_SITIO_${siteSlug.toUpperCase()}`;
-                cleanup.push(env.DB.prepare(`DELETE FROM ${tableName} WHERE ID_PARAFRASEADO = ?`).bind(paraId));
-              }
-              await env.DB.batch(cleanup);
-            } catch (cleanupErr) {
-              console.error('[RSS INGEST] Cleanup failed:', cleanupErr?.message || cleanupErr);
-            }
-            throw batchErr;
-          }
+          await env.DB.batch(statements);
 
           sitesAssigned += sitesToAssign.length;
-
-          console.log(`[RSS INGEST] Published: "${title.substring(0, 40)}..." to ${sitesToAssign.length} sites`);
+          console.log(`[RSS INGEST] ✓ Published: "${title.substring(0, 40)}..." to ${sitesToAssign.length} sites`);
           articlesPublished++;
         } catch (dbErr) {
           console.error('[RSS INGEST] DB Error:', dbErr.message);
@@ -366,6 +592,14 @@ export async function runRSSIngest(env) {
     }
   }
 
-  console.log(`[RSS INGEST] Complete: ${articlesPublished} articles, ${sitesAssigned} site assignments.`);
+  console.log(`[RSS INGEST] ===== SUMMARY =====`);
+  console.log(`[RSS INGEST] URLs processed: ${urlsProcessed}`);
+  console.log(`[RSS INGEST] URLs skipped (duplicate): ${urlsSkippedDuplicate}`);
+  console.log(`[RSS INGEST] URLs skipped (no image): ${urlsSkippedNoImage}`);
+  console.log(`[RSS INGEST] URLs skipped (short content): ${urlsSkippedShortContent}`);
+  console.log(`[RSS INGEST] Articles published: ${articlesPublished}`);
+  console.log(`[RSS INGEST] Site assignments: ${sitesAssigned}`);
+  console.log(`[RSS INGEST] Complete!`);
+  
   return articlesPublished;
 }

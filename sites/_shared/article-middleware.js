@@ -117,40 +117,41 @@ export async function handleArticleRequest(context, siteSlug) {
     const escapedImage = escapeHtml(image);
     const escapedCanonicalUrl = escapeHtml(canonicalUrl);
 
-    return new HTMLRewriter()
-      .on('title', { element(el) { el.setInnerContent(title); } })
-      .on('meta#page-desc', { element(el) { el.setAttribute('content', description); } })
-      .on('meta#og-title', { element(el) { el.setAttribute('content', title); } })
-      .on('meta#og-desc', { element(el) { el.setAttribute('content', description); } })
-      .on('meta#og-image', { element(el) { el.setAttribute('content', image); } })
-      .on('meta#og-url', { element(el) { el.setAttribute('content', canonicalUrl); } })
-      .on('meta[property="og:type"]', { element(el) { el.setAttribute('content', 'article'); } })
-      .on('head', {
-        element(el) {
-          el.prepend(`
-            <meta property="og:type" content="article" />
-            <meta property="og:title" content="${escapedTitle}" />
-            <meta property="og:description" content="${escapedDescription}" />
-            <meta property="og:image" content="${escapedImage}" />
-            <meta property="og:image:secure_url" content="${escapedImage}" />
-            <meta property="og:image:width" content="1200" />
-            <meta property="og:image:height" content="630" />
-            <meta property="og:image:alt" content="${escapedTitle}" />
-            <meta property="og:url" content="${escapedCanonicalUrl}" />
-            <meta property="og:site_name" content="NexoPress" />
-            <meta property="og:locale" content="es_MX" />
-            <meta property="og:updated_time" content="${new Date().toISOString()}" />
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content="${escapedTitle}" />
-            <meta name="twitter:description" content="${escapedDescription}" />
-            <meta name="twitter:image" content="${escapedImage}" />
-            <meta name="twitter:image:alt" content="${escapedTitle}" />
-            <meta name="description" content="${escapedDescription}" />
-            <meta name="robots" content="index, follow" />
-          `, { html: true });
-        }
-      })
-      .transform(response);
+     return new HTMLRewriter()
+       .on('title', { element(el) { el.setInnerContent(title); } })
+       .on('meta#page-desc', { element(el) { el.setAttribute('content', description); } })
+       .on('meta#og-title', { element(el) { el.setAttribute('content', title); } })
+       .on('meta#og-desc', { element(el) { el.setAttribute('content', description); } })
+       .on('meta#og-image', { element(el) { el.setAttribute('content', image); } })
+       .on('meta#og-url', { element(el) { el.setAttribute('content', canonicalUrl); } })
+       .on('meta[property="og:type"]', { element(el) { el.setAttribute('content', 'article'); } })
+       .on('head', {
+         element(el) {
+           el.prepend(`
+             <meta property="fb:app_id" content="2726604081032124" />
+             <meta property="og:type" content="article" />
+             <meta property="og:title" content="${escapedTitle}" />
+             <meta property="og:description" content="${escapedDescription}" />
+             <meta property="og:image" content="${escapedImage}" />
+             <meta property="og:image:secure_url" content="${escapedImage}" />
+             <meta property="og:image:width" content="1200" />
+             <meta property="og:image:height" content="630" />
+             <meta property="og:image:alt" content="${escapedTitle}" />
+             <meta property="og:url" content="${escapedCanonicalUrl}" />
+             <meta property="og:site_name" content="NexoPress" />
+             <meta property="og:locale" content="es_MX" />
+             <meta property="og:updated_time" content="${new Date().toISOString()}" />
+             <meta name="twitter:card" content="summary_large_image" />
+             <meta name="twitter:title" content="${escapedTitle}" />
+             <meta name="twitter:description" content="${escapedDescription}" />
+             <meta name="twitter:image" content="${escapedImage}" />
+             <meta name="twitter:image:alt" content="${escapedTitle}" />
+             <meta name="description" content="${escapedDescription}" />
+             <meta name="robots" content="index, follow" />
+           `, { html: true });
+         }
+       })
+       .transform(response);
   } catch (e) {
     console.error('SEO Middleware Error:', e.message);
     return await next();

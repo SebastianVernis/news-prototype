@@ -332,10 +332,10 @@ cron.get('/facebook', async (c) => {
 // ── POST /cron/scrape — Scraping manual de artículos desde URLs
 // NO requiere auth: solo para uso admin manual
 cron.post('/scrape', async (c) => {
-  
+
   try {
     const { urls } = await c.req.json();
-    
+
     if (!urls || !Array.isArray(urls) || urls.length === 0) {
       return c.json({ error: 'Se requiere un array de URLs' }, 400);
     }
@@ -354,22 +354,54 @@ cron.post('/scrape', async (c) => {
     for (const url of urls) {
       try {
         console.log('[SCRAPE] Fetching:', url);
-        
+
         const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
         const html = await res.text();
 
-        // Extraer título
-        const titleMatch = html.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || 
-                          html.match(/<title>([^<]+)<\/title>/);
-        let title = titleMatch ? titleMatch[1].replace(/<!\[CDATA\[/, '').replace(/\]\]>/, '').trim() : null;
+        // Extraer título - múltiples patrones para diferentes sitios
+        let title = null;
+        
+        // Patrón 1: RSS CDATA
+        const titleMatch1 = html.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/);
+        if (titleMatch1) {
+          title = titleMatch1[1].replace(/<!\[CDATA\[/, '').replace(/\]\]>/, '').trim();
+        }
+        
+        // Patrón 2: Título estándar
+        if (!title) {
+          const titleMatch2 = html.match(/<title>([^<]+)<\/title>/);
+          if (titleMatch2) {
+            title = titleMatch2[1].trim();
+          }
+        }
+        
+        // Patrón 3: OG Title
+        if (!title) {
+          const ogTitleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i);
+          if (ogTitleMatch) {
+            title = ogTitleMatch[1];
+          }
+        }
+        
+        // Patrón 4: JSON-LD (para sitios modernos)
+        if (!title) {
+          const jsonLdMatch = html.match(/"headline"\s*:\s*"([^"]+)"/i);
+          if (jsonLdMatch) {
+            title = jsonLdMatch[1].replace(/\\u00e1/g, 'á').replace(/\\u00e9/g, 'é')
+                                   .replace(/\\u00ed/g, 'í').replace(/\\u00f3/g, 'ó')
+                                   .replace(/\\u00fa/g, 'ú').replace(/\\u00f1/g, 'ñ');
+          }
+        }
 
         if (!title) {
+          console.log('[SCRAPE] No title found. HTML preview:', html.substring(0, 500));
           results.push({ url, success: false, error: 'No se pudo extraer el título' });
           continue;
         }
 
         // Limpiar título de nombres de medios
         title = cleanTitle(title);
+        console.log('[SCRAPE] Title extracted:', title.substring(0, 80));
 
         // Extraer OG Image - múltiples patrones
         let ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
@@ -469,7 +501,7 @@ cron.post('/scrape', async (c) => {
           url, 
           title: title.substring(0, 50) + '...', 
           success: true, 
-          sitesAssigned: SITIOS_LIST.length 
+          sitesAssigned: validSites.length 
         });
 
       } catch (e) {

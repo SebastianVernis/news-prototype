@@ -6,8 +6,7 @@
 
 .article-full { 
     max-width: 900px; 
-    margin: 0 auto; 
-    background: var(--card-bg); 
+    margin: 0 auto;  
     border-radius: 12px; 
     padding: 3rem; 
     box-shadow: var(--shadow-md); 
